@@ -7,6 +7,7 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(this, SIGNAL(SendCmd(QString)), parent, SLOT(SendCmd(QString)));
 }
 
 LoudspeakerSettingsDialog::~LoudspeakerSettingsDialog()

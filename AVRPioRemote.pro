@@ -18,15 +18,25 @@ SOURCES += main.cpp \
         Defs.cpp \
     netradiodialog.cpp \
     aboutdialog.cpp \
-    loudspeakersettingsdialog.cpp
+    loudspeakersettingsdialog.cpp \
+    tunerdialog.cpp \
+    actionwithparameter.cpp
 
 HEADERS  += avrpioremote.h \
          Defs.h \
     netradiodialog.h \
     aboutdialog.h \
-    loudspeakersettingsdialog.h
+    loudspeakersettingsdialog.h \
+    tunerdialog.h \
+    actionwithparameter.h
 
 FORMS    += avrpioremote.ui \
     netradiodialog.ui \
     aboutdialog.ui \
-    loudspeakersettingsdialog.ui
+    loudspeakersettingsdialog.ui \
+    tunerdialog.ui
+
+OTHER_FILES += \
+    images/cancel.png \
+    images/pen.png \
+    images/ok.png

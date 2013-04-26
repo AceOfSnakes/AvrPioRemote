@@ -102,7 +102,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect(this, SIGNAL(NetData(QString)), this, SLOT(ShowNetDialog()));
 
     m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this);
-    connect(m_LoudspeakerSettingsDialog, SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
+
+    m_TunerDialog = new TunerDialog(this);
 }
 
 AVRPioRemote::~AVRPioRemote()
@@ -145,6 +146,15 @@ void AVRPioRemote::SelectInputButton(int idx)
     {
         if (m_NetRadioDialog->isVisible())
             m_NetRadioDialog->hide();
+    }
+    if (found == ui->InputTunerButton)
+    {
+        m_TunerDialog->ShowTunerDialog();
+    }
+    else
+    {
+        if (m_TunerDialog->isVisible())
+            m_TunerDialog->hide();
     }
 }
 
@@ -256,6 +266,7 @@ void AVRPioRemote::ReadString()
             {
                 Log("<-- " + m_RestString, QColor(0, 200, 0));
                 InterpretString(m_RestString);
+                DataReceived(m_RestString);
             }
             m_RestString = "";
         }
@@ -873,6 +884,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         pAction = new QAction("Internet Radio", this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), this, SLOT(ShowNetDialog()));
+
+        pAction = new QAction("Tuner", this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
 
         pAction = new QAction("Loudspeaker Settings", this);
         MyMenu.addAction(pAction);

@@ -11,6 +11,7 @@
 #include "netradiodialog.h"
 #include "aboutdialog.h"
 #include "loudspeakersettingsdialog.h"
+#include "tunerdialog.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -82,6 +83,7 @@ private:
     QString         m_RestString;
     NetRadioDialog* m_NetRadioDialog;
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
+    TunerDialog*    m_TunerDialog;
 //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
 
@@ -145,6 +147,7 @@ private slots:
 
 signals:
     void NetData(QString data);
+    void DataReceived(QString data);
 };
 
 #endif // AVRPIOREMOTE_H
