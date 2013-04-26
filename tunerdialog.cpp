@@ -2,6 +2,7 @@
 #include "ui_tunerdialog.h"
 #include <QDebug>
 #include "actionwithparameter.h"
+#include <QMenu>
 
 TunerDialog::TunerDialog(QWidget *parent) :
     QDialog(parent),
@@ -58,6 +59,7 @@ TunerDialog::TunerDialog(QWidget *parent) :
     //ui->RenamePresetApplayButton->setIcon(icon);
 
     //ui->RenamePresetApplayButton->setStyleSheet(QString::fromUtf8("background-image: url(:/images/pen.png);"));
+    //ui->RenamePresetApplayButton->setStyleSheet("background: transparent");
 
     this->setFixedSize(this->size());
 }
@@ -212,13 +214,23 @@ void TunerDialog::on_FrequencyPlusButton_clicked()
 
 void TunerDialog::on_ChoosePresetButton_clicked()
 {
+    QAction* pAction;
+    QMenu MyMenu(this);
 
+    pAction = new QAction("Refresh status", this);
+    MyMenu.addAction(pAction);
+    connect(pAction, SIGNAL(triggered()), this, SLOT(RequestStatus()));
+
+
+    QPoint pos = QCursor::pos();
+    MyMenu.exec(pos);
 }
 
 void TunerDialog::on_RenamePresetApplayButton_clicked()
 {
     if (ui->PresetEdit->isReadOnly())
     {
+        m_TempPresetName = ui->PresetEdit->text();
         ui->PresetEdit->setReadOnly(false);
     }
     else
@@ -230,4 +242,11 @@ void TunerDialog::on_RenamePresetApplayButton_clicked()
         //emit SendCmd("A1\"SWr2.-$&\"TQ");
         emit SendCmd(str);
     }
+}
+
+void TunerDialog::on_RenamePresetCancelButton_clicked()
+{
+    ui->RenamePresetApplayButton->setChecked(false);
+    ui->PresetEdit->setReadOnly(true);
+    ui->PresetEdit->setText(m_TempPresetName);
 }

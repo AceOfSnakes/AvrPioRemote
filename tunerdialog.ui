@@ -119,15 +119,32 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton#RenamePresetApplayButton
+{
+    background-image: url(:/new/prefix1/images/pen.png);
+}
+
+QPushButton#RenamePresetCancelButton
+{
+    background-color: transparent;
+    background-image: url(:/new/prefix1/images/cancel.png);
+    background-repeat: none;    
+    border: none;
+}
+
+QPushButton#RenamePresetApplayButton:pressed
+{
+   background-image: url(:/new/prefix1/images/ok.png);
+}
+
+QPushButton#RenamePresetApplayButton:checked
+{
+   background-image: url(:/new/prefix1/images/ok.png);
+}</string>
+   </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>images/pen.bmp</normaloff>
-     <normalon>images/ok.png</normalon>
-     <selectedoff>images/ok.png</selectedoff>
-     <selectedon>images/pen.png</selectedon>images/pen.bmp</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -577,6 +594,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="ChoosePresetButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -589,7 +609,7 @@
     <string>...</string>
    </property>
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -604,13 +624,15 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton#RenamePresetCancelButton
+{
+    background-image: url(:/new/prefix1/images/cancel.png);
+}
+</string>
+   </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <selectedon>images/cancel.png</selectedon>
-    </iconset>
    </property>
    <property name="iconSize">
     <size>

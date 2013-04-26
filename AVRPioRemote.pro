@@ -40,3 +40,6 @@ OTHER_FILES += \
     images/cancel.png \
     images/pen.png \
     images/ok.png
+
+RESOURCES += \
+    avrpioremote.qrc

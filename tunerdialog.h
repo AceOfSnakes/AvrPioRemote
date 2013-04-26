@@ -23,6 +23,7 @@ private:
     QString m_SelectedClassNo;
     QString m_SelectedPresetNo;
     int     m_TunerFrequency;
+    QString m_TempPresetName;
 
 public slots:
     void ShowTunerDialog();
@@ -42,6 +43,7 @@ private slots:
     void on_FrequencyPlusButton_clicked();
     void on_ChoosePresetButton_clicked();
     void on_RenamePresetApplayButton_clicked();
+    void on_RenamePresetCancelButton_clicked();
 };
 
 #endif // TUNERDIALOG_H
