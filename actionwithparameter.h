@@ -8,6 +8,7 @@ class ActionWithParameter : public QAction
     Q_OBJECT
 public:
     explicit ActionWithParameter(QWidget* parent, const QString& Param);
+    explicit ActionWithParameter(QWidget* parent, const QString& Name, const QString& Param);
 private:
     QString m_Param;
 public slots:

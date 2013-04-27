@@ -1,8 +1,9 @@
 #include "loudspeakersettingsdialog.h"
 #include "ui_loudspeakersettingsdialog.h"
 
-LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent) :
+LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings &settings) :
     QDialog(parent),
+    m_Settings(settings),
     ui(new Ui::LoudspeakerSettingsDialog)
 {
     ui->setupUi(this);

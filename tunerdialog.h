@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <vector>
+#include <QSettings>
+#include "actionwithparameter.h"
 
 namespace Ui {
 class TunerDialog;
@@ -13,28 +15,32 @@ class TunerDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit TunerDialog(QWidget *parent = 0);
+    explicit TunerDialog(QWidget *parent, QSettings& settings);
     ~TunerDialog();
     
 private:
-    Ui::TunerDialog *ui;
-    std::vector<QPushButton*>   m_ClassButtons;
-    std::vector<QPushButton*>   m_PresetButtons;
-    QString m_SelectedClassNo;
-    QString m_SelectedPresetNo;
-    int     m_TunerFrequency;
-    QString m_TempPresetName;
+    QSettings&                  m_Settings;
+    Ui::TunerDialog *           ui;
+    QList<QPushButton*>         m_ClassButtons;
+    QList<QPushButton*>         m_PresetButtons;
+    QString                     m_SelectedClassNo;
+    QString                     m_SelectedPresetNo;
+    int                         m_TunerFrequency;
+    QString                     m_TempPresetName;
+    QList<QAction*>             m_PresetActions;
 
 public slots:
     void ShowTunerDialog();
     void DataReceived(QString data);
     void SelectClassButton(int idx);
     void SelectPresetButton(int idx);
+    void PresetSelected(QString Param);
 signals:
     void SendCmd(QString);
 private slots:
     void ClassButtonClicked(QString Param);
     void PresetButtonClicked(QString Param);
+    void EnableControls(bool enable);
     void on_PresetPlusButton_clicked();
     void on_PresetMinusButton_clicked();
     void on_AMButton_clicked();
@@ -42,8 +48,15 @@ private slots:
     void on_FrequencyMinusButton_clicked();
     void on_FrequencyPlusButton_clicked();
     void on_ChoosePresetButton_clicked();
-    void on_RenamePresetApplayButton_clicked();
-    void on_RenamePresetCancelButton_clicked();
+    void on_DisplayButton_clicked();
+    void on_PTYSearchButton_clicked();
+    void on_NoiseCutButton_clicked();
+    void on_CompatibilityModeCheckBox_clicked();
+    void on_EditFrequencyButton_clicked();
+    void on_SaveButton_clicked();
+    void on_CancelButton_clicked();
+    void on_OkButton_clicked();
+    void on_RenamePresetButton_clicked();
 };
 
 #endif // TUNERDIALOG_H

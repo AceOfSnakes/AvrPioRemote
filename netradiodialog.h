@@ -2,6 +2,7 @@
 #define NETRADIODIALOG_H
 
 #include <QDialog>
+#include <QSettings>
 
 namespace Ui {
 class NetRadioDialog;
@@ -12,10 +13,11 @@ class NetRadioDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit NetRadioDialog(QWidget *parent = 0);
+    explicit NetRadioDialog(QWidget *parent, QSettings& settings);
     ~NetRadioDialog();
     
 private:
+    QSettings& m_Settings;
     Ui::NetRadioDialog *ui;
     int m_IndexOfLine1;
     int m_IndexOfLastLine;

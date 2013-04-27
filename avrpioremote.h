@@ -48,21 +48,6 @@ public:
 //    QThread&    MainThread;
 //};
 
-class LMAction : public QAction
-{
-    Q_OBJECT
-public:
-    explicit LMAction(const QString& Text, const QString& Number, QObject *Parent);
-    ~LMAction();
-
-    QString m_Number;
-
-public slots:
-    void ActionTriggered();
-signals:
-    void SendCmd(const QString& Cmd);
-};
-
 class AVRPioRemote : public QDialog
 {
     Q_OBJECT
@@ -114,6 +99,7 @@ private slots:
     void ShowNetDialog();
     void ShowAboutDialog();
     void ShowLoudspeakerSettingsDialog();
+    void LMSelectedAction(QString Param);
     void on_MoreButton_clicked();
     void on_VolumeUpButton_clicked();
     void onConnect();

@@ -39,7 +39,8 @@ FORMS    += avrpioremote.ui \
 OTHER_FILES += \
     images/cancel.png \
     images/pen.png \
-    images/ok.png
+    images/ok.png \
+    images/save.png
 
 RESOURCES += \
     avrpioremote.qrc

@@ -3,6 +3,7 @@
 #include <QDebug>
 //#include <QLayout>
 #include <qtextcodec.h>
+#include "actionwithparameter.h"
 
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QDialog(parent),
@@ -43,8 +44,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     ui->lineEditIP3->setText(m_Settings.value("IP/3", "1").toString());
     ui->lineEditIP4->setText(m_Settings.value("IP/4", "1").toString());
     ui->lineEditIPPort->setText(m_Settings.value("IP/PORT", "8102").toString());
-
-    ui->Num1Button->setText("AUTO/ALC/\nDIRECT");
 
 //    m_TCPThread = new QThread();
     /* 00 */ m_InputButtons.append(NULL); //"PHONO"
@@ -98,12 +97,12 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     /* 48 */ m_InputButtons.append(ui->InputHdmiButton); //"MHL",
     /* END */ m_InputButtons.append((QPushButton*)-1);
 
-    m_NetRadioDialog = new NetRadioDialog(this);
+    m_NetRadioDialog = new NetRadioDialog(this, m_Settings);
     connect(this, SIGNAL(NetData(QString)), this, SLOT(ShowNetDialog()));
 
-    m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this);
+    m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings);
 
-    m_TunerDialog = new TunerDialog(this);
+    m_TunerDialog = new TunerDialog(this, m_Settings);
 }
 
 AVRPioRemote::~AVRPioRemote()
@@ -183,24 +182,10 @@ void AVRPioRemote::SelectInputButton(int idx)
 //    emit finished();
 //}
 
-LMAction::LMAction(const QString& Text, const QString& Number, QObject* Parent)
-    : QAction(Text, Parent)
+void AVRPioRemote::LMSelectedAction(QString Param)
 {
-    m_Number = Number;
-    connect(this, SIGNAL(triggered()), this, SLOT(ActionTriggered()));
-    connect(this, SIGNAL(SendCmd(QString)), Parent, SLOT(SendCmd(QString)));
-}
-
-LMAction::~LMAction()
-{
-
-}
-
-void LMAction::ActionTriggered()
-{
-    QString cmd = QString("%1SR").arg(m_Number);
-
-    emit SendCmd(cmd);
+    QString cmd = QString("%1SR").arg(Param);
+    SendCmd(cmd);
 }
 
 void AVRPioRemote::ConnectTCP()
@@ -1062,6 +1047,7 @@ void AVRPioRemote::on_InputNetButton_clicked()
 void AVRPioRemote::on_InputTunerButton_clicked()
 {
     ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
+    m_TunerDialog->ShowTunerDialog();
     SendCmd("02FN");
 }
 
@@ -1085,7 +1071,7 @@ void AVRPioRemote::on_Num3Button_clicked()
 
 void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
 {
-    LMAction* pAction;
+    ActionWithParameter* pAction;
     QMenu MyMenu(this);
     //MyMenu.addActions(this->actions());
     if (m_ReceiverOnline == true)
@@ -1093,7 +1079,8 @@ void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
         int i = 0;
         while (strlen(LISTENING_MODE[i].key) != 0)
         {
-            pAction = new LMAction(LISTENING_MODE[i].text, LISTENING_MODE[i].key, this);
+            pAction = new ActionWithParameter(this, LISTENING_MODE[i].text, LISTENING_MODE[i].key);
+            connect(pAction, SIGNAL(ActionTriggered(QString)), this, SLOT(LMSelectedAction(QString)));
             MyMenu.addAction(pAction);
             i++;
         }

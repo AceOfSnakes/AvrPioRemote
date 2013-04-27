@@ -1,11 +1,12 @@
 #include "tunerdialog.h"
 #include "ui_tunerdialog.h"
 #include <QDebug>
-#include "actionwithparameter.h"
 #include <QMenu>
 
-TunerDialog::TunerDialog(QWidget *parent) :
+
+TunerDialog::TunerDialog(QWidget *parent, QSettings &settings) :
     QDialog(parent),
+    m_Settings(settings),
     ui(new Ui::TunerDialog)
 {
     ui->setupUi(this);
@@ -54,6 +55,7 @@ TunerDialog::TunerDialog(QWidget *parent) :
         m_PresetButtons[i]->addAction(action);
     }
 
+    ui->CompatibilityModeCheckBox->setChecked(m_Settings.value("TunerCompatibilityMode", false).toBool());
     //QIcon icon;
     //icon.addFile ( "images/pen.png", QSize(16, 16));
     //ui->RenamePresetApplayButton->setIcon(icon);
@@ -64,23 +66,36 @@ TunerDialog::TunerDialog(QWidget *parent) :
     this->setFixedSize(this->size());
 }
 
+
 TunerDialog::~TunerDialog()
 {
     delete ui;
 }
 
+
 void TunerDialog::ShowTunerDialog()
 {
-    QWidget* Parent = dynamic_cast<QWidget*>(parent());
-    int x = Parent->pos().x() + Parent->width() + 20;
-    QPoint pos;
-    pos.setX(x);
-    pos.setY(Parent->pos().y());
-    this->move(pos);
-    this->show();
+    if (!isVisible())
+    {
+        QWidget* Parent = dynamic_cast<QWidget*>(parent());
+        int x = Parent->pos().x() + Parent->width() + 20;
+        QPoint pos;
+        pos.setX(x);
+        pos.setY(Parent->pos().y());
+        this->move(pos);
+        this->show();
+        EnableControls(true);
+        ui->SaveButton->setEnabled(false);
+        ui->OkButton->setEnabled(false);
+        ui->FrequencyEdit->setReadOnly(true);
+        ui->FrequencyEdit->setInputMask("");
+        ui->RenamePresetButton->setEnabled(true);
+        ui->CancelButton->setEnabled(false);
+    }
 //    SendCmd("?FR");
     SendCmd("?PR");
 }
+
 
 void TunerDialog::ClassButtonClicked(QString Param)
 {
@@ -88,11 +103,13 @@ void TunerDialog::ClassButtonClicked(QString Param)
     emit SendCmd(cmd);
 }
 
+
 void TunerDialog::PresetButtonClicked(QString Param)
 {
     QString cmd = QString("%1%2PR").arg(m_SelectedClassNo).arg(Param);
     emit SendCmd(cmd);
 }
+
 
 void TunerDialog::DataReceived(QString data)
 {
@@ -141,8 +158,34 @@ void TunerDialog::DataReceived(QString data)
         {
             ui->PresetEdit->setText(Name);
         }
+        // clear the preset actions list
+        if (Class == "A" && Preset == "01")
+        {
+            for(int i = 0; i < m_PresetActions.count(); i++)
+            {
+                delete m_PresetActions[i];
+            }
+            m_PresetActions.clear();
+        }
+
+        // if the name is set add the preset to the action list
+        if (Name != "")
+        {
+            QString Param = QString("%1%2").arg(Class).arg(Preset);
+            ActionWithParameter* action = new ActionWithParameter(ui->ChoosePresetButton, Name, Param);
+            connect(action, SIGNAL(ActionTriggered(QString)), this, SLOT(PresetSelected(QString)));
+            m_PresetActions.append(action);
+        }
     }
 }
+
+
+void TunerDialog::PresetSelected(QString Param)
+{
+    QString cmd = QString("%1PR").arg(Param);
+    SendCmd(cmd);
+}
+
 
 void TunerDialog::SelectClassButton(int idx)
 {
@@ -155,6 +198,7 @@ void TunerDialog::SelectClassButton(int idx)
     }
 }
 
+
 void TunerDialog::SelectPresetButton(int idx)
 {
     for(int i = 0; i < (int)m_PresetButtons.size(); i++)
@@ -166,25 +210,30 @@ void TunerDialog::SelectPresetButton(int idx)
     }
 }
 
+
 void TunerDialog::on_PresetPlusButton_clicked()
 {
     emit SendCmd("TPI");
 }
+
 
 void TunerDialog::on_PresetMinusButton_clicked()
 {
     emit SendCmd("TPD");
 }
 
+
 void TunerDialog::on_AMButton_clicked()
 {
     emit SendCmd("01TN");
 }
 
+
 void TunerDialog::on_FMButton_clicked()
 {
     emit SendCmd("00TN");
 }
+
 
 void TunerDialog::on_FrequencyMinusButton_clicked()
 {
@@ -199,6 +248,7 @@ void TunerDialog::on_FrequencyMinusButton_clicked()
     emit SendCmd("03TN");
 }
 
+
 void TunerDialog::on_FrequencyPlusButton_clicked()
 {
     m_TunerFrequency += 5;
@@ -212,41 +262,217 @@ void TunerDialog::on_FrequencyPlusButton_clicked()
     emit SendCmd("03TN");
 }
 
+
 void TunerDialog::on_ChoosePresetButton_clicked()
 {
-    QAction* pAction;
-    QMenu MyMenu(this);
+//    QAction* pAction;
+    QMenu MyMenu(ui->ChoosePresetButton);
 
-    pAction = new QAction("Refresh status", this);
-    MyMenu.addAction(pAction);
-    connect(pAction, SIGNAL(triggered()), this, SLOT(RequestStatus()));
+    MyMenu.addActions(m_PresetActions);
+//    pAction = new QAction("Refresh status", this);
+//    MyMenu.addAction(pAction);
+//    connect(pAction, SIGNAL(triggered()), this, SLOT(RequestStatus()));
 
 
     QPoint pos = QCursor::pos();
     MyMenu.exec(pos);
 }
 
-void TunerDialog::on_RenamePresetApplayButton_clicked()
+
+void TunerDialog::on_DisplayButton_clicked()
 {
-    if (ui->PresetEdit->isReadOnly())
+    emit SendCmd("06TN");
+}
+
+
+void TunerDialog::on_PTYSearchButton_clicked()
+{
+    emit SendCmd("07TN");
+}
+
+
+void TunerDialog::on_NoiseCutButton_clicked()
+{
+    emit SendCmd("05TN");
+}
+
+
+void TunerDialog::on_CompatibilityModeCheckBox_clicked()
+{
+    m_Settings.setValue("TunerCompatibilityMode", ui->CompatibilityModeCheckBox->isChecked());
+}
+
+
+void TunerDialog::on_EditFrequencyButton_clicked()
+{
+    EnableControls(false);
+    ui->CancelButton->setEnabled(true);
+    ui->OkButton->setEnabled(true);
+    ui->SaveButton->setEnabled(true);
+    if (ui->FMButton->isChecked())
     {
-        m_TempPresetName = ui->PresetEdit->text();
-        ui->PresetEdit->setReadOnly(false);
+        // m_TunerFrequency is 12345 --> FM 123.45 MHz
+        double f = (double)m_TunerFrequency / 100.0;
+        QString text = QString("%1").arg(f, 3, 'f', 2, QChar('0'));
+        ui->FrequencyEdit->setText(text);
+        ui->FrequencyEdit->setInputMask("000.00;");
     }
     else
     {
-        ui->PresetEdit->setReadOnly(true);
-        QString Name = ui->PresetEdit->text().trimmed();
-        Name = QString("%1").arg(Name, -8, QChar(' '));
-        QString str = QString("%1%2\"%3\"TQ").arg(m_SelectedClassNo).arg(m_SelectedPresetNo[1]).arg(Name);
-        //emit SendCmd("A1\"SWr2.-$&\"TQ");
-        emit SendCmd(str);
+        // m_TunerFrequency is 12345 --> AM 12345 kHz
+        QString text = QString("%1").arg(m_TunerFrequency, 5, 10, QChar('0'));
+        ui->FrequencyEdit->setText(text);
+        ui->FrequencyEdit->setInputMask("00000;");
     }
+    ui->FrequencyEdit->setReadOnly(false);
 }
 
-void TunerDialog::on_RenamePresetCancelButton_clicked()
+
+void TunerDialog::EnableControls(bool enable)
 {
-    ui->RenamePresetApplayButton->setChecked(false);
-    ui->PresetEdit->setReadOnly(true);
-    ui->PresetEdit->setText(m_TempPresetName);
+    for (int i = 0; i < (int)m_ClassButtons.size(); i++)
+    {
+        m_ClassButtons[i]->setEnabled(enable);
+    }
+    for (int i = 0; i < (int)m_PresetButtons.size(); i++)
+    {
+        m_PresetButtons[i]->setEnabled(enable);
+    }
+    ui->FMButton->setEnabled(enable);
+    ui->AMButton->setEnabled(enable);
+    ui->ChoosePresetButton->setEnabled(enable);
+    ui->FrequencyMinusButton->setEnabled(enable);
+    ui->FrequencyPlusButton->setEnabled(enable);
+    ui->SaveButton->setEnabled(enable);
+    ui->RenamePresetButton->setEnabled(enable);
+    ui->CancelButton->setEnabled(enable);
+    ui->EditFrequencyButton->setEnabled(enable);
+    ui->PresetPlusButton->setEnabled(enable);
+    ui->PresetMinusButton->setEnabled(enable);
+    ui->DisplayButton->setEnabled(enable);
+    ui->PTYSearchButton->setEnabled(enable);
+    ui->NoiseCutButton->setEnabled(enable);
+    ui->CompatibilityModeCheckBox->setEnabled(enable);
+    ui->OkButton->setEnabled(enable);
+}
+
+
+void TunerDialog::on_SaveButton_clicked()
+{
+    if (!ui->FrequencyEdit->isReadOnly())
+    {
+        QString cmd;
+//        emit SendCmd("02TN"); // edit
+//        emit SendCmd("TC"); // edit
+//        cmd = QString ("FG%1").arg((int)(m_SelectedPresetNo[1].toAscii()), 1, 16);
+//        emit SendCmd(cmd); // enter
+//        emit SendCmd("03TN"); // enter
+        QString band = "A";
+        QString mpx = "0";
+        if (ui->FMButton->isChecked())
+        {
+            band = "F";
+            mpx = "1";
+        }
+        cmd = QString("%1%2%3%4%5TGA").arg(m_SelectedClassNo).arg(m_SelectedPresetNo[1]).arg(band).arg(m_TunerFrequency, 5, 10, QChar('0')).arg(mpx);
+        emit SendCmd(cmd);
+        emit SendCmd("?FR");
+    }
+    else if (!ui->PresetEdit->isReadOnly())
+    {
+        ui->PresetEdit->setReadOnly(true);
+        ui->CancelButton->setEnabled(false);
+        QString Name = ui->PresetEdit->text().trimmed();
+        if (!ui->CompatibilityModeCheckBox->isChecked())
+        {
+            Name = QString("%1").arg(Name, -8, QChar(' '));
+            QString str = QString("%1%2\"%3\"TQ").arg(m_SelectedClassNo).arg(m_SelectedPresetNo[1]).arg(Name);
+            //emit SendCmd("A1\"SWr2.-$&\"TQ");
+            emit SendCmd(str);
+        }
+        else
+        {
+            emit SendCmd("02TN"); // edit
+            for (int i = 0; i < Name.length(); i++)
+            {
+                QString cmd = QString("FG%1").arg((int)Name[i].toLatin1(), 2, 16, QChar('0'));
+                emit SendCmd(cmd);
+            }
+            emit SendCmd("03TN"); // enter
+        }
+    }
+    ui->FrequencyEdit->setReadOnly(true);
+    ui->FrequencyEdit->setInputMask("");
+    EnableControls(true);
+    ui->CancelButton->setEnabled(false);
+    ui->OkButton->setEnabled(false);
+    ui->SaveButton->setEnabled(false);
+}
+
+
+void TunerDialog::on_CancelButton_clicked()
+{
+    // frequency edit
+    if (!ui->FrequencyEdit->isReadOnly())
+    {
+        ui->FrequencyEdit->setReadOnly(true);
+        ui->FrequencyEdit->setInputMask("");
+        ui->FrequencyEdit->setText("");
+        emit SendCmd("?FR");
+    }
+    // preset name edit
+    else if (!ui->PresetEdit->isReadOnly())
+    {
+        ui->PresetEdit->setReadOnly(true);
+        emit SendCmd("?PR");
+    }
+    EnableControls(true);
+    ui->CancelButton->setEnabled(false);
+    ui->OkButton->setEnabled(false);
+    ui->SaveButton->setEnabled(false);
+}
+
+
+void TunerDialog::on_OkButton_clicked()
+{
+    if (!ui->FrequencyEdit->isReadOnly())
+    {
+        ui->FrequencyEdit->setReadOnly(true);
+        QString text = ui->FrequencyEdit->text();
+        qDebug() << " FrequencyEdit->text() = <" << ui->FrequencyEdit->text() << ">";
+        if (ui->FMButton->isChecked())
+        {
+            double f = text.toDouble() * 100.0;
+            m_TunerFrequency = f;
+            qDebug() << "f = " << f;
+        }
+        else
+        {
+            m_TunerFrequency = text.toDouble();
+        }
+        ui->FrequencyEdit->setInputMask("");
+        QString str = QString("%1").arg(m_TunerFrequency, 5, 10, (QChar)'0');
+        qDebug() << "FREQ " << m_TunerFrequency << " <" << str << ">";
+        emit SendCmd("TAC");
+        emit SendCmd(QString("%1TP").arg(str[0]));
+        emit SendCmd(QString("%1TP").arg(str[1]));
+        emit SendCmd(QString("%1TP").arg(str[2]));
+        emit SendCmd(QString("%1TP").arg(str[3]));
+        emit SendCmd(QString("%1TP").arg(str[4]));
+        emit SendCmd("03TN");
+//        emit SendCmd("?FR");
+    }
+    EnableControls(true);
+    ui->CancelButton->setEnabled(false);
+    ui->OkButton->setEnabled(false);
+    ui->SaveButton->setEnabled(false);
+}
+
+void TunerDialog::on_RenamePresetButton_clicked()
+{
+    EnableControls(false);
+    ui->CancelButton->setEnabled(true);
+    ui->SaveButton->setEnabled(true);
+    m_TempPresetName = ui->PresetEdit->text();
+    ui->PresetEdit->setReadOnly(false);
 }

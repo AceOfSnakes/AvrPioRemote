@@ -3,8 +3,9 @@
 #include <QDebug>
 #include <qtextcodec.h>
 
-NetRadioDialog::NetRadioDialog(QWidget *parent) :
+NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings) :
     QDialog(parent),
+    m_Settings(settings),
     ui(new Ui::NetRadioDialog)
 {
     m_IndexOfLine1 = 0;

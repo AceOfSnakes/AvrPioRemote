@@ -2,6 +2,7 @@
 #define LOUDSPEAKERSETTINGSDIALOG_H
 
 #include <QDialog>
+#include <QSettings>
 
 namespace Ui {
 class LoudspeakerSettingsDialog;
@@ -12,10 +13,11 @@ class LoudspeakerSettingsDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit LoudspeakerSettingsDialog(QWidget *parent = 0);
+    explicit LoudspeakerSettingsDialog(QWidget *parent, QSettings& settings);
     ~LoudspeakerSettingsDialog();
     
 private:
+    QSettings& m_Settings;
     Ui::LoudspeakerSettingsDialog *ui;
 
     void RequestEQ(const QString& Memory, const QString& Loudspeaker, const QString& Frequency);

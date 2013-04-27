@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>185</height>
+    <width>291</width>
+    <height>202</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,15 +32,15 @@
   <widget class="QLineEdit" name="FrequencyEdit">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>140</x>
      <y>20</y>
-     <width>81</width>
+     <width>71</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>8</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -57,7 +57,7 @@
     <rect>
      <x>100</x>
      <y>49</y>
-     <width>131</width>
+     <width>151</width>
      <height>21</height>
     </rect>
    </property>
@@ -98,7 +98,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
+     <y>90</y>
      <width>51</width>
      <height>21</height>
     </rect>
@@ -110,60 +110,11 @@
     <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="RenamePresetApplayButton">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>50</y>
-     <width>21</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton#RenamePresetApplayButton
-{
-    background-image: url(:/new/prefix1/images/pen.png);
-}
-
-QPushButton#RenamePresetCancelButton
-{
-    background-color: transparent;
-    background-image: url(:/new/prefix1/images/cancel.png);
-    background-repeat: none;    
-    border: none;
-}
-
-QPushButton#RenamePresetApplayButton:pressed
-{
-   background-image: url(:/new/prefix1/images/ok.png);
-}
-
-QPushButton#RenamePresetApplayButton:checked
-{
-   background-image: url(:/new/prefix1/images/ok.png);
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>16</width>
-     <height>16</height>
-    </size>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-  </widget>
   <widget class="QPushButton" name="PresetPlusButton">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>140</y>
+     <x>250</x>
+     <y>160</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -181,8 +132,8 @@ QPushButton#RenamePresetApplayButton:checked
   <widget class="QPushButton" name="PresetMinusButton">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>140</y>
+     <x>220</x>
+     <y>160</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -201,7 +152,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>80</y>
+     <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -220,7 +171,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>80</y>
+     <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -239,7 +190,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>80</y>
+     <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -258,7 +209,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>80</y>
+     <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -277,7 +228,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>80</y>
+     <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -296,7 +247,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>80</y>
+     <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -315,7 +266,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>80</y>
+     <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -334,7 +285,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -353,7 +304,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -372,7 +323,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -391,7 +342,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -410,7 +361,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -429,7 +380,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -448,7 +399,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -467,7 +418,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -486,7 +437,7 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>110</y>
+     <y>120</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -505,13 +456,13 @@ QPushButton#RenamePresetApplayButton:checked
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>110</y>
+     <y>120</y>
      <width>51</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Nummer</string>
+    <string>Number</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -539,7 +490,7 @@ QPushButton#RenamePresetApplayButton:checked
   <widget class="QPushButton" name="FMButton">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>20</y>
      <width>31</width>
      <height>21</height>
@@ -558,7 +509,7 @@ QPushButton#RenamePresetApplayButton:checked
   <widget class="QPushButton" name="FrequencyMinusButton">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>220</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
@@ -577,7 +528,7 @@ QPushButton#RenamePresetApplayButton:checked
   <widget class="QPushButton" name="FrequencyPlusButton">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>240</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
@@ -595,7 +546,7 @@ QPushButton#RenamePresetApplayButton:checked
   </widget>
   <widget class="QPushButton" name="ChoosePresetButton">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -615,24 +566,223 @@ QPushButton#RenamePresetApplayButton:checked
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="RenamePresetCancelButton">
+  <widget class="QPushButton" name="DisplayButton">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>70</x>
+     <y>160</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DISP</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="CompatibilityModeCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="text">
+    <string>VSX 922
+mode</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PTYSearchButton">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>160</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>PTY
+search</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="NoiseCutButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>160</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>NOISE
+CUT</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SaveButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>90</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="avrpioremote.qrc">
+     <normaloff>:/new/prefix1/images/save.png</normaloff>:/new/prefix1/images/save.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="EditFrequencyButton">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>20</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="avrpioremote.qrc">
+     <normaloff>:/new/prefix1/images/pen.png</normaloff>:/new/prefix1/images/pen.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="RenamePresetButton">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
      <y>50</y>
      <width>21</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton#RenamePresetCancelButton
-{
-    background-image: url(:/new/prefix1/images/cancel.png);
-}
-</string>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="avrpioremote.qrc">
+     <normaloff>:/new/prefix1/images/pen.png</normaloff>:/new/prefix1/images/pen.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="CancelButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>90</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="avrpioremote.qrc">
+     <normaloff>:/new/prefix1/images/cancel.png</normaloff>:/new/prefix1/images/cancel.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="OkButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>90</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="avrpioremote.qrc">
+     <normaloff>:/new/prefix1/images/ok.png</normaloff>:/new/prefix1/images/ok.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -648,6 +798,8 @@ QPushButton#RenamePresetApplayButton:checked
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="avrpioremote.qrc"/>
+ </resources>
  <connections/>
 </ui>
