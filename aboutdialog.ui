@@ -42,7 +42,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Created by andiator</string>
+    <string>Hosted on SourgeForge.net</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -58,7 +58,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Version 0.1.4</string>
+    <string>Version 0.1.5</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

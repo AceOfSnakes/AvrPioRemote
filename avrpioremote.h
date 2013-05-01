@@ -4,14 +4,14 @@
 #include <QDialog>
 #include <QMenu>
 #include <QIntValidator>
-#include <QSettings>
-#include <QtNetwork/QTcpSocket>
 #include <QThread>
 #include "Defs.h"
 #include "netradiodialog.h"
 #include "aboutdialog.h"
 #include "loudspeakersettingsdialog.h"
 #include "tunerdialog.h"
+#include "receiverinterface.h"
+#include "testdialog.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -58,29 +58,25 @@ public:
     
 private:
     Ui::AVRPioRemote *ui;
-    int             m_Port;
-    bool            m_Connected;
-    QString         m_Ip;
+    ReceiverInterface m_ReceiverInterface;
+    int             m_IpPort;
+    QString         m_IpAddress;
     QIntValidator   m_IpValidator;
     QIntValidator   m_IpPortValidator;
     QSettings       m_Settings;
-    QTcpSocket      m_Socket;
-    QString         m_RestString;
     NetRadioDialog* m_NetRadioDialog;
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
     TunerDialog*    m_TunerDialog;
+    TestDialog*     m_TestDialog;
 //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
 
-    void ConnectTCP();
     void Log(const QString& text);
     void Log(const QString& text, const QColor& color);
-    void InterpretString(const QString& str);
 //    void RequestStatus(bool input = true);
     void SelectInputButton(int idx);
     void ClearScreen();
-
-    QString DecodeHexString(const QString& hex);
+    void ConnectReceiver();
 
     void closeEvent(QCloseEvent *event);
     QVector<QPushButton*> m_InputButtons;
@@ -88,17 +84,30 @@ private:
 public slots:
     void EnableControls(bool enable);
     void EnableIPInput(bool enable);
-    void ReadString();
-    //void SocketStateChanged(QAbstractSocket::SocketState State);
-    void TcpError(QAbstractSocket::SocketError socketError);
-    void TcpConnected();
-    void TcpDisconnected();
     void RequestStatus(bool input = true);
     bool SendCmd(const QString& cmd);
+    void NewDataReceived(QString data);
+    void DisplayData(int DispNo, QString data);
+    void PowerData(bool powerOn);
+    void VolumeData(double dB);
+    void MuteData(bool muted);
+    void ErrorData(int type);
+    void AudioStatusData(QString codec, QString samplingRate);
+    void InputFunctionData(int no, QString name);
+    void PhaseData(int phase);
+    void InputNameData(QString name);
+    void ListeningModeData(QString name);
+    void HiBitData(bool set);
+    void PqlsData(bool set);
+    void DFiltData(bool set);
 private slots:
+    void CommError(QString socketError);
+    void CommConnected();
+    void CommDisconnected();
     void ShowNetDialog();
     void ShowAboutDialog();
     void ShowLoudspeakerSettingsDialog();
+    void ShowTestDialog();
     void LMSelectedAction(QString Param);
     void on_MoreButton_clicked();
     void on_VolumeUpButton_clicked();
@@ -130,6 +139,8 @@ private slots:
     void on_Num2Button_clicked();
     void on_Num3Button_clicked();
     void on_ShowAllListeningModesButton_clicked();
+
+    void on_InputVideoButton_clicked();
 
 signals:
     void NetData(QString data);

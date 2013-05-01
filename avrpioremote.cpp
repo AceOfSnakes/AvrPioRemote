@@ -12,8 +12,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_IpPortValidator(0, 35535, this),
     m_Settings("AMCore", "AVRPioRemote")
 {
-    m_Connected = false;
-    m_Port = 8102;
+    m_IpPort = 8102;
 
     m_ReceiverOnline = false;
 
@@ -27,12 +26,27 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     EnableControls(false);
     ui->PowerButton->setEnabled(false);
 
-    // socket
-    connect((&m_Socket), SIGNAL(connected()), this, SLOT(TcpConnected()));
-    connect((&m_Socket), SIGNAL(disconnected()), this, SLOT(TcpDisconnected()));
-    connect((&m_Socket), SIGNAL(readyRead()), this, SLOT(ReadString()));
-    //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
-    connect((&m_Socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+    // receiver interface
+    connect((&m_ReceiverInterface), SIGNAL(Connected()), this, SLOT(CommConnected()));
+    connect((&m_ReceiverInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
+    connect((&m_ReceiverInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
+    connect((&m_ReceiverInterface), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
+    connect((&m_ReceiverInterface), SIGNAL(DisplayData(int, QString)), this,  SLOT(DisplayData(int, QString)));
+    connect((&m_ReceiverInterface), SIGNAL(PowerData(bool)), this,  SLOT(PowerData(bool)));
+    connect((&m_ReceiverInterface), SIGNAL(VolumeData(double)), this,  SLOT(VolumeData(double)));
+    connect((&m_ReceiverInterface), SIGNAL(MuteData(bool)), this,  SLOT(MuteData(bool)));
+    connect((&m_ReceiverInterface), SIGNAL(ErrorData(int)), this,  SLOT(ErrorData(int)));
+    connect((&m_ReceiverInterface), SIGNAL(AudioStatusData(QString, QString)), this,  SLOT(AudioStatusData(QString, QString)));
+    connect((&m_ReceiverInterface), SIGNAL(InputFunctionData(int, QString)), this,  SLOT(InputFunctionData(int, QString)));
+    connect((&m_ReceiverInterface), SIGNAL(PhaseData(int)), this,  SLOT(PhaseData(int)));
+    connect((&m_ReceiverInterface), SIGNAL(InputNameData(QString)), this,  SLOT(InputNameData(QString)));
+    connect((&m_ReceiverInterface), SIGNAL(ListeningModeData(QString)), this,  SLOT(ListeningModeData(QString)));
+    connect((&m_ReceiverInterface), SIGNAL(HiBitData(bool)), this,  SLOT(HiBitData(bool)));
+    connect((&m_ReceiverInterface), SIGNAL(PqlsData(bool)), this,  SLOT(PqlsData(bool)));
+    //connect((&m_ReceiverInterface), SIGNAL(NetData(QString)), this,  SLOT(NetData(QString)));
+    connect((&m_ReceiverInterface), SIGNAL(DFiltData(bool)), this,  SLOT(DFiltData(bool)));
+    connect((&m_ReceiverInterface), SIGNAL(NetData(QString)), this, SLOT(ShowNetDialog()));
+
     // ip adress
     ui->lineEditIP1->setValidator(&m_IpValidator);
     ui->lineEditIP2->setValidator(&m_IpValidator);
@@ -56,7 +70,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     /* 07 */ m_InputButtons.append(NULL); //"",
     /* 08 */ m_InputButtons.append(NULL); //"",
     /* 09 */ m_InputButtons.append(NULL); //"",
-    /* 10 */ m_InputButtons.append(NULL); //"VIDEO 1(VIDEO)",
+    /* 10 */ m_InputButtons.append(ui->InputVideoButton); //"VIDEO 1(VIDEO)",
     /* 11 */ m_InputButtons.append(NULL); //"",
     /* 12 */ m_InputButtons.append(NULL); //"MULTI CH IN",
     /* 13 */ m_InputButtons.append(NULL); //"",
@@ -98,11 +112,18 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     /* END */ m_InputButtons.append((QPushButton*)-1);
 
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings);
-    connect(this, SIGNAL(NetData(QString)), this, SLOT(ShowNetDialog()));
+    connect((&m_ReceiverInterface), SIGNAL(NetData(QString)), m_NetRadioDialog, SLOT(NetData(QString)));
+    connect((m_NetRadioDialog),    SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
 
     m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings);
 
     m_TunerDialog = new TunerDialog(this, m_Settings);
+
+
+    m_TestDialog = new TestDialog(this);
+    connect((&m_ReceiverInterface), SIGNAL(DisplayData(int, QString)), m_TestDialog,  SLOT(DisplayData(int, QString)));
+    connect((m_TestDialog),    SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
+    connect((&m_ReceiverInterface), SIGNAL(InputFunctionData(int, QString)), m_TestDialog,  SLOT(InputFunctionData(int, QString)));
 }
 
 AVRPioRemote::~AVRPioRemote()
@@ -112,7 +133,7 @@ AVRPioRemote::~AVRPioRemote()
 
 void AVRPioRemote::closeEvent(QCloseEvent *event)
 {
-    m_Socket.close();
+    m_ReceiverInterface.Disconnect();
     QDialog::closeEvent(event);
 }
 
@@ -188,26 +209,17 @@ void AVRPioRemote::LMSelectedAction(QString Param)
     SendCmd(cmd);
 }
 
-void AVRPioRemote::ConnectTCP()
+void AVRPioRemote::ConnectReceiver()
 {
     ui->pushButtonConnect->setEnabled(false);
     EnableIPInput(false);
 
     ui->StausLineEdit->setText("Connecting...");
 
-//    ConnectWorker* worker = new ConnectWorker(m_Socket, m_Ip, m_Port, this->thread());
-//    worker->moveToThread(m_TCPThread);
-//    m_Socket.moveToThread(m_TCPThread);
-//    connect(worker, SIGNAL(error(QString)), this, SLOT(ConnectWorkerErrorString(QString)));
-//    connect(m_TCPThread, SIGNAL(started()), worker, SLOT(process()));
-//    connect(worker, SIGNAL(finished()), m_TCPThread, SLOT(quit()));
-//    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
-//    connect(m_TCPThread, SIGNAL(finished()), m_TCPThread, SLOT(deleteLater()));
-//    connect(worker, SIGNAL(finished()), this, SLOT(onConnectWorkerFinished()));
-//    m_TCPThread->start();
-
-    //if (m_Socket.state() == QAbstractSocket::HostLookupState && m_Socket.state() != QAbstractSocket::ConnectingState)
-    m_Socket.connectToHost(m_Ip, m_Port);
+    if (!m_ReceiverInterface.IsConnected())
+    {
+        m_ReceiverInterface.ConnectToReceiver(m_IpAddress, m_IpPort);
+    }
 
 }
 
@@ -223,359 +235,133 @@ void AVRPioRemote::ConnectTCP()
 //    Log(err);
 //}
 
-void AVRPioRemote::ReadString()
+
+void AVRPioRemote::NewDataReceived(QString data)
 {
-    // read all available data
-    int count = m_Socket.bytesAvailable();
-    std::vector<char> data;
-    data.resize(count + 1);
-    m_Socket.read(&data[0], count);
-    data[count] = '\0';
-
-    // split lines
-    int lineLength = 0;
-    int lineStartPos = 0;
-    for(int i = 0; i < count; i++)
-    {
-        if (data[i] != '\n')
-        {
-            continue;
-        }
-        lineLength = i - lineStartPos;
-        if (lineLength > 0)
-        {
-            data[i] = '\0';
-            m_RestString.append((const char*)&data[lineStartPos]);
-            //qDebug(str.toAscii());
-            if (m_RestString.trimmed() != "")
-            {
-                Log("<-- " + m_RestString, QColor(0, 200, 0));
-                InterpretString(m_RestString);
-                DataReceived(m_RestString);
-            }
-            m_RestString = "";
-        }
-        lineStartPos = i + 1;
-    }
-    if (lineStartPos < count)
-        m_RestString.append((const char*)&data[lineStartPos]);
-
-//    tmp[count] = 0;
-//    QString info = tmp.c_str();
-//    if (tmp.length() > 1 && tmp[tmp.length() - 2] == '\r')
-//        tmp[tmp.length() - 2] = 0;
+    Log("<-- " + data);
 }
 
-void AVRPioRemote::InterpretString(const QString& str)
+
+void AVRPioRemote::DisplayData(int DispNo, QString data)
 {
-    //log(str.toAscii());
-    // DISPLAY
-    if (str.startsWith("FL02"))
+    ui->ScreenLineEdit1->setText(data);
+}
+
+
+void AVRPioRemote::PowerData(bool powerOn)
+{
+    ui->PowerButton->setChecked(powerOn);
+    ui->PowerButton->setText((!powerOn)?"ON":"OFF");
+    EnableControls(powerOn);
+    m_ReceiverOnline = powerOn;
+}
+
+
+void AVRPioRemote::VolumeData(double dB)
+{
+    QString str;
+    if (dB <= -80.5)
+        str = "---.---";
+    else
     {
-        QString displayData = DecodeHexString(str.mid(4));
-        //qDebug() << displayData;
-        ui->ScreenLineEdit1->setText(displayData);
-    }
-    else if (str.startsWith("FL00"))
-    {
-        QString displayData = DecodeHexString(str.mid(4));
-        //qDebug() << displayData;
-        ui->ScreenLineEdit1->setText(displayData);
-    }
-    else if (str.startsWith("FL03"))
-    {
-        QString displayData = DecodeHexString(str.mid(4));
-        //qDebug() << displayData;
-        ui->ScreenLineEdit1->setText(displayData);
-    }
-    else if (str.startsWith("PWR0"))
-    {
-        //qDebug("PWR ON");
-        ui->PowerButton->setChecked(true);
-        ui->PowerButton->setText("ON");
-        EnableControls(true);
-        m_ReceiverOnline = true;
-        //RequestStatus(true);
-    }
-    else if (str.startsWith("PWR1"))
-    {
-        ui->PowerButton->setChecked(false);
-        ui->PowerButton->setText("OFF");
-        EnableControls(false);
-        m_ReceiverOnline = false;
-    }
-    else if (str.startsWith("VOL"))
-    {
-        double vol = str.mid(3, 3).toDouble();
-        QString str;
-        if (vol <= 0)
-            str = "---.---";
+        if (dB <= 0.0)
+            str = QString("%1dB").arg(dB, 4, 'f', 1);
         else
-        {
-            double dB = -80.5 + vol * 0.5;
-            if (dB <= 0.0)
-                str = QString("%1dB").arg(dB, 4, 'f', 1);
-            else
-                str = QString("+%1dB").arg(dB, 4, 'f', 1);
-        }
-        ui->VolumeLineEdit->setText(str);
-        //ui->lineEditVolume->setText(info.mid(3, 3));
+            str = QString("+%1dB").arg(dB, 4, 'f', 1);
     }
-    else if (str.startsWith("MUT0"))
+    ui->VolumeLineEdit->setText(str);
+}
+
+void AVRPioRemote::MuteData(bool muted)
+{
+    ui->VolumeMuteButton->setChecked(muted);
+}
+
+
+void AVRPioRemote::ErrorData(int type)
+{
+    switch(type)
     {
-        ui->VolumeMuteButton->setChecked(true);
-    }
-    else if (str.startsWith("MUT1"))
-    {
-        ui->VolumeMuteButton->setChecked(false);
-    }
-    else if (str.startsWith("E02"))
-    {
+    case 2:
         Log("This doesn't work now");
         ui->StausLineEdit->setText("This doesn't work now");
-    }
-    else if (str.startsWith("E03"))
-    {
+        break;
+    case 3:
         Log("This does'nt work with this receiver");
         ui->StausLineEdit->setText("This doesn't work with this receiver");
-    }
-    else if (str.startsWith("E04"))
-    {
+        break;
+    case 4:
         Log("Command error");
         ui->StausLineEdit->setText("Command error");
-    }
-    else if (str.startsWith("E06"))
-    {
+        break;
+    case 6:
         Log("Parameter error");
         ui->StausLineEdit->setText("Parameter error");
-    }
-    else if (str.startsWith("B00"))
-    {
+        break;
+    case -1:
         Log("Receiver busy");
         ui->StausLineEdit->setText("Receiver busy");
-    }
-    else if (str.startsWith("AST"))
-    {
-        //AST030100000000000000001010000010000
-        QString ast = str.mid(3);
-        if (ast.length() >= 33)
-        {
-            int n = 0;
-
-            // signal
-            n = ast.mid(0, 2).toInt();
-            ui->AudioCodecLineEdit->setText((n >= 0 && n <= 27)?(AST1[n]):"unknown");
-            //qDebug() << n;
-            qDebug() << "AST1: " << ((n >= 0 && n <= 27)?(AST1[n]):"unknown");
-
-            //frequency
-            n = ast.mid(2, 2).toInt();
-            ui->AudioSampleRateLineEdit->setText((n >= 0 && n <= 6)?(AST3[n]):"unknown");
-            //qDebug() << n;
-            qDebug() << "AST3: " << ((n >= 0 && n <= 6)?(AST3[n]):"unknown");
-            // channel format info data5-data20
-            // output channel data21-33
-        }
-    }
-    else if (str.startsWith("VST"))
-    {
-        QString vst = str.mid(3);
-        if (vst.length() >= 28)
-        {
-            int n = 0;
-
-            // Terminal
-            n = vst[0].toAscii() - '0';
-            //ui->lineEditVideoInputSignal->setText((n >= 0 && n <= 5)?(VIDEO_INPUT_TERMINAL[n]):"---");
-
-            // Input Resolution
-            n = vst.mid(1, 2).toInt();
-            //ui->lineEditVideoInputResolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
-
-            // Aspect
-            n = vst[3].toAscii() - '0';
-            //ui->lineEditVideoInputAspect->setText((n >= 0 && n <= 3)?(VIDEO_INPUT_ASPECT[n]):"---");
-
-            // Color Format (HDMI only)
-            n = vst[4].toAscii() - '0';
-            //ui->lineEditVideoInputColorFormat->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_COLOR_FORMAT[n]):"---");
-
-            // Bits (HDMI only)
-            n = vst[5].toAscii() - '0';
-            //ui->lineEditVideoInputBits->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
-
-            // Color Space (HDMI only)
-            n = vst[6].toAscii() - '0';
-            //ui->lineEditVideoInputColorSpace->setText((n >= 0 && n <= 6)?(VIDEO_INPUT_COLOR_SPACE[n]):"---");
-
-            // Output Resolution
-            n = vst.mid(7, 2).toInt();
-            //ui->lineEditVideoOutputResolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
-
-            // Output Aspect
-            n = vst[9].toAscii() - '0';
-            //ui->lineEditVideoOutputAspect->setText((n >= 0 && n <= 3)?(VIDEO_INPUT_ASPECT[n]):"---");
-
-            // Output Color Format (HDMI only)
-            n = vst[10].toAscii() - '0';
-            //ui->lineEditVideoOutputColorFormat->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_COLOR_FORMAT[n]):"---");
-
-            // Output Bits (HDMI only)
-            n = vst[11].toAscii() - '0';
-            //ui->lineEditVideoOutputBits->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
-
-            // Output Color Space (HDMI only)
-            n = vst[12].toAscii() - '0';
-            //ui->lineEditVideoOutputColorSpace->setText((n >= 0 && n <= 6)?(VIDEO_INPUT_COLOR_SPACE[n]):"---");
-
-            // HDMI out 1 Recommended Resolution
-            n = vst.mid(13, 2).toInt();
-            //ui->lineEditVideoOut1Resolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
-
-            // HDMI out 1 Deep Color
-            n = vst[15].toAscii() - '0';
-            //ui->lineEditVideoOut1ColorDepth->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
-
-            // HDMI out 1 Color Space data17-21
-
-            // HDMI out 2 Recommended Resolution
-            n = vst.mid(21, 2).toInt();
-            //ui->lineEditVideoOut2Resolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
-
-            // HDMI out 2 Deep Color
-            n = vst[22].toAscii() - '0';
-            //ui->lineEditVideoOut2ColorDepth->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
-
-            // HDMI out 1 Color Space data25-29
-        }
-    }
-    else if (str.startsWith("FN"))
-    {
-        int n = str.mid(2, 2).toInt();
-        QString str = (n >= 0 && n <= 48)?(VIDEO_INPUT[n]):"unknown";
-        if (str == "")
-            str = "unknown";
-        ui->InputLineEdit->setText(str);
-        SelectInputButton(n);
-        str = QString("?RGB%1").arg(n, 2, 10, QLatin1Char('0'));
-        SendCmd(str.toAscii());
-        RequestStatus(false);
-        //SendCmd("?AST"); // request audio information
-        //SendCmd("?VST"); // request video information
-    }
-    else if (str.startsWith("RGB"))
-    {
-        //bool renamed = (tmp[5] == '1');
-        QString name = str.mid(6);
-        ui->InputNameLineEdit->setText(name);
-    }
-    else if (str.startsWith("SR"))
-    {
-        QString text = FindString(LISTENING_MODE, str.mid(2, 4));
-        if (text == "")
-            text = "---";
-        //ui->lineEditListeningMode->setText(text);
-    }
-    else if (str.startsWith("LM"))
-    {
-        QString text = FindString(PLAYING_LISTENING_MODE, str.mid(2, 4));
-        if (text == "")
-            text = "---";
-        ui->ListeningModeLineEdit->setText(text);
-    }
-    else if (str.startsWith("TO0"))
-    {
-        //ui->pushButtonToneOn->setText("BYPASS");
-        //ui->pushButtonToneOn->setChecked(false);
-        //ui->pushButtonBassDown->setEnabled(false);
-        //ui->pushButtonBassUp->setEnabled(false);
-        //ui->pushButtonTrebleDown->setEnabled(false);
-        //ui->pushButtonTrebleUp->setEnabled(false);
-    }
-    else if (str.startsWith("TO1"))
-    {
-        //ui->pushButtonToneOn->setText("ON");
-        //ui->pushButtonToneOn->setChecked(true);
-        //ui->pushButtonBassDown->setEnabled(true);
-        //ui->pushButtonBassUp->setEnabled(true);
-        //ui->pushButtonTrebleDown->setEnabled(true);
-        //ui->pushButtonTrebleUp->setEnabled(true);
-    }
-    else if (str.startsWith("BA"))
-    {
-        double vol = str.mid(2, 2).toDouble();
-        QString str;
-        if (vol < 0)
-            str = "---.---";
-        else
-        {
-            double dB = 6.0 - vol * 1.0;
-            if (dB <= 0.0)
-                str = QString("%1dB").arg(dB, 4, 'f', 1);
-            else
-                str = QString("+%1dB").arg(dB, 4, 'f', 1);
-        }
-        //ui->lineEditBass->setText(str);
-    }
-    else if (str.startsWith("TR"))
-    {
-        double vol = str.mid(2, 2).toDouble();
-        QString str;
-        if (vol < 0)
-            str = "---.---";
-        else
-        {
-            double dB = 6.0 - vol * 1.0;
-            if (dB <= 0.0)
-                str = QString("%1dB").arg(dB, 4, 'f', 1);
-            else
-                str = QString("+%1dB").arg(dB, 4, 'f', 1);
-        }
-        //ui->lineEditTreble->setText(str);
-    }
-    else if (str.startsWith("IS0"))
-    {
-        ui->PhaseButton->setChecked(false);
-    }
-    else if (str.startsWith("IS1") ||
-             str.startsWith("IS2") ||
-             str.startsWith("IS9"))
-    {
-        ui->PhaseButton->setChecked(true);
-    }
-    else if (str.startsWith("ATI0"))
-    {
-        ui->HiBitButton->setChecked(false);
-    }
-    else if (str.startsWith("ATI1"))
-    {
-        ui->HiBitButton->setChecked(true);
-    }
-    else if (str.startsWith("PQ0"))
-    {
-        ui->PqlsButton->setChecked(false);
-    }
-    else if (str.startsWith("PQ1"))
-    {
-        ui->PqlsButton->setChecked(true);
-    }
-    else if (str.startsWith("GBH") ||
-             str.startsWith("GCH") ||
-             str.startsWith("GDH") ||
-             str.startsWith("GEH") ||
-             str.startsWith("GHH"))
-    {
-        emit NetData(str);
-    }
-    else if (str.startsWith("ATA0"))
-    {
-        ui->DFiltButton->setChecked(false);
-    }
-    else if (str.startsWith("ATA1"))
-    {
-        ui->DFiltButton->setChecked(true);
+        break;
+    default:
+        Log("Unknown error");
+        ui->StausLineEdit->setText("Unknown error");
+        break;
     }
 }
+
+
+void AVRPioRemote::AudioStatusData(QString codec, QString samplingRate)
+{
+    ui->AudioCodecLineEdit->setText(codec);
+    ui->AudioSampleRateLineEdit->setText(samplingRate);
+}
+
+
+void AVRPioRemote::InputFunctionData(int no, QString name)
+{
+    ui->InputLineEdit->setText(name);
+    SelectInputButton(no);
+    QString str = QString("?RGB%1").arg(no, 2, 10, QLatin1Char('0'));
+    SendCmd(str.toAscii());
+    RequestStatus(false);
+}
+
+
+void AVRPioRemote::PhaseData(int phase)
+{
+    ui->PhaseButton->setChecked(phase != 0);
+}
+
+
+void AVRPioRemote::InputNameData(QString name)
+{
+    ui->InputNameLineEdit->setText(name);
+}
+
+
+void AVRPioRemote::ListeningModeData(QString name)
+{
+    ui->ListeningModeLineEdit->setText(name);
+}
+
+
+void AVRPioRemote::HiBitData(bool set)
+{
+    ui->HiBitButton->setChecked(set);
+}
+
+
+void AVRPioRemote::PqlsData(bool set)
+{
+    ui->PqlsButton->setChecked(set);
+}
+
+
+void AVRPioRemote::DFiltData(bool set)
+{
+    ui->DFiltButton->setChecked(set);
+}
+
 
 void AVRPioRemote::RequestStatus(bool input)
 {
@@ -602,85 +388,36 @@ void AVRPioRemote::RequestStatus(bool input)
     //sendCmd("?RGB**"); // request input name information
 }
 
-void AVRPioRemote::TcpError(QAbstractSocket::SocketError socketError)
+void AVRPioRemote::CommError(QString socketError)
 {
-    //             QMessageBox::information(this, tr("Pioneer Remote"),
-    //                                      tr("The host was not found. Please check the "
-    //                                         "host name and port settings."));
     Log("tcp error");
     ui->pushButtonConnect->setEnabled(true);
     EnableIPInput(true);
     EnableControls(false);
-    m_Connected = false;
     ui->pushButtonConnect->setText("Connect");
     ClearScreen();
-    switch (socketError) {
-    case QAbstractSocket::RemoteHostClosedError:
-        ui->StausLineEdit->setText("Host closed connection");
-        break;
-    case QAbstractSocket::HostNotFoundError:
-        ui->StausLineEdit->setText("Host not found");
-        Log(tr("The host was not found. Please check the host name and port settings."), QColor(255, 0, 0));
-        break;
-    case QAbstractSocket::ConnectionRefusedError:
-        ui->StausLineEdit->setText("Host refused connection");
-        Log(tr("The connection was refused by the peer. "
-               "Make sure the fortune server is running, "
-               "and check that the host name and port "
-               "settings are correct."), QColor(255, 0, 0));
-        break;
-    default:
-        ui->StausLineEdit->setText(m_Socket.errorString());
-        Log(tr("The following error occurred: %1.").arg(m_Socket.errorString()), QColor(255, 0, 0));
-    }
-//    if (m_StartConnection)
-//    {
-//        Xsleep::msleep(10000);
-//        ConnectTCP();
-//    }
+    ui->StausLineEdit->setText(socketError);
 }
 
-void AVRPioRemote::TcpConnected()
+void AVRPioRemote::CommConnected()
 {
     Log("connected");
     ui->PowerButton->setEnabled(true);
     ui->StausLineEdit->setText("Connected");
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setText("Disconnect");
-    m_Connected = true;
     m_ReceiverOnline = true;
     RequestStatus();
 }
 
-void AVRPioRemote::TcpDisconnected()
+void AVRPioRemote::CommDisconnected()
 {
     Log("disconnected");
     EnableIPInput(true);
-    m_Connected = false;
     ui->pushButtonConnect->setText("Connect");
     ui->pushButtonConnect->setEnabled(true);
     EnableControls(false);
     ClearScreen();
-}
-
-QString AVRPioRemote::DecodeHexString(const QString& hex)
-{
-    QString str = "";
-    for (int i = 0; i < (int)hex.length(); i+=2)
-    {
-        int c = hex.mid(i, 2).toInt(NULL, 16);
-        if (c == 5)
-            str += "[)";
-        else if (c == 6)
-            str += "(]";
-        else if (c == 9)
-            str += "<|";
-        else if (c == 10)
-            str += "|>";
-        else
-            str += (QChar)c;
-    }
-    return str;
 }
 
 void AVRPioRemote::Log(const QString& text)
@@ -703,8 +440,8 @@ void AVRPioRemote::Log(const QString& text, const QColor& color)
 bool AVRPioRemote::SendCmd(const QString& cmd)
 {
     Log("--> " + cmd, QColor(0, 200, 0));
-    QString tmp = cmd + "\r";
-    return m_Socket.write(tmp.toAscii(), tmp.length()) == tmp.length();
+    m_ReceiverInterface.SendCmd(cmd);
+    return true;
 }
 
 void AVRPioRemote::EnableControls(bool enable)
@@ -724,6 +461,7 @@ void AVRPioRemote::EnableControls(bool enable)
     ui->InputSatButton->setEnabled(enable);
     ui->InputTunerButton->setEnabled(enable);
     ui->InputTvButton->setEnabled(enable);
+    ui->InputVideoButton->setEnabled(enable);
     ui->Num1Button->setEnabled(enable);
     ui->Num2Button->setEnabled(enable);
     ui->Num3Button->setEnabled(enable);
@@ -757,7 +495,7 @@ void AVRPioRemote::ClearScreen()
 
 void AVRPioRemote::onConnect()
 {
-    if (!m_Connected)
+    if (!m_ReceiverInterface.IsConnected())
     {
         QString ip1, ip2, ip3, ip4, ip_port;
         ip1 = ui->lineEditIP1->text().trimmed();
@@ -784,12 +522,12 @@ void AVRPioRemote::onConnect()
             ip4 = "192";
             ui->lineEditIP4->setText(ip4);
         }
-        m_Ip = ip1 + "." + ip2 + "." + ip3 + "." + ip4;
+        m_IpAddress = ip1 + "." + ip2 + "." + ip3 + "." + ip4;
         ip_port = ui->lineEditIPPort->text().trimmed();
         if (ip_port == "")
         {
             ip_port = "8102";
-            m_Port = ip_port.toInt();
+            m_IpPort = ip_port.toInt();
             ui->lineEditIPPort->setText(ip_port);
         }
         m_Settings.setValue("IP/1", ip1);
@@ -797,26 +535,13 @@ void AVRPioRemote::onConnect()
         m_Settings.setValue("IP/3", ip3);
         m_Settings.setValue("IP/4", ip4);
         m_Settings.setValue("IP/PORT", ip_port);
-//        ui->lineEditIP1->setEnabled(false);
-//        ui->lineEditIP2->setEnabled(false);
-//        ui->lineEditIP3->setEnabled(false);
-//        ui->lineEditIP4->setEnabled(false);
-//        ui->lineEditIPPort->setEnabled(false);
-        ConnectTCP();
+        ConnectReceiver();
     }
     else
     {
         EnableControls(false);
         ui->PowerButton->setEnabled(false);
-
-//        ui->lineEditIP1->setEnabled(true);
-//        ui->lineEditIP2->setEnabled(true);
-//        ui->lineEditIP3->setEnabled(true);
-//        ui->lineEditIP4->setEnabled(true);
-//        ui->lineEditIPPort->setEnabled(true);
-        //m_Socket.abort();
-        m_Socket.disconnectFromHost();
-        m_Socket.close();
+        m_ReceiverInterface.Disconnect();
         m_ReceiverOnline = false;
     }
 }
@@ -839,6 +564,19 @@ void AVRPioRemote::ShowAboutDialog()
 {
     AboutDialog* about = new AboutDialog(this);
     about->show();
+}
+
+void AVRPioRemote::ShowTestDialog()
+{
+    if (!m_TestDialog->isVisible())
+    {
+        int x = this->pos().x() + this->width() + 20;
+        QPoint pos;
+        pos.setX(x);
+        pos.setY(this->pos().y());
+        m_TestDialog->move(pos);
+        m_TestDialog->show();
+    }
 }
 
 void AVRPioRemote::ShowLoudspeakerSettingsDialog()
@@ -877,6 +615,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         pAction = new QAction("Loudspeaker Settings", this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), this, SLOT(ShowLoudspeakerSettingsDialog()));
+
+        pAction = new QAction("Test", this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), this, SLOT(ShowTestDialog()));
 
 //        pAction = new QAction("More Information", this);
 //        pAction = new QAction("Equalizer", this);
@@ -1089,4 +831,10 @@ void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
     QPoint pos = QCursor::pos();
     MyMenu.exec(pos);
 
+}
+
+void AVRPioRemote::on_InputVideoButton_clicked()
+{
+    ui->InputVideoButton->setChecked(!ui->InputVideoButton->isChecked());
+    SendCmd("10FN");
 }

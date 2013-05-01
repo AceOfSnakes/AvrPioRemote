@@ -15,8 +15,6 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings) :
     m_VisibleListSize = 0;
 
     ui->setupUi(this);
-    connect(parent, SIGNAL(NetData(QString)), this, SLOT(NetData(QString)));
-    connect(this, SIGNAL(SendCmd(QString)), parent, SLOT(SendCmd(QString)));
 
     this->setFixedSize(this->size());
 }
@@ -159,7 +157,7 @@ void NetRadioDialog::on_CursorRightButton_clicked()
 {
     emit SendCmd("28NW");
 //    m_StationList.clear();
-//    emit SendCmd("00001GGH");
+//    emit SendCmd("?ATB");
 }
 
 void NetRadioDialog::on_CursorDownButton_clicked()

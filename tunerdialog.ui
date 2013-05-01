@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
+    <width>313</width>
     <height>202</height>
    </rect>
   </property>
@@ -34,7 +34,7 @@
     <rect>
      <x>140</x>
      <y>20</y>
-     <width>71</width>
+     <width>91</width>
      <height>20</height>
     </rect>
    </property>
@@ -57,7 +57,7 @@
     <rect>
      <x>100</x>
      <y>49</y>
-     <width>151</width>
+     <width>171</width>
      <height>21</height>
     </rect>
    </property>
@@ -113,11 +113,14 @@
   <widget class="QPushButton" name="PresetPlusButton">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>160</y>
      <width>31</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Preset up</string>
    </property>
    <property name="text">
     <string>P+</string>
@@ -132,11 +135,14 @@
   <widget class="QPushButton" name="PresetMinusButton">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>160</y>
      <width>31</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Preset down</string>
    </property>
    <property name="text">
     <string>P-</string>
@@ -509,7 +515,7 @@
   <widget class="QPushButton" name="FrequencyMinusButton">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
@@ -528,7 +534,7 @@
   <widget class="QPushButton" name="FrequencyPlusButton">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>260</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
@@ -556,6 +562,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Choose a named preset</string>
+   </property>
    <property name="text">
     <string>...</string>
    </property>
@@ -571,7 +580,7 @@
     <rect>
      <x>70</x>
      <y>160</y>
-     <width>41</width>
+     <width>51</width>
      <height>31</height>
     </rect>
    </property>
@@ -605,9 +614,9 @@ mode</string>
   <widget class="QPushButton" name="PTYSearchButton">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>120</x>
      <y>160</y>
-     <width>41</width>
+     <width>51</width>
      <height>31</height>
     </rect>
    </property>
@@ -630,9 +639,9 @@ search</string>
   <widget class="QPushButton" name="NoiseCutButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>170</x>
      <y>160</y>
-     <width>41</width>
+     <width>51</width>
      <height>31</height>
     </rect>
    </property>
@@ -658,11 +667,14 @@ CUT</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>260</x>
      <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Save the frequency in the preset or save the preset name</string>
    </property>
    <property name="text">
     <string/>
@@ -687,11 +699,14 @@ CUT</string>
   <widget class="QToolButton" name="EditFrequencyButton">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>280</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Edit the frequency and save it in the current preset.</string>
    </property>
    <property name="text">
     <string/>
@@ -713,11 +728,14 @@ CUT</string>
   <widget class="QToolButton" name="RenamePresetButton">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>280</x>
      <y>50</y>
      <width>21</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Edit the current preset name</string>
    </property>
    <property name="text">
     <string/>
@@ -742,11 +760,14 @@ CUT</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>280</x>
      <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Cancel the edit</string>
    </property>
    <property name="text">
     <string/>
@@ -771,11 +792,14 @@ CUT</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>90</y>
      <width>21</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Apply the frequency</string>
    </property>
    <property name="text">
     <string/>
