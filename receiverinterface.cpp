@@ -173,7 +173,7 @@ bool ReceiverInterface::SendCmd(const QString& cmd)
 //    Log("--> " + cmd, QColor(0, 200, 0));
     Logger::Log("--> " + cmd);
     QString tmp = cmd + "\r";
-    return m_Socket.write(tmp.toAscii(), tmp.length()) == tmp.length();
+    return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
 }
 
 
@@ -183,20 +183,20 @@ void ReceiverInterface::InterpretString(const QString& data)
     if (data.startsWith("FL0"))
     {
         int no = 0;
-        sscanf(data.toAscii(), "FL0%1d", &no);
+        sscanf(data.toLatin1(), "FL0%1d", &no);
         QString displayData = DecodeHexString(data.mid(4));
         emit DisplayData(no, displayData);
     }
     else if (data.startsWith("PWR"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "PWR%d", &n);
+        sscanf(data.toLatin1(), "PWR%d", &n);
         emit PowerData(n == 0);
     }
     else if (data.startsWith("VOL"))
     {
         int vol = 0;
-        sscanf(data.toAscii(), "VOL%d", &vol);
+        sscanf(data.toLatin1(), "VOL%d", &vol);
         double dB = -80.5 + (double)vol * 0.5;
         QString str;
         if (dB <= 0.0)
@@ -208,13 +208,13 @@ void ReceiverInterface::InterpretString(const QString& data)
     else if (data.startsWith("MUT"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "MUT%d", &n);
+        sscanf(data.toLatin1(), "MUT%d", &n);
         emit MuteData(n == 0);
     }
     else if (data.startsWith("E0"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "E0%d", &n);
+        sscanf(data.toLatin1(), "E0%d", &n);
         emit ErrorData(n);
     }
     else if (data.startsWith("B00"))
@@ -250,7 +250,7 @@ void ReceiverInterface::InterpretString(const QString& data)
             int n = 0;
 
             // Terminal
-            n = vst[0].toAscii() - '0';
+            n = vst[0].toLatin1() - '0';
             //ui->lineEditVideoInputSignal->setText((n >= 0 && n <= 5)?(VIDEO_INPUT_TERMINAL[n]):"---");
 
             // Input Resolution
@@ -258,19 +258,19 @@ void ReceiverInterface::InterpretString(const QString& data)
             //ui->lineEditVideoInputResolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
 
             // Aspect
-            n = vst[3].toAscii() - '0';
+            n = vst[3].toLatin1() - '0';
             //ui->lineEditVideoInputAspect->setText((n >= 0 && n <= 3)?(VIDEO_INPUT_ASPECT[n]):"---");
 
             // Color Format (HDMI only)
-            n = vst[4].toAscii() - '0';
+            n = vst[4].toLatin1() - '0';
             //ui->lineEditVideoInputColorFormat->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_COLOR_FORMAT[n]):"---");
 
             // Bits (HDMI only)
-            n = vst[5].toAscii() - '0';
+            n = vst[5].toLatin1() - '0';
             //ui->lineEditVideoInputBits->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
 
             // Color Space (HDMI only)
-            n = vst[6].toAscii() - '0';
+            n = vst[6].toLatin1() - '0';
             //ui->lineEditVideoInputColorSpace->setText((n >= 0 && n <= 6)?(VIDEO_INPUT_COLOR_SPACE[n]):"---");
 
             // Output Resolution
@@ -278,19 +278,19 @@ void ReceiverInterface::InterpretString(const QString& data)
             //ui->lineEditVideoOutputResolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
 
             // Output Aspect
-            n = vst[9].toAscii() - '0';
+            n = vst[9].toLatin1() - '0';
             //ui->lineEditVideoOutputAspect->setText((n >= 0 && n <= 3)?(VIDEO_INPUT_ASPECT[n]):"---");
 
             // Output Color Format (HDMI only)
-            n = vst[10].toAscii() - '0';
+            n = vst[10].toLatin1() - '0';
             //ui->lineEditVideoOutputColorFormat->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_COLOR_FORMAT[n]):"---");
 
             // Output Bits (HDMI only)
-            n = vst[11].toAscii() - '0';
+            n = vst[11].toLatin1() - '0';
             //ui->lineEditVideoOutputBits->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
 
             // Output Color Space (HDMI only)
-            n = vst[12].toAscii() - '0';
+            n = vst[12].toLatin1() - '0';
             //ui->lineEditVideoOutputColorSpace->setText((n >= 0 && n <= 6)?(VIDEO_INPUT_COLOR_SPACE[n]):"---");
 
             // HDMI out 1 Recommended Resolution
@@ -298,7 +298,7 @@ void ReceiverInterface::InterpretString(const QString& data)
             //ui->lineEditVideoOut1Resolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
 
             // HDMI out 1 Deep Color
-            n = vst[15].toAscii() - '0';
+            n = vst[15].toLatin1() - '0';
             //ui->lineEditVideoOut1ColorDepth->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
 
             // HDMI out 1 Color Space data17-21
@@ -308,7 +308,7 @@ void ReceiverInterface::InterpretString(const QString& data)
             //ui->lineEditVideoOut2Resolution->setText((n >= 0 && n <= 11)?(VIDEO_INPUT_RESOLUTION[n]):"---");
 
             // HDMI out 2 Deep Color
-            n = vst[22].toAscii() - '0';
+            n = vst[22].toLatin1() - '0';
             //ui->lineEditVideoOut2ColorDepth->setText((n >= 0 && n <= 4)?(VIDEO_INPUT_BITS[n]):"---");
 
             // HDMI out 1 Color Space data25-29
@@ -317,7 +317,7 @@ void ReceiverInterface::InterpretString(const QString& data)
     else if (data.startsWith("FN"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "FN%d", &n);
+        sscanf(data.toLatin1(), "FN%d", &n);
         QString str = (n >= 0 && n <= 48)?(VIDEO_INPUT[n]):"unknown";
         if (str == "")
             str = "unknown";
@@ -396,19 +396,19 @@ void ReceiverInterface::InterpretString(const QString& data)
     else if (data.startsWith("IS"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "IS%d", &n);
+        sscanf(data.toLatin1(), "IS%d", &n);
         emit PhaseData(n);
     }
     else if (data.startsWith("ATI"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "ATI%d", &n);
+        sscanf(data.toLatin1(), "ATI%d", &n);
         emit HiBitData(n != 0);
     }
     else if (data.startsWith("PQ"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "PQ%d", &n);
+        sscanf(data.toLatin1(), "PQ%d", &n);
         emit PqlsData(n != 0);
     }
     else if (data.startsWith("GBH") ||
@@ -422,7 +422,7 @@ void ReceiverInterface::InterpretString(const QString& data)
     else if (data.startsWith("ATA"))
     {
         int n = 0;
-        sscanf(data.toAscii(), "ATA%d", &n);
+        sscanf(data.toLatin1(), "ATA%d", &n);
         emit DFiltData(n != 0);
     }
 }

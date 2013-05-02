@@ -135,7 +135,7 @@ void TunerDialog::DataReceived(QString data)
     {
         int n = 0;
         m_SelectedClassNo = data[2];
-        n = data[2].toAscii() - 'A';
+        n = data[2].toLatin1() - 'A';
         SelectClassButton(n);
 
         m_SelectedPresetNo = data.mid(3, 2);

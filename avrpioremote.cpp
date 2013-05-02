@@ -345,7 +345,7 @@ void AVRPioRemote::InputFunctionData(int no, QString name)
     ui->InputLineEdit->setText(name);
     SelectInputButton(no);
     QString str = QString("?RGB%1").arg(no, 2, 10, QLatin1Char('0'));
-    SendCmd(str.toAscii());
+    SendCmd(str.toLocal8Bit());
     RequestStatus(false);
 }
 
