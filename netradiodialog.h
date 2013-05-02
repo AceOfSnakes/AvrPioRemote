@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QListWidgetItem>
 
 namespace Ui {
 class NetRadioDialog;
@@ -59,6 +60,8 @@ private slots:
     void on_PageUpButton_2_clicked();
 
     void on_PageDownButton_2_clicked();
+
+    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
 signals:
     void SendCmd(QString data);

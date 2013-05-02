@@ -14,6 +14,7 @@ TunerDialog::TunerDialog(QWidget *parent, QSettings &settings) :
     m_SelectedClassNo = "A";
     m_SelectedPresetNo = "00";
     m_TunerFrequency = 0;
+    m_CompatibilityMode = false;
 
     connect(parent, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), parent, SLOT(SendCmd(QString)));
@@ -55,7 +56,7 @@ TunerDialog::TunerDialog(QWidget *parent, QSettings &settings) :
         m_PresetButtons[i]->addAction(action);
     }
 
-    ui->CompatibilityModeCheckBox->setChecked(m_Settings.value("TunerCompatibilityMode", false).toBool());
+    m_CompatibilityMode = m_Settings.value("TunerCompatibilityMode", false).toBool();
     //QIcon icon;
     //icon.addFile ( "images/pen.png", QSize(16, 16));
     //ui->RenamePresetApplayButton->setIcon(icon);
@@ -297,18 +298,13 @@ void TunerDialog::on_NoiseCutButton_clicked()
 }
 
 
-void TunerDialog::on_CompatibilityModeCheckBox_clicked()
-{
-    m_Settings.setValue("TunerCompatibilityMode", ui->CompatibilityModeCheckBox->isChecked());
-}
-
-
 void TunerDialog::on_EditFrequencyButton_clicked()
 {
     EnableControls(false);
     ui->CancelButton->setEnabled(true);
     ui->OkButton->setEnabled(true);
-    ui->SaveButton->setEnabled(true);
+    if (!m_CompatibilityMode)
+        ui->SaveButton->setEnabled(true);
     if (ui->FMButton->isChecked())
     {
         // m_TunerFrequency is 12345 --> FM 123.45 MHz
@@ -352,7 +348,6 @@ void TunerDialog::EnableControls(bool enable)
     ui->DisplayButton->setEnabled(enable);
     ui->PTYSearchButton->setEnabled(enable);
     ui->NoiseCutButton->setEnabled(enable);
-    ui->CompatibilityModeCheckBox->setEnabled(enable);
     ui->OkButton->setEnabled(enable);
 }
 
@@ -383,7 +378,7 @@ void TunerDialog::on_SaveButton_clicked()
         ui->PresetEdit->setReadOnly(true);
         ui->CancelButton->setEnabled(false);
         QString Name = ui->PresetEdit->text().trimmed();
-        if (!ui->CompatibilityModeCheckBox->isChecked())
+        if (!m_CompatibilityMode)
         {
             Name = QString("%1").arg(Name, -8, QChar(' '));
             QString str = QString("%1%2\"%3\"TQ").arg(m_SelectedClassNo).arg(m_SelectedPresetNo[1]).arg(Name);

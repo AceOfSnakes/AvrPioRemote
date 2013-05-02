@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += network
+QT       += network xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,7 +22,10 @@ SOURCES += main.cpp \
     tunerdialog.cpp \
     actionwithparameter.cpp \
     receiverinterface.cpp \
-    testdialog.cpp
+    testdialog.cpp \
+    oldfavoritesdialog.cpp \
+    getoldfavoritelistdialog.cpp \
+    settingsdialog.cpp
 
 HEADERS  += avrpioremote.h \
          Defs.h \
@@ -32,14 +35,20 @@ HEADERS  += avrpioremote.h \
     tunerdialog.h \
     actionwithparameter.h \
     receiverinterface.h \
-    testdialog.h
+    testdialog.h \
+    oldfavoritesdialog.h \
+    getoldfavoritelistdialog.h \
+    settingsdialog.h
 
 FORMS    += avrpioremote.ui \
     netradiodialog.ui \
     aboutdialog.ui \
     loudspeakersettingsdialog.ui \
     tunerdialog.ui \
-    testdialog.ui
+    testdialog.ui \
+    oldfavoritesdialog.ui \
+    getoldfavoritelistdialog.ui \
+    settingsdialog.ui
 
 OTHER_FILES += \
     images/cancel.png \

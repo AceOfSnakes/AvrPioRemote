@@ -207,9 +207,9 @@ void NetRadioDialog::on_NetFwdButton_clicked()
 
 void NetRadioDialog::on_listWidget_currentRowChanged(int currentRow)
 {
-    qDebug() << "Current row " << currentRow;
-    QString cmd = QString("%1GFH").arg((uint)(currentRow + 1), 2, 10, QChar('0'));
-    emit SendCmd(cmd);
+//    qDebug() << "Current row " << currentRow;
+//    QString cmd = QString("%1GFH").arg((uint)(currentRow + 1), 2, 10, QChar('0'));
+//    emit SendCmd(cmd);
 }
 
 void NetRadioDialog::on_PageUpButton_clicked()
@@ -249,5 +249,13 @@ void NetRadioDialog::on_PageDownButton_2_clicked()
     if (pos >= m_TotalNumberOfItems)
         pos = pos % m_TotalNumberOfItems - 1;
     QString cmd = QString("%1GGH").arg(pos, 5, 10, QChar('0'));
+    emit SendCmd(cmd);
+}
+
+void NetRadioDialog::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+//    qDebug() << "Current row " << currentRow;
+    int currentRow = ui->listWidget->currentRow();
+    QString cmd = QString("%1GFH").arg((uint)(currentRow + 1), 2, 10, QChar('0'));
     emit SendCmd(cmd);
 }

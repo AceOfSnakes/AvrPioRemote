@@ -1,6 +1,6 @@
 #include "receiverinterface.h"
 #include "Defs.h"
-
+#include <QTextCodec>
 
 string trim(const string &t, const string &ws)
 {
@@ -74,22 +74,29 @@ void ReceiverInterface::ReadString()
     int lineStartPos = 0;
     for(int i = 0; i < count; i++)
     {
-        if (data[i] != '\n')
+        if (data[i] != '\n' && data[i] != '\r')
         {
             continue;
         }
         lineLength = i - lineStartPos;
         if (lineLength > 0)
         {
-            data[i] = '\0';
-            m_ReceivedString.append((const char*)&data[lineStartPos]);
-            //qDebug(str.toAscii());
-            m_ReceivedString = trim(m_ReceivedString, " \n\t");
+            m_ReceivedString.append((const char*)&data[lineStartPos], 0, lineLength);
+            m_ReceivedString = trim(m_ReceivedString, "\r");
+            m_ReceivedString = trim(m_ReceivedString, "\n");
             if (m_ReceivedString != "")
             {
-                //Log("<-- " + m_ReceivedString, QColor(0, 200, 0));
                 QString str;
-                str = str.fromStdString(m_ReceivedString);
+                //QTextCodec::setCodecForCStrings();
+                str = str.fromUtf8(m_ReceivedString.c_str());
+
+//                QByteArray encodedString = m_ReceivedString.c_str();
+//                QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+//                str = codec->toUnicode(encodedString);
+                //str = str.fromStdString(m_ReceivedString);
+//                str = str.trimmed();
+//                str.remove(QChar('\r'));
+//                str.remove(QChar('\n'));
                 InterpretString(str);
                 emit DataReceived(str);
             }

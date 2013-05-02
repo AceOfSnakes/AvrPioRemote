@@ -12,6 +12,9 @@
 #include "tunerdialog.h"
 #include "receiverinterface.h"
 #include "testdialog.h"
+#include "oldfavoritesdialog.h"
+#include "settingsdialog.h"
+
 
 namespace Ui {
 class AVRPioRemote;
@@ -68,8 +71,11 @@ private:
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
     TunerDialog*    m_TunerDialog;
     TestDialog*     m_TestDialog;
+    OldFavoritesDialog* m_OldFavoritesDialog;
+    SettingsDialog* m_SettingsDialog;
 //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
+    bool            m_FavoritesCompatibilityMode;
 
     void Log(const QString& text);
     void Log(const QString& text, const QColor& color);
@@ -105,6 +111,8 @@ private slots:
     void CommConnected();
     void CommDisconnected();
     void ShowNetDialog();
+    void ShowSettingsDialog();
+    void ShowOldFavoritesDialog();
     void ShowAboutDialog();
     void ShowLoudspeakerSettingsDialog();
     void ShowTestDialog();

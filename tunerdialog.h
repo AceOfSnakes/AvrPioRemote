@@ -26,6 +26,7 @@ private:
     QString                     m_SelectedClassNo;
     QString                     m_SelectedPresetNo;
     int                         m_TunerFrequency;
+    bool                        m_CompatibilityMode;
     QString                     m_TempPresetName;
     QList<QAction*>             m_PresetActions;
 
@@ -51,7 +52,6 @@ private slots:
     void on_DisplayButton_clicked();
     void on_PTYSearchButton_clicked();
     void on_NoiseCutButton_clicked();
-    void on_CompatibilityModeCheckBox_clicked();
     void on_EditFrequencyButton_clicked();
     void on_SaveButton_clicked();
     void on_CancelButton_clicked();
