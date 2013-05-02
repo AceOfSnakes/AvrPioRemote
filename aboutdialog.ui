@@ -58,7 +58,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Version 0.1.5</string>
+    <string>Version 0.1.7</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

@@ -1,5 +1,5 @@
 #include "logger.h"
-#include <qDebug>
+#include <QDebug>
 
 
 Logger* Logger::m_OwnInstance = new Logger();

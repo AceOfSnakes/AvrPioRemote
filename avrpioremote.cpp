@@ -549,8 +549,11 @@ void AVRPioRemote::onConnect()
         if (ip_port == "")
         {
             ip_port = "8102";
-            m_IpPort = ip_port.toInt();
             ui->lineEditIPPort->setText(ip_port);
+        }
+        else
+        {
+            m_IpPort = ip_port.toInt();
         }
         m_Settings.setValue("IP/1", ip1);
         m_Settings.setValue("IP/2", ip2);
