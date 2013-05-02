@@ -5,6 +5,7 @@
 #include <vector>
 #include <QSettings>
 #include "actionwithparameter.h"
+#include "receiverinterface.h"
 
 namespace Ui {
 class TunerDialog;
@@ -15,12 +16,13 @@ class TunerDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit TunerDialog(QWidget *parent, QSettings& settings);
+    explicit TunerDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& settings);
     ~TunerDialog();
     
 private:
     QSettings&                  m_Settings;
     Ui::TunerDialog *           ui;
+    ReceiverInterface&          m_Comm;
     QList<QPushButton*>         m_ClassButtons;
     QList<QPushButton*>         m_PresetButtons;
     QString                     m_SelectedClassNo;

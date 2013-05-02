@@ -170,6 +170,8 @@ QString ReceiverInterface::DecodeHexString(const QString& hex)
 
 bool ReceiverInterface::SendCmd(const QString& cmd)
 {
+//    Log("--> " + cmd, QColor(0, 200, 0));
+    Logger::Log("--> " + cmd);
     QString tmp = cmd + "\r";
     return m_Socket.write(tmp.toAscii(), tmp.length()) == tmp.length();
 }

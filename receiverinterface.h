@@ -4,6 +4,7 @@
 #include <QSettings>
 #include <QtNetwork/QTcpSocket>
 #include <string>
+#include "logger.h"
 
 using namespace std;
 

@@ -4,10 +4,11 @@
 #include <QMenu>
 
 
-TunerDialog::TunerDialog(QWidget *parent, QSettings &settings) :
+TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings) :
     QDialog(parent),
     m_Settings(settings),
-    ui(new Ui::TunerDialog)
+    ui(new Ui::TunerDialog),
+    m_Comm(Comm)
 {
     ui->setupUi(this);
 
@@ -16,8 +17,8 @@ TunerDialog::TunerDialog(QWidget *parent, QSettings &settings) :
     m_TunerFrequency = 0;
     m_CompatibilityMode = false;
 
-    connect(parent, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
-    connect(this, SIGNAL(SendCmd(QString)), parent, SLOT(SendCmd(QString)));
+    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
+    connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 
     m_ClassButtons.push_back(ui->ClassAButton);
     m_ClassButtons.push_back(ui->ClassBButton);

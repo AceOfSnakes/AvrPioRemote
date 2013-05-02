@@ -527,6 +527,12 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatInterval">
+    <number>300</number>
+   </property>
    <property name="autoDefault">
     <bool>false</bool>
    </property>
@@ -545,6 +551,12 @@
    </property>
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatInterval">
+    <number>300</number>
    </property>
    <property name="autoDefault">
     <bool>false</bool>

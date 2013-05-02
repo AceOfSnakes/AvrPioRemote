@@ -14,6 +14,7 @@
 #include "testdialog.h"
 #include "oldfavoritesdialog.h"
 #include "settingsdialog.h"
+#include "logger.h"
 
 
 namespace Ui {
@@ -77,8 +78,8 @@ private:
     bool            m_ReceiverOnline;
     bool            m_FavoritesCompatibilityMode;
 
-    void Log(const QString& text);
-    void Log(const QString& text, const QColor& color);
+//    void Log(const QString& text);
+//    void Log(const QString& text, const QColor& color);
 //    void RequestStatus(bool input = true);
     void SelectInputButton(int idx);
     void ClearScreen();

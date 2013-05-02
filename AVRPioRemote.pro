@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     testdialog.cpp \
     oldfavoritesdialog.cpp \
     getoldfavoritelistdialog.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    logger.cpp
 
 HEADERS  += avrpioremote.h \
          Defs.h \
@@ -38,7 +39,8 @@ HEADERS  += avrpioremote.h \
     testdialog.h \
     oldfavoritesdialog.h \
     getoldfavoritelistdialog.h \
-    settingsdialog.h
+    settingsdialog.h \
+    logger.h
 
 FORMS    += avrpioremote.ui \
     netradiodialog.ui \

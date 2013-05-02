@@ -120,7 +120,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings);
 
-    m_TunerDialog = new TunerDialog(this, m_Settings);
+    m_TunerDialog = new TunerDialog(this, m_ReceiverInterface, m_Settings);
 
 
     m_TestDialog = new TestDialog(this);
@@ -261,7 +261,7 @@ void AVRPioRemote::ConnectReceiver()
 
 void AVRPioRemote::NewDataReceived(QString data)
 {
-    Log("<-- " + data);
+    Logger::Log("<-- " + data);
 }
 
 
@@ -306,27 +306,27 @@ void AVRPioRemote::ErrorData(int type)
     switch(type)
     {
     case 2:
-        Log("This doesn't work now");
+        Logger::Log("This doesn't work now");
         ui->StausLineEdit->setText("This doesn't work now");
         break;
     case 3:
-        Log("This does'nt work with this receiver");
+        Logger::Log("This does'nt work with this receiver");
         ui->StausLineEdit->setText("This doesn't work with this receiver");
         break;
     case 4:
-        Log("Command error");
+        Logger::Log("Command error");
         ui->StausLineEdit->setText("Command error");
         break;
     case 6:
-        Log("Parameter error");
+        Logger::Log("Parameter error");
         ui->StausLineEdit->setText("Parameter error");
         break;
     case -1:
-        Log("Receiver busy");
+        Logger::Log("Receiver busy");
         ui->StausLineEdit->setText("Receiver busy");
         break;
     default:
-        Log("Unknown error");
+        Logger::Log("Unknown error");
         ui->StausLineEdit->setText("Unknown error");
         break;
     }
@@ -413,7 +413,7 @@ void AVRPioRemote::RequestStatus(bool input)
 
 void AVRPioRemote::CommError(QString socketError)
 {
-    Log("tcp error");
+    Logger::Log("tcp error");
     ui->pushButtonConnect->setEnabled(true);
     EnableIPInput(true);
     EnableControls(false);
@@ -424,7 +424,7 @@ void AVRPioRemote::CommError(QString socketError)
 
 void AVRPioRemote::CommConnected()
 {
-    Log("connected");
+    Logger::Log("connected");
     ui->PowerButton->setEnabled(true);
     ui->StausLineEdit->setText("Connected");
     ui->pushButtonConnect->setEnabled(true);
@@ -435,7 +435,7 @@ void AVRPioRemote::CommConnected()
 
 void AVRPioRemote::CommDisconnected()
 {
-    Log("disconnected");
+    Logger::Log("disconnected");
     EnableIPInput(true);
     ui->pushButtonConnect->setText("Connect");
     ui->pushButtonConnect->setEnabled(true);
@@ -443,26 +443,25 @@ void AVRPioRemote::CommDisconnected()
     ClearScreen();
 }
 
-void AVRPioRemote::Log(const QString& text)
-{
-    Log(text, QColor(0, 0, 0));
-}
+//void AVRPioRemote::Log(const QString& text)
+//{
+//    Log(text, QColor(0, 0, 0));
+//}
 
-void AVRPioRemote::Log(const QString& text, const QColor& color)
-{
-//    ui->listWidgetLog->addItem(text);
-//    if (ui->listWidgetLog->count() > 100)
-//        ui->listWidgetLog->removeItemWidget(ui->listWidgetLog->item(0));
-//    ui->listWidgetLog->setCurrentItem(ui->listWidgetLog->item(ui->listWidgetLog->count() - 1));
-//    QBrush brush(color);
-//    int index = ui->listWidgetLog->currentIndex().row();
-//    ui->listWidgetLog->item(index)->setForeground(brush);
-    qDebug() << text;
-}
+//void AVRPioRemote::Log(const QString& text, const QColor& color)
+//{
+////    ui->listWidgetLog->addItem(text);
+////    if (ui->listWidgetLog->count() > 100)
+////        ui->listWidgetLog->removeItemWidget(ui->listWidgetLog->item(0));
+////    ui->listWidgetLog->setCurrentItem(ui->listWidgetLog->item(ui->listWidgetLog->count() - 1));
+////    QBrush brush(color);
+////    int index = ui->listWidgetLog->currentIndex().row();
+////    ui->listWidgetLog->item(index)->setForeground(brush);
+//    qDebug() << text;
+//}
 
 bool AVRPioRemote::SendCmd(const QString& cmd)
 {
-    Log("--> " + cmd, QColor(0, 200, 0));
     m_ReceiverInterface.SendCmd(cmd);
     return true;
 }
