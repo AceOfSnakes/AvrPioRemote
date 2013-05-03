@@ -14,6 +14,7 @@
 #include "testdialog.h"
 #include "oldfavoritesdialog.h"
 #include "settingsdialog.h"
+#include "eqdialog.h"
 #include "logger.h"
 
 
@@ -74,6 +75,7 @@ private:
     TestDialog*     m_TestDialog;
     OldFavoritesDialog* m_OldFavoritesDialog;
     SettingsDialog* m_SettingsDialog;
+    EQDialog*       m_EQDialog;
 //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
     bool            m_FavoritesCompatibilityMode;
@@ -150,6 +152,8 @@ private slots:
     void on_ShowAllListeningModesButton_clicked();
 
     void on_InputVideoButton_clicked();
+
+    void on_ATBEQModesButton_clicked();
 
 signals:
     void NetData(QString data);

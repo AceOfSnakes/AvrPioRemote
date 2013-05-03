@@ -18,15 +18,16 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_ReceiverOnline = false;
 
     ui->setupUi(this);
-    //setWindowState(Qt::WindowMinimized);
-    //Qt::WindowFlags flags = Qt::Window | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
+    // add minimize button to to title
     Qt::WindowFlags flags = windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowContextHelpButtonHint;
     this->setWindowFlags(flags);
-    //layout()->setSizeConstraint( QLayout::SetFixedSize );
+    // set not resizeable
     this->setFixedSize(this->size());
+    // disable controls
     EnableControls(false);
     ui->PowerButton->setEnabled(false);
 
+    // get compatibility setting for favorites list for LX-83
     m_FavoritesCompatibilityMode = m_Settings.value("FavoritesCompatibilityMode", false).toBool();
 
     // receiver interface
@@ -46,23 +47,22 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((&m_ReceiverInterface), SIGNAL(ListeningModeData(QString)), this,  SLOT(ListeningModeData(QString)));
     connect((&m_ReceiverInterface), SIGNAL(HiBitData(bool)), this,  SLOT(HiBitData(bool)));
     connect((&m_ReceiverInterface), SIGNAL(PqlsData(bool)), this,  SLOT(PqlsData(bool)));
-    //connect((&m_ReceiverInterface), SIGNAL(NetData(QString)), this,  SLOT(NetData(QString)));
     connect((&m_ReceiverInterface), SIGNAL(DFiltData(bool)), this,  SLOT(DFiltData(bool)));
-    //connect((&m_ReceiverInterface), SIGNAL(NetData(QString)), this, SLOT(ShowNetDialog()));
 
-    // ip adress
+    // configure ip adress edit iput
     ui->lineEditIP1->setValidator(&m_IpValidator);
     ui->lineEditIP2->setValidator(&m_IpValidator);
     ui->lineEditIP3->setValidator(&m_IpValidator);
     ui->lineEditIP4->setValidator(&m_IpValidator);
     ui->lineEditIPPort->setValidator(&m_IpPortValidator);
+    // get the saved ip address data
     ui->lineEditIP1->setText(m_Settings.value("IP/1", "192").toString());
     ui->lineEditIP2->setText(m_Settings.value("IP/2", "168").toString());
     ui->lineEditIP3->setText(m_Settings.value("IP/3", "1").toString());
     ui->lineEditIP4->setText(m_Settings.value("IP/4", "1").toString());
     ui->lineEditIPPort->setText(m_Settings.value("IP/PORT", "8102").toString());
 
-//    m_TCPThread = new QThread();
+    // make a list with buttons that correspond to a input type
     /* 00 */ m_InputButtons.append(NULL); //"PHONO"
     /* 01 */ m_InputButtons.append(ui->InputCdButton); //"CD",
     /* 02 */ m_InputButtons.append(ui->InputTunerButton); //"TUNER",
@@ -114,24 +114,32 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     /* 48 */ m_InputButtons.append(ui->InputHdmiButton); //"MHL",
     /* END */ m_InputButtons.append((QPushButton*)-1);
 
+    // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings);
     connect((&m_ReceiverInterface), SIGNAL(NetData(QString)), m_NetRadioDialog, SLOT(NetData(QString)));
     connect((m_NetRadioDialog),    SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
 
+    // create loudspeaker dialog
     m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings);
 
+    // create Tuner dialog
     m_TunerDialog = new TunerDialog(this, m_ReceiverInterface, m_Settings);
 
-
+    // create Test dialog
     m_TestDialog = new TestDialog(this);
     connect((&m_ReceiverInterface), SIGNAL(DisplayData(int, QString)), m_TestDialog,  SLOT(DisplayData(int, QString)));
     connect((m_TestDialog),    SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
     connect((&m_ReceiverInterface), SIGNAL(InputFunctionData(int, QString)), m_TestDialog,  SLOT(InputFunctionData(int, QString)));
 
+    // create compatible favorites dialog
     m_OldFavoritesDialog = new OldFavoritesDialog(this, &m_ReceiverInterface);
 
+    // create Settings dialog
     m_SettingsDialog = new SettingsDialog(this, m_Settings);
-    m_SettingsDialog->setModal(true);;
+    m_SettingsDialog->setModal(true);
+
+    // create EQ dialog
+    m_EQDialog = new EQDialog(this, m_ReceiverInterface);
 }
 
 AVRPioRemote::~AVRPioRemote()
@@ -149,23 +157,27 @@ void AVRPioRemote::SelectInputButton(int idx)
 {
     int i = 0;
     QPushButton* found = NULL;
+    // find a button associated with the input
     while (m_InputButtons[i] != (QPushButton*)-1)
     {
         if (m_InputButtons[i] != NULL)
         {
             if (i == idx)
             {
+                // select the found input button
                 m_InputButtons[i]->setChecked(true);
                 found = m_InputButtons[i];
             }
             else
             {
+                // unselect all other input buttons
                 if(m_InputButtons[i] != found)
                     m_InputButtons[i]->setChecked(false);
             }
         }
         i++;
     }
+    // if it is a net input, open NetRadio window, otherwise close it
     if (found == ui->InputNetButton)
     {
         if (!m_FavoritesCompatibilityMode)
@@ -190,6 +202,7 @@ void AVRPioRemote::SelectInputButton(int idx)
                 m_OldFavoritesDialog->hide();
         }
     }
+    // if it is the tuner input, open NetRadio window, otherwise close it
     if (found == ui->InputTunerButton)
     {
         m_TunerDialog->ShowTunerDialog();
@@ -429,6 +442,7 @@ void AVRPioRemote::CommConnected()
     ui->StausLineEdit->setText("Connected");
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setText("Disconnect");
+    ui->pushButtonConnect->setChecked(true);
     m_ReceiverOnline = true;
     RequestStatus();
 }
@@ -439,6 +453,7 @@ void AVRPioRemote::CommDisconnected()
     EnableIPInput(true);
     ui->pushButtonConnect->setText("Connect");
     ui->pushButtonConnect->setEnabled(true);
+    ui->pushButtonConnect->setChecked(false);
     EnableControls(false);
     ClearScreen();
 }
@@ -493,6 +508,7 @@ void AVRPioRemote::EnableControls(bool enable)
     ui->VolumeMuteButton->setEnabled(enable);
     ui->VolumeUpButton->setEnabled(enable);
     ui->ShowAllListeningModesButton->setEnabled(enable);
+    ui->ATBEQModesButton->setEnabled(enable);
 }
 
 void AVRPioRemote::EnableIPInput(bool enable)
@@ -669,6 +685,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
 
+        pAction = new QAction("EQ", this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
+
 //        pAction = new QAction("Loudspeaker Settings", this);
 //        MyMenu.addAction(pAction);
 //        connect(pAction, SIGNAL(triggered()), this, SLOT(ShowLoudspeakerSettingsDialog()));
@@ -716,6 +736,7 @@ void AVRPioRemote::on_VolumeMuteButton_clicked()
 
 void AVRPioRemote::on_pushButtonConnect_clicked()
 {
+    ui->pushButtonConnect->setChecked(!ui->pushButtonConnect->isChecked());
     onConnect();
 }
 
@@ -898,4 +919,9 @@ void AVRPioRemote::on_InputVideoButton_clicked()
 {
     ui->InputVideoButton->setChecked(!ui->InputVideoButton->isChecked());
     SendCmd("10FN");
+}
+
+void AVRPioRemote::on_ATBEQModesButton_clicked()
+{
+    m_EQDialog->ShowEQDialog();
 }

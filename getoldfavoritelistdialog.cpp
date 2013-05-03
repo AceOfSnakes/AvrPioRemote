@@ -21,6 +21,7 @@ GetOldFavoriteListDialog::GetOldFavoriteListDialog(QWidget *parent, ReceiverInte
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
     m_Timer.setSingleShot(true);
+    m_Timer.setInterval(2000);
 
     connect((comm), SIGNAL(DisplayData(int, QString)),       this,   SLOT(DisplayData(int, QString)));
 //    connect((this), SIGNAL(SendCmd(QString)),                parent, SLOT(SendCmd(QString)));
@@ -91,8 +92,7 @@ void GetOldFavoriteListDialog::DisplayData(int no, QString data)
 {
     if (data == "  FAVORITES   ")
     {
-        m_Timer.stop();
-        m_Timer.start(2000);
+        m_Timer.start();
         return;
     }
 
@@ -125,7 +125,7 @@ void GetOldFavoriteListDialog::DisplayData(int no, QString data)
             emit SendCmd("27NW"); // cursor down
         }
         //emit SendCmd("29NW"); // don't go back to play window
-        m_Timer.start(2000);
+        m_Timer.start();
     }
 }
 
@@ -174,7 +174,7 @@ void GetOldFavoriteListDialog::StartAquire()
     emit SendCmd("45FN"); // switch to favorites
     emit SendCmd("?F"); // switch to favorites
 //    emit SendCmd("27NW");
-    m_Timer.start(2000);
+    m_Timer.start();
 }
 
 
@@ -182,8 +182,8 @@ bool GetOldFavoriteListDialog::ReadFile(const QString& fileName)
 {
     QFile file(fileName);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug() << "Error: Cannot read file " << qPrintable(fileName)
-                  << ": " << qPrintable(file.errorString());
+        QString msg = QString("Error: Cannot read file <%1>: %2").arg(fileName).arg(file.errorString());
+        Logger::Log(msg);
         return false;
     }
 
@@ -194,15 +194,15 @@ bool GetOldFavoriteListDialog::ReadFile(const QString& fileName)
     QDomDocument doc;
     if (!doc.setContent(&file, false, &errorStr, &errorLine,
                         &errorColumn)) {
-        qDebug() << "Error: Parse error at line " << errorLine << ", "
-                  << "column " << errorColumn << ": "
-                  << qPrintable(errorStr);
+        QString msg = QString("Error: Parse error at line %1, %2: %3").arg(errorLine).arg(errorColumn).arg(errorStr);
+        Logger::Log(msg);
         return false;
     }
 
     QDomElement root = doc.documentElement();
     if (root.tagName() != "bookindex") {
-        qDebug() << "Error: Not a bookindex file";
+        QString msg = QString("Error: Not the favorites list");
+        Logger::Log(msg);
         return false;
     }
 
@@ -215,8 +215,8 @@ bool GetOldFavoriteListDialog::SaveFile(const QString& fileName, const QStringLi
 {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        qDebug() << "Error: Cannot write file " << qPrintable(fileName)
-                  << ": " << qPrintable(file.errorString());
+        QString msg = QString("Error: Cannot write file <%1>: %2").arg(fileName).arg(file.errorString());
+        Logger::Log(msg);
         return false;
     }
 

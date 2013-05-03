@@ -32,7 +32,6 @@ OldFavoritesDialog::~OldFavoritesDialog()
 
 void OldFavoritesDialog::InputFunctionData(int no, QString name)
 {
-    qDebug() << "INPUT " << no << " " << name;
     if (no == 45)
     {
     }
@@ -44,7 +43,7 @@ void OldFavoritesDialog::DisplayData(int no, QString data_)
     if (m_SelectAction && no == 3)
     {
         QString data = data_.mid(1);
-        qDebug() << "<" << data << "> <" <<m_SelectedFavorite << ">";
+//        qDebug() << "<" << data << "> <" <<m_SelectedFavorite << ">";
         if (m_SelectedFavorite.startsWith(data))
         {
             emit SendCmd("10NW"); // Favorite found, press play
@@ -61,7 +60,6 @@ void OldFavoritesDialog::DisplayData(int no, QString data_)
             {
                 int down = idxWanted - idxCurrent;
                 int up = m_FavList.count() - idxWanted + idxCurrent;
-                qDebug() << "1DOWN " << down << ", UP " << up;
                 if (down <= up)
                 {
                     m_Direction = DirectionDown;
@@ -76,7 +74,6 @@ void OldFavoritesDialog::DisplayData(int no, QString data_)
             {
                 int up = idxCurrent - idxWanted;
                 int down = m_FavList.count() - idxCurrent + idxWanted;
-                qDebug() << "1DOWN " << down << ", UP " << up;
                 if (down <= up)
                 {
                     m_Direction = DirectionDown;
@@ -122,7 +119,6 @@ void OldFavoritesDialog::on_GetFavoritesButton_clicked()
                                       tr("This will erase privious data and take some time to aquire the new.\nDo you want to continue?"),
                                       QMessageBox::Ok | QMessageBox::Cancel);
 
-    qDebug() << "Dialog result " << result;
     if (result == QMessageBox::Ok)
     {
         GetOldFavoriteListDialog* dialog = new GetOldFavoriteListDialog(this, m_Comm);
@@ -138,8 +134,8 @@ bool OldFavoritesDialog::ReadFile(const QString& fileName)
 {
     QFile file(fileName);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug() << "Error: Cannot read file " << qPrintable(fileName)
-                  << ": " << qPrintable(file.errorString());
+        QString msg = QString("Error: Cannot read file <%1>: %2").arg(fileName).arg(file.errorString());
+        Logger::Log(msg);
         return false;
     }
 
@@ -150,15 +146,15 @@ bool OldFavoritesDialog::ReadFile(const QString& fileName)
     QDomDocument doc;
     if (!doc.setContent(&file, false, &errorStr, &errorLine,
                         &errorColumn)) {
-        qDebug() << "Error: Parse error at line " << errorLine << ", "
-                  << "column " << errorColumn << ": "
-                  << qPrintable(errorStr);
+        QString msg = QString("Error: Parse error at line %1, %2: %3").arg(errorLine).arg(errorColumn).arg(errorStr);
+        Logger::Log(msg);
         return false;
     }
 
     QDomElement root = doc.documentElement();
     if (root.tagName() != "OldFavoritesList") {
-        qDebug() << "Error: Not an OldFavoritesList file";
+        QString msg = QString("Error: Not the favorites list (OldFavoritesList root element missing)");
+        Logger::Log(msg);
         return false;
     }
     QDomNodeList nodes = root.childNodes();
@@ -189,8 +185,8 @@ bool OldFavoritesDialog::SaveFile(const QString& fileName, const QStringList& fa
 {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        qDebug() << "Error: Cannot write file " << qPrintable(fileName)
-                  << ": " << qPrintable(file.errorString());
+        QString msg = QString("Error: Cannot write file <%1>: %2").arg(fileName).arg(file.errorString());
+        Logger::Log(msg);
         return false;
     }
 

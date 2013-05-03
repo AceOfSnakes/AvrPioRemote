@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     oldfavoritesdialog.cpp \
     getoldfavoritelistdialog.cpp \
     settingsdialog.cpp \
-    logger.cpp
+    logger.cpp \
+    eqdialog.cpp
 
 HEADERS  += avrpioremote.h \
          Defs.h \
@@ -40,7 +41,8 @@ HEADERS  += avrpioremote.h \
     oldfavoritesdialog.h \
     getoldfavoritelistdialog.h \
     settingsdialog.h \
-    logger.h
+    logger.h \
+    eqdialog.h
 
 FORMS    += avrpioremote.ui \
     netradiodialog.ui \
@@ -50,7 +52,8 @@ FORMS    += avrpioremote.ui \
     testdialog.ui \
     oldfavoritesdialog.ui \
     getoldfavoritelistdialog.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    eqdialog.ui
 
 OTHER_FILES += \
     images/cancel.png \

@@ -103,6 +103,7 @@ void TunerDialog::ClassButtonClicked(QString Param)
 {
     QString cmd = QString("%1%2PR").arg(Param).arg(m_SelectedPresetNo);
     emit SendCmd(cmd);
+    m_ClassButtons[m_SelectedClassNo[0].toLatin1() - 'A']->setChecked(true);
 }
 
 
@@ -110,6 +111,7 @@ void TunerDialog::PresetButtonClicked(QString Param)
 {
     QString cmd = QString("%1%2PR").arg(m_SelectedClassNo).arg(Param);
     emit SendCmd(cmd);
+    m_PresetButtons[m_SelectedPresetNo.toInt() - 1]->setChecked(true);
 }
 
 
@@ -304,8 +306,8 @@ void TunerDialog::on_EditFrequencyButton_clicked()
     EnableControls(false);
     ui->CancelButton->setEnabled(true);
     ui->OkButton->setEnabled(true);
-    if (!m_CompatibilityMode)
-        ui->SaveButton->setEnabled(true);
+//    if (!m_CompatibilityMode)
+    ui->SaveButton->setEnabled(true);
     if (ui->FMButton->isChecked())
     {
         // m_TunerFrequency is 12345 --> FM 123.45 MHz
@@ -363,15 +365,31 @@ void TunerDialog::on_SaveButton_clicked()
 //        cmd = QString ("FG%1").arg((int)(m_SelectedPresetNo[1].toAscii()), 1, 16);
 //        emit SendCmd(cmd); // enter
 //        emit SendCmd("03TN"); // enter
-        QString band = "A";
-        QString mpx = "0";
-        if (ui->FMButton->isChecked())
+        if (m_CompatibilityMode)
         {
-            band = "F";
-            mpx = "1";
+            emit SendCmd("02TN"); // edit
+            for(int i = 'A'; i < m_SelectedClassNo[0].toLatin1(); i++)
+            {
+                emit SendCmd("TC"); // class
+            }
+            for(int i = 0; i < m_SelectedPresetNo.toInt(); i++)
+            {
+                emit SendCmd("TPI"); // increment preset
+            }
+            emit SendCmd("03TN"); // enter
         }
-        cmd = QString("%1%2%3%4%5TGA").arg(m_SelectedClassNo).arg(m_SelectedPresetNo[1]).arg(band).arg(m_TunerFrequency, 5, 10, QChar('0')).arg(mpx);
-        emit SendCmd(cmd);
+        else
+        {
+            QString band = "A";
+            QString mpx = "0";
+            if (ui->FMButton->isChecked())
+            {
+                band = "F";
+                mpx = "1";
+            }
+            cmd = QString("%1%2%3%4%5TGA").arg(m_SelectedClassNo).arg(m_SelectedPresetNo[1]).arg(band).arg(m_TunerFrequency, 5, 10, QChar('0')).arg(mpx);
+            emit SendCmd(cmd);
+        }
         emit SendCmd("?FR");
     }
     else if (!ui->PresetEdit->isReadOnly())
@@ -435,12 +453,14 @@ void TunerDialog::on_OkButton_clicked()
     {
         ui->FrequencyEdit->setReadOnly(true);
         QString text = ui->FrequencyEdit->text();
-        qDebug() << " FrequencyEdit->text() = <" << ui->FrequencyEdit->text() << ">";
+        //qDebug() << " FrequencyEdit->text() = <" << ui->FrequencyEdit->text() << ">";
+//        QString msg = QString("");
+//        Logger::Log(msg);
         if (ui->FMButton->isChecked())
         {
             double f = text.toDouble() * 100.0;
             m_TunerFrequency = f;
-            qDebug() << "f = " << f;
+            //qDebug() << "f = " << f;
         }
         else
         {
@@ -448,7 +468,7 @@ void TunerDialog::on_OkButton_clicked()
         }
         ui->FrequencyEdit->setInputMask("");
         QString str = QString("%1").arg(m_TunerFrequency, 5, 10, (QChar)'0');
-        qDebug() << "FREQ " << m_TunerFrequency << " <" << str << ">";
+        //qDebug() << "FREQ " << m_TunerFrequency << " <" << str << ">";
         emit SendCmd("TAC");
         emit SendCmd(QString("%1TP").arg(str[0]));
         emit SendCmd(QString("%1TP").arg(str[1]));

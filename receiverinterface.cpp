@@ -37,6 +37,7 @@ void ReceiverInterface::ConnectToReceiver(const QString& IpAddress, const int Ip
 
 void ReceiverInterface::Disconnect()
 {
+    m_Connected = false;
     m_Socket.disconnectFromHost();
     m_Socket.close();
 }
@@ -44,19 +45,21 @@ void ReceiverInterface::Disconnect()
 
 void ReceiverInterface::TcpConnected()
 {
+    m_Connected = true;
     emit Connected();
 }
 
 
 void ReceiverInterface::TcpDisconnected()
 {
+    m_Connected = false;
     emit Disconnected();
 }
 
 
 bool ReceiverInterface::IsConnected()
 {
-    return m_Socket.isOpen();
+    return m_Connected;
 }
 
 
