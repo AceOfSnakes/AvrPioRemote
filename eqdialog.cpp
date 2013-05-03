@@ -247,6 +247,7 @@ bool EQDialog::ReadFile(const QString& fileName)
         if (nodes.at(i).isElement() && nodes.at(i).nodeName() == "Preset")
         {
             m_EQPresets[i].m_Name = nodes.at(i).attributes().namedItem("Name").nodeValue();
+            m_EQPresets[i].m_Button->setText(m_EQPresets[i].m_Name);
             m_EQPresets[i].m_Values[0] = nodes.at(i).attributes().namedItem("Eq63").nodeValue().toInt();
             m_EQPresets[i].m_Values[1] = nodes.at(i).attributes().namedItem("Eq125").nodeValue().toInt();
             m_EQPresets[i].m_Values[2] = nodes.at(i).attributes().namedItem("Eq250").nodeValue().toInt();
