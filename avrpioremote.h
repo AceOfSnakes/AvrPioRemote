@@ -117,7 +117,7 @@ private slots:
     void ShowSettingsDialog();
     void ShowOldFavoritesDialog();
     void ShowAboutDialog();
-    void ShowLoudspeakerSettingsDialog();
+//    void ShowLoudspeakerSettingsDialog();
     void ShowTestDialog();
     void LMSelectedAction(QString Param);
     void on_MoreButton_clicked();
