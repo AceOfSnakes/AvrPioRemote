@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>409</width>
+    <width>475</width>
     <height>504</height>
    </rect>
   </property>
@@ -37,7 +37,13 @@
       </layout>
      </item>
      <item>
-      <widget class="QListWidget" name="listWidget"/>
+      <widget class="QListWidget" name="listWidget">
+       <property name="font">
+        <font>
+         <family>Droid Sans Mono</family>
+        </font>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
