@@ -68,7 +68,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>120</y>
+     <y>100</y>
      <width>281</width>
      <height>21</height>
     </rect>
@@ -79,7 +79,7 @@
     </font>
    </property>
    <property name="text">
-    <string>&quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;forum_id=273&amp;thread=2280&quot;&gt;For new versions, bugs and wishes click here&lt;/a&gt;&quot;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;https://sourceforge.net/projects/avrpioremote/?source=navbar&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;For new versions click here&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>
@@ -105,6 +105,36 @@
    </property>
    <property name="text">
     <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>130</y>
+     <width>281</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;amp;forum_id=273&amp;amp;thread=2280&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Found a bug or have wisches? Click here&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::RichText</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="openExternalLinks">
+    <bool>true</bool>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::TextBrowserInteraction</set>
    </property>
   </widget>
  </widget>

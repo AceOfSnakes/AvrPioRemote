@@ -17,6 +17,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_ReceiverOnline = false;
 
+    m_Translater.load("avrpioremote_de");
+    QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
     // add minimize button to to title
     Qt::WindowFlags flags = windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowContextHelpButtonHint;
@@ -536,42 +538,47 @@ void AVRPioRemote::onConnect()
 {
     if (!m_ReceiverInterface.IsConnected())
     {
+        // connect
+        // read settings from the line edits
         QString ip1, ip2, ip3, ip4, ip_port;
+        // first the 4 ip address blocks
         ip1 = ui->lineEditIP1->text().trimmed();
         if (ip1 == "")
         {
-            ip1 = "192";
+            ip1 = "192"; // set default
             ui->lineEditIP1->setText(ip1);
         }
         ip2 = ui->lineEditIP2->text().trimmed();
         if (ip2 == "")
         {
-            ip2 = "168";
+            ip2 = "168"; // set default
             ui->lineEditIP2->setText(ip2);
         }
         ip3 = ui->lineEditIP3->text().trimmed();
         if (ip3 == "")
         {
-            ip3 = "1";
+            ip3 = "1"; // set default
             ui->lineEditIP3->setText(ip3);
         }
         ip4 = ui->lineEditIP4->text().trimmed();
         if (ip4 == "")
         {
-            ip4 = "192";
+            ip4 = "192"; // set default
             ui->lineEditIP4->setText(ip4);
         }
         m_IpAddress = ip1 + "." + ip2 + "." + ip3 + "." + ip4;
+        // and then th ip port
         ip_port = ui->lineEditIPPort->text().trimmed();
         if (ip_port == "")
         {
-            ip_port = "8102";
+            ip_port = "8102"; // set default
             ui->lineEditIPPort->setText(ip_port);
         }
         else
         {
             m_IpPort = ip_port.toInt();
         }
+        // save the ip address and port permanently
         m_Settings.setValue("IP/1", ip1);
         m_Settings.setValue("IP/2", ip2);
         m_Settings.setValue("IP/3", ip3);
@@ -581,6 +588,7 @@ void AVRPioRemote::onConnect()
     }
     else
     {
+        // disconnect
         EnableControls(false);
         ui->PowerButton->setEnabled(false);
         m_ReceiverInterface.Disconnect();
@@ -834,6 +842,7 @@ void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
     //MyMenu.addActions(this->actions());
     if (m_ReceiverOnline == true)
     {
+        // add ALL listening mode keys to the menu
         int i = 0;
         while (strlen(LISTENING_MODE[i].key) != 0)
         {

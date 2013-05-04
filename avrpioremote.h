@@ -16,6 +16,7 @@
 #include "settingsdialog.h"
 #include "eqdialog.h"
 #include "logger.h"
+#include <QTranslator>
 
 
 namespace Ui {
@@ -79,6 +80,7 @@ private:
 //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
     bool            m_FavoritesCompatibilityMode;
+    QTranslator     m_Translater;
 
 //    void Log(const QString& text);
 //    void Log(const QString& text, const QColor& color);

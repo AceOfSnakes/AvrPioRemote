@@ -19,15 +19,14 @@ GetOldFavoriteListDialog::GetOldFavoriteListDialog(QWidget *parent, ReceiverInte
     m_Done = true;
     m_Recording = false;
 
+    // this timer is used to recognize the short text that is not scrolling
+    // if the timer is fired we have a short text
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
     m_Timer.setSingleShot(true);
     m_Timer.setInterval(2000);
 
     connect((comm), SIGNAL(DisplayData(int, QString)),       this,   SLOT(DisplayData(int, QString)));
-//    connect((this), SIGNAL(SendCmd(QString)),                parent, SLOT(SendCmd(QString)));
     connect((comm), SIGNAL(InputFunctionData(int, QString)), this,   SLOT(InputFunctionData(int, QString)));
-
-    //StartAquire();
 }
 
 
@@ -39,22 +38,25 @@ GetOldFavoriteListDialog::~GetOldFavoriteListDialog()
 
 void GetOldFavoriteListDialog::FinishAquire()
 {
+    // the download of the favorite list is ended
     m_Recording = false;
     m_Done = true;
     ui->lineEdit->setText("");
-    QMessageBox::information(this, tr("AVRPioRemote"),
-                             tr("The favorites list ist aquired."),
-                             QMessageBox::Ok);
+    // save the favorite list
     QString path = QDir::currentPath() + "/" + "Favorites.xml";
     SaveFile(path, m_FavList);
     emit FavoritesAquired();
+    // notify the user
+    QMessageBox::information(this, tr("AVRPioRemote"),
+                             tr("The favorites list is aquired."),
+                             QMessageBox::Ok);
     this->close();
 }
 
 
 void GetOldFavoriteListDialog::Timeout()
 {
-   //m_Done = true;
+    // the timer was fired, that means the shown string is short and is not scrolled
     QString str = m_Remembered.trimmed();
     if (str == "")
     {
@@ -63,24 +65,26 @@ void GetOldFavoriteListDialog::Timeout()
         emit SendCmd("27NW");
         return;
     }
+    // if the string is already in the list, we are ready (list is wrapped)
     if (m_FavList.contains(m_Remembered))
     {
         FinishAquire();
     }
     else
     {
+        // save the string in the list and go down
         m_FavList.append(m_Remembered);
         ui->listWidget->addItem(m_Remembered);
         m_Remembered = "";
         m_Firstline = "";
-        emit SendCmd("27NW");
+        emit SendCmd("27NW"); // cursor down
     }
 }
 
 
 void GetOldFavoriteListDialog::InputFunctionData(int no, QString name)
 {
-//    qDebug() << "INPUT " << no << " " << name;
+    // only if the favorite input is selected, save the strings
     if (no == 45 && !m_Done)
     {
         m_Recording = true;
@@ -90,14 +94,17 @@ void GetOldFavoriteListDialog::InputFunctionData(int no, QString name)
 
 void GetOldFavoriteListDialog::DisplayData(int no, QString data)
 {
+    // ignore this string
     if (data == "  FAVORITES   ")
     {
         m_Timer.start();
         return;
     }
 
+    // 3 is the normal display type
     if (no == 3 && m_Recording)
     {
+        // disarm the timer
         m_Timer.stop();
         if (!m_Done)
         {
@@ -110,12 +117,13 @@ void GetOldFavoriteListDialog::DisplayData(int no, QString data)
             QString str = m_Remembered.trimmed();
             if (str != "")
             {
-
+                // if the string is already in the list, we are ready (list is wrapped)
                 if (m_FavList.contains(m_Remembered))
                 {
                     FinishAquire();
                     return;
                 }
+                // otherwise save the string
                 m_Done = false;
                 ui->listWidget->addItem(m_Remembered);
                 m_FavList.append(m_Remembered);
@@ -125,29 +133,41 @@ void GetOldFavoriteListDialog::DisplayData(int no, QString data)
             emit SendCmd("27NW"); // cursor down
         }
         //emit SendCmd("29NW"); // don't go back to play window
+        // rearm the timer for short not scrolling strings
         m_Timer.start();
     }
 }
 
+// a little bit of magic to compose a list of scrolling shorter strings into
+// a long one
 bool GetOldFavoriteListDialog::GetScrolledString(QString input)
 {
-    input = input.mid(1);
+    input = input.mid(1); // ignore the first character, it's a symbol
+    // if the first seen string equals to the current one, the string is wrapped
+    // and we are done
     if (m_Firstline == input)
     {
+        // there is unneded data at the end of the string
         m_Remembered = m_Remembered.mid(0, m_Remembered.count() - m_Firstline.count() + 1);
         m_Done = true;
         return true;
     }
+    // remove the end of the string, so the indexOf is working
     QString tmp = input.mid(0, input.count() - 2);
+    // find the current string in the saved
     int pos = m_Remembered.indexOf(tmp);
 //    qDebug() << "|" << input << "| |" << tmp << "| " << pos;
     if (pos == -1)
     {
+        // nothing is found, so take the current string as the beginning
+        // of our new string
         m_Remembered = input;
         m_Firstline = input;
     }
     else
     {
+        // integrate the current string in to our saved string
+        // it get only one character longer
         m_Remembered.replace(pos, input.length(), input);
     }
     return false;
@@ -156,20 +176,13 @@ bool GetOldFavoriteListDialog::GetScrolledString(QString input)
 
 void GetOldFavoriteListDialog::StartAquire()
 {
-//    int result = QMessageBox::warning(this, tr("AVRPioRemote"),
-//                                      tr("This will erase privious data and take some time to aquire the new.\nDo you want to continue?"),
-//                                      QMessageBox::Ok | QMessageBox::Cancel);
-
-//    qDebug() << "Dialog result " << result;
-
+    // start favorite list download
     ui->lineEdit->clear();
     ui->listWidget->clear();
     m_Remembered = "";
     m_Firstline = "";
     m_Done = false;
-    //m_Recording = true;
     m_FavList.clear();
-   // m_Recording = true;
     emit SendCmd("20NW"); // stop
     emit SendCmd("45FN"); // switch to favorites
     emit SendCmd("?F"); // switch to favorites
@@ -206,7 +219,6 @@ bool GetOldFavoriteListDialog::ReadFile(const QString& fileName)
         return false;
     }
 
-    //parseBookindexElement(root);
     file.close();
     return true;
 }
@@ -232,18 +244,8 @@ bool GetOldFavoriteListDialog::SaveFile(const QString& fileName, const QStringLi
         List.appendChild(Fav);
     }
 
-//    QDomElement translation = doc.createElement("translation");
-//    QDomText latin = doc.createTextNode("Ars longa vita brevis");
-//    QDomText english = doc.createTextNode("Art is long, life is short");
     doc.appendChild(Root);
     Root.appendChild(List);
-//    root.appendChild(translation);
-//    quote.appendChild(latin);
-//    translation.appendChild(english);
-
-//    QDomNode xmlNode = doc.createProcessingInstruction("xml",
-//                               "version=\"1.0\" encoding=\"ISO-8859-1\"");
-//    doc.insertBefore(xmlNode, doc.firstChild());
 
     QTextStream out(&file);
     doc.save(out, Indent);
