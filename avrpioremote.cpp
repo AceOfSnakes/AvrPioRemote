@@ -115,9 +115,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     /* END */ m_InputButtons.append((QPushButton*)-1);
 
     // create NetRadio dialog
-    m_NetRadioDialog = new NetRadioDialog(this, m_Settings);
-    connect((&m_ReceiverInterface), SIGNAL(NetData(QString)), m_NetRadioDialog, SLOT(NetData(QString)));
-    connect((m_NetRadioDialog),    SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
+    m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
 
     // create loudspeaker dialog
     m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings, m_ReceiverInterface );
@@ -126,17 +124,13 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_TunerDialog = new TunerDialog(this, m_ReceiverInterface, m_Settings);
 
     // create Test dialog
-    m_TestDialog = new TestDialog(this);
-    connect((&m_ReceiverInterface), SIGNAL(DisplayData(int, QString)), m_TestDialog,  SLOT(DisplayData(int, QString)));
-    connect((m_TestDialog),    SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
-    connect((&m_ReceiverInterface), SIGNAL(InputFunctionData(int, QString)), m_TestDialog,  SLOT(InputFunctionData(int, QString)));
+    m_TestDialog = new TestDialog(this, m_ReceiverInterface);
 
     // create compatible favorites dialog
     m_OldFavoritesDialog = new OldFavoritesDialog(this, &m_ReceiverInterface);
 
     // create Settings dialog
     m_SettingsDialog = new SettingsDialog(this, m_Settings);
-    m_SettingsDialog->setModal(true);
 
     // create EQ dialog
     m_EQDialog = new EQDialog(this, m_ReceiverInterface);
@@ -144,6 +138,13 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
 AVRPioRemote::~AVRPioRemote()
 {
+    delete m_NetRadioDialog;
+    delete m_LoudspeakerSettingsDialog;
+    delete m_TunerDialog;
+    delete m_TestDialog;
+    delete m_OldFavoritesDialog;
+    delete m_SettingsDialog;
+    delete m_EQDialog;
     delete ui;
 }
 
@@ -182,11 +183,11 @@ void AVRPioRemote::SelectInputButton(int idx)
     {
         if (!m_FavoritesCompatibilityMode)
         {
-            ShowNetDialog();
+            m_NetRadioDialog->ShowNetDialog();
         }
         else
         {
-            ShowOldFavoritesDialog();
+            m_OldFavoritesDialog->ShowOldFavoritesDialog();
         }
     }
     else
@@ -587,81 +588,12 @@ void AVRPioRemote::onConnect()
     }
 }
 
-void AVRPioRemote::ShowNetDialog()
-{
-    if (!m_NetRadioDialog->isVisible())
-    {
-        SendCmd("?GAH");
-        int x = this->pos().x() + this->width() + 20;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(this->pos().y());
-        m_NetRadioDialog->move(pos);
-        m_NetRadioDialog->show();
-    }
-}
-
-
-void AVRPioRemote::ShowSettingsDialog()
-{
-    if (!m_SettingsDialog->isVisible())
-    {
-//        int x = this->pos().x() + this->width() + 20;
-//        QPoint pos;
-//        pos.setX(x);
-//        pos.setY(this->pos().y());
-//        m_SettingsDialog->move(pos);
-        m_SettingsDialog->show();
-    }
-}
-
 
 void AVRPioRemote::ShowAboutDialog()
 {
     AboutDialog* about = new AboutDialog(this);
     about->show();
 }
-
-void AVRPioRemote::ShowTestDialog()
-{
-    if (!m_TestDialog->isVisible())
-    {
-        int x = this->pos().x() + this->width() + 20;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(this->pos().y());
-        m_TestDialog->move(pos);
-        m_TestDialog->show();
-    }
-}
-
-void AVRPioRemote::ShowOldFavoritesDialog()
-{
-    if (!m_OldFavoritesDialog ->isVisible())
-    {
-        int x = this->pos().x() + this->width() + 20;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(this->pos().y());
-        m_OldFavoritesDialog->move(pos);
-        m_OldFavoritesDialog->show();
-    }
-}
-
-/*void AVRPioRemote::ShowLoudspeakerSettingsDialog()
-{
-    if (!m_LoudspeakerSettingsDialog->isVisible())
-    {
-        //SendCmd("?GAH");
-        int x = this->pos().x() + this->width() + 20;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(this->pos().y());
-        m_LoudspeakerSettingsDialog->move(pos);
-        m_LoudspeakerSettingsDialog->show();
-    }
-//    qDebug() <<"in showloudmain";
-}*/
 
 
 void AVRPioRemote::on_MoreButton_clicked()
@@ -677,11 +609,11 @@ void AVRPioRemote::on_MoreButton_clicked()
 
         pAction = new QAction("Internet Radio", this);
         MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), this, SLOT(ShowNetDialog()));
+        connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ShowNetDialog()));
 
         pAction = new QAction("Compatible Favorites", this);
         MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), this, SLOT(ShowOldFavoritesDialog()));
+        connect(pAction, SIGNAL(triggered()), m_OldFavoritesDialog, SLOT(ShowOldFavoritesDialog()));
 
         pAction = new QAction("Tuner", this);
         MyMenu.addAction(pAction);
@@ -695,19 +627,19 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsDialog, SLOT(ShowLoudspeakerSettingsDialog()));
 
-//        pAction = new QAction("Test", this);
-//        MyMenu.addAction(pAction);
-//        connect(pAction, SIGNAL(triggered()), this, SLOT(ShowTestDialog()));
-
 //        pAction = new QAction("More Information", this);
 //        pAction = new QAction("Equalizer", this);
 //        pAction = new QAction("LS Settings", this);
 //        pAction = new QAction("Show Zone 2", this);
 //        pAction = new QAction("Input Wizard", this);
     }
+    pAction = new QAction("Test", this);
+    MyMenu.addAction(pAction);
+    connect(pAction, SIGNAL(triggered()), m_TestDialog, SLOT(ShowTestDialog()));
+
     pAction = new QAction("Settings", this);
     MyMenu.addAction(pAction);
-    connect(pAction, SIGNAL(triggered()), this, SLOT(ShowSettingsDialog()));
+    connect(pAction, SIGNAL(triggered()), m_SettingsDialog, SLOT(ShowSettingsDialog()));
 
     pAction = new QAction("About", this);
     MyMenu.addAction(pAction);

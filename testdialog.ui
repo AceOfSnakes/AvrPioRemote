@@ -6,46 +6,82 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>409</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>10</y>
-     <width>301</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="ClearButton">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>260</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Clear</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>40</y>
-     <width>256</width>
-     <height>192</height>
-    </rect>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="SendButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Send</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QListWidget" name="listWidget"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="AutoScrollingCheckBox">
+         <property name="text">
+          <string>Auto scrolling</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="ClearButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

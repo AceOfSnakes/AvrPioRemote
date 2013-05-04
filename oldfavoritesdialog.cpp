@@ -30,6 +30,21 @@ OldFavoritesDialog::~OldFavoritesDialog()
 }
 
 
+void OldFavoritesDialog::ShowOldFavoritesDialog()
+{
+    if (!this ->isVisible())
+    {
+        QWidget* Parent = dynamic_cast<QWidget*>(parent());
+        int x = Parent->pos().x() + Parent->width() + 20;
+        QPoint pos;
+        pos.setX(x);
+        pos.setY(Parent->pos().y());
+        this->move(pos);
+        this->show();
+    }
+}
+
+
 void OldFavoritesDialog::InputFunctionData(int no, QString name)
 {
     if (no == 45)

@@ -25,6 +25,7 @@ private slots:
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
 public slots:
+    void ShowOldFavoritesDialog();
     void DisplayData(int no, QString data);
     void InputFunctionData(int no, QString name);
     void FavoritesAquired();

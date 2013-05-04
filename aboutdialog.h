@@ -14,7 +14,7 @@ class AboutDialog : public QDialog
 public:
     explicit AboutDialog(QWidget *parent = 0);
     ~AboutDialog();
-    
+
 private slots:
     void on_pushButton_clicked();
 

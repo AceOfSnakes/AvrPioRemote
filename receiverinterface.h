@@ -36,6 +36,7 @@ public slots:
     bool SendCmd(const QString& cmd);
 
 signals:
+    bool CmdToBeSend(const QString& cmd);
     void CommError(QString error);
     void Connected();
     void Disconnected();

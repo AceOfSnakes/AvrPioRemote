@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSettings>
 #include <QListWidgetItem>
+#include "receiverinterface.h"
 
 namespace Ui {
 class NetRadioDialog;
@@ -14,7 +15,7 @@ class NetRadioDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit NetRadioDialog(QWidget *parent, QSettings& settings);
+    explicit NetRadioDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~NetRadioDialog();
     
 private:
@@ -27,9 +28,11 @@ private:
 
     int m_VisibleListSize;
     QStringList m_StationList;
+    ReceiverInterface& m_Comm;
 
 public slots:
     void NetData(QString data);
+    void ShowNetDialog();
 private slots:
     void on_CursorUpButton_clicked();
     void on_CursorLeftButton_clicked();

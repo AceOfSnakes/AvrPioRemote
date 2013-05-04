@@ -113,12 +113,7 @@ private slots:
     void CommError(QString socketError);
     void CommConnected();
     void CommDisconnected();
-    void ShowNetDialog();
-    void ShowSettingsDialog();
-    void ShowOldFavoritesDialog();
     void ShowAboutDialog();
-//    void ShowLoudspeakerSettingsDialog();
-    void ShowTestDialog();
     void LMSelectedAction(QString Param);
     void on_MoreButton_clicked();
     void on_VolumeUpButton_clicked();

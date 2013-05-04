@@ -11,12 +11,29 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
     ui->TunerVSX922CompatibilityModeCheckBox->setChecked(m_Settings.value("TunerCompatibilityMode", false).toBool());
     ui->FavoriteLX83CompatibilityModeCheckBox->setChecked(m_Settings.value("FavoritesCompatibilityMode", false).toBool());
     this->setFixedSize(this->size());
+    this->setModal(true);
 }
 
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
 }
+
+
+void SettingsDialog::ShowSettingsDialog()
+{
+    if (!this->isVisible())
+    {
+//        QWidget* Parent = dynamic_cast<QWidget*>(parent());
+//        int x = this->pos().x() + this->width() + 20;
+//        QPoint pos;
+//        pos.setX(x);
+//        pos.setY(this->pos().y());
+//        m_SettingsDialog->move(pos);
+        this->show();
+    }
+}
+
 
 void SettingsDialog::on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state)
 {
@@ -29,6 +46,7 @@ void SettingsDialog::on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int st
         m_Settings.setValue("TunerCompatibilityMode", false);
     }
 }
+
 
 void SettingsDialog::on_FavoriteLX83CompatibilityModeCheckBox_stateChanged(int state)
 {

@@ -174,6 +174,7 @@ QString ReceiverInterface::DecodeHexString(const QString& hex)
 bool ReceiverInterface::SendCmd(const QString& cmd)
 {
 //    Log("--> " + cmd, QColor(0, 200, 0));
+    CmdToBeSend(cmd);
     Logger::Log("--> " + cmd);
     QString tmp = cmd + "\r";
     return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();

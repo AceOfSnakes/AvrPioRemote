@@ -167,10 +167,6 @@ void EQDialog::Timeout()
     for (int i = 0; i < m_Sliders.count(); i++)
     {
         QString str = QString("%1").arg(m_Sliders[i]->value(), 2, 10, QChar('0'));
-        if (m_SelectedPreset >= 0 && m_SelectedPreset <= 4)
-        {
-            m_EQPresets[m_SelectedPreset].m_Values[i] = m_Sliders[i]->value();
-        }
         cmd.append(str);
     }
     cmd.append("50ATB");

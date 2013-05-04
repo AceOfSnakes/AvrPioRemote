@@ -15,7 +15,10 @@ class SettingsDialog : public QDialog
 public:
     explicit SettingsDialog(QWidget *parent, QSettings& settings);
     ~SettingsDialog();
-    
+
+public slots:
+    void ShowSettingsDialog();
+
 private slots:
     void on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state);
 

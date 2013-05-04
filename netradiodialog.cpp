@@ -3,10 +3,11 @@
 #include <QDebug>
 #include <qtextcodec.h>
 
-NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings) :
+NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
     QDialog(parent),
     m_Settings(settings),
-    ui(new Ui::NetRadioDialog)
+    ui(new Ui::NetRadioDialog),
+    m_Comm(Comm)
 {
     m_IndexOfLine1 = 0;
     m_IndexOfLastLine = 0;
@@ -17,12 +18,35 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings) :
     ui->setupUi(this);
 
     this->setFixedSize(this->size());
+
+    connect((&m_Comm), SIGNAL(NetData(QString)), this, SLOT(NetData(QString)));
+    connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 }
 
 NetRadioDialog::~NetRadioDialog()
 {
     delete ui;
 }
+
+
+void NetRadioDialog::ShowNetDialog()
+{
+    if (!isVisible())
+    {
+        emit SendCmd("?GAH");
+        QWidget* Parent = dynamic_cast<QWidget*>(parent());
+        if (Parent != NULL)
+        {
+            int x = Parent->pos().x() + Parent->width() + 20;
+            QPoint pos;
+            pos.setX(x);
+            pos.setY(Parent->pos().y());
+            move(pos);
+        }
+        show();
+    }
+}
+
 
 void NetRadioDialog::NetData(QString data)
 {

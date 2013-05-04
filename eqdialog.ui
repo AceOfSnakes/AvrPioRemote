@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>EQ</string>
   </property>
   <widget class="QSlider" name="eq63">
    <property name="geometry">

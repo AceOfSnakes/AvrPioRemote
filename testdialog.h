@@ -2,7 +2,7 @@
 #define TESTDIALOG_H
 
 #include <QDialog>
-#include <QTimer>
+#include "receiverinterface.h"
 
 namespace Ui {
 class TestDialog;
@@ -13,28 +13,25 @@ class TestDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit TestDialog(QWidget *parent = 0);
+    explicit TestDialog(QWidget *parent, ReceiverInterface& Comm);
     ~TestDialog();
     
 private slots:
-    void Timeout();
     void on_ClearButton_clicked();
 
+    void on_SendButton_clicked();
+
 public slots:
-    void DisplayData(int no, QString data);
-    void InputFunctionData(int no, QString name);
+    void ShowTestDialog();
+    void NewDataReceived(QString data);
+    void LogSendCmd(QString data);
 private:
     Ui::TestDialog *ui;
+    ReceiverInterface&          m_Comm;
 
-    QString m_Remembered;
-    QString m_Firstline;
-    bool    m_Done;
-    bool    m_Recording;
-    QTimer  m_Timer;
-    QStringList m_FavList;
+    void AddToList(const QString& str);
 
-    bool GetScrolledString(QString input);
-signals:
+    signals:
     void SendCmd(QString);
 };
 
