@@ -120,7 +120,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((m_NetRadioDialog),    SIGNAL(SendCmd(QString)), this, SLOT(SendCmd(QString)));
 
     // create loudspeaker dialog
-    m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings);
+    m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings, m_ReceiverInterface );
 
     // create Tuner dialog
     m_TunerDialog = new TunerDialog(this, m_ReceiverInterface, m_Settings);
@@ -648,7 +648,7 @@ void AVRPioRemote::ShowOldFavoritesDialog()
     }
 }
 
-void AVRPioRemote::ShowLoudspeakerSettingsDialog()
+/*void AVRPioRemote::ShowLoudspeakerSettingsDialog()
 {
     if (!m_LoudspeakerSettingsDialog->isVisible())
     {
@@ -660,7 +660,9 @@ void AVRPioRemote::ShowLoudspeakerSettingsDialog()
         m_LoudspeakerSettingsDialog->move(pos);
         m_LoudspeakerSettingsDialog->show();
     }
-}
+//    qDebug() <<"in showloudmain";
+}*/
+
 
 void AVRPioRemote::on_MoreButton_clicked()
 {
@@ -689,9 +691,9 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
 
-//        pAction = new QAction("Loudspeaker Settings", this);
-//        MyMenu.addAction(pAction);
-//        connect(pAction, SIGNAL(triggered()), this, SLOT(ShowLoudspeakerSettingsDialog()));
+        pAction = new QAction("Speaker Settings", this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsDialog, SLOT(ShowLoudspeakerSettingsDialog()));
 
 //        pAction = new QAction("Test", this);
 //        MyMenu.addAction(pAction);
