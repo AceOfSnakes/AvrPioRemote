@@ -21,6 +21,8 @@ private slots:
 
     void on_SendButton_clicked();
 
+    void on_SaveButton_clicked();
+
 public slots:
     void ShowTestDialog();
     void NewDataReceived(QString data);

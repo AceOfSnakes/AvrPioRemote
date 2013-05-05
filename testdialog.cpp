@@ -1,6 +1,9 @@
 #include "testdialog.h"
 #include "ui_testdialog.h"
 #include <QDebug>
+#include <QFileDialog>
+#include <QTextStream>
+
 
 TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm) :
     QDialog(parent),
@@ -14,10 +17,12 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm) :
     connect((&m_Comm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
 }
 
+
 TestDialog::~TestDialog()
 {
     delete ui;
 }
+
 
 void TestDialog::ShowTestDialog()
 {
@@ -40,15 +45,18 @@ void TestDialog::on_ClearButton_clicked()
     ui->listWidget->clear();
 }
 
+
 void TestDialog::NewDataReceived(QString data)
 {
     AddToList("<-- " + data);
 }
 
+
 void TestDialog::LogSendCmd(QString data)
 {
     AddToList("--> " + data);
 }
+
 
 void TestDialog::AddToList(const QString& str)
 {
@@ -63,11 +71,35 @@ void TestDialog::AddToList(const QString& str)
     }
 }
 
+
 void TestDialog::on_SendButton_clicked()
 {
     QString str = ui->lineEdit->text().trimmed();
     if (str != "")
     {
         emit SendCmd(str);
+    }
+}
+
+
+void TestDialog::on_SaveButton_clicked()
+{
+    QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+                                              QString(), tr("Log file (*.txt)"));
+    if (fn.isEmpty())
+        return;
+    if (!(fn.endsWith(".txt", Qt::CaseInsensitive)))
+        fn += ".txt";
+
+    QFile file(fn);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QString msg = QString("Error: Cannot write file <%1>: %2").arg(fn).arg(file.errorString());
+        Logger::Log(msg);
+        return;
+    }
+    QTextStream ts(&file);
+    for (int i = 0; i < ui->listWidget->count(); i++)
+    {
+        ts << ui->listWidget->item(i)->text() << endl;
     }
 }
