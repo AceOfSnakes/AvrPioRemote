@@ -55,6 +55,7 @@ signals:
     void PqlsData(bool set);
     void NetData(QString data);
     void DFiltData(bool set);
+    void SpeakerData(QString name);
 };
 
 #endif // RECEIVERINTERFACE_H

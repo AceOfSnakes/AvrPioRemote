@@ -191,6 +191,11 @@ void ReceiverInterface::InterpretString(const QString& data)
         QString displayData = DecodeHexString(data.mid(4));
         emit DisplayData(no, displayData);
     }
+    else if (data.startsWith("SS") || data.startsWith("CLV"))
+    {
+        QString name = data;
+        emit SpeakerData(name);
+    }
     else if (data.startsWith("PWR"))
     {
         int n = 0;

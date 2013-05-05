@@ -77,6 +77,9 @@
    <property name="maxVisibleItems">
     <number>3</number>
    </property>
+   <property name="maxCount">
+    <number>5</number>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
