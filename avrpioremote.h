@@ -17,6 +17,7 @@
 #include "eqdialog.h"
 #include "logger.h"
 #include <QTranslator>
+#include <QTimer>
 
 
 namespace Ui {
@@ -81,10 +82,8 @@ private:
     bool            m_ReceiverOnline;
     bool            m_FavoritesCompatibilityMode;
     QTranslator     m_Translater;
+    QTimer          m_StatusLineTimer;
 
-//    void Log(const QString& text);
-//    void Log(const QString& text, const QColor& color);
-//    void RequestStatus(bool input = true);
     void SelectInputButton(int idx);
     void ClearScreen();
     void ConnectReceiver();
@@ -120,6 +119,7 @@ private slots:
     void on_MoreButton_clicked();
     void on_VolumeUpButton_clicked();
     void onConnect();
+    void StatusLineTimeout();
     void on_pushButtonConnect_clicked();
     //void ConnectWorkerErrorString(QString);
     //void onConnectWorkerFinished();

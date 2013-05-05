@@ -43,6 +43,12 @@
          <family>Droid Sans Mono</family>
         </font>
        </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
       </widget>
      </item>
      <item>

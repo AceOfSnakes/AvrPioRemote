@@ -11,7 +11,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_IpValidator(0, 255, this),
     m_IpPortValidator(0, 35535, this),
     m_Settings("AMCore", "AVRPioRemote"),
-    m_FavoritesCompatibilityMode(false)
+    m_FavoritesCompatibilityMode(false),
+    m_StatusLineTimer(this)
 {
     m_IpPort = 8102;
 
@@ -116,6 +117,11 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     /* 48 */ m_InputButtons.append(ui->InputHdmiButton); //"MHL",
     /* END */ m_InputButtons.append((QPushButton*)-1);
 
+    // configure the timer
+    connect((&m_StatusLineTimer), SIGNAL(timeout()), this, SLOT(StatusLineTimeout()));
+    m_StatusLineTimer.setSingleShot(true);
+    m_StatusLineTimer.setInterval(10000);
+
     // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
 
@@ -138,6 +144,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_EQDialog = new EQDialog(this, m_ReceiverInterface);
 }
 
+
 AVRPioRemote::~AVRPioRemote()
 {
     delete m_NetRadioDialog;
@@ -150,11 +157,19 @@ AVRPioRemote::~AVRPioRemote()
     delete ui;
 }
 
+
 void AVRPioRemote::closeEvent(QCloseEvent *event)
 {
     m_ReceiverInterface.Disconnect();
     QDialog::closeEvent(event);
 }
+
+
+void AVRPioRemote::StatusLineTimeout()
+{
+    ui->StatusLineEdit->clear();
+}
+
 
 void AVRPioRemote::SelectInputButton(int idx)
 {
@@ -253,7 +268,8 @@ void AVRPioRemote::ConnectReceiver()
     ui->pushButtonConnect->setEnabled(false);
     EnableIPInput(false);
 
-    ui->StausLineEdit->setText("Connecting...");
+    ui->StatusLineEdit->setText(tr("Connecting..."));
+    m_StatusLineTimer.start();
 
     if (!m_ReceiverInterface.IsConnected())
     {
@@ -290,7 +306,7 @@ void AVRPioRemote::DisplayData(int DispNo, QString data)
 void AVRPioRemote::PowerData(bool powerOn)
 {
     ui->PowerButton->setChecked(powerOn);
-    ui->PowerButton->setText((!powerOn)?"ON":"OFF");
+    ui->PowerButton->setText((!powerOn)?tr("ON"):tr("OFF"));
     EnableControls(powerOn);
     m_ReceiverOnline = powerOn;
 }
@@ -323,27 +339,32 @@ void AVRPioRemote::ErrorData(int type)
     {
     case 2:
         Logger::Log("This doesn't work now");
-        ui->StausLineEdit->setText("This doesn't work now");
+        ui->StatusLineEdit->setText(tr("This doesn't work now"));
         break;
     case 3:
         Logger::Log("This does'nt work with this receiver");
-        ui->StausLineEdit->setText("This doesn't work with this receiver");
+        ui->StatusLineEdit->setText(tr("This doesn't work with this receiver"));
+        m_StatusLineTimer.start();
         break;
     case 4:
         Logger::Log("Command error");
-        ui->StausLineEdit->setText("Command error");
+        ui->StatusLineEdit->setText(tr("Command error"));
+        m_StatusLineTimer.start();
         break;
     case 6:
         Logger::Log("Parameter error");
-        ui->StausLineEdit->setText("Parameter error");
+        ui->StatusLineEdit->setText(tr("Parameter error"));
+        m_StatusLineTimer.start();
         break;
     case -1:
         Logger::Log("Receiver busy");
-        ui->StausLineEdit->setText("Receiver busy");
+        ui->StatusLineEdit->setText(tr("Receiver busy"));
+        m_StatusLineTimer.start();
         break;
     default:
         Logger::Log("Unknown error");
-        ui->StausLineEdit->setText("Unknown error");
+        ui->StatusLineEdit->setText(tr("Unknown error"));
+        m_StatusLineTimer.start();
         break;
     }
 }
@@ -433,18 +454,20 @@ void AVRPioRemote::CommError(QString socketError)
     ui->pushButtonConnect->setEnabled(true);
     EnableIPInput(true);
     EnableControls(false);
-    ui->pushButtonConnect->setText("Connect");
+    ui->pushButtonConnect->setText(tr("Connect"));
     ClearScreen();
-    ui->StausLineEdit->setText(socketError);
+    ui->StatusLineEdit->setText(socketError);
+    m_StatusLineTimer.start();
 }
 
 void AVRPioRemote::CommConnected()
 {
     Logger::Log("connected");
     ui->PowerButton->setEnabled(true);
-    ui->StausLineEdit->setText("Connected");
+    ui->StatusLineEdit->setText(tr("Connected"));
+    m_StatusLineTimer.start();
     ui->pushButtonConnect->setEnabled(true);
-    ui->pushButtonConnect->setText("Disconnect");
+    ui->pushButtonConnect->setText(tr("Disconnect"));
     ui->pushButtonConnect->setChecked(true);
     m_ReceiverOnline = true;
     RequestStatus();
@@ -454,7 +477,7 @@ void AVRPioRemote::CommDisconnected()
 {
     Logger::Log("disconnected");
     EnableIPInput(true);
-    ui->pushButtonConnect->setText("Connect");
+    ui->pushButtonConnect->setText(tr("Connect"));
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
     EnableControls(false);

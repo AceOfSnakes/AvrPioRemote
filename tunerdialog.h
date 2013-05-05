@@ -31,6 +31,10 @@ private:
     bool                        m_CompatibilityMode;
     QString                     m_TempPresetName;
     QList<QAction*>             m_PresetActions;
+    QString                     m_DisplayString;
+    bool                        m_TunerInputSelected;
+
+    bool GetScrolledString(QString input);
 
 public slots:
     void ShowTunerDialog();
@@ -38,6 +42,8 @@ public slots:
     void SelectClassButton(int idx);
     void SelectPresetButton(int idx);
     void PresetSelected(QString Param);
+    void DisplayData(int no, QString str);
+    void InputChanged(int no, QString name);
 signals:
     void SendCmd(QString);
 private slots:

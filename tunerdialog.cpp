@@ -8,7 +8,8 @@ TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &se
     QDialog(parent),
     m_Settings(settings),
     ui(new Ui::TunerDialog),
-    m_Comm(Comm)
+    m_Comm(Comm),
+    m_TunerInputSelected(false)
 {
     ui->setupUi(this);
 
@@ -19,6 +20,8 @@ TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &se
 
     connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
+    connect(&m_Comm, SIGNAL(DisplayData(int,QString)), this, SLOT(DisplayData(int,QString)));
+    connect(&m_Comm, SIGNAL(InputFunctionData(int,QString)), this, SLOT(InputChanged(int,QString)));
 
     m_ClassButtons.push_back(ui->ClassAButton);
     m_ClassButtons.push_back(ui->ClassBButton);
@@ -492,3 +495,64 @@ void TunerDialog::on_RenamePresetButton_clicked()
     m_TempPresetName = ui->PresetEdit->text();
     ui->PresetEdit->setReadOnly(false);
 }
+
+
+void TunerDialog::DisplayData(int no, QString str)
+{
+    if (m_TunerInputSelected && no == 2)
+    {
+        GetScrolledString(str);
+        ui->DisplayEditBig->setText(m_DisplayString);
+    }
+}
+
+
+void TunerDialog::InputChanged(int no, QString name)
+{
+    if (no == 2) // tuner
+    {
+        m_TunerInputSelected = true;
+    }
+    else
+    {
+        m_TunerInputSelected = true;
+        ui->DisplayEditBig->clear();
+    }
+}
+
+
+// a little bit of magic to compose a list of scrolling shorter strings into
+// a long one
+bool TunerDialog::GetScrolledString(QString input)
+{
+//    input = input.mid(1); // ignore the first character, it's a symbol
+    // if the first seen string equals to the current one, the string is wrapped
+    // and we are done
+//    if (m_Firstline == input)
+//    {
+//        // there is unneded data at the end of the string
+//        m_Remembered = m_Remembered.mid(0, m_Remembered.count() - m_Firstline.count() + 1);
+//        m_Done = true;
+//        return true;
+//    }
+    // remove the end of the string, so the indexOf is working
+    QString tmp = input.mid(0, input.count() - 2);
+    // find the current string in the saved
+    int pos = m_DisplayString.indexOf(tmp);
+//    qDebug() << "|" << input << "| |" << tmp << "| " << pos;
+    if (pos == -1)
+    {
+        // nothing is found, so take the current string as the beginning
+        // of our new string
+        m_DisplayString = input;
+        //m_Firstline = input;
+    }
+    else
+    {
+        // integrate the current string in to our saved string
+        // it get only one character longer
+        m_DisplayString.replace(pos, input.length(), input);
+    }
+    return false;
+}
+

@@ -10,8 +10,9 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="39"/>
+        <location filename="avrpioremote.cpp" line="293"/>
         <source>ON</source>
-        <translation>ON</translation>
+        <translation>EIN</translation>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="64"/>
@@ -157,8 +158,10 @@ DIRECT</translation>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="624"/>
+        <location filename="avrpioremote.cpp" line="436"/>
+        <location filename="avrpioremote.cpp" line="457"/>
         <source>Connect</source>
-        <translation>Connect</translation>
+        <translation>Verbinden</translation>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="651"/>
@@ -213,6 +216,56 @@ DIRECT</translation>
         <source>EQ</source>
         <translation>EQ</translation>
     </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="256"/>
+        <source>Connecting...</source>
+        <translation>Verbinden...</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="293"/>
+        <source>OFF</source>
+        <translation>AUS</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="326"/>
+        <source>This doesn&apos;t work now</source>
+        <translation>Zur Zeit nicht möglich</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="330"/>
+        <source>This doesn&apos;t work with this receiver</source>
+        <translation>Dieser Reciever unterstützt diese Funktio nicht</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="334"/>
+        <source>Command error</source>
+        <translation>Fehlerhafter Befehl</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="338"/>
+        <source>Parameter error</source>
+        <translation>Parameterfehler, möglicherweise wird diese Einstelung von diesem Receiver nicht unterstützt</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="342"/>
+        <source>Receiver busy</source>
+        <translation>Receiver ist zur Zeit beschäftigt</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="346"/>
+        <source>Unknown error</source>
+        <translation>Unbekannter Fehler</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="445"/>
+        <source>Connected</source>
+        <translation>Verbunden</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="447"/>
+        <source>Disconnect</source>
+        <translation>Trennen</translation>
+    </message>
 </context>
 <context>
     <name>AboutDialog</name>
@@ -257,27 +310,27 @@ DIRECT</translation>
     <message>
         <location filename="eqdialog.ui" line="14"/>
         <source>EQ</source>
-        <translation type="unfinished">EQ</translation>
+        <translation>EQ</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="278"/>
         <source>0 dB</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="294"/>
         <source>-6 dB</source>
-        <translation type="unfinished"></translation>
+        <translation>-6 dB</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="310"/>
         <source>+6 dB</source>
-        <translation type="unfinished"></translation>
+        <translation>+6 dB</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="329"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="345"/>
@@ -287,7 +340,7 @@ DIRECT</translation>
     <message>
         <location filename="eqdialog.ui" line="361"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Beenden</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="377"/>
@@ -300,52 +353,52 @@ DIRECT</translation>
         <location filename="eqdialog.ui" line="489"/>
         <location filename="eqdialog.ui" line="505"/>
         <source>0.0</source>
-        <translation type="unfinished">0.0</translation>
+        <translation>0.0</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="521"/>
         <source>250</source>
-        <translation type="unfinished">250</translation>
+        <translation>250</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="537"/>
         <source>125</source>
-        <translation type="unfinished">125</translation>
+        <translation>125</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="553"/>
         <source>63</source>
-        <translation type="unfinished">63</translation>
+        <translation>63</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="569"/>
         <source>500</source>
-        <translation type="unfinished">500</translation>
+        <translation>500</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="585"/>
         <source>2k</source>
-        <translation type="unfinished">2k</translation>
+        <translation>2k</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="601"/>
         <source>1k</source>
-        <translation type="unfinished">1k</translation>
+        <translation>1k</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="617"/>
         <source>4k</source>
-        <translation type="unfinished">4k</translation>
+        <translation>4k</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="633"/>
         <source>8k</source>
-        <translation type="unfinished">8k</translation>
+        <translation>8k</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="649"/>
         <source>16k</source>
-        <translation type="unfinished">16k</translation>
+        <translation>16k</translation>
     </message>
     <message>
         <location filename="eqdialog.ui" line="668"/>
@@ -386,15 +439,15 @@ DIRECT</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="getoldfavoritelistdialog.cpp" line="45"/>
+        <location filename="getoldfavoritelistdialog.cpp" line="50"/>
         <source>AVRPioRemote</source>
         <translatorcomment>AVRPioRemote</translatorcomment>
         <translation>AVRPioRemote</translation>
     </message>
     <message>
-        <location filename="getoldfavoritelistdialog.cpp" line="46"/>
+        <location filename="getoldfavoritelistdialog.cpp" line="51"/>
         <source>The favorites list is aquired.</source>
-        <translation>Die Favoriten wurden heruntergeladen</translation>
+        <translation>Die Favoriten wurden heruntergeladen.</translation>
     </message>
 </context>
 <context>
@@ -436,74 +489,74 @@ DIRECT</translation>
     <message>
         <location filename="netradiodialog.ui" line="14"/>
         <source>NetRadio</source>
-        <translation type="unfinished">NetRadio</translation>
+        <translation>NetRadio</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="51"/>
         <source>&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="67"/>
         <location filename="netradiodialog.ui" line="281"/>
         <source>^</source>
-        <translation type="unfinished"></translation>
+        <translation>^</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="83"/>
         <source>&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="99"/>
         <location filename="netradiodialog.ui" line="300"/>
         <source>v</source>
-        <translation type="unfinished"></translation>
+        <translation>v</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="115"/>
         <source>o</source>
-        <translation type="unfinished"></translation>
+        <translation>o</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="136"/>
         <source>BACK</source>
-        <translation type="unfinished"></translation>
+        <translation>Zurück</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="153"/>
         <source>||</source>
-        <translation type="unfinished"></translation>
+        <translation>||</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="169"/>
         <source>PLAY</source>
-        <translation type="unfinished"></translation>
+        <translation>PLAY</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="185"/>
         <source>|&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>|&gt;</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="201"/>
         <source>&lt;|</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;|</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="217"/>
         <source>STOP</source>
-        <translation type="unfinished"></translation>
+        <translation>STOP</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="233"/>
         <source>|&gt;|&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>|&gt;|&gt;</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="249"/>
         <source>&lt;|&lt;|</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;|&lt;|</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="278"/>
@@ -523,7 +576,7 @@ DIRECT</translation>
     <message>
         <location filename="netradiodialog.ui" line="319"/>
         <source>^^</source>
-        <translation type="unfinished"></translation>
+        <translation>^^</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="335"/>
@@ -533,7 +586,7 @@ DIRECT</translation>
     <message>
         <location filename="netradiodialog.ui" line="338"/>
         <source>vv</source>
-        <translation type="unfinished"></translation>
+        <translation>vv</translation>
     </message>
 </context>
 <context>
@@ -593,12 +646,12 @@ Do you want to continue?</source>
         <translation>Senden</translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="53"/>
+        <location filename="testdialog.ui" line="59"/>
         <source>Auto scrolling</source>
         <translation>Automatisch scrollen</translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="69"/>
+        <location filename="testdialog.ui" line="75"/>
         <source>Clear</source>
         <translation>Löschen</translation>
     </message>
@@ -618,12 +671,13 @@ Do you want to continue?</source>
     <message>
         <location filename="tunerdialog.ui" line="91"/>
         <source>Preset</source>
-        <translation type="unfinished"></translation>
+        <translation>Preset
+</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="107"/>
         <source>Class</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasse</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="123"/>
@@ -631,175 +685,171 @@ Do you want to continue?</source>
         <translation>Preset up</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="126"/>
-        <source>P+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="tunerdialog.ui" line="145"/>
         <source>Preset down</source>
         <translation>Preset down</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="148"/>
-        <source>P-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="tunerdialog.ui" line="167"/>
         <source>A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="186"/>
         <source>B</source>
-        <translation type="unfinished"></translation>
+        <translation>B</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="205"/>
         <source>E</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">E</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="224"/>
         <source>C</source>
-        <translation type="unfinished"></translation>
+        <translation>C</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="243"/>
         <source>D</source>
-        <translation type="unfinished"></translation>
+        <translation>D</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="262"/>
         <source>F</source>
-        <translation type="unfinished"></translation>
+        <translation>F</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="281"/>
         <source>G</source>
-        <translation type="unfinished"></translation>
+        <translation>G</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="300"/>
         <source>1</source>
-        <translation type="unfinished">1</translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="319"/>
         <source>2</source>
-        <translation type="unfinished">2</translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="338"/>
         <source>3</source>
-        <translation type="unfinished">3</translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="357"/>
         <source>4</source>
-        <translation type="unfinished">4</translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="376"/>
         <source>5</source>
-        <translation type="unfinished">5</translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="395"/>
         <source>6</source>
-        <translation type="unfinished">6</translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="414"/>
         <source>7</source>
-        <translation type="unfinished">7</translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="433"/>
         <source>8</source>
-        <translation type="unfinished">8</translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="452"/>
         <source>9</source>
-        <translation type="unfinished">9</translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="tunerdialog.ui" line="471"/>
-        <source>Number</source>
-        <translation>Nummer</translation>
+        <source>Preset
+Number</source>
+        <oldsource>Number</oldsource>
+        <translation>Preset
+Nummer</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="487"/>
+        <location filename="tunerdialog.ui" line="488"/>
         <source>AM</source>
-        <translation type="unfinished"></translation>
+        <translation>AM</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="506"/>
+        <location filename="tunerdialog.ui" line="507"/>
         <source>FM</source>
-        <translation type="unfinished"></translation>
+        <translation>FM</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="525"/>
+        <location filename="tunerdialog.ui" line="148"/>
+        <location filename="tunerdialog.ui" line="526"/>
         <source>&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="550"/>
+        <location filename="tunerdialog.ui" line="126"/>
+        <location filename="tunerdialog.ui" line="551"/>
         <source>&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="578"/>
+        <location filename="tunerdialog.ui" line="579"/>
         <source>Choose a named preset</source>
         <translation>Einen benannten Preset wählen</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="581"/>
+        <location filename="tunerdialog.ui" line="582"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="600"/>
+        <location filename="tunerdialog.ui" line="601"/>
         <source>DISP</source>
-        <translation type="unfinished"></translation>
+        <translation>DISP</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="624"/>
+        <location filename="tunerdialog.ui" line="625"/>
         <source>PTY
 search</source>
         <translation>PTY
 search</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="649"/>
+        <location filename="tunerdialog.ui" line="650"/>
         <source>NOISE
 CUT</source>
-        <translation type="unfinished"></translation>
+        <translation>NOISE
+CUT</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="672"/>
+        <location filename="tunerdialog.ui" line="673"/>
         <source>Save the frequency in the preset or save the preset name</source>
         <translation>Speichert die Frequenz im Preset oder Speichert den Preset Namen</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="704"/>
+        <location filename="tunerdialog.ui" line="705"/>
         <source>Edit the frequency and save it in the current preset.</source>
-        <translation>Frequent ändern oder speichern im aktuellen Preset</translation>
+        <translation>Frequent ändern oder speichern im aktuellen Preset.</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="733"/>
+        <location filename="tunerdialog.ui" line="734"/>
         <source>Edit the current preset name</source>
         <translation>Name des aktuellen Presets ändern</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="765"/>
+        <location filename="tunerdialog.ui" line="766"/>
         <source>Cancel the edit</source>
         <translation>Ändern abbrechen</translation>
     </message>
     <message>
-        <location filename="tunerdialog.ui" line="797"/>
+        <location filename="tunerdialog.ui" line="798"/>
         <source>Apply the frequency</source>
         <translation>Frequent übernehmen</translation>
     </message>
