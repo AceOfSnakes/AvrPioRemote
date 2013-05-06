@@ -77,6 +77,7 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
 
 
 {
+    errflag=0;
     bool x922;
     int lsanz=14;
 
