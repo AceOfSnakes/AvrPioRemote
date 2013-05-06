@@ -6,6 +6,7 @@
 #include <QDomDocument>
 #include <QDir>
 
+
 const char* LStyp[] = {
     "Normal(SB/FH)", //0
     "Normal(SB/FW)",
@@ -30,7 +31,7 @@ const int LSwert[] = {    //codewert des LSTyps im AVR
 
 const char* LSpaar[] = {    //Codierung der Speaker für Modus Large/Small/NO setzen
     "00",   //Front         // dazu korrespondiert mLSpaar mit den aktuellen Moduswerten
-    "01",   //Center        // problem: SW und SB haben Sonderbedingungen, noch abfangen
+    "01",   //Center
     "02",   //FH
     "03",   //FW
     "04",   //surr
@@ -53,6 +54,21 @@ const char* channels[]={
     "RW_",
 };
 
+const char* slchannels[]={
+    "ui->sfl",
+    "ui->sfr",
+    "ui->sc",
+    "ui->ssl",
+    "ui->ssr",
+    "ui->ssbl",
+    "ui->ssbr",
+    "ui->ssw",
+    "ui->sfhl",
+    "ui->sfhr",
+    "ui->sfwl",
+    "ui->sfwr",
+};
+
 LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings &settings,ReceiverInterface &Comm ) :
     QDialog(parent),
     m_Settings(settings),
@@ -73,6 +89,50 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     connect(&m_Comm,SIGNAL(ErrorData(int)),this,SLOT(error(int))); //Fehler abfangen beim setzen der LSConfig
     connect(&m_Comm,SIGNAL(SpeakerData(QString)),this,SLOT(Speakerinfo(QString))); //Fehler abfangen beim setzen der LSConfig
 
+    connect(ui->sfl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->sfr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->sc,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->ssl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->ssr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->ssbl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->ssbr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->ssw,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->sfhl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->sfhr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->sfwl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    connect(ui->sfwr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+
+
+    // save sliders in a list
+    m_Sliders.append(ui->sfl);
+    m_Sliders.append(ui->sfr);
+    m_Sliders.append(ui->sc);
+    m_Sliders.append(ui->ssl);
+    m_Sliders.append(ui->ssr);
+    m_Sliders.append(ui->ssbl);
+    m_Sliders.append(ui->ssbr);
+    m_Sliders.append(ui->ssw);
+    m_Sliders.append(ui->sfhl);
+    m_Sliders.append(ui->sfhr);
+    m_Sliders.append(ui->sfwl);
+    m_Sliders.append(ui->sfwr);
+
+
+    // save dB value labels in a list
+    m_Labels.append(ui->lfl);
+    m_Labels.append(ui->lfr);
+    m_Labels.append(ui->lc);
+    m_Labels.append(ui->lsl);
+    m_Labels.append(ui->lsr);
+    m_Labels.append(ui->lsbl);
+    m_Labels.append(ui->lsbr);
+    m_Labels.append(ui->lsw);
+    m_Labels.append(ui->lfhl);
+    m_Labels.append(ui->lfhr);
+    m_Labels.append(ui->lfwl);
+    m_Labels.append(ui->lfwr);
+
+
     x922=m_Settings.value("TunerCompatibilityMode").toBool();
     if (x922)   //Im Kompatmodus nur verfügbare Typen anzeigen
         lsanz=5;
@@ -85,9 +145,16 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     ui->speakermode->addItems(spmode);
 */
 
-    QStringList mspeaker; //LS-Paare vorbelegen
-    mspeaker << "Front" << "Center" << "FrontHigh" << "FrontWide" << "Surround" << "Surr. Back" << "Subwoofer";
-    ui->speaker->addItems(mspeaker);
+    for (int i=0;i<12;i++)
+        mchannels[i]=50;
+
+    QStringList mstr; //LS-Paare vorbelegen
+    mstr << "Front" << "Center" << "FrontHigh" << "FrontWide" << "Surround" << "Surr. Back" << "Subwoofer";
+    ui->speaker->addItems(mstr);
+
+    QStringList mstr1;
+    mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5";
+    ui->selectmem->addItems(mstr1);
 }
 
 
@@ -149,6 +216,7 @@ void LoudspeakerSettingsDialog::Speakerinfo(QString data)
               mchannels[i]=sysValue;
 //          qDebug() <<"arraywert mchannels: " << channels[i] << mchannels[i];
       }
+      setslider();
    }
 //  qDebug() << "speakerdaten:" <<data  <<sysValue <<wert;
 }
@@ -270,4 +338,77 @@ void LoudspeakerSettingsDialog::on_speaker_currentIndexChanged(int index)
 
 
     //   qDebug() << "changed" <<index;
+}
+
+void LoudspeakerSettingsDialog::on_savebutt_clicked()
+{   //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox
+    QString str;
+    for (int i=0;i<12;i++)
+    {
+          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(channels[i]);
+          m_Settings.setValue(str,mchannels[i]);
+    }
+}
+
+void LoudspeakerSettingsDialog::on_restbutt_clicked()
+{   //Channel-Level aus Speicher 1-5 zurücklesen und public speichern
+    int j;
+    QString str;
+    for (int i=0;i<12;i++)
+    {
+          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(channels[i]);
+          j=m_Settings.value(str).toInt();
+          if (j!=0)
+          {
+              mchannels[i]=j;
+              str= (QString("%1%2CLV").arg(channels[i]).arg(j));
+              //qDebug() <<str;
+              SendCmd(str);
+          }
+          setslider();
+    }
+}
+
+
+void LoudspeakerSettingsDialog::ValueChanged()
+{
+    int i,j;
+    QString str;
+    QObject* sender =QObject::sender();
+    str="ui->"+sender->objectName();
+    for (j=0;j<m_Sliders.count();j++)
+    {
+        if (str==slchannels[j])
+        {
+            i=m_Sliders[j]->value();
+            str= (QString("%1%2CLV").arg(channels[j]).arg(i));
+            //qDebug() <<str;
+            SendCmd(str);
+        }
+    }
+    setslider();
+}
+
+
+void LoudspeakerSettingsDialog::setslider()
+{
+    QString str;
+    double j;
+    for (int i = 0; i < m_Sliders.count(); i++)
+    {
+       if (mchannels[i]>25 && mchannels[i]<75)
+        {
+        m_Sliders[i]->setValue(mchannels[i]);
+        m_Sliders[i]->setSliderPosition(mchannels[i]);
+        }
+        else
+        {
+            mchannels[i]=50;
+        }
+        j= (double) mchannels[i];
+        j=j/2-25;
+        str=QString("%1").arg(j,0,'f',1);
+//        qDebug() <<str;
+        m_Labels[i]->setText(str);
+    }
 }

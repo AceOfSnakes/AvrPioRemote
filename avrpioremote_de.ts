@@ -469,18 +469,18 @@ DIRECT</translation>
         <translation>Lautsprecher-Config</translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="91"/>
+        <location filename="loudspeakersettingsdialog.ui" line="94"/>
         <source>Speaker</source>
         <translation>Lautsprecher</translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="104"/>
+        <location filename="loudspeakersettingsdialog.ui" line="107"/>
         <source>Speaker-Mode</source>
         <translation>Lautsprecher-Modus
 </translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="117"/>
+        <location filename="loudspeakersettingsdialog.ui" line="120"/>
         <source>Set Mode</source>
         <translation type="unfinished"></translation>
     </message>
