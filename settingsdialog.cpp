@@ -28,8 +28,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
         ui->LanguageEnglishRadioButton->setChecked(true);
     }
 
-    qDebug() << "AutoShowTuner " << m_Settings.value("AutoShowTuner", true);
-    qDebug() << "AutoShowNetRadio " << m_Settings.value("AutoShowNetRadio", true);
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     SetLanguage();

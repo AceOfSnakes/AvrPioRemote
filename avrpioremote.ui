@@ -722,10 +722,13 @@ DIRECT</string>
     </font>
    </property>
    <property name="text">
-    <string> :</string>
+    <string>:</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditIPPort">
@@ -803,10 +806,13 @@ DIRECT</string>
     </font>
    </property>
    <property name="text">
-    <string> .</string>
+    <string>.</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_27">
@@ -824,10 +830,13 @@ DIRECT</string>
     </font>
    </property>
    <property name="text">
-    <string> .</string>
+    <string>.</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_28">
@@ -845,10 +854,13 @@ DIRECT</string>
     </font>
    </property>
    <property name="text">
-    <string> .</string>
+    <string>.</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="InputNameLineEdit">

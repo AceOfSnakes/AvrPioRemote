@@ -10,7 +10,7 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="26"/>
-        <location filename="avrpioremote.cpp" line="309"/>
+        <location filename="avrpioremote.cpp" line="321"/>
         <source>ON</source>
         <translation type="unfinished"></translation>
     </message>
@@ -106,6 +106,7 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="400"/>
+        <location filename="avrpioremote.cpp" line="679"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
@@ -157,8 +158,8 @@ DIRECT</source>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="611"/>
-        <location filename="avrpioremote.cpp" line="457"/>
-        <location filename="avrpioremote.cpp" line="480"/>
+        <location filename="avrpioremote.cpp" line="469"/>
+        <location filename="avrpioremote.cpp" line="492"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -171,8 +172,8 @@ DIRECT</source>
     <message>
         <location filename="avrpioremote.ui" line="668"/>
         <location filename="avrpioremote.ui" line="677"/>
-        <location filename="avrpioremote.ui" line="779"/>
-        <location filename="avrpioremote.ui" line="788"/>
+        <location filename="avrpioremote.ui" line="782"/>
+        <location filename="avrpioremote.ui" line="791"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -184,85 +185,131 @@ DIRECT</source>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="725"/>
-        <source> :</source>
+        <source>:</source>
+        <oldsource> :</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="749"/>
-        <location filename="avrpioremote.ui" line="758"/>
+        <location filename="avrpioremote.ui" line="752"/>
+        <location filename="avrpioremote.ui" line="761"/>
         <source>8102</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="806"/>
-        <location filename="avrpioremote.ui" line="827"/>
-        <location filename="avrpioremote.ui" line="848"/>
-        <source> .</source>
+        <location filename="avrpioremote.ui" line="809"/>
+        <location filename="avrpioremote.ui" line="833"/>
+        <location filename="avrpioremote.ui" line="857"/>
+        <source>.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="890"/>
+        <location filename="avrpioremote.ui" line="902"/>
         <source>NAME</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="980"/>
+        <location filename="avrpioremote.ui" line="992"/>
         <source>INPUT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="1053"/>
+        <location filename="avrpioremote.ui" line="1065"/>
         <source>EQ</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="271"/>
+        <location filename="avrpioremote.cpp" line="283"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="309"/>
+        <location filename="avrpioremote.cpp" line="321"/>
         <source>OFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="342"/>
+        <location filename="avrpioremote.cpp" line="354"/>
         <source>This doesn&apos;t work now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="346"/>
+        <location filename="avrpioremote.cpp" line="358"/>
         <source>This doesn&apos;t work with this receiver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="351"/>
+        <location filename="avrpioremote.cpp" line="363"/>
         <source>Command error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="356"/>
+        <location filename="avrpioremote.cpp" line="368"/>
         <source>Parameter error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="361"/>
+        <location filename="avrpioremote.cpp" line="373"/>
         <source>Receiver busy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="366"/>
+        <location filename="avrpioremote.cpp" line="378"/>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="467"/>
+        <location filename="avrpioremote.cpp" line="479"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="470"/>
+        <location filename="avrpioremote.cpp" line="482"/>
         <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="649"/>
+        <source>Internet Radio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="653"/>
+        <source>Tuner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="657"/>
+        <source>Equlizer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="661"/>
+        <source>Speaker Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="665"/>
+        <source>Compatible Favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="669"/>
+        <source>Refresh status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="683"/>
+        <source>Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="687"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="691"/>
+        <source>About AVRPioRemote</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -481,6 +528,87 @@ DIRECT</source>
         <source>Set Mode</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="146"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="159"/>
+        <source>Restore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="472"/>
+        <source>to/from file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="485"/>
+        <source>Front L/R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="498"/>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="511"/>
+        <source>Surr. L/R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="524"/>
+        <source>Sub</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="537"/>
+        <source>SurrBack L/R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="550"/>
+        <source>FH L/R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="563"/>
+        <source>FW L/R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="576"/>
+        <source>0dB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="589"/>
+        <source>12dB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="602"/>
+        <source>-12dB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="615"/>
+        <location filename="loudspeakersettingsdialog.ui" line="628"/>
+        <location filename="loudspeakersettingsdialog.ui" line="641"/>
+        <location filename="loudspeakersettingsdialog.ui" line="654"/>
+        <location filename="loudspeakersettingsdialog.ui" line="667"/>
+        <location filename="loudspeakersettingsdialog.ui" line="680"/>
+        <location filename="loudspeakersettingsdialog.ui" line="693"/>
+        <location filename="loudspeakersettingsdialog.ui" line="706"/>
+        <location filename="loudspeakersettingsdialog.ui" line="719"/>
+        <location filename="loudspeakersettingsdialog.ui" line="732"/>
+        <location filename="loudspeakersettingsdialog.ui" line="745"/>
+        <location filename="loudspeakersettingsdialog.ui" line="758"/>
+        <source>0.0</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NetRadioDialog</name>
@@ -620,12 +748,48 @@ Do you want to continue?</source>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="29"/>
-        <source>VSX 922 compatible tuner mode</source>
+        <source>VSX 922 compatible mode</source>
+        <oldsource>VSX 922 compatible tuner mode</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="45"/>
         <source>LX 83 compatible favorite mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="73"/>
+        <source>German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="86"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="99"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="112"/>
+        <source>Auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="126"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="139"/>
+        <source>Show Tuner window automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="152"/>
+        <source>Show NetRadio window automatically</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
