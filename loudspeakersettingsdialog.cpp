@@ -300,7 +300,7 @@ void LoudspeakerSettingsDialog::on_SetBut2_clicked()
     QString str;
     str=LSpaar[ui->speaker->currentIndex()];
     str=str+QString("%1SSG").arg(ui->speakermode->currentIndex());
-//  qDebug() <<"Settings new" <<str;
+  qDebug() <<"Settings new" <<str;
     SendCmd(str);
 }
 
@@ -348,6 +348,15 @@ void LoudspeakerSettingsDialog::on_savebutt_clicked()
           str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(channels[i]);
           m_Settings.setValue(str,mchannels[i]);
     }
+
+    str=QString("mem%1/LSCONFIG").arg(ui->selectmem->currentIndex());
+    m_Settings.setValue(str,mVal);
+    for (int i=0;i<7;i++)
+    {
+          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(LSpaar[i]);
+          m_Settings.setValue(str,mLSpaar[i]);
+    }
+
 }
 
 void LoudspeakerSettingsDialog::on_restbutt_clicked()
@@ -367,6 +376,24 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
           }
           setslider();
     }
+    str=QString("mem%1/LSCONFIG").arg(ui->selectmem->currentIndex());
+    mVal=m_Settings.value(str).toInt();
+    str = QString("%1SSF").arg(mVal);
+    if (str.size()<5)
+        str="0"+str;
+    SendCmd(str);
+
+    for (int i=0;i<7;i++)
+    {
+          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(LSpaar[i]);
+          mLSpaar[i]=m_Settings.value(str).toInt();
+          str=LSpaar[i];
+          str=str+QString("%1SSG").arg(mLSpaar[i]);
+//          qDebug() << str;
+          SendCmd(str);
+    }
+    ui->speaker->setCurrentIndex(0);
+    ui->speakermode->setCurrentIndex(mLSpaar[0]);
 }
 
 

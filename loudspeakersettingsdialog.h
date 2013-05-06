@@ -21,7 +21,7 @@ class LoudspeakerSettingsDialog : public QDialog
 public:
     explicit LoudspeakerSettingsDialog(QWidget *parent, QSettings& settings,ReceiverInterface& Comm);
     ~LoudspeakerSettingsDialog();
-    int mVal;
+    int mVal; // Wert der aktuellen Konfig
     int mLSpaar[7]; //Wert des aktuellen LS- 0=small, 1=large,2=NO
     int mchannels[12]; //Wert des aktuellen Channels DB-Preset
     int errflag; //errorflag für SSF Befehl setzen

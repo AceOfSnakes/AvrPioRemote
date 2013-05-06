@@ -237,7 +237,7 @@
   <widget class="QSlider" name="ssl">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>190</x>
      <y>40</y>
      <width>21</width>
      <height>231</height>
@@ -262,7 +262,7 @@
   <widget class="QSlider" name="ssr">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>220</x>
      <y>40</y>
      <width>21</width>
      <height>231</height>
@@ -287,7 +287,7 @@
   <widget class="QSlider" name="ssbl">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>270</x>
      <y>40</y>
      <width>21</width>
      <height>231</height>
@@ -312,7 +312,7 @@
   <widget class="QSlider" name="ssbr">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>300</x>
      <y>40</y>
      <width>21</width>
      <height>231</height>
@@ -464,12 +464,12 @@
     <rect>
      <x>440</x>
      <y>310</y>
-     <width>61</width>
+     <width>81</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>to file</string>
+    <string>to/from file</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -501,7 +501,7 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>190</x>
      <y>280</y>
      <width>57</width>
      <height>15</height>
@@ -527,7 +527,7 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>280</y>
      <width>81</width>
      <height>20</height>
@@ -605,14 +605,14 @@
   <widget class="QLabel" name="lfl">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>60</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lfr">
@@ -625,98 +625,98 @@
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lc">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>140</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lsl">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lsr">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>220</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lsw">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lsbl">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lsbr">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>300</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lfhl">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>400</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lfhr">
@@ -729,20 +729,20 @@
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lfwl">
    <property name="geometry">
     <rect>
-     <x>470</x>
+     <x>480</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lfwr">
@@ -755,7 +755,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>-11.5</string>
+    <string>0.0</string>
    </property>
   </widget>
  </widget>
