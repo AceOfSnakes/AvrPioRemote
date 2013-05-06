@@ -31,7 +31,7 @@ NetRadioDialog::~NetRadioDialog()
 
 void NetRadioDialog::ShowNetDialog()
 {
-    if (!isVisible())
+    if (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible())
     {
         emit SendCmd("?GAH");
         QWidget* Parent = dynamic_cast<QWidget*>(parent());

@@ -18,7 +18,19 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_ReceiverOnline = false;
 
-    m_Translater.load("avrpioremote_de");
+    QString lang = m_Settings.value("Language", "auto").toString();
+    if (lang == "auto")
+    {
+        lang = QLocale::system().name();
+    }
+    if (lang.startsWith("de"))
+    {
+        m_Translater.load("avrpioremote_de");
+    }
+    else
+    {
+        m_Translater.load("avrpioremote_en");
+    }
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
     // add minimize button to to title
@@ -634,29 +646,29 @@ void AVRPioRemote::on_MoreButton_clicked()
     //MyMenu.addActions(this->actions());
     if (m_ReceiverOnline == true)
     {
-        pAction = new QAction("Refresh status", this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), this, SLOT(RequestStatus()));
-
-        pAction = new QAction("Internet Radio", this);
+        pAction = new QAction(tr("Internet Radio"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ShowNetDialog()));
 
-        pAction = new QAction("Compatible Favorites", this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_OldFavoritesDialog, SLOT(ShowOldFavoritesDialog()));
-
-        pAction = new QAction("Tuner", this);
+        pAction = new QAction(tr("Tuner"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
 
-        pAction = new QAction("EQ", this);
+        pAction = new QAction(tr("Equlizer"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
 
-        pAction = new QAction("Speaker Settings", this);
+        pAction = new QAction(tr("Speaker Settings"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsDialog, SLOT(ShowLoudspeakerSettingsDialog()));
+
+        pAction = new QAction(tr("Compatible Favorites"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_OldFavoritesDialog, SLOT(ShowOldFavoritesDialog()));
+
+        pAction = new QAction(tr("Refresh status"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), this, SLOT(RequestStatus()));
 
 //        pAction = new QAction("More Information", this);
 //        pAction = new QAction("Equalizer", this);
@@ -664,15 +676,19 @@ void AVRPioRemote::on_MoreButton_clicked()
 //        pAction = new QAction("Show Zone 2", this);
 //        pAction = new QAction("Input Wizard", this);
     }
-    pAction = new QAction("Test", this);
+    pAction = new QAction(tr("-"), this);
+    pAction->setSeparator(true);
+    MyMenu.addAction(pAction);
+
+    pAction = new QAction(tr("Test"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_TestDialog, SLOT(ShowTestDialog()));
 
-    pAction = new QAction("Settings", this);
+    pAction = new QAction(tr("Settings"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_SettingsDialog, SLOT(ShowSettingsDialog()));
 
-    pAction = new QAction("About", this);
+    pAction = new QAction(tr("About AVRPioRemote"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), this, SLOT(ShowAboutDialog()));
 

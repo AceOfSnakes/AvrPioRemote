@@ -80,7 +80,7 @@ TunerDialog::~TunerDialog()
 
 void TunerDialog::ShowTunerDialog()
 {
-    if (!isVisible())
+    if (m_Settings.value("AutoShowTuner", true).toBool() && !isVisible())
     {
         QWidget* Parent = dynamic_cast<QWidget*>(parent());
         int x = Parent->pos().x() + Parent->width() + 20;

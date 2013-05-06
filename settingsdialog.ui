@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>246</width>
-    <height>143</height>
+    <width>287</width>
+    <height>287</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QCheckBox" name="TunerVSX922CompatibilityModeCheckBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>181</width>
+     <x>20</x>
+     <y>120</y>
+     <width>241</width>
      <height>31</height>
     </rect>
    </property>
@@ -26,15 +26,15 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>VSX 922 compatible tuner mode</string>
+    <string>VSX 922 compatible mode</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="FavoriteLX83CompatibilityModeCheckBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>171</width>
+     <x>20</x>
+     <y>140</y>
+     <width>231</width>
      <height>31</height>
     </rect>
    </property>
@@ -43,6 +43,113 @@
    </property>
    <property name="text">
     <string>LX 83 compatible favorite mode</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>181</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QRadioButton" name="LanguageGermanRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>102</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>German</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Language</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="LanguageEnglishRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>102</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>English</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="LanguageAutoRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>102</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Auto</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>240</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="ShowTunerCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>301</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Show Tuner window automatically</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="ShowNetRadioCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>200</y>
+     <width>301</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Show NetRadio window automatically</string>
    </property>
   </widget>
  </widget>

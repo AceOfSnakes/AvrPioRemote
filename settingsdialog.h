@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QTranslator>
 
 namespace Ui {
 class SettingsDialog;
@@ -16,6 +17,8 @@ public:
     explicit SettingsDialog(QWidget *parent, QSettings& settings);
     ~SettingsDialog();
 
+    void SetLanguage();
+
 public slots:
     void ShowSettingsDialog();
 
@@ -24,9 +27,22 @@ private slots:
 
     void on_FavoriteLX83CompatibilityModeCheckBox_stateChanged(int state);
 
+    void on_LanguageAutoRadioButton_clicked(bool checked);
+
+    void on_LanguageEnglishRadioButton_clicked(bool checked);
+
+    void on_LanguageGermanRadioButton_clicked(bool checked);
+
+    void on_pushButton_clicked();
+
+    void on_ShowTunerCheckBox_clicked();
+
+    void on_ShowNetRadioCheckBox_clicked();
+
 private:
     QSettings&          m_Settings;
     Ui::SettingsDialog *ui;
+    QTranslator         m_Translater;
 };
 
 #endif // SETTINGSDIALOG_H
