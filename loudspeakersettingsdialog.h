@@ -44,7 +44,6 @@ signals:
     void SendCmd(QString data);
 
 private slots:
-    void on_LSsystem_currentIndexChanged(int index);
     void on_SetBut_clicked();
     void on_SetBut2_clicked();
     void on_speaker_currentIndexChanged(int index);
