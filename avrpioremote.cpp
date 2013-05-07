@@ -11,12 +11,11 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     ui(new Ui::AVRPioRemote),
     m_IpValidator(0, 255, this),
     m_IpPortValidator(0, 35535, this),
-    m_Settings("AMCore", "AVRPioRemote"),
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
     m_FavoritesCompatibilityMode(false),
     m_StatusLineTimer(this)
 {
     m_IpPort = 8102;
-
     m_ReceiverOnline = false;
 
     QString lang = m_Settings.value("Language", "auto").toString();
