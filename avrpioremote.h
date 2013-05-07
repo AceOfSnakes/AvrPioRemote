@@ -18,7 +18,7 @@
 #include "logger.h"
 #include <QTranslator>
 #include <QTimer>
-
+#include <listeningmodedialog.h>
 
 namespace Ui {
 class AVRPioRemote;
@@ -78,7 +78,9 @@ private:
     OldFavoritesDialog* m_OldFavoritesDialog;
     SettingsDialog* m_SettingsDialog;
     EQDialog*       m_EQDialog;
-//    QThread*        m_TCPThread;
+    ListeningModeDialog* m_Listendiag;
+
+    //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
     bool            m_FavoritesCompatibilityMode;
     QTranslator     m_Translater;

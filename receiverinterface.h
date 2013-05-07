@@ -50,6 +50,7 @@ signals:
     void InputFunctionData(int no, QString name);
     void PhaseData(int phase);
     void InputNameData(QString name);
+    void Listenextended(QString name);
     void ListeningModeData(QString name);
     void HiBitData(bool set);
     void PqlsData(bool set);

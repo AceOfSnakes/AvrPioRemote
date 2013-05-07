@@ -4,6 +4,7 @@
 //#include <QLayout>
 #include <qtextcodec.h>
 #include "actionwithparameter.h"
+#include <QWidget>
 
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QDialog(parent),
@@ -154,6 +155,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     // create EQ dialog
     m_EQDialog = new EQDialog(this, m_ReceiverInterface);
+
+    m_Listendiag = new  ListeningModeDialog(this, m_Settings, m_ReceiverInterface );
 }
 
 
@@ -167,6 +170,7 @@ AVRPioRemote::~AVRPioRemote()
     delete m_SettingsDialog;
     delete m_EQDialog;
     delete ui;
+    delete m_Listendiag;
 }
 
 
@@ -662,6 +666,11 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsDialog, SLOT(ShowLoudspeakerSettingsDialog()));
 
+        pAction = new QAction(tr("ListenMode Settings"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_Listendiag, SLOT(ShowListeningDialog()));
+
+
         pAction = new QAction(tr("Compatible Favorites"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_OldFavoritesDialog, SLOT(ShowOldFavoritesDialog()));
@@ -876,6 +885,8 @@ void AVRPioRemote::on_Num3Button_clicked()
 
 void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
 {
+    m_Listendiag->ShowListeningDialog();
+    /*
     ActionWithParameter* pAction;
     QMenu MyMenu(this);
     //MyMenu.addActions(this->actions());
@@ -910,6 +921,7 @@ void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
     }
     else
         MyMenu.exec(pos);
+        */
 }
 
 void AVRPioRemote::on_InputVideoButton_clicked()

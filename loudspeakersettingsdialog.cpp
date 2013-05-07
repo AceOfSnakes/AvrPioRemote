@@ -88,7 +88,7 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
 //    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(SpeakerReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
     connect(&m_Comm,SIGNAL(ErrorData(int)),this,SLOT(error(int))); //Fehler abfangen beim setzen der LSConfig
-    connect(&m_Comm,SIGNAL(SpeakerData(QString)),this,SLOT(Speakerinfo(QString))); //Fehler abfangen beim setzen der LSConfig
+    connect(&m_Comm,SIGNAL(SpeakerData(QString)),this,SLOT(Speakerinfo(QString)));
 
     connect(ui->sfl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
     connect(ui->sfr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
