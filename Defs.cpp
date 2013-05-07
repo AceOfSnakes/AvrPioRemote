@@ -183,8 +183,12 @@ const char* VIDEO_INPUT_COLOR_SPACE[] = {
 
 const STRING_PAIR LISTENING_MODE[]  = {
     {"0001", "STEREO (cyclic)"},
-    {"0009", "STEREO (direct set)"},
+    {"0005", "AUTO SURR/STREAM DIRECT (cyclic)"},
+    {"0006", "AUTO SURROUND"},
     {"0151", "Auto Level Control (A.L.C.)"},
+    {"0007", "DIRECT"},
+    {"0008", "PURE DIRECT"},
+    {"0009", "STEREO (direct set)"},
     {"0003", "Front Stage Surround Advance Focus"},
     {"0004", "Front Stage Surround Advance Wide"},
     {"0153", "RETRIEVER AIR"},
@@ -278,12 +282,7 @@ const STRING_PAIR LISTENING_MODE[]  = {
     {"0089", "ES DISCRETE + THX GAMES (for multi ch)"},
     {"0090", "ES 8CH DISCRETE + THX MUSIC (for multi ch)"},
     {"0091", "ES 8CH DISCRETE + THX GAMES (for multi ch)"},
-    {"0005", "AUTO SURR/STREAM DIRECT (cyclic)"},
-    {"0006", "AUTO SURROUND"},
     {"0152", "OPTIMUM SURROUND"},
-    {"0151", "Auto Level Control (A.L.C.)"},
-    {"0007", "DIRECT"},
-    {"0008", "PURE DIRECT"},
     {"", ""},
 };
 

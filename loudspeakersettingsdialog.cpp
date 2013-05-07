@@ -141,11 +141,6 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     for(int i=0;i<lsanz;i++) //LS-Konfig belegen
         ui->LSsystem->addItem(LStyp[i]);
 
-/*    QStringList spmode; //LS-Modus
-    spmode << "Small" << "Large" << "No";
-    ui->speakermode->addItems(spmode);
-*/
-
     for (int i=0;i<12;i++)
         mchannels[i]=50;
 
@@ -165,29 +160,9 @@ LoudspeakerSettingsDialog::~LoudspeakerSettingsDialog()
     delete ui;
 }
 
-void LoudspeakerSettingsDialog::Data(QString& data)
-{
-//    qDebug() << "in data";
-}
-
-
-
-void LoudspeakerSettingsDialog::RequestEQ(const QString& Memory, const QString& Loudspeaker, const QString& Frequency)
-{
-//    emit SendCmd("");
-}
-
-void LoudspeakerSettingsDialog::on_LSsystem_currentIndexChanged(int index)
-{
-//    qDebug() << index;
-//    qDebug() << "in indexchanged";
-
-}
-
 
 
 void LoudspeakerSettingsDialog::Speakerinfo(QString data)
-
 {
     QString str;
     int wert=0;
@@ -226,7 +201,7 @@ void LoudspeakerSettingsDialog::Speakerinfo(QString data)
 
 /*void LoudspeakerSettingsDialog::SpeakerReceived(QString data)
 {
-//    qDebug() << "Aus speakerinfo: " <<data;
+//    qDebug() << "Aus speakerreceived: " <<data;
 }*/
 
 
@@ -279,9 +254,8 @@ void LoudspeakerSettingsDialog::on_SetBut_clicked()
       mVal=i;
       errflag=1;
     }
-
-//    qDebug() <<str;
 }
+
 
 void LoudspeakerSettingsDialog::error(int i)
 {
@@ -301,7 +275,7 @@ void LoudspeakerSettingsDialog::on_SetBut2_clicked()
     QString str;
     str=LSpaar[ui->speaker->currentIndex()];
     str=str+QString("%1SSG").arg(ui->speakermode->currentIndex());
-  qDebug() <<"Settings new" <<str;
+//  qDebug() <<"Settings new" <<str;
     SendCmd(str);
 }
 
@@ -336,10 +310,9 @@ void LoudspeakerSettingsDialog::on_speaker_currentIndexChanged(int index)
             ui->speakermode->insertItems(0,spmode);
         }
     ui->speakermode->setCurrentIndex(mLSpaar[mindex]); //Modus nach Anzeige LS ändern aus Array
-
-
     //   qDebug() << "changed" <<index;
 }
+
 
 void LoudspeakerSettingsDialog::on_savebutt_clicked()
 {   //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox
@@ -359,6 +332,7 @@ void LoudspeakerSettingsDialog::on_savebutt_clicked()
     }
 
 }
+
 
 void LoudspeakerSettingsDialog::on_restbutt_clicked()
 {   //Channel-Level aus Speicher 1-5 zurücklesen und public speichern

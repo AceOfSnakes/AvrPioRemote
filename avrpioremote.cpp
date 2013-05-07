@@ -883,18 +883,33 @@ void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
     {
         // add ALL listening mode keys to the menu
         int i = 0;
+
+
         while (strlen(LISTENING_MODE[i].key) != 0)
         {
             pAction = new ActionWithParameter(this, LISTENING_MODE[i].text, LISTENING_MODE[i].key);
             connect(pAction, SIGNAL(ActionTriggered(QString)), this, SLOT(LMSelectedAction(QString)));
             MyMenu.addAction(pAction);
             i++;
+            if (LISTENING_MODE[i].key=="0050" && m_Settings.value("TunerCompatibilityMode").toBool())
+            {
+                  //für 922 kompatible nur deren gültige werte anzeigen
+                MyMenu.addSeparator();
+                MyMenu.addAction("ESC=Beenden");
+                break;
+            }
         }
     }
 
     QPoint pos = QCursor::pos();
-    MyMenu.exec(pos);
-
+    if ( m_Settings.value("TunerCompatibilityMode").toBool())
+    {
+        int i=1;
+        while (i!=0)
+            i=int(MyMenu.exec(pos));
+    }
+    else
+        MyMenu.exec(pos);
 }
 
 void AVRPioRemote::on_InputVideoButton_clicked()

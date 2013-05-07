@@ -33,10 +33,8 @@ private:
     QList<QSlider*>     m_Sliders;
     QList<QLabel*>      m_Labels;
 
-    void RequestEQ(const QString& Memory, const QString& Loudspeaker, const QString& Frequency);
-
 public slots:
-    void Data(QString& data);
+
 //    void SpeakerReceived(QString data);
     void ShowLoudspeakerSettingsDialog();
     void Speakerinfo(QString data);
