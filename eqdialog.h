@@ -66,6 +66,7 @@ private slots:
     void on_selectmem_currentIndexChanged(int index);
     void on_eqba_sliderReleased();
     void on_eqtr_sliderReleased();
+    void on_bypass_clicked();
 };
 extern const char* eqnames[];
 #endif // EQDIALOG_H

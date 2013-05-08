@@ -138,6 +138,7 @@ void EQDialog::ShowEQDialog()
     SendCmd("?ATB");
     SendCmd("?BA");
     SendCmd("?TR");
+    SendCmd("?TO");
 }
 
 
@@ -188,13 +189,34 @@ void EQDialog::DataReceived(QString data)
             m_Labels[10]->setText(str);
         }
     }
+    if (data.startsWith("TO"))
+    {
+        wert=data.mid(2,1).toInt();
+        if (wert==0)
+            ui->bypass->setText("Bypass");
+        else
+            ui->bypass->setText("Tone");
+    }
 }
 
 
 
 void EQDialog::Timeout()
 {
-    // send the eq settings to the receiver
+    // send the eq settings to the receiver, zuerst Mainbass+Treble
+    QString str;
+    str=QString("%1BA").arg(m_Sliders[9]->value()*-1);
+    if (str.size() <4)
+            str="0"+str;
+//     qDebug() <<"bass" <<str;
+     SendCmd(str);
+     str=QString("%1TR").arg(m_Sliders[10]->value()*-1);
+     if (str.size() <4)
+             str="0"+str;
+//      qDebug() <<"treble" <<str;
+      SendCmd(str);
+
+
     QString cmd = "00";
     for (int i = 0; i < 9; i++)
     {
@@ -203,6 +225,8 @@ void EQDialog::Timeout()
     }
     cmd.append("50ATB");
     emit SendCmd(cmd);
+
+
 }
 
 
@@ -292,4 +316,19 @@ void EQDialog::on_eqtr_sliderReleased()
             str="0"+str;
      //qDebug() <<"treble" <<str;
     SendCmd(str);
+}
+
+void EQDialog::on_bypass_clicked()
+{
+    if (ui->bypass->text()=="Tone")
+    {
+        SendCmd("0TO");
+        ui->bypass->setText("Bypass");
+    }
+    else
+    {
+        SendCmd("1TO");
+        ui->bypass->setText("Tone");
+    }
+    SelectPreset(0);
 }
