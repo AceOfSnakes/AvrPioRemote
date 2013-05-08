@@ -330,7 +330,8 @@ void LoudspeakerSettingsDialog::on_savebutt_clicked()
           str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(LSpaar[i]);
           m_Settings.setValue(str,mLSpaar[i]);
     }
-
+    str=QString("mem%1-%2/LSset").arg(ui->selectmem->currentIndex()).arg(str1);
+     m_Settings.setValue(str,ui->meminf->text());
 }
 
 
@@ -416,4 +417,14 @@ void LoudspeakerSettingsDialog::setslider()
 //        qDebug() <<str;
         m_Labels[i]->setText(str);
     }
+}
+
+void LoudspeakerSettingsDialog::on_selectmem_currentIndexChanged(int index)
+{
+    QString str;
+    int str1;
+    str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
+    str=QString("mem%1-%2/LSset").arg(index).arg(str1);
+    str=m_Settings.value(str).toString();
+    ui->meminf->setText(str);
 }

@@ -390,10 +390,13 @@ void EQDialog::on_savebutt_clicked()
             str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
 
            m_Settings.setValue(str,m_EQPresets[0].m_Values[i]);
-            qDebug() <<str <<m_EQPresets[0].m_Values[i];
+//            qDebug() <<str <<m_EQPresets[0].m_Values[i];
         }
-
+       str=QString("mem%1-%2/EQset").arg(ui->selectmem->currentIndex()).arg(str1);
+        m_Settings.setValue(str,ui->meminf->text());
 }
+
+
 
 void EQDialog::on_restbutt_clicked()
 {
@@ -407,8 +410,19 @@ void EQDialog::on_restbutt_clicked()
           str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
 
           m_EQPresets[0].m_Values[i]=m_Settings.value(str).toInt();
-          qDebug() <<str <<m_EQPresets[0].m_Values[i];
-
+//          qDebug() <<str <<m_EQPresets[0].m_Values[i];
       }
       SelectPreset(0);
 }
+
+
+void EQDialog::on_selectmem_currentIndexChanged(int index)
+{
+    QString str;
+    int str1;
+    str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
+    str=QString("mem%1-%2/EQset").arg(index).arg(str1);
+    str=m_Settings.value(str).toString();
+    ui->meminf->setText(str);
+}
+

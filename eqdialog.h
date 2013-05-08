@@ -63,6 +63,7 @@ private slots:
     void on_pushButton_5_clicked();*/
     void on_savebutt_clicked();
     void on_restbutt_clicked();
+    void on_selectmem_currentIndexChanged(int index);
 };
 extern const char* eqnames[];
 #endif // EQDIALOG_H

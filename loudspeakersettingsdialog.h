@@ -51,6 +51,7 @@ private slots:
     void on_restbutt_clicked();
     void ValueChanged();
     void setslider();
+    void on_selectmem_currentIndexChanged(int index);
 };
 
 extern const char* LStyp[]; //Lautsprecherkonfig (SB/FH, Zone2 etc)
