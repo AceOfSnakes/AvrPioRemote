@@ -22,9 +22,9 @@ public:
 
 
 private:
-    Ui::ListeningModeDialog *ui;
     QSettings& m_Settings;
     ReceiverInterface&  m_Comm;
+    Ui::ListeningModeDialog *ui;
 
 signals:
     void SendCmd(QString data);
@@ -34,7 +34,7 @@ public slots:
 
 private slots:
     void on_listmodi_doubleClicked(const QModelIndex &index);
-    void LMchanged(QString name);
+    void LMchanged(QString id, QString name);
 };
 
 #endif // LISTENINGMODEDIALOG_H

@@ -21,8 +21,8 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     QDialog(parent),
     ui(new Ui::EQDialog),
     m_Comm(Comm),
-    m_Settings(settings),
     m_Timer(this),
+    m_Settings(settings),
     m_SelectedPreset(-1) // flat
 {
     ui->setupUi(this);

@@ -344,7 +344,7 @@ void ReceiverInterface::InterpretString(const QString& data)
         if (text == "")
             text = "---";
         //ui->lineEditListeningMode->setText(text);
-        emit Listenextended(text);
+        emit Listenextended(data.mid(2, 4), text);
     }
     else if (data.startsWith("LM"))
     {

@@ -356,6 +356,7 @@ void AVRPioRemote::ErrorData(int type)
     case 2:
         Logger::Log("This doesn't work now");
         ui->StatusLineEdit->setText(tr("This doesn't work now"));
+        m_StatusLineTimer.start();
         break;
     case 3:
         Logger::Log("This does'nt work with this receiver");
@@ -671,9 +672,9 @@ void AVRPioRemote::on_MoreButton_clicked()
         connect(pAction, SIGNAL(triggered()), m_Listendiag, SLOT(ShowListeningDialog()));
 
 
-        pAction = new QAction(tr("Compatible Favorites"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_OldFavoritesDialog, SLOT(ShowOldFavoritesDialog()));
+//        pAction = new QAction(tr("Compatible Favorites"), this);
+//        MyMenu.addAction(pAction);
+//        connect(pAction, SIGNAL(triggered()), m_OldFavoritesDialog, SLOT(ShowOldFavoritesDialog()));
 
         pAction = new QAction(tr("Refresh status"), this);
         MyMenu.addAction(pAction);

@@ -36,7 +36,7 @@ public slots:
     bool SendCmd(const QString& cmd);
 
 signals:
-    bool CmdToBeSend(const QString& cmd);
+    bool CmdToBeSend(const QString& cmd); // for logging
     void CommError(QString error);
     void Connected();
     void Disconnected();
@@ -50,7 +50,7 @@ signals:
     void InputFunctionData(int no, QString name);
     void PhaseData(int phase);
     void InputNameData(QString name);
-    void Listenextended(QString name);
+    void Listenextended(QString id, QString name);
     void ListeningModeData(QString name);
     void HiBitData(bool set);
     void PqlsData(bool set);

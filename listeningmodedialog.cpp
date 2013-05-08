@@ -14,18 +14,18 @@ ListeningModeDialog::ListeningModeDialog(QWidget *parent,QSettings &settings,Rec
     ui->setupUi(this);
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 //    connect(&m_Comm,SIGNAL(ListeningModeData(QString)),this,SLOT(LMchanged(QString)));
-    connect(&m_Comm,SIGNAL(Listenextended(QString)),this,SLOT(LMchanged(QString)));
-            int i=0;
-            while (strlen(LISTENING_MODE[i].key) != 0)
-            {
-                ui->listmodi->addItem(LISTENING_MODE[i].text);
-                i++;
-                if (LISTENING_MODE[i].key=="0050" && m_Settings.value("TunerCompatibilityMode").toBool())
-                {
-                      //für 922 kompatible nur deren gültige werte anzeigen
-                    break;
-                }
-            }
+    connect(&m_Comm,SIGNAL(Listenextended(QString, QString)),this,SLOT(LMchanged(QString, QString)));
+    int i=0;
+    while (strlen(LISTENING_MODE[i].key) != 0)
+    {
+        ui->listmodi->addItem(LISTENING_MODE[i].text);
+        i++;
+        if ((strcmp(LISTENING_MODE[i].key, "0050") == 0) && m_Settings.value("TunerCompatibilityMode").toBool())
+        {
+              //für 922 kompatible nur deren gültige werte anzeigen
+            break;
+        }
+    }
 }
 
 
@@ -67,9 +67,25 @@ void ListeningModeDialog::on_listmodi_doubleClicked(const QModelIndex &index)
 }
 
 
-void ListeningModeDialog::LMchanged(QString data)
+void ListeningModeDialog::LMchanged(QString id, QString data)
 {
+    // select the listening mode in the list
+    for (int i = 0; strlen(LISTENING_MODE[i].key) != 0; i++)
+    {
+        if (id == LISTENING_MODE[i].key) // selected
+        {
+            ui->listmodi->item(i)->setBackgroundColor(QColor(0, 0, 255)); // blue background
+            ui->listmodi->item(i)->setTextColor(QColor(255, 255, 255)); // white text
+        }
+        else // normla
+        {
+            ui->listmodi->item(i)->setBackgroundColor(QColor(255, 255, 255)); // white background
+            ui->listmodi->item(i)->setTextColor(QColor(0, 0, 0)); // black text
+        }
+    }
     if (data != "---")
         ui->laktuell->setText(data);
+    else
+        ui->laktuell->setText("");
 }
 

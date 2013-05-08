@@ -11,6 +11,10 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
 
     ui->TunerVSX922CompatibilityModeCheckBox->setChecked(m_Settings.value("TunerCompatibilityMode", false).toBool());
     ui->FavoriteLX83CompatibilityModeCheckBox->setChecked(m_Settings.value("FavoritesCompatibilityMode", false).toBool());
+    // vorerst auf eis gelegt
+    m_Settings.setValue("FavoritesCompatibilityMode", false);
+    ui->FavoriteLX83CompatibilityModeCheckBox->setVisible(false);
+
     this->setFixedSize(this->size());
     this->setModal(true);
 

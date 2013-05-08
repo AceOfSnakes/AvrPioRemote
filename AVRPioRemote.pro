@@ -70,3 +70,6 @@ OTHER_FILES += \
 
 RESOURCES += \
     avrpioremote.qrc
+
+TRANSLATIONS = avrpioremote_en.ts \
+               avrpioremote_de.ts \
