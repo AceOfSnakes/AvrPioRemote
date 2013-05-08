@@ -594,9 +594,9 @@ DIRECT</string>
   <widget class="QPushButton" name="pushButtonConnect">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>120</x>
      <y>430</y>
-     <width>71</width>
+     <width>91</width>
      <height>31</height>
     </rect>
    </property>

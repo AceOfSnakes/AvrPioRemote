@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>408</width>
-    <height>428</height>
+    <width>437</width>
+    <height>469</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@
   <widget class="QSlider" name="eq125">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>100</x>
      <y>70</y>
      <width>16</width>
      <height>261</height>
@@ -72,7 +72,7 @@
   <widget class="QSlider" name="eq250">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>140</x>
      <y>70</y>
      <width>16</width>
      <height>261</height>
@@ -128,7 +128,7 @@
   <widget class="QSlider" name="eq1k">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>230</x>
      <y>70</y>
      <width>16</width>
      <height>261</height>
@@ -156,7 +156,7 @@
   <widget class="QSlider" name="eq2k">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>70</y>
      <width>16</width>
      <height>261</height>
@@ -184,7 +184,7 @@
   <widget class="QSlider" name="eq4k">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>320</x>
      <y>70</y>
      <width>16</width>
      <height>261</height>
@@ -212,7 +212,7 @@
   <widget class="QSlider" name="eq8k">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>360</x>
      <y>70</y>
      <width>16</width>
      <height>261</height>
@@ -240,7 +240,7 @@
   <widget class="QSlider" name="eq16k">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>400</x>
      <y>70</y>
      <width>16</width>
      <height>261</height>
@@ -313,57 +313,6 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="SaveEq">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>380</y>
-     <width>61</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="RestoreEq">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>380</y>
-     <width>61</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Restore</string>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="CloseEq">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>380</y>
-     <width>61</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Close</string>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="wert63">
    <property name="geometry">
     <rect>
@@ -383,7 +332,7 @@
   <widget class="QLabel" name="wert125">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>90</x>
      <y>40</y>
      <width>31</width>
      <height>16</height>
@@ -399,7 +348,7 @@
   <widget class="QLabel" name="wert250">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>40</y>
      <width>31</width>
      <height>16</height>
@@ -415,7 +364,7 @@
   <widget class="QLabel" name="wert2k">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>260</x>
      <y>40</y>
      <width>31</width>
      <height>16</height>
@@ -431,7 +380,7 @@
   <widget class="QLabel" name="wert1k">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>220</x>
      <y>40</y>
      <width>31</width>
      <height>16</height>
@@ -463,7 +412,7 @@
   <widget class="QLabel" name="wert16k">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>390</x>
      <y>40</y>
      <width>31</width>
      <height>16</height>
@@ -479,7 +428,7 @@
   <widget class="QLabel" name="wert8k">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>350</x>
      <y>40</y>
      <width>31</width>
      <height>16</height>
@@ -495,7 +444,7 @@
   <widget class="QLabel" name="wert4k">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>310</x>
      <y>40</y>
      <width>31</width>
      <height>16</height>
@@ -511,7 +460,7 @@
   <widget class="QLabel" name="label250">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>340</y>
      <width>31</width>
      <height>16</height>
@@ -527,7 +476,7 @@
   <widget class="QLabel" name="label125">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>90</x>
      <y>340</y>
      <width>31</width>
      <height>16</height>
@@ -575,7 +524,7 @@
   <widget class="QLabel" name="label2k">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>260</x>
      <y>340</y>
      <width>31</width>
      <height>16</height>
@@ -591,7 +540,7 @@
   <widget class="QLabel" name="label1k">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>220</x>
      <y>340</y>
      <width>31</width>
      <height>16</height>
@@ -607,7 +556,7 @@
   <widget class="QLabel" name="label4k">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>310</x>
      <y>340</y>
      <width>31</width>
      <height>16</height>
@@ -623,7 +572,7 @@
   <widget class="QLabel" name="label8k">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>350</x>
      <y>340</y>
      <width>31</width>
      <height>16</height>
@@ -639,7 +588,7 @@
   <widget class="QLabel" name="label16k">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>390</x>
      <y>340</y>
      <width>31</width>
      <height>16</height>
@@ -658,14 +607,14 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>10</y>
-     <width>41</width>
-     <height>23</height>
+     <x>20</x>
+     <y>370</y>
+     <width>81</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>FLAT</string>
+    <string>All 0dB</string>
    </property>
    <property name="checkable">
     <bool>true</bool>
@@ -677,104 +626,56 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QComboBox" name="selectmem">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>10</y>
-     <width>61</width>
-     <height>23</height>
+     <x>310</x>
+     <y>370</y>
+     <width>101</width>
+     <height>31</height>
     </rect>
    </property>
-   <property name="text">
-    <string>USER 1</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
+   <property name="maxVisibleItems">
+    <number>5</number>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>10</y>
-     <width>61</width>
-     <height>23</height>
+     <x>220</x>
+     <y>380</y>
+     <width>81</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>USER 2</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
+    <string>to/from file</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QPushButton" name="savebutt">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>10</y>
-     <width>61</width>
-     <height>23</height>
+     <x>310</x>
+     <y>400</y>
+     <width>51</width>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
-    <string>USER 3</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
+    <string>Save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_5">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QPushButton" name="restbutt">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>10</y>
-     <width>61</width>
-     <height>23</height>
+     <x>360</x>
+     <y>400</y>
+     <width>51</width>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
-    <string>USER 4</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
+    <string>Restore</string>
    </property>
   </widget>
  </widget>

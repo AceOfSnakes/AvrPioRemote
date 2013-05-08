@@ -1,13 +1,27 @@
 #include "eqdialog.h"
 #include "ui_eqdialog.h"
-#include <QFile>
-#include <QDomDocument>
-#include <QDir>
+//#include <QFile>
+//#include <QDomDocument>
+//#include <QDir>
+#include <QDebug>
 
-EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm) :
+const char* eqnames[] = {
+    "Eq63",
+    "Eq125",
+    "Eq250",
+    "Eq500",
+    "Eq1k",
+    "Eq2k",
+    "Eq4k",
+    "Eq8k",
+    "Eq16k",
+};
+
+EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings) :
     QDialog(parent),
     ui(new Ui::EQDialog),
     m_Comm(Comm),
+    m_Settings(settings),
     m_Timer(this),
     m_SelectedPreset(-1) // flat
 {
@@ -56,10 +70,14 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm) :
     m_Timer.setSingleShot(true);
     m_Timer.setInterval(200);
 
-    QString path = QDir::currentPath() + "/" + "ATBEQPresets.xml";
-    ReadFile(path);
+  //  QString path = QDir::currentPath() + "/" + "ATBEQPresets.xml";
+  //  ReadFile(path);
 
-    SelectPreset(-1);
+    QStringList mstr1;
+    mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5";
+    ui->selectmem->addItems(mstr1);
+
+    SelectPreset(0);
 }
 
 EQDialog::~EQDialog()
@@ -68,6 +86,7 @@ EQDialog::~EQDialog()
 }
 
 
+/*
 void EQDialog::ResetEQPresets()
 {
     for (int i = 0; i < 4; i++)
@@ -82,8 +101,10 @@ void EQDialog::ResetEQPresets()
     m_EQPresets[1].m_Button = ui->pushButton_3;
     m_EQPresets[2].m_Button = ui->pushButton_4;
     m_EQPresets[3].m_Button = ui->pushButton_5;
+
 }
 
+*/
 
 void EQDialog::SelectPreset(int preset)
 {
@@ -91,7 +112,7 @@ void EQDialog::SelectPreset(int preset)
     // select the pressed preset button
     for (int i = 0; i < 4; i++)
     {
-        m_EQPresets[i].m_Button->setChecked(i == preset);
+//        m_EQPresets[i].m_Button->setChecked(i == preset);
     }
     if (preset >= 0 && preset <= 4)
     {
@@ -100,9 +121,8 @@ void EQDialog::SelectPreset(int preset)
         {
             m_Sliders[i]->setValue(m_EQPresets[preset].m_Values[i]);
         }
-        ui->SaveEq->setEnabled(true);
         // deselect the FLAT button
-        ui->pushButton->setChecked(false);
+//        ui->pushButton->setChecked(false);
     }
     else // FLAT
     {
@@ -112,11 +132,12 @@ void EQDialog::SelectPreset(int preset)
             m_Sliders[i]->setValue(50);
         }
         // select the FLAT button
-        ui->pushButton->setChecked(true);
-        ui->SaveEq->setEnabled(false);
+        ui->pushButton->setChecked(false);
+
     }
     m_Timer.start();
 }
+
 
 
 void EQDialog::ShowEQDialog()
@@ -145,7 +166,10 @@ void EQDialog::DataReceived(QString data)
         {
             eqValue = data.mid(5 + i * 2, 2).toInt();
             m_Sliders[i]->setSliderPosition(eqValue);
+            m_EQPresets[0].m_Values[i]=eqValue;
+
             eqValue = (eqValue - 50.0) / 2.0;
+
             if (eqValue == 0.0)//eqValue > -0.1 && eqValue <= 0.1)
             {
                 str = "0.0";
@@ -182,6 +206,7 @@ void EQDialog::OnSliderValueChanged(int value)
     m_Timer.start();
 }
 
+/*
 void EQDialog::on_RestoreEq_clicked()
 {
     for (int i = 0; i < m_Sliders.count(); i++)
@@ -197,16 +222,23 @@ void EQDialog::on_RestoreEq_clicked()
     }
     m_Timer.start();
 }
+*/
 
-
+/*
 void EQDialog::on_CloseEq_clicked()
 {
     close();
 }
+*/
+
 
 
 bool EQDialog::ReadFile(const QString& fileName)
 {
+    return true;
+}
+
+/*
     ResetEQPresets();
     QFile file(fileName);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
@@ -299,7 +331,8 @@ bool EQDialog::SaveFile(const QString& fileName)
     return true;
 }
 
-
+*/
+/*
 void EQDialog::on_SaveEq_clicked()
 {
     if (m_SelectedPreset >= 0 && m_SelectedPreset <= 4) // not flat
@@ -313,14 +346,14 @@ void EQDialog::on_SaveEq_clicked()
     QString path = QDir::currentPath() + "/" + "ATBEQPresets.xml";
     SaveFile(path);
 }
-
+*/
 
 void EQDialog::on_pushButton_clicked() // FLAT
 {
     SelectPreset(-1);
 }
 
-
+/*
 void EQDialog::on_pushButton_2_clicked() // USER 1
 {
     SelectPreset(0);
@@ -342,4 +375,40 @@ void EQDialog::on_pushButton_4_clicked() // USER 3
 void EQDialog::on_pushButton_5_clicked() // USER 4
 {
     SelectPreset(3);
+}
+*/
+
+void EQDialog::on_savebutt_clicked()
+{
+      //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox,
+        QString str;
+        int str1;
+        str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
+
+        for (int i=0;i<9;i++)
+        {
+            str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
+
+           m_Settings.setValue(str,m_EQPresets[0].m_Values[i]);
+            qDebug() <<str <<m_EQPresets[0].m_Values[i];
+        }
+
+}
+
+void EQDialog::on_restbutt_clicked()
+{
+    //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox,
+      QString str;
+      int str1;
+      str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
+
+      for (int i=0;i<9;i++)
+      {
+          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
+
+          m_EQPresets[0].m_Values[i]=m_Settings.value(str).toInt();
+          qDebug() <<str <<m_EQPresets[0].m_Values[i];
+
+      }
+      SelectPreset(0);
 }

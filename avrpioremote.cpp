@@ -153,7 +153,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_SettingsDialog = new SettingsDialog(this, m_Settings);
 
     // create EQ dialog
-    m_EQDialog = new EQDialog(this, m_ReceiverInterface);
+    m_EQDialog = new EQDialog(this, m_ReceiverInterface,m_Settings);
 
     m_Listendiag = new  ListeningModeDialog(this, m_Settings, m_ReceiverInterface );
 

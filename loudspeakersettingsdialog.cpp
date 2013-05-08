@@ -2,9 +2,6 @@
 #include "ui_loudspeakersettingsdialog.h"
 #include "QDebug"
 #include <receiverinterface.h>
-#include <QFile>
-#include <QDomDocument>
-#include <QDir>
 
 
 const char* LStyp[] = {
@@ -315,19 +312,22 @@ void LoudspeakerSettingsDialog::on_speaker_currentIndexChanged(int index)
 
 
 void LoudspeakerSettingsDialog::on_savebutt_clicked()
-{   //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox
+{   //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox,
     QString str;
+    int str1;
+    str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
+
     for (int i=0;i<12;i++)
     {
-          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(channels[i]);
+        str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
           m_Settings.setValue(str,mchannels[i]);
     }
 
-    str=QString("mem%1/LSCONFIG").arg(ui->selectmem->currentIndex());
+    str=QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
     m_Settings.setValue(str,mVal);
     for (int i=0;i<7;i++)
     {
-          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(LSpaar[i]);
+          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(LSpaar[i]);
           m_Settings.setValue(str,mLSpaar[i]);
     }
 
@@ -338,9 +338,12 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
 {   //Channel-Level aus Speicher 1-5 zurücklesen und public speichern
     int j;
     QString str;
+    int str1;
+    str1=m_Settings.value("IP/4").toInt();//letztes Oktett IP anhängen, falls mehrere Reciever
+
     for (int i=0;i<12;i++)
     {
-          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(channels[i]);
+          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
           j=m_Settings.value(str).toInt();
           if (j!=0)
           {
@@ -351,7 +354,7 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
           }
           setslider();
     }
-    str=QString("mem%1/LSCONFIG").arg(ui->selectmem->currentIndex());
+    str=QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
     mVal=m_Settings.value(str).toInt();
     str = QString("%1SSF").arg(mVal);
     if (str.size()<5)
@@ -360,7 +363,7 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
 
     for (int i=0;i<7;i++)
     {
-          str=QString("mem%1/%2").arg(ui->selectmem->currentIndex()).arg(LSpaar[i]);
+          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(LSpaar[i]);
           mLSpaar[i]=m_Settings.value(str).toInt();
           str=LSpaar[i];
           str=str+QString("%1SSG").arg(mLSpaar[i]);
