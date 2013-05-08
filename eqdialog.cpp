@@ -329,6 +329,7 @@ void EQDialog::on_bypass_clicked()
     {
         SendCmd("1TO");
         ui->bypass->setText("Tone");
+        SelectPreset(0);
     }
-    SelectPreset(0);
+
 }
