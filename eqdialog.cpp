@@ -1,8 +1,5 @@
 #include "eqdialog.h"
 #include "ui_eqdialog.h"
-//#include <QFile>
-//#include <QDomDocument>
-//#include <QDir>
 #include <QDebug>
 
 const char* eqnames[] = {
@@ -15,7 +12,10 @@ const char* eqnames[] = {
     "Eq4k",
     "Eq8k",
     "Eq16k",
+    "Eqbass",
+    "Eqtreble",
 };
+
 
 EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings) :
     QDialog(parent),
@@ -43,6 +43,7 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     connect(ui->eq8k,  SIGNAL(valueChanged(int)), this, SLOT(OnSliderValueChanged(int)));
     connect(ui->eq16k, SIGNAL(valueChanged(int)), this, SLOT(OnSliderValueChanged(int)));
 
+
     // save sliders in a list
     m_Sliders.append(ui->eq63);
     m_Sliders.append(ui->eq125);
@@ -51,8 +52,11 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     m_Sliders.append(ui->eq1k);
     m_Sliders.append(ui->eq2k);
     m_Sliders.append(ui->eq4k);
-    m_Sliders.append(ui->eq8k);
+    m_Sliders.append(ui->eq8k);    
     m_Sliders.append(ui->eq16k);
+    m_Sliders.append(ui->eqba);
+    m_Sliders.append(ui->eqtr);
+
 
     // save dB value labels in a list
     m_Labels.append(ui->wert63);
@@ -64,6 +68,8 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     m_Labels.append(ui->wert4k);
     m_Labels.append(ui->wert8k);
     m_Labels.append(ui->wert16k);
+    m_Labels.append(ui->wertbass);
+    m_Labels.append(ui->werttreble);
 
     // configure the timer
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
@@ -77,8 +83,9 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5";
     ui->selectmem->addItems(mstr1);
 
-    SelectPreset(0);
+//    SelectPreset(-1);
 }
+
 
 EQDialog::~EQDialog()
 {
@@ -86,43 +93,18 @@ EQDialog::~EQDialog()
 }
 
 
-/*
-void EQDialog::ResetEQPresets()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        m_EQPresets[i].m_Name = QString("USER %1").arg(i + 1);
-        for (int j = 0; j < 9; j++)
-        {
-            m_EQPresets[i].m_Values[j] = 50;
-        }
-    }
-    m_EQPresets[0].m_Button = ui->pushButton_2;
-    m_EQPresets[1].m_Button = ui->pushButton_3;
-    m_EQPresets[2].m_Button = ui->pushButton_4;
-    m_EQPresets[3].m_Button = ui->pushButton_5;
-
-}
-
-*/
-
 void EQDialog::SelectPreset(int preset)
 {
     m_SelectedPreset = preset;
-    // select the pressed preset button
-    for (int i = 0; i < 4; i++)
-    {
-//        m_EQPresets[i].m_Button->setChecked(i == preset);
-    }
     if (preset >= 0 && preset <= 4)
     {
         // set the sliders
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 11; i++)
         {
             m_Sliders[i]->setValue(m_EQPresets[preset].m_Values[i]);
+            if (i>8) //bass+treble
+                 m_Sliders[i]->setValue(m_EQPresets[preset].m_Values[i]*-1);
         }
-        // deselect the FLAT button
-//        ui->pushButton->setChecked(false);
     }
     else // FLAT
     {
@@ -131,9 +113,10 @@ void EQDialog::SelectPreset(int preset)
         {
             m_Sliders[i]->setValue(50);
         }
+             m_Sliders[9]->setValue(-6); //Bass
+             m_Sliders[10]->setValue(-6); //Treble
         // select the FLAT button
         ui->pushButton->setChecked(false);
-
     }
     m_Timer.start();
 }
@@ -153,16 +136,19 @@ void EQDialog::ShowEQDialog()
         this->show();
     }
     SendCmd("?ATB");
+    SendCmd("?BA");
+    SendCmd("?TR");
 }
 
 
 void EQDialog::DataReceived(QString data)
 {
+   int wert;
     double eqValue = 0;
     QString str;
     if (data.startsWith("ATB"))
     {
-        for (int i = 0; i < m_Sliders.count(); i++)
+        for (int i = 0; i < 9; i++)
         {
             eqValue = data.mid(5 + i * 2, 2).toInt();
             m_Sliders[i]->setSliderPosition(eqValue);
@@ -181,14 +167,36 @@ void EQDialog::DataReceived(QString data)
             m_Labels[i]->setText(str);
         }
     }
+    if (data.startsWith("BA") || data.startsWith("TR"))
+    {
+          str=data.mid(2,2);
+          wert=str.toInt();
+          if (data.startsWith("BA"))
+        {
+            m_EQPresets[0].m_Values[9]=wert;
+            m_Sliders[9]->setSliderPosition(wert*-1);
+            wert=6-wert;
+            str=QString("%1dB").arg(wert);
+            m_Labels[9]->setText(str);
+        }
+        else
+        {
+            m_EQPresets[0].m_Values[10]=wert;
+            m_Sliders[10]->setSliderPosition(wert*-1);
+            wert=6-wert;
+            str=QString("%1dB").arg(wert);
+            m_Labels[10]->setText(str);
+        }
+    }
 }
+
 
 
 void EQDialog::Timeout()
 {
     // send the eq settings to the receiver
     QString cmd = "00";
-    for (int i = 0; i < m_Sliders.count(); i++)
+    for (int i = 0; i < 9; i++)
     {
         QString str = QString("%1").arg(m_Sliders[i]->value(), 2, 10, QChar('0'));
         cmd.append(str);
@@ -206,177 +214,13 @@ void EQDialog::OnSliderValueChanged(int value)
     m_Timer.start();
 }
 
-/*
-void EQDialog::on_RestoreEq_clicked()
-{
-    for (int i = 0; i < m_Sliders.count(); i++)
-    {
-        if (m_SelectedPreset >= 0 && m_SelectedPreset <= 4)
-        {
-            m_Sliders[i]->setSliderPosition(m_EQPresets[m_SelectedPreset].m_Values[i]);
-        }
-        else // flat
-        {
-            m_Sliders[i]->setSliderPosition(50);
-        }
-    }
-    m_Timer.start();
-}
-*/
 
-/*
-void EQDialog::on_CloseEq_clicked()
-{
-    close();
-}
-*/
-
-
-
-bool EQDialog::ReadFile(const QString& fileName)
-{
-    return true;
-}
-
-/*
-    ResetEQPresets();
-    QFile file(fileName);
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        QString msg = QString("Error: Cannot read file <%1>: %2").arg(fileName).arg(file.errorString());
-        Logger::Log(msg);
-        return false;
-    }
-
-    QString errorStr;
-    int errorLine;
-    int errorColumn;
-
-    QDomDocument doc;
-    if (!doc.setContent(&file, false, &errorStr, &errorLine,
-                        &errorColumn)) {
-        QString msg = QString("Error: Parse error at line %1, %2: %3").arg(errorLine).arg(errorColumn).arg(errorStr);
-        Logger::Log(msg);
-        file.close();
-        return false;
-    }
-    file.close();
-
-    QDomElement root = doc.documentElement();
-    if (root.tagName() != "ATBEQ") {
-        QString msg = QString("Error: Not the favorites list");
-        Logger::Log(msg);
-        return false;
-    }
-
-    QDomNodeList nodes = root.childNodes();
-    int count = 0;
-    for (int i = 0; i < nodes.count(); i++)
-    {
-        if (nodes.at(i).isElement() && nodes.at(i).nodeName() == "Preset")
-        {
-            m_EQPresets[i].m_Name = nodes.at(i).attributes().namedItem("Name").nodeValue();
-            m_EQPresets[i].m_Button->setText(m_EQPresets[i].m_Name);
-            m_EQPresets[i].m_Values[0] = nodes.at(i).attributes().namedItem("Eq63").nodeValue().toInt();
-            m_EQPresets[i].m_Values[1] = nodes.at(i).attributes().namedItem("Eq125").nodeValue().toInt();
-            m_EQPresets[i].m_Values[2] = nodes.at(i).attributes().namedItem("Eq250").nodeValue().toInt();
-            m_EQPresets[i].m_Values[3] = nodes.at(i).attributes().namedItem("Eq500").nodeValue().toInt();
-            m_EQPresets[i].m_Values[4] = nodes.at(i).attributes().namedItem("Eq1k").nodeValue().toInt();
-            m_EQPresets[i].m_Values[5] = nodes.at(i).attributes().namedItem("Eq2k").nodeValue().toInt();
-            m_EQPresets[i].m_Values[6] = nodes.at(i).attributes().namedItem("Eq4k").nodeValue().toInt();
-            m_EQPresets[i].m_Values[7] = nodes.at(i).attributes().namedItem("Eq8k").nodeValue().toInt();
-            m_EQPresets[i].m_Values[8] = nodes.at(i).attributes().namedItem("Eq16k").nodeValue().toInt();
-            count++;
-        }
-        if (count >= 4)
-            break;
-    }
-
-    return true;
-}
-
-
-bool EQDialog::SaveFile(const QString& fileName)
-{
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QString msg = QString("Error: Cannot write file <%1>: %2").arg(fileName).arg(file.errorString());
-        Logger::Log(msg);
-        return false;
-    }
-
-    const int Indent = 4;
-    QDomDocument doc;
-    QDomElement Root = doc.createElement("ATBEQ");
-    for (int i = 0; i < 4; i++)
-    {
-        QDomElement Preset = doc.createElement("Preset");
-        Preset.setAttribute("Name",  m_EQPresets[i].m_Name);
-        Preset.setAttribute("Eq63",  m_EQPresets[i].m_Values[0]);
-        Preset.setAttribute("Eq125", m_EQPresets[i].m_Values[1]);
-        Preset.setAttribute("Eq250", m_EQPresets[i].m_Values[2]);
-        Preset.setAttribute("Eq500", m_EQPresets[i].m_Values[3]);
-        Preset.setAttribute("Eq1k",  m_EQPresets[i].m_Values[4]);
-        Preset.setAttribute("Eq2k",  m_EQPresets[i].m_Values[5]);
-        Preset.setAttribute("Eq4k",  m_EQPresets[i].m_Values[6]);
-        Preset.setAttribute("Eq8k",  m_EQPresets[i].m_Values[7]);
-        Preset.setAttribute("Eq16k", m_EQPresets[i].m_Values[8]);
-        Root.appendChild(Preset);
-    }
-
-    doc.appendChild(Root);
-
-    QTextStream out(&file);
-    doc.save(out, Indent);
-    file.close();
-    return true;
-}
-
-*/
-/*
-void EQDialog::on_SaveEq_clicked()
-{
-    if (m_SelectedPreset >= 0 && m_SelectedPreset <= 4) // not flat
-    {
-        for (int i = 0; i < 9; i++)
-        {
-            m_EQPresets[m_SelectedPreset].m_Values[i] = m_Sliders[i]->value();
-        }
-    }
-
-    QString path = QDir::currentPath() + "/" + "ATBEQPresets.xml";
-    SaveFile(path);
-}
-*/
 
 void EQDialog::on_pushButton_clicked() // FLAT
 {
     SelectPreset(-1);
 }
 
-/*
-void EQDialog::on_pushButton_2_clicked() // USER 1
-{
-    SelectPreset(0);
-}
-
-
-void EQDialog::on_pushButton_3_clicked() // USER 2
-{
-    SelectPreset(1);
-}
-
-
-void EQDialog::on_pushButton_4_clicked() // USER 3
-{
-    SelectPreset(2);
-}
-
-
-void EQDialog::on_pushButton_5_clicked() // USER 4
-{
-    SelectPreset(3);
-}
-*/
 
 void EQDialog::on_savebutt_clicked()
 {
@@ -385,7 +229,7 @@ void EQDialog::on_savebutt_clicked()
         int str1;
         str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
 
-        for (int i=0;i<9;i++)
+        for (int i=0;i<11;i++)
         {
             str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
 
@@ -405,7 +249,7 @@ void EQDialog::on_restbutt_clicked()
       int str1;
       str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
 
-      for (int i=0;i<9;i++)
+      for (int i=0;i<11;i++)
       {
           str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
 
@@ -426,3 +270,26 @@ void EQDialog::on_selectmem_currentIndexChanged(int index)
     ui->meminf->setText(str);
 }
 
+
+
+void EQDialog::on_eqba_sliderReleased()
+{
+    QString str;
+    int i=ui->eqba->value()*-1;
+    str=QString("%1BA").arg(i);
+    if (str.size() <4)
+            str="0"+str;
+     //qDebug() <<"bass" <<str;
+     SendCmd(str);
+}
+
+void EQDialog::on_eqtr_sliderReleased()
+{
+    QString str;
+    int i=ui->eqtr->value()*-1;
+    str=QString("%1TR").arg(i);
+    if (str.size() <4)
+            str="0"+str;
+     //qDebug() <<"treble" <<str;
+    SendCmd(str);
+}

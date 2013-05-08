@@ -18,7 +18,7 @@ class EQPreset
 public:
     QString         m_Name;
     QPushButton*    m_Button;
-    int             m_Values[9];
+    int             m_Values[11];
 };
 
 class EQDialog : public QDialog
@@ -64,6 +64,8 @@ private slots:
     void on_savebutt_clicked();
     void on_restbutt_clicked();
     void on_selectmem_currentIndexChanged(int index);
+    void on_eqba_sliderReleased();
+    void on_eqtr_sliderReleased();
 };
 extern const char* eqnames[];
 #endif // EQDIALOG_H
