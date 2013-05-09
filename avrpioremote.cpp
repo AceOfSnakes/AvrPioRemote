@@ -34,7 +34,9 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
     // add minimize button to to title
-    Qt::WindowFlags flags = windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowContextHelpButtonHint;
+    Qt::WindowFlags flags = Qt::Window | Qt::WindowSystemMenuHint
+            | Qt::WindowMinimizeButtonHint
+            | Qt::WindowCloseButtonHint;
     this->setWindowFlags(flags);
     // set not resizeable
     this->setFixedSize(this->size());
