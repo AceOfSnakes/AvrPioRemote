@@ -9,9 +9,16 @@ TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &se
     m_Settings(settings),
     ui(new Ui::TunerDialog),
     m_Comm(Comm),
-    m_TunerInputSelected(false)
+    m_TunerInputSelected(false),
+    m_PositionSet(false)
 {
     ui->setupUi(this);
+
+    // restore the position of the window
+    if (m_Settings.value("SaveTunerWindowGeometry", false).toBool())
+    {
+        m_PositionSet = restoreGeometry(m_Settings.value("TunerWindowGeometry").toByteArray());
+    }
 
     m_SelectedClassNo = "A";
     m_SelectedPresetNo = "00";
@@ -78,16 +85,26 @@ TunerDialog::~TunerDialog()
 }
 
 
+void TunerDialog::moveEvent(QMoveEvent* event)
+{
+    m_Settings.setValue("TunerWindowGeometry", saveGeometry());
+    QDialog::moveEvent(event);
+}
+
+
 void TunerDialog::ShowTunerDialog()
 {
     if (m_Settings.value("AutoShowTuner", true).toBool() && !isVisible())
     {
-        QWidget* Parent = dynamic_cast<QWidget*>(parent());
-        int x = Parent->pos().x() + Parent->width() + 20;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(Parent->pos().y());
-        this->move(pos);
+        if (!m_PositionSet || !m_Settings.value("SaveTunerWindowGeometry", false).toBool())
+        {
+            QWidget* Parent = dynamic_cast<QWidget*>(parent());
+            int x = Parent->pos().x() + Parent->width() + 20;
+            QPoint pos;
+            pos.setX(x);
+            pos.setY(Parent->pos().y());
+            this->move(pos);
+        }
         this->show();
         EnableControls(true);
         ui->SaveButton->setEnabled(false);
@@ -538,7 +555,7 @@ bool TunerDialog::GetScrolledString(QString input)
     // remove the end of the string, so the indexOf is working
     QString tmp = input.mid(0, input.count() - 2);
     // find the current string in the saved
-    int pos = m_DisplayString.indexOf(tmp);
+    int pos = m_DisplayString.lastIndexOf(tmp);
 //    qDebug() << "|" << input << "| |" << tmp << "| " << pos;
     if (pos == -1)
     {

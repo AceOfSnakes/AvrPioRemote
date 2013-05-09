@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QTimer>
 #include <QPushButton>
+#include <QMoveEvent>
 
 namespace Ui {
 class EQDialog;
@@ -38,11 +39,15 @@ private:
     EQPreset            m_EQPresets[4];
     QSettings&          m_Settings;
     int                 m_SelectedPreset;
+    bool                m_PositionSet;
 
     bool ReadFile(const QString& fileName);
     bool SaveFile(const QString& fileName);
     void ResetEQPresets();
     void SelectPreset(int preset);
+
+    void moveEvent(QMoveEvent*event);
+
 public slots:
     void ShowEQDialog();
     void DataReceived(QString data);

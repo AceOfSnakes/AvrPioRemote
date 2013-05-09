@@ -7,6 +7,7 @@
 #include <QByteArray>
 #include "receiverinterface.h"
 #include <QLabel>
+#include <QMoveEvent>
 
 namespace Ui {
 class LoudspeakerSettingsDialog;
@@ -32,6 +33,9 @@ private:
     ReceiverInterface&  m_Comm;
     QList<QSlider*>     m_Sliders;
     QList<QLabel*>      m_Labels;
+    bool                m_PositionSet;
+
+    void moveEvent(QMoveEvent*event);
 
 public slots:
 

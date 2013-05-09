@@ -15,7 +15,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
     m_Settings.setValue("FavoritesCompatibilityMode", false);
     ui->FavoriteLX83CompatibilityModeCheckBox->setVisible(false);
 
-    this->setFixedSize(this->size());
+    //this->setFixedSize(this->size());
     this->setModal(true);
 
     QString lang = m_Settings.value("Language", "auto").toString();
@@ -35,6 +35,14 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     SetLanguage();
+
+    ui->RestoreMainWindowCheckBox->setChecked(m_Settings.value("SaveMainWindowGeometry", true).toBool());
+    ui->RestoreEQWindowCheckBox->setChecked(m_Settings.value("SaveEQWindowGeometry", false).toBool());
+    ui->RestoreTunerWindowCheckBox->setChecked(m_Settings.value("SaveTunerWindowGeometry", false).toBool());
+    ui->RestoreNetRadioWindowCheckBox->setChecked(m_Settings.value("SaveNetRadioWindowGeometry", false).toBool());
+    ui->RestoreSpeakerSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLSSettingsWindowGeometry", false).toBool());
+    ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value("SaveTestWindowGeometry", false).toBool());
+    ui->RestoreLMSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool());
 }
 
 SettingsDialog::~SettingsDialog()
@@ -147,4 +155,39 @@ void SettingsDialog::on_ShowTunerCheckBox_clicked()
 void SettingsDialog::on_ShowNetRadioCheckBox_clicked()
 {
     m_Settings.setValue("AutoShowNetRadio", ui->ShowNetRadioCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreMainWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveMainWindowGeometry", ui->RestoreMainWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreEQWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveEQWindowGeometry", ui->RestoreEQWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreTunerWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveTunerWindowGeometry", ui->RestoreTunerWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreNetRadioWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveNetRadioWindowGeometry", ui->RestoreNetRadioWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreSpeakerSettingsWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveLSSettingsWindowGeometry", ui->RestoreSpeakerSettingsWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreTestWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveTestWindowGeometry", ui->RestoreTestWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreLMSettingsWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveLMSettingsWindowGeometry", ui->RestoreLMSettingsWindowCheckBox->isChecked());
 }

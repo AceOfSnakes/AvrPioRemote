@@ -70,9 +70,8 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     QDialog(parent),
     m_Settings(settings),
     ui(new Ui::LoudspeakerSettingsDialog),
-    m_Comm(Comm)
-
-
+    m_Comm(Comm),
+    m_PositionSet(false)
 {
     errflag=0;
     bool x922;
@@ -80,6 +79,12 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
 
     ui->setupUi(this);
     this->setFixedSize(this->size());
+
+    // restore the position of the window
+    if (m_Settings.value("SaveLSSettingsWindowGeometry", false).toBool())
+    {
+        m_PositionSet = restoreGeometry(m_Settings.value("LSSettingsWindowGeometry").toByteArray());
+    }
 
     // communication
 //    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(SpeakerReceived(QString)));
@@ -158,6 +163,12 @@ LoudspeakerSettingsDialog::~LoudspeakerSettingsDialog()
 }
 
 
+void LoudspeakerSettingsDialog::moveEvent(QMoveEvent* event)
+{
+    m_Settings.setValue("LSSettingsWindowGeometry", saveGeometry());
+    QDialog::moveEvent(event);
+}
+
 
 void LoudspeakerSettingsDialog::Speakerinfo(QString data)
 {
@@ -207,12 +218,15 @@ void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
     QString str;
     if (!isVisible())
     {
-        QWidget* Parent = dynamic_cast<QWidget*>(parent());
-        int x = Parent->pos().x() + Parent->width() + 20;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(Parent->pos().y());
-        this->move(pos);
+        if (!m_PositionSet || !m_Settings.value("SaveLSSettingsWindowGeometry", false).toBool())
+        {
+            QWidget* Parent = dynamic_cast<QWidget*>(parent());
+            int x = Parent->pos().x() + Parent->width() + 20;
+            QPoint pos;
+            pos.setX(x);
+            pos.setY(Parent->pos().y());
+            this->move(pos);
+        }
         this->show();
     }
     SendCmd("?SSF");

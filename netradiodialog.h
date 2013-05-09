@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QListWidgetItem>
 #include "receiverinterface.h"
+#include <QMoveEvent>
 
 namespace Ui {
 class NetRadioDialog;
@@ -19,16 +20,19 @@ public:
     ~NetRadioDialog();
     
 private:
-    QSettings& m_Settings;
+    QSettings&          m_Settings;
     Ui::NetRadioDialog *ui;
-    int m_IndexOfLine1;
-    int m_IndexOfLastLine;
-    int m_TotalNumberOfItems;
-    int m_SelectedItemIndex;
+    int                 m_IndexOfLine1;
+    int                 m_IndexOfLastLine;
+    int                 m_TotalNumberOfItems;
+    int                 m_SelectedItemIndex;
 
-    int m_VisibleListSize;
-    QStringList m_StationList;
-    ReceiverInterface& m_Comm;
+    int                 m_VisibleListSize;
+    QStringList         m_StationList;
+    ReceiverInterface&  m_Comm;
+    bool                m_PositionSet;
+
+    void moveEvent(QMoveEvent*event);
 
 public slots:
     void NetData(QString data);

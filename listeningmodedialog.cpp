@@ -8,10 +8,16 @@ ListeningModeDialog::ListeningModeDialog(QWidget *parent,QSettings &settings,Rec
     QDialog(parent),
     m_Settings(settings),
     m_Comm(Comm),
-    ui(new Ui::ListeningModeDialog)
-
+    ui(new Ui::ListeningModeDialog),
+    m_PositionSet(false)
 {
     ui->setupUi(this);
+
+    if(m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool())
+    {
+        m_PositionSet = restoreGeometry(m_Settings.value("LMSettingsWindowGeometry").toByteArray());
+    }
+
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 //    connect(&m_Comm,SIGNAL(ListeningModeData(QString)),this,SLOT(LMchanged(QString)));
     connect(&m_Comm,SIGNAL(Listenextended(QString, QString)),this,SLOT(LMchanged(QString, QString)));
@@ -38,17 +44,26 @@ ListeningModeDialog::~ListeningModeDialog()
 }
 
 
+void ListeningModeDialog::moveEvent(QMoveEvent* event)
+{
+    m_Settings.setValue("LMSettingsWindowGeometry", saveGeometry());
+    QDialog::moveEvent(event);
+}
+
+
 void ListeningModeDialog::ShowListeningDialog()
 {
-    QString str;
     if (!isVisible())
     {
-        QWidget* Parent = dynamic_cast<QWidget*>(parent());
-        int x = Parent->pos().x() - Parent->width()-100;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(Parent->pos().y());
-        this->move(pos);
+        if (!m_PositionSet || !m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool())
+        {
+            QWidget* Parent = dynamic_cast<QWidget*>(parent());
+            int x = Parent->pos().x() - Parent->width()-100;
+            QPoint pos;
+            pos.setX(x);
+            pos.setY(Parent->pos().y());
+            this->move(pos);
+        }
         this->show();
     }
     SendCmd("?L"); //aktueller Wert

@@ -7,6 +7,7 @@
 #include <QByteArray>
 #include "receiverinterface.h"
 #include <QLabel>
+#include <QMoveEvent>
 
 namespace Ui {
 class ListeningModeDialog;
@@ -22,15 +23,18 @@ public:
 
 
 private:
-    QSettings& m_Settings;
-    ReceiverInterface&  m_Comm;
+    QSettings&              m_Settings;
+    ReceiverInterface&      m_Comm;
     Ui::ListeningModeDialog *ui;
+    bool                    m_PositionSet;
 
     class LMUserData: public QObjectUserData
     {
     public:
         QString m_Data;
     };
+
+    void moveEvent(QMoveEvent*event);
 
 signals:
     void SendCmd(QString data);

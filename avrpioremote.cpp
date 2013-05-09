@@ -40,6 +40,13 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     this->setWindowFlags(flags);
     // set not resizeable
     this->setFixedSize(this->size());
+
+    // restore the position of the window
+    if (m_Settings.value("SaveMainWindowGeometry", true).toBool())
+    {
+        restoreGeometry(m_Settings.value("MainWindowGeometry").toByteArray());
+    }
+
     // disable controls
     EnableControls(false);
     ui->PowerButton->setEnabled(false);
@@ -146,7 +153,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_TunerDialog = new TunerDialog(this, m_ReceiverInterface, m_Settings);
 
     // create Test dialog
-    m_TestDialog = new TestDialog(this, m_ReceiverInterface);
+    m_TestDialog = new TestDialog(this, m_ReceiverInterface, m_Settings);
 
     // create compatible favorites dialog
     m_OldFavoritesDialog = new OldFavoritesDialog(this, &m_ReceiverInterface);
@@ -179,6 +186,8 @@ AVRPioRemote::~AVRPioRemote()
 void AVRPioRemote::closeEvent(QCloseEvent *event)
 {
     m_ReceiverInterface.Disconnect();
+    // save the window position
+    m_Settings.setValue("MainWindowGeometry", saveGeometry());
     QDialog::closeEvent(event);
 }
 
@@ -661,7 +670,7 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
 
-        pAction = new QAction(tr("Equlizer"), this);
+        pAction = new QAction(tr("Equalizer"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
 

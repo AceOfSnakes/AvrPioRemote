@@ -7,7 +7,8 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
     QDialog(parent),
     m_Settings(settings),
     ui(new Ui::NetRadioDialog),
-    m_Comm(Comm)
+    m_Comm(Comm),
+    m_PositionSet(false)
 {
     m_IndexOfLine1 = 0;
     m_IndexOfLastLine = 0;
@@ -19,13 +20,28 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
 
     this->setFixedSize(this->size());
 
+    // restore the position of the window
+    if (m_Settings.value("SaveNetRadioWindowGeometry", false).toBool())
+    {
+        m_PositionSet = restoreGeometry(m_Settings.value("NetRadioWindowGeometry").toByteArray());
+    }
+
+
     connect((&m_Comm), SIGNAL(NetData(QString)), this, SLOT(NetData(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 }
 
+
 NetRadioDialog::~NetRadioDialog()
 {
     delete ui;
+}
+
+
+void NetRadioDialog::moveEvent(QMoveEvent* event)
+{
+    m_Settings.setValue("NetRadioWindowGeometry", saveGeometry());
+    QDialog::moveEvent(event);
 }
 
 
@@ -34,14 +50,17 @@ void NetRadioDialog::ShowNetDialog()
     if (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible())
     {
         emit SendCmd("?GAH");
-        QWidget* Parent = dynamic_cast<QWidget*>(parent());
-        if (Parent != NULL)
+        if (!m_PositionSet || !m_Settings.value("SaveNetRadioWindowGeometry", false).toBool())
         {
-            int x = Parent->pos().x() + Parent->width() + 20;
-            QPoint pos;
-            pos.setX(x);
-            pos.setY(Parent->pos().y());
-            move(pos);
+            QWidget* Parent = dynamic_cast<QWidget*>(parent());
+            if (Parent != NULL)
+            {
+                int x = Parent->pos().x() + Parent->width() + 20;
+                QPoint pos;
+                pos.setX(x);
+                pos.setY(Parent->pos().y());
+                move(pos);
+            }
         }
         show();
     }

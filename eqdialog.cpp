@@ -23,10 +23,17 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     m_Comm(Comm),
     m_Timer(this),
     m_Settings(settings),
-    m_SelectedPreset(-1) // flat
+    m_SelectedPreset(-1), // flat
+    m_PositionSet(false)
 {
     ui->setupUi(this);
     this->setFixedSize(this->size());
+
+    // restore the position of the window
+    if (m_Settings.value("SaveEQWindowGeometry", false).toBool())
+    {
+        m_PositionSet = restoreGeometry(m_Settings.value("EQWindowGeometry").toByteArray());
+    }
 
     // communication
     connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
@@ -93,6 +100,13 @@ EQDialog::~EQDialog()
 }
 
 
+void EQDialog::moveEvent(QMoveEvent* event)
+{
+    m_Settings.setValue("EQWindowGeometry", saveGeometry());
+    QDialog::moveEvent(event);
+}
+
+
 void EQDialog::SelectPreset(int preset)
 {
     m_SelectedPreset = preset;
@@ -127,12 +141,16 @@ void EQDialog::ShowEQDialog()
 {
     if (!isVisible())
     {
-        QWidget* Parent = dynamic_cast<QWidget*>(parent());
-        int x = Parent->pos().x() + Parent->width() + 20;
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(Parent->pos().y());
-        this->move(pos);
+        if (!m_PositionSet || !m_Settings.value("SaveEQWindowGeometry", false).toBool())
+        {
+            QWidget* Parent = dynamic_cast<QWidget*>(parent());
+            int x = Parent->pos().x() + Parent->width() + 20;
+            QPoint pos;
+            pos.setX(x);
+            pos.setY(Parent->pos().y());
+            this->move(pos);
+            m_PositionSet = true;
+        }
         this->show();
     }
     SendCmd("?ATB");

@@ -6,6 +6,7 @@
 #include <QSettings>
 #include "actionwithparameter.h"
 #include "receiverinterface.h"
+#include <QMoveEvent>
 
 namespace Ui {
 class TunerDialog;
@@ -33,8 +34,11 @@ private:
     QList<QAction*>             m_PresetActions;
     QString                     m_DisplayString;
     bool                        m_TunerInputSelected;
+    bool                        m_PositionSet;
 
     bool GetScrolledString(QString input);
+
+    void moveEvent(QMoveEvent*event);
 
 public slots:
     void ShowTunerDialog();

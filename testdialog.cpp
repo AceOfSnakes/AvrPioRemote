@@ -5,12 +5,20 @@
 #include <QTextStream>
 
 
-TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm) :
+TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Settings) :
     QDialog(parent),
     ui(new Ui::TestDialog),
-    m_Comm(Comm)
+    m_Comm(Comm),
+    m_Settings(Settings),
+    m_PositionSet(false)
 {
     ui->setupUi(this);
+
+    // restore the position of the window
+    if (m_Settings.value("SaveTestWindowGeometry", false).toBool())
+    {
+        m_PositionSet = restoreGeometry(m_Settings.value("TestWindowGeometry").toByteArray());
+    }
 
     connect((&m_Comm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
@@ -24,16 +32,26 @@ TestDialog::~TestDialog()
 }
 
 
+void TestDialog::moveEvent(QMoveEvent* event)
+{
+    m_Settings.setValue("TestWindowGeometry", saveGeometry());
+    QDialog::moveEvent(event);
+}
+
+
 void TestDialog::ShowTestDialog()
 {
     if (!this->isVisible())
     {
-        QWidget* Parent = dynamic_cast<QWidget*>(parent());
-        int x = Parent->pos().x() - 20 - this->width();
-        QPoint pos;
-        pos.setX(x);
-        pos.setY(Parent->pos().y());
-        this->move(pos);
+        if (!m_PositionSet || !m_Settings.value("SaveTestWindowGeometry", false).toBool())
+        {
+            QWidget* Parent = dynamic_cast<QWidget*>(parent());
+            int x = Parent->pos().x() - 20 - this->width();
+            QPoint pos;
+            pos.setX(x);
+            pos.setY(Parent->pos().y());
+            this->move(pos);
+        }
         this->show();
     }
 }
