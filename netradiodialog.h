@@ -5,7 +5,9 @@
 #include <QSettings>
 #include <QListWidgetItem>
 #include "receiverinterface.h"
+#include <QTimer>
 #include <QMoveEvent>
+
 
 namespace Ui {
 class NetRadioDialog;
@@ -26,7 +28,7 @@ private:
     int                 m_IndexOfLastLine;
     int                 m_TotalNumberOfItems;
     int                 m_SelectedItemIndex;
-
+    QTimer              m_Timer;
     int                 m_VisibleListSize;
     QStringList         m_StationList;
     ReceiverInterface&  m_Comm;
@@ -45,7 +47,7 @@ private slots:
     void on_CursorDownButton_clicked();
     void on_CursorReturnButton_clicked();
     void on_NetPauseButton_clicked();
-
+    void Timeout();
     void on_NetPlayButton_clicked();
 
     void on_NetStopButton_clicked();

@@ -20,6 +20,8 @@
 #include <QTimer>
 #include <listeningmodedialog.h>
 
+
+
 namespace Ui {
 class AVRPioRemote;
 }
@@ -62,7 +64,8 @@ class AVRPioRemote : public QDialog
 public:
     explicit AVRPioRemote(QWidget *parent = 0);
     ~AVRPioRemote();
-    
+
+
 private:
     Ui::AVRPioRemote *ui;
     ReceiverInterface m_ReceiverInterface;

@@ -56,16 +56,7 @@ signals:
 private slots:
     void Timeout();
     void OnSliderValueChanged(int value);
-//    void OnSliderPressed();
-//    void OnSliderReleased();
-//   void on_RestoreEq_clicked();
-//    void on_CloseEq_clicked();
-//    void on_SaveEq_clicked();
     void on_pushButton_clicked();
-/*    void on_pushButton_2_clicked();
-    void on_pushButton_3_clicked();
-    void on_pushButton_4_clicked();
-    void on_pushButton_5_clicked();*/
     void on_savebutt_clicked();
     void on_restbutt_clicked();
     void on_selectmem_currentIndexChanged(int index);

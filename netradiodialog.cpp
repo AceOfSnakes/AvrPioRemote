@@ -3,6 +3,9 @@
 #include <QDebug>
 #include <qtextcodec.h>
 
+extern QString netname;
+
+
 NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
     QDialog(parent),
     m_Settings(settings),
@@ -15,6 +18,8 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
     m_TotalNumberOfItems = 0;
     m_SelectedItemIndex = 0;
     m_VisibleListSize = 0;
+
+
 
     ui->setupUi(this);
 
@@ -29,6 +34,13 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
 
     connect((&m_Comm), SIGNAL(NetData(QString)), this, SLOT(NetData(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
+
+    connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
+
+    m_Timer.setSingleShot(false);
+    m_Timer.setInterval(10000);
+    Timeout();
+
 }
 
 
@@ -46,7 +58,7 @@ void NetRadioDialog::moveEvent(QMoveEvent* event)
 
 
 void NetRadioDialog::ShowNetDialog()
-{
+{   
     if (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible())
     {
         emit SendCmd("?GAH");
@@ -62,14 +74,25 @@ void NetRadioDialog::ShowNetDialog()
                 move(pos);
             }
         }
+        m_Timer.start();
         show();
-    }
+        this->setWindowTitle(netname);
+     }
+}
+
+
+void NetRadioDialog::Timeout()
+{
+ if(this->windowTitle()!=netname)
+        this->setWindowTitle(netname);
+    if(isVisible())
+        emit SendCmd("?GAH");
 }
 
 
 void NetRadioDialog::NetData(QString data)
 {
-    //qDebug() << " >>> " << data;
+     //qDebug() << " >>> " << data;
     if (data.startsWith("GBH"))
     {
         m_VisibleListSize = data.mid(3, 2).toInt();
