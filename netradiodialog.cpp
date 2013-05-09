@@ -3,9 +3,6 @@
 #include <QDebug>
 #include <qtextcodec.h>
 
-extern QString netname;
-
-
 NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
     QDialog(parent),
     m_Settings(settings),
@@ -19,8 +16,6 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
     m_SelectedItemIndex = 0;
     m_VisibleListSize = 0;
 
-
-
     ui->setupUi(this);
 
     this->setFixedSize(this->size());
@@ -31,16 +26,15 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
         m_PositionSet = restoreGeometry(m_Settings.value("NetRadioWindowGeometry").toByteArray());
     }
 
-
     connect((&m_Comm), SIGNAL(NetData(QString)), this, SLOT(NetData(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
+    connect((&m_Comm), SIGNAL(InputFunctionData(int, QString)), this,  SLOT(InputFunctionData(int, QString)));
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
 
     m_Timer.setSingleShot(false);
     m_Timer.setInterval(10000);
     Timeout();
-
 }
 
 
@@ -76,15 +70,41 @@ void NetRadioDialog::ShowNetDialog()
         }
         m_Timer.start();
         show();
-        this->setWindowTitle(netname);
      }
+}
+
+
+void NetRadioDialog::InputFunctionData(int no, QString name)
+{
+    if (no == 26 || // NET cyclic
+        no == 38 || // internet radio
+        no == 40 || // sirius xm
+        no == 41 || // pandora
+        no == 44 || // media server
+        no == 45    // favorites
+            )
+    {
+        if (no == 45)
+        {
+            ui->NetAddFavButton->setEnabled(false);
+            ui->NetRemoveFavButton->setEnabled(true);
+        }
+        else
+        {
+            ui->NetAddFavButton->setEnabled(true);
+            ui->NetRemoveFavButton->setEnabled(false);
+        }
+        this->setWindowTitle(name);
+    }
+    else
+    {
+        this->setWindowTitle(tr("NetRadio"));
+    }
 }
 
 
 void NetRadioDialog::Timeout()
 {
- if(this->windowTitle()!=netname)
-        this->setWindowTitle(netname);
     if(isVisible())
         emit SendCmd("?GAH");
 }
@@ -324,4 +344,14 @@ void NetRadioDialog::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     int currentRow = ui->listWidget->currentRow();
     QString cmd = QString("%1GFH").arg((uint)(currentRow + 1), 2, 10, QChar('0'));
     emit SendCmd(cmd);
+}
+
+void NetRadioDialog::on_NetAddFavButton_clicked()
+{
+    emit SendCmd("32NW"); // program / add fav
+}
+
+void NetRadioDialog::on_NetRemoveFavButton_clicked()
+{
+    emit SendCmd("33NW"); // clear / remove fav
 }

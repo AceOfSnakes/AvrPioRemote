@@ -175,7 +175,7 @@
   <widget class="QPushButton" name="NetNextButton">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>200</x>
      <y>280</y>
      <width>41</width>
      <height>23</height>
@@ -223,7 +223,7 @@
   <widget class="QPushButton" name="NetFwdButton">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>200</x>
      <y>310</y>
      <width>41</width>
      <height>23</height>
@@ -336,6 +336,38 @@
    </property>
    <property name="text">
     <string>vv</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="NetAddFavButton">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>280</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add Fav</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="NetRemoveFavButton">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>310</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Remove Fav</string>
    </property>
    <property name="autoDefault">
     <bool>false</bool>

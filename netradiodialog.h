@@ -39,6 +39,7 @@ private:
 public slots:
     void NetData(QString data);
     void ShowNetDialog();
+    void InputFunctionData(int no, QString name);
 private slots:
     void on_CursorUpButton_clicked();
     void on_CursorLeftButton_clicked();
@@ -49,28 +50,21 @@ private slots:
     void on_NetPauseButton_clicked();
     void Timeout();
     void on_NetPlayButton_clicked();
-
     void on_NetStopButton_clicked();
-
     void on_NetPrevButton_clicked();
-
     void on_NetNextButton_clicked();
-
     void on_NetRevButton_clicked();
-
     void on_NetFwdButton_clicked();
-
     void on_listWidget_currentRowChanged(int currentRow);
-
     void on_PageUpButton_clicked();
-
     void on_PageDownButton_clicked();
-
     void on_PageUpButton_2_clicked();
-
     void on_PageDownButton_2_clicked();
-
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_NetAddFavButton_clicked();
+
+    void on_NetRemoveFavButton_clicked();
 
 signals:
     void SendCmd(QString data);

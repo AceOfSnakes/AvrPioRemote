@@ -6,8 +6,6 @@
 #include "actionwithparameter.h"
 #include <QWidget>
 
-QString netname;
-
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AVRPioRemote),
@@ -426,7 +424,6 @@ void AVRPioRemote::PhaseData(int phase)
 void AVRPioRemote::InputNameData(QString name)
 {
     ui->InputNameLineEdit->setText(name);
-    netname=name;
 }
 
 
