@@ -19,6 +19,9 @@ ListeningModeDialog::ListeningModeDialog(QWidget *parent,QSettings &settings,Rec
     while (strlen(LISTENING_MODE[i].key) != 0)
     {
         ui->listmodi->addItem(LISTENING_MODE[i].text);
+        LMUserData* data = new LMUserData();
+        data->m_Data = LISTENING_MODE[i].key;
+        ui->listmodi->setUserData(i, data);
         i++;
         if ((strcmp(LISTENING_MODE[i].key, "0050") == 0) && m_Settings.value("TunerCompatibilityMode").toBool())
         {
@@ -70,9 +73,9 @@ void ListeningModeDialog::on_listmodi_doubleClicked(const QModelIndex &index)
 void ListeningModeDialog::LMchanged(QString id, QString data)
 {
     // select the listening mode in the list
-    for (int i = 0; strlen(LISTENING_MODE[i].key) != 0; i++)
+    for (int i = 0; i < ui->listmodi->count(); i++)
     {
-        if (id == LISTENING_MODE[i].key) // selected
+        if (id == ((LMUserData*)ui->listmodi->userData(i))->m_Data) // selected
         {
             ui->listmodi->item(i)->setBackgroundColor(QColor(0, 0, 255)); // blue background
             ui->listmodi->item(i)->setTextColor(QColor(255, 255, 255)); // white text

@@ -26,6 +26,12 @@ private:
     ReceiverInterface&  m_Comm;
     Ui::ListeningModeDialog *ui;
 
+    class LMUserData: public QObjectUserData
+    {
+    public:
+        QString m_Data;
+    };
+
 signals:
     void SendCmd(QString data);
 
