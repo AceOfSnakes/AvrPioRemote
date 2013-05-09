@@ -287,7 +287,7 @@ void LoudspeakerSettingsDialog::on_speaker_currentIndexChanged(int index)
     if (mindex==6)
         {
 
-        spmode << "Small" << "Plus" << "No" <<"" <<"";
+        spmode << "Yes" << "Plus" << "No" <<"" <<"";
         ui->speakermode->insertItems(0,spmode);
         }
     else if (mindex==5)

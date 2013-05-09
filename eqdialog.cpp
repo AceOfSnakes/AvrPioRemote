@@ -193,9 +193,17 @@ void EQDialog::DataReceived(QString data)
     {
         wert=data.mid(2,1).toInt();
         if (wert==0)
+        {
             ui->bypass->setText("Bypass");
-        else
+            ui->eqtr->hide(); // setDisabled(true);
+            ui->eqba->hide(); // setDisabled(true);
+         }
+         else
+        {
             ui->bypass->setText("Tone");
+            ui->eqtr->setVisible(true);//  setEnabled(true);
+            ui->eqba->setVisible(true);//  setEnabled(true);
+        }
     }
 }
 
@@ -323,13 +331,13 @@ void EQDialog::on_bypass_clicked()
     if (ui->bypass->text()=="Tone")
     {
         SendCmd("0TO");
-        ui->bypass->setText("Bypass");
+//        ui->bypass->setText("Bypass");
     }
     else
     {
         SendCmd("1TO");
-        ui->bypass->setText("Tone");
-        SelectPreset(0);
+//        ui->bypass->setText("Tone");
+//        SelectPreset(0);
     }
 
 }
