@@ -105,6 +105,14 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     connect(ui->sfwl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
     connect(ui->sfwr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
 
+    connect(ui->mc1,SIGNAL(clicked()),this,SLOT(checkbox()));
+    connect(ui->mc2,SIGNAL(clicked()),this,SLOT(checkbox()));
+    connect(ui->mc3,SIGNAL(clicked()),this,SLOT(checkbox()));
+    connect(ui->mc4,SIGNAL(clicked()),this,SLOT(checkbox()));
+    connect(ui->mc5,SIGNAL(clicked()),this,SLOT(checkbox()));
+    connect(ui->mc6,SIGNAL(clicked()),this,SLOT(checkbox()));
+
+
 
     // save sliders in a list
     m_Sliders.append(ui->sfl);
@@ -135,6 +143,12 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_Labels.append(ui->lfwl);
     m_Labels.append(ui->lfwr);
 
+    m_buttons.append(ui->mc1);
+    m_buttons.append(ui->mc2);
+    m_buttons.append(ui->mc3);
+    m_buttons.append(ui->mc4);
+    m_buttons.append(ui->mc5);
+    m_buttons.append(ui->mc6);
 
     x922=m_Settings.value("TunerCompatibilityMode").toBool();
     if (x922)   //Im Kompatmodus nur verfügbare Typen anzeigen
@@ -151,7 +165,7 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     ui->speaker->addItems(mstr);
 
     QStringList mstr1;
-    mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5";
+    mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5" << "Memory 6";
     ui->selectmem->addItems(mstr1);
 }
 
@@ -202,6 +216,13 @@ void LoudspeakerSettingsDialog::Speakerinfo(QString data)
       }
       setslider();
    }
+   if (data.startsWith("MC"))
+     {
+ //      qDebug() <<"MC wert: " << wert;
+       wert=data.mid(2,1).toInt()-1;
+       clear_toggles();
+       m_buttons[wert]->setChecked(true);
+     }
 //  qDebug() << "speakerdaten:" <<data  <<sysValue <<wert;
 }
 
@@ -248,6 +269,7 @@ void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
             SendCmd(str);
     }
 
+    SendCmd("?MC");
 }
 
 
@@ -346,6 +368,16 @@ void LoudspeakerSettingsDialog::on_savebutt_clicked()
     }
     str=QString("mem%1-%2/LSset").arg(ui->selectmem->currentIndex()).arg(str1);
      m_Settings.setValue(str,ui->meminf->text());
+
+     for (int i=0;i<6;i++)
+     {
+         if (m_buttons[i]->isChecked())
+         {
+             str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
+              m_Settings.setValue(str,i);
+              break;
+         }
+     }
 }
 
 
@@ -387,7 +419,12 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
     }
     ui->speaker->setCurrentIndex(0);
     ui->speakermode->setCurrentIndex(mLSpaar[0]);
-}
+    str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
+    str1=m_Settings.value(str).toInt();   //Nummer des Buttons aus der m_button Liste (0-5)
+    if (!m_buttons[str1]->isChecked())
+        m_buttons[str1]->click();
+ }
+
 
 
 void LoudspeakerSettingsDialog::ValueChanged()
@@ -441,4 +478,31 @@ void LoudspeakerSettingsDialog::on_selectmem_currentIndexChanged(int index)
     str=QString("mem%1-%2/LSset").arg(index).arg(str1);
     str=m_Settings.value(str).toString();
     ui->meminf->setText(str);
+}
+
+
+
+void LoudspeakerSettingsDialog::checkbox()
+{
+    int i;
+    QString str;
+    QObject* sender =QObject::sender();
+    str="ui->"+sender->objectName();
+    i=str.mid(6,1).toInt()-1;
+//      qDebug()  << "buttonchecked="  <<str <<"I=" <<i << m_buttons[i]->isChecked();
+    if (m_buttons[i]->isChecked())
+        {
+            clear_toggles();
+            str=QString("%1MC").arg(i+1);
+            SendCmd(str);
+            ShowLoudspeakerSettingsDialog();
+        }
+        m_buttons[i]->setChecked(true);
+}
+
+
+void LoudspeakerSettingsDialog::clear_toggles()
+{
+    for (int i=0;i<6;i++)
+    m_buttons[i]->setChecked(false);
 }

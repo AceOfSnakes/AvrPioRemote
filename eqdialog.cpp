@@ -16,14 +16,7 @@ const char* eqnames[] = {
     "Eqtreble",
 };
 
-/*const char* mcaccbuttons[]={
-    "mc1",
-    "mc2",
-    "mc3",
-    "mc4",
-    "mc5",
-    "mc6",
-};*/
+
 
 EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings) :
     QDialog(parent),
@@ -86,12 +79,7 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     m_Labels.append(ui->wertbass);
     m_Labels.append(ui->werttreble);
 
-    m_buttons.append(ui->mc1);
-    m_buttons.append(ui->mc2);
-    m_buttons.append(ui->mc3);
-    m_buttons.append(ui->mc4);
-    m_buttons.append(ui->mc5);
-    m_buttons.append(ui->mc6);
+
 
     // configure the timer
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
@@ -102,7 +90,7 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
   //  ReadFile(path);
 
     QStringList mstr1;
-    mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5";
+    mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5" << "Memory 6";
     ui->selectmem->addItems(mstr1);
 
 //    SelectPreset(-1);
@@ -172,8 +160,6 @@ void EQDialog::ShowEQDialog()
     SendCmd("?BA");
     SendCmd("?TR");
     SendCmd("?TO");
-    SendCmd("?MC");
-
 }
 
 
@@ -240,13 +226,6 @@ void EQDialog::DataReceived(QString data)
             ui->eqba->setVisible(true);//  setEnabled(true);
         }
     }
-  if (data.startsWith("MC"))
-    {
-//      qDebug() <<"MC wert: " << wert;
-      wert=data.mid(2,1).toInt()-1;
-      clear_toggles();
-      m_buttons[wert]->setChecked(true);
-    }
 }
 
 
@@ -312,16 +291,6 @@ void EQDialog::on_savebutt_clicked()
         }
        str=QString("mem%1-%2/EQset").arg(ui->selectmem->currentIndex()).arg(str1);
         m_Settings.setValue(str,ui->meminf->text());
-
-        for (int i=0;i<6;i++)
-        {
-            if (m_buttons[i]->isChecked())
-            {
-                str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
-                 m_Settings.setValue(str,i);
-                 break;
-            }
-        }
 }
 
 
@@ -340,10 +309,6 @@ void EQDialog::on_restbutt_clicked()
 //          qDebug() <<str <<m_EQPresets[0].m_Values[i];
       }
       SelectPreset(0);
-      str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
-      str1=m_Settings.value(str).toInt();   //Nummer des Buttons aus der m_button Liste (0-5)
-      if (!m_buttons[str1]->isChecked())
-          m_buttons[str1]->click();
 }
 
 
@@ -397,73 +362,3 @@ void EQDialog::on_bypass_clicked()
 
 }
 
-
-void EQDialog::on_mc1_clicked()
-{
-    if (ui->mc1->isChecked())
-    {
-        clear_toggles();
-        ui->mc1->setChecked(true);
-        SendCmd("1MC");
-    }
-}
-
-void EQDialog::on_mc2_clicked()
-{
-    if (ui->mc2->isChecked())
-    {
-        clear_toggles();
-        ui->mc2->setChecked(true);
-        SendCmd("2MC");
-    }
-}
-
-
-void EQDialog::on_mc3_clicked()
-{
-    if (ui->mc3->isChecked())
-    {
-        clear_toggles();
-        ui->mc3->setChecked(true);
-        SendCmd("3MC");
-    }
-}
-
-void EQDialog::on_mc4_clicked()
-{
-    if (ui->mc4->isChecked())
-    {
-        clear_toggles();
-        ui->mc4->setChecked(true);
-        SendCmd("4MC");
-    }
-}
-
-
-void EQDialog::on_mc5_clicked()
-{
-    if (ui->mc5->isChecked())
-    {
-        clear_toggles();
-        ui->mc5->setChecked(true);
-        SendCmd("5MC");
-    }
-}
-
-
-void EQDialog::on_mc6_clicked()
-{
-    if (ui->mc6->isChecked())
-    {
-        clear_toggles();
-        ui->mc6->setChecked(true);
-        SendCmd("6MC");
-    }
-}
-
-
-void EQDialog::clear_toggles()
-{
-    for (int i=0;i<6;i++)
-    m_buttons[i]->setChecked(false);
-}

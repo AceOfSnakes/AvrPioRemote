@@ -8,7 +8,6 @@
 #include <QTimer>
 #include <QPushButton>
 #include <QMoveEvent>
-#include <QCheckBox>
 
 namespace Ui {
 class EQDialog;
@@ -37,7 +36,6 @@ private:
     QList<QSlider*>     m_Sliders;
     QList<QLabel*>      m_Labels;
     QTimer              m_Timer;
-    QList<QCheckBox*>   m_buttons;
     EQPreset            m_EQPresets[4];
     QSettings&          m_Settings;
     int                 m_SelectedPreset;
@@ -65,14 +63,6 @@ private slots:
     void on_eqba_sliderReleased();
     void on_eqtr_sliderReleased();
     void on_bypass_clicked();
-    void on_mc1_clicked();
-    void on_mc2_clicked();
-    void on_mc3_clicked();
-    void on_mc4_clicked();
-    void on_mc5_clicked();
-    void on_mc6_clicked();
-    void clear_toggles();
 };
 extern const char* eqnames[];
-extern const char* mcaccbuttons[];
 #endif // EQDIALOG_H

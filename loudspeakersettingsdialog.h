@@ -8,6 +8,7 @@
 #include "receiverinterface.h"
 #include <QLabel>
 #include <QMoveEvent>
+#include <QCheckBox>
 
 namespace Ui {
 class LoudspeakerSettingsDialog;
@@ -30,6 +31,7 @@ public:
 private:
     QSettings& m_Settings;
     Ui::LoudspeakerSettingsDialog *ui;
+    QList<QCheckBox*>   m_buttons;
     ReceiverInterface&  m_Comm;
     QList<QSlider*>     m_Sliders;
     QList<QLabel*>      m_Labels;
@@ -56,6 +58,8 @@ private slots:
     void ValueChanged();
     void setslider();
     void on_selectmem_currentIndexChanged(int index);
+    void clear_toggles();
+    void checkbox();
 };
 
 extern const char* LStyp[]; //Lautsprecherkonfig (SB/FH, Zone2 etc)
