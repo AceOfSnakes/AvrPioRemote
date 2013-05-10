@@ -429,6 +429,13 @@ void ReceiverInterface::InterpretString(const QString& data)
     {
         emit NetData(data);
     }
+    else if (data.startsWith("GBI") ||
+             data.startsWith("GCI") ||
+             data.startsWith("GDI") ||
+             data.startsWith("GEI"))
+    {
+        emit usbData(data);
+    }
     else if (data.startsWith("ATA"))
     {
         int n = 0;

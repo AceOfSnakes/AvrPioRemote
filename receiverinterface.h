@@ -57,6 +57,7 @@ signals:
     void NetData(QString data);
     void DFiltData(bool set);
     void SpeakerData(QString name);
+    void usbData (QString name);
 };
 
 #endif // RECEIVERINTERFACE_H

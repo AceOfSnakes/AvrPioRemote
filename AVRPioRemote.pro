@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     settingsdialog.cpp \
     logger.cpp \
     eqdialog.cpp \
-    listeningmodedialog.cpp
+    listeningmodedialog.cpp \
+    usbdialog.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -45,7 +46,8 @@ HEADERS  += avrpioremote.h \
     settingsdialog.h \
     logger.h \
     eqdialog.h \
-    listeningmodedialog.h
+    listeningmodedialog.h \
+    usbdialog.h
  
 
 
@@ -59,7 +61,8 @@ FORMS    += avrpioremote.ui \
     getoldfavoritelistdialog.ui \
     settingsdialog.ui \
     eqdialog.ui \
-    listeningmodedialog.ui
+    listeningmodedialog.ui \
+    usbdialog.ui
 
 
 OTHER_FILES += \

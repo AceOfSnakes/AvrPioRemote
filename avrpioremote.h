@@ -19,7 +19,7 @@
 #include <QTranslator>
 #include <QTimer>
 #include <listeningmodedialog.h>
-
+#include <usbdialog.h>
 
 
 namespace Ui {
@@ -82,8 +82,9 @@ private:
     SettingsDialog* m_SettingsDialog;
     EQDialog*       m_EQDialog;
     ListeningModeDialog* m_Listendiag;
+    usbDialog*  m_usbDialog;
 
-    //    QThread*        m_TCPThread;
+    //    QThre;ad*        m_TCPThread;
     bool            m_ReceiverOnline;
     bool            m_FavoritesCompatibilityMode;
     QTranslator     m_Translater;

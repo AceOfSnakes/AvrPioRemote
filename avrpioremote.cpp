@@ -146,6 +146,9 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
 
+    // create usb dialog
+    m_usbDialog = new usbDialog(this, m_Settings, m_ReceiverInterface);
+
     // create loudspeaker dialog
     m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings, m_ReceiverInterface );
 
@@ -172,6 +175,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 AVRPioRemote::~AVRPioRemote()
 {
     delete m_NetRadioDialog;
+    delete m_usbDialog;
     delete m_LoudspeakerSettingsDialog;
     delete m_TunerDialog;
     delete m_TestDialog;
@@ -247,7 +251,8 @@ void AVRPioRemote::SelectInputButton(int idx)
                 m_OldFavoritesDialog->hide();
         }
     }
-    // if it is the tuner input, open NetRadio window, otherwise close it
+    // if it is the tuner input, open Tuner window, otherwise close it
+
     if (found == ui->InputTunerButton)
     {
         m_TunerDialog->ShowTunerDialog();
@@ -257,6 +262,16 @@ void AVRPioRemote::SelectInputButton(int idx)
         if (m_TunerDialog->isVisible())
             m_TunerDialog->hide();
     }
+    if (found == ui->InputIpodButton)
+    {
+        m_usbDialog->ShowusbDialog();
+    }
+    else
+    {
+        if (m_usbDialog->isVisible())
+            m_usbDialog->hide();
+    }
+
 }
 
 //void AVRPioRemote::SocketStateChanged(QAbstractSocket::SocketState State)
@@ -843,6 +858,7 @@ void AVRPioRemote::on_InputCdButton_clicked()
 void AVRPioRemote::on_InputIpodButton_clicked()
 {
     ui->InputIpodButton->setChecked(!ui->InputIpodButton->isChecked());
+    m_usbDialog->ShowusbDialog();
     SendCmd("17FN");
 }
 

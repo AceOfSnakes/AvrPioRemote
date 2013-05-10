@@ -222,7 +222,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>iPod</string>
+    <string>iP/USB</string>
    </property>
    <property name="checkable">
     <bool>true</bool>
