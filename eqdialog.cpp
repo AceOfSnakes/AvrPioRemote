@@ -16,6 +16,14 @@ const char* eqnames[] = {
     "Eqtreble",
 };
 
+/*const char* mcaccbuttons[]={
+    "mc1",
+    "mc2",
+    "mc3",
+    "mc4",
+    "mc5",
+    "mc6",
+};*/
 
 EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings) :
     QDialog(parent),
@@ -77,6 +85,13 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     m_Labels.append(ui->wert16k);
     m_Labels.append(ui->wertbass);
     m_Labels.append(ui->werttreble);
+
+    m_buttons.append(ui->mc1);
+    m_buttons.append(ui->mc2);
+    m_buttons.append(ui->mc3);
+    m_buttons.append(ui->mc4);
+    m_buttons.append(ui->mc5);
+    m_buttons.append(ui->mc6);
 
     // configure the timer
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
@@ -157,6 +172,8 @@ void EQDialog::ShowEQDialog()
     SendCmd("?BA");
     SendCmd("?TR");
     SendCmd("?TO");
+    SendCmd("?MC");
+
 }
 
 
@@ -222,6 +239,13 @@ void EQDialog::DataReceived(QString data)
             ui->eqtr->setVisible(true);//  setEnabled(true);
             ui->eqba->setVisible(true);//  setEnabled(true);
         }
+    }
+  if (data.startsWith("MC"))
+    {
+//      qDebug() <<"MC wert: " << wert;
+      wert=data.mid(2,1).toInt()-1;
+      clear_toggles();
+      m_buttons[wert]->setChecked(true);
     }
 }
 
@@ -358,4 +382,77 @@ void EQDialog::on_bypass_clicked()
 //        SelectPreset(0);
     }
 
+}
+
+
+void EQDialog::on_mc1_clicked()
+{
+    qDebug() <<"ischecked??? 1" <<ui->mc1->isChecked() ;
+    if (ui->mc1->isChecked())
+    {
+        clear_toggles();
+        ui->mc1->setChecked(true);
+        SendCmd("1MC");
+    }
+}
+
+void EQDialog::on_mc2_clicked()
+{
+    qDebug() <<"ischecked???   2"  <<ui->mc2->isChecked() ;
+    if (ui->mc2->isChecked())
+    {
+        clear_toggles();
+        ui->mc2->setChecked(true);
+        SendCmd("2MC");
+    }
+}
+
+
+void EQDialog::on_mc3_clicked()
+{
+    if (ui->mc3->isChecked())
+    {
+        clear_toggles();
+        ui->mc3->setChecked(true);
+        SendCmd("3MC");
+    }
+}
+
+void EQDialog::on_mc4_clicked()
+{
+    if (ui->mc4->isChecked())
+    {
+        clear_toggles();
+        ui->mc4->setChecked(true);
+        SendCmd("4MC");
+    }
+}
+
+
+void EQDialog::on_mc5_clicked()
+{
+    if (ui->mc5->isChecked())
+    {
+        clear_toggles();
+        ui->mc5->setChecked(true);
+        SendCmd("5MC");
+    }
+}
+
+
+void EQDialog::on_mc6_clicked()
+{
+    if (ui->mc6->isChecked())
+    {
+        clear_toggles();
+        ui->mc6->setChecked(true);
+        SendCmd("6MC");
+    }
+}
+
+
+void EQDialog::clear_toggles()
+{
+    for (int i=0;i<6;i++)
+    m_buttons[i]->setChecked(false);
 }
