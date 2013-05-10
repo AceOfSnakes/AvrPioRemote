@@ -685,6 +685,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
 
+        pAction = new QAction(tr("IPod/USB"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_usbDialog, SLOT(ShowusbDialog()));
+
         pAction = new QAction(tr("Equalizer"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
@@ -857,8 +861,8 @@ void AVRPioRemote::on_InputCdButton_clicked()
 
 void AVRPioRemote::on_InputIpodButton_clicked()
 {
-    ui->InputIpodButton->setChecked(!ui->InputIpodButton->isChecked());
     m_usbDialog->ShowusbDialog();
+    ui->InputIpodButton->setChecked(!ui->InputIpodButton->isChecked());
     SendCmd("17FN");
 }
 
