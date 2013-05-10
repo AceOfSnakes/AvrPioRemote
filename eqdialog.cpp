@@ -312,8 +312,17 @@ void EQDialog::on_savebutt_clicked()
         }
        str=QString("mem%1-%2/EQset").arg(ui->selectmem->currentIndex()).arg(str1);
         m_Settings.setValue(str,ui->meminf->text());
-}
 
+        for (int i=0;i<6;i++)
+        {
+            if (m_buttons[i]->isChecked())
+            {
+                str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
+                 m_Settings.setValue(str,i);
+                 break;
+            }
+        }
+}
 
 
 void EQDialog::on_restbutt_clicked()
@@ -331,6 +340,10 @@ void EQDialog::on_restbutt_clicked()
 //          qDebug() <<str <<m_EQPresets[0].m_Values[i];
       }
       SelectPreset(0);
+      str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
+      str1=m_Settings.value(str).toInt();   //Nummer des Buttons aus der m_button Liste (0-5)
+      if (!m_buttons[str1]->isChecked())
+          m_buttons[str1]->click();
 }
 
 
@@ -387,7 +400,6 @@ void EQDialog::on_bypass_clicked()
 
 void EQDialog::on_mc1_clicked()
 {
-    qDebug() <<"ischecked??? 1" <<ui->mc1->isChecked() ;
     if (ui->mc1->isChecked())
     {
         clear_toggles();
@@ -398,7 +410,6 @@ void EQDialog::on_mc1_clicked()
 
 void EQDialog::on_mc2_clicked()
 {
-    qDebug() <<"ischecked???   2"  <<ui->mc2->isChecked() ;
     if (ui->mc2->isChecked())
     {
         clear_toggles();
