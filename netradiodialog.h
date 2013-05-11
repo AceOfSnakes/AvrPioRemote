@@ -7,6 +7,8 @@
 #include "receiverinterface.h"
 #include <QTimer>
 #include <QMoveEvent>
+#include <QIcon>
+#include <QMap>
 
 
 namespace Ui {
@@ -33,6 +35,9 @@ private:
     QStringList         m_StationList;
     ReceiverInterface&  m_Comm;
     bool                m_PositionSet;
+    QMap<int, QIcon>    m_Icons;
+    int                 m_ScreenType;
+    int                 m_ListUpdateFlag;
 
     void moveEvent(QMoveEvent*event);
 

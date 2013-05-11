@@ -82,7 +82,7 @@ void GetOldFavoriteListDialog::Timeout()
 }
 
 
-void GetOldFavoriteListDialog::InputFunctionData(int no, QString name)
+void GetOldFavoriteListDialog::InputFunctionData(int no, QString/* name*/)
 {
     // only if the favorite input is selected, save the strings
     if (no == 45 && !m_Done)

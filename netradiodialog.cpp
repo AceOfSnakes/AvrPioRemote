@@ -2,6 +2,7 @@
 #include "ui_netradiodialog.h"
 #include <QDebug>
 #include <qtextcodec.h>
+#include <QDir>
 
 NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
     QDialog(parent),
@@ -15,6 +16,8 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
     m_TotalNumberOfItems = 0;
     m_SelectedItemIndex = 0;
     m_VisibleListSize = 0;
+    m_ScreenType = 0;
+    m_ListUpdateFlag = 0;
 
     ui->setupUi(this);
 
@@ -31,6 +34,28 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
     connect((&m_Comm), SIGNAL(InputFunctionData(int, QString)), this,  SLOT(InputFunctionData(int, QString)));
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
+
+    QDir dir;
+    // directory
+    QString path = dir.absoluteFilePath("images/Gnome-folder-open.svg");
+    QIcon icon1(path);
+    m_Icons.insert(1, icon1);
+    // audio
+    path = dir.absoluteFilePath("images/Gnome-audio-x-generic.svg");
+    QIcon icon2(path);
+    m_Icons.insert(2, icon2);
+    // photo
+    path = dir.absoluteFilePath("images/Gnome-emblem-photos.svg");
+    QIcon icon3(path);
+    m_Icons.insert(3, icon3);
+    // video
+    path = dir.absoluteFilePath("images/Gnome-media-playback-start.svg");
+    QIcon icon4(path);
+    m_Icons.insert(4, icon4);
+    // now playing
+    path = dir.absoluteFilePath("images/Gnome-video-x-generic.svg");
+    QIcon icon5(path);
+    m_Icons.insert(5, icon5);
 
     m_Timer.setSingleShot(false);
     m_Timer.setInterval(10000);
@@ -119,10 +144,10 @@ void NetRadioDialog::NetData(QString data)
         ui->listWidget->clear();
         // qDebug() << "maximum number of list " << n;
     }
-//    else if (data.startsWith("GCH"))
-//    {
-//        int screenType = data.mid(3, 2).toInt();
-//        int listUpdateFlag = data.mid(5, 1).toInt();
+    else if (data.startsWith("GCH"))
+    {
+        m_ScreenType = data.mid(3, 2).toInt();
+        m_ListUpdateFlag = data.mid(5, 1).toInt();
 //        int topMenuKey = data.mid(6, 1).toInt();
 //        int toolsKey = data.mid(7, 1).toInt();
 //        int returnKey = data.mid(8, 1).toInt();
@@ -130,7 +155,7 @@ void NetRadioDialog::NetData(QString data)
 //        qDebug() << "ScreenType " << screenType << " ListUpdateFlag " << listUpdateFlag
 //                 << " TopMenuKey " << topMenuKey << " ToolsKey " << toolsKey
 //                 << " ReturnKey " << returnKey << " ScreenName <" << screenName << ">";
-//    }
+    }
     else if (data.startsWith("GDH"))
     {
         m_IndexOfLine1 = data.mid(3, 5).toInt();
@@ -144,7 +169,7 @@ void NetRadioDialog::NetData(QString data)
     {
 //        int LineNumber = data.mid(3, 2).toInt();
         int FocusInformation = data.mid(5, 1).toInt();
-//        int LineDataType = data.mid(6, 2).toInt();
+        int LineDataType = data.mid(6, 2).toInt();
         QString DisplayLine = data.mid(8);
         DisplayLine = DisplayLine.trimmed();
         while (DisplayLine.startsWith("\""))
@@ -204,13 +229,17 @@ CP1258
 Apple Roman
 TIS-620 -- Thai*/
         ui->listWidget->addItem(DisplayLine);
-        if (FocusInformation)
+        if (m_ScreenType == 1)
         {
-            QBrush brush(QColor(0, 0, 255));
-            //int index = ui->listWidgetLog->currentIndex().row();
             int index = ui->listWidget->count() - 1;
-            ui->listWidget->item(index)->setForeground(brush);
-            m_SelectedItemIndex = index;
+            ui->listWidget->item(index)->setIcon(m_Icons[LineDataType]);
+            if (FocusInformation)
+            {
+                QBrush brush(QColor(0, 0, 255));
+                //int index = ui->listWidgetLog->currentIndex().row();
+                ui->listWidget->item(index)->setForeground(brush);
+                m_SelectedItemIndex = index;
+            }
         }
 //        qDebug() << "LineNumber " << LineNumber << " FocusInformation " << FocusInformation
 //                 << " LineDataType " << LineDataType << " DisplayLine <" << DisplayLine << ">";
@@ -291,7 +320,7 @@ void NetRadioDialog::on_NetFwdButton_clicked()
     emit SendCmd("15NW");
 }
 
-void NetRadioDialog::on_listWidget_currentRowChanged(int currentRow)
+void NetRadioDialog::on_listWidget_currentRowChanged(int /*currentRow*/)
 {
 //    qDebug() << "Current row " << currentRow;
 //    QString cmd = QString("%1GFH").arg((uint)(currentRow + 1), 2, 10, QChar('0'));
@@ -338,7 +367,7 @@ void NetRadioDialog::on_PageDownButton_2_clicked()
     emit SendCmd(cmd);
 }
 
-void NetRadioDialog::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+void NetRadioDialog::on_listWidget_itemDoubleClicked(QListWidgetItem */*item*/)
 {
 //    qDebug() << "Current row " << currentRow;
     int currentRow = ui->listWidget->currentRow();

@@ -290,7 +290,7 @@ void LoudspeakerSettingsDialog::on_SetBut_clicked()
 }
 
 
-void LoudspeakerSettingsDialog::error(int i)
+void LoudspeakerSettingsDialog::error(int)
 {
 // da keine weitere Unterscheidung hier möglich, generell setzen
     if (errflag>0)

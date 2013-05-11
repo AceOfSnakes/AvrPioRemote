@@ -21,9 +21,9 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
     this->setFixedSize(this->size());
 
     // restore the position of the window
-    if (m_Settings.value("SaveusbWindowGeometry", false).toBool())
+    if (m_Settings.value("SaveUsbWindowGeometry", false).toBool())
     {
-        m_PositionSet = restoreGeometry(m_Settings.value("usbWindowGeometry").toByteArray());
+        m_PositionSet = restoreGeometry(m_Settings.value("UsbWindowGeometry").toByteArray());
     }
 
     connect((&m_Comm), SIGNAL(usbData(QString)), this, SLOT(usbrecData(QString)));
@@ -46,17 +46,17 @@ usbDialog::~usbDialog()
 
 void usbDialog::moveEvent(QMoveEvent* event)
 {
-    m_Settings.setValue("usbWindowGeometry", saveGeometry());
+    m_Settings.setValue("UsbWindowGeometry", saveGeometry());
     QDialog::moveEvent(event);
 }
 
 
 void usbDialog::ShowusbDialog()
 {   
-    if (m_Settings.value("AutoshowUSB", true).toBool() && !isVisible())
+    if (m_Settings.value("AutoShowUSB", true).toBool() && !isVisible())
     {
         emit SendCmd("?GAI");
-        if (!m_PositionSet || !m_Settings.value("SaveusbWindowGeometry", false).toBool())
+        if (!m_PositionSet || !m_Settings.value("SaveUsbWindowGeometry", false).toBool())
         {
             QWidget* Parent = dynamic_cast<QWidget*>(parent());
             if (Parent != NULL)
@@ -213,7 +213,7 @@ void usbDialog::on_NetFwdButton_clicked()
     emit SendCmd("06IP");
 }
 
-void usbDialog::on_listWidget_currentRowChanged(int currentRow)
+void usbDialog::on_listWidget_currentRowChanged(int/* currentRow*/)
 {
 //    qDebug() << "Current row " << currentRow;
 //    QString cmd = QString("%1GFH").arg((uint)(currentRow + 1), 2, 10, QChar('0'));
@@ -262,7 +262,7 @@ void usbDialog::on_PageDownButton_2_clicked()
     emit SendCmd(cmd);
 }
 
-void usbDialog::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+void usbDialog::on_listWidget_itemDoubleClicked(QListWidgetItem */*item*/)
 {
 //    qDebug() << "Current row " << currentRow;
     int currentRow = ui->listWidget->currentRow();

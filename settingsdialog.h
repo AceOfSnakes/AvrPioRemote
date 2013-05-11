@@ -38,6 +38,10 @@ private slots:
     void on_RestoreSpeakerSettingsWindowCheckBox_clicked();
     void on_RestoreTestWindowCheckBox_clicked();
     void on_RestoreLMSettingsWindowCheckBox_clicked();
+    void on_RestoreUSBWindowCheckBox_clicked();
+    void on_ShowUSBCheckBox_clicked();
+
+    void on_StartLoggingInTestWindowCheckBox_clicked();
 
 private:
     QSettings&          m_Settings;

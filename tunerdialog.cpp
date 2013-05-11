@@ -524,7 +524,7 @@ void TunerDialog::DisplayData(int no, QString str)
 }
 
 
-void TunerDialog::InputChanged(int no, QString name)
+void TunerDialog::InputChanged(int no, QString/* name*/)
 {
     if (no == 2) // tuner
     {

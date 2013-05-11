@@ -71,7 +71,7 @@ void ListeningModeDialog::ShowListeningDialog()
 }
 
 
-void ListeningModeDialog::on_listmodi_doubleClicked(const QModelIndex &index)
+void ListeningModeDialog::on_listmodi_doubleClicked(const QModelIndex &/*index*/)
 {
     QString str;
     int i;

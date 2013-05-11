@@ -20,8 +20,8 @@ OldFavoritesDialog::OldFavoritesDialog(QWidget *parent, ReceiverInterface *comm)
     connect((this), SIGNAL(SendCmd(QString)),                parent, SLOT(SendCmd(QString)));
     connect((comm), SIGNAL(InputFunctionData(int, QString)), this,   SLOT(InputFunctionData(int, QString)));
 
-    QString path = QDir::currentPath() + "/" + "Favorites.xml";
-    ReadFile(path);
+//    QString path = QDir::currentPath() + "/" + "Favorites.xml";
+//    ReadFile(path);
 }
 
 OldFavoritesDialog::~OldFavoritesDialog()
@@ -45,7 +45,7 @@ void OldFavoritesDialog::ShowOldFavoritesDialog()
 }
 
 
-void OldFavoritesDialog::InputFunctionData(int no, QString name)
+void OldFavoritesDialog::InputFunctionData(int no, QString/* name*/)
 {
     if (no == 45)
     {

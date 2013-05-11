@@ -339,7 +339,7 @@ void AVRPioRemote::NewDataReceived(QString data)
 }
 
 
-void AVRPioRemote::DisplayData(int DispNo, QString data)
+void AVRPioRemote::DisplayData(int, QString data)
 {
     ui->ScreenLineEdit1->setText(data);
 }

@@ -259,7 +259,7 @@ void EQDialog::Timeout()
 }
 
 
-void EQDialog::OnSliderValueChanged(int value)
+void EQDialog::OnSliderValueChanged(int/* value*/)
 {
     // don't change the eq settings yet, because the receiver is somewhat slow
     // and get irritated if the next command is sent to early

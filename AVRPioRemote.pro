@@ -69,7 +69,12 @@ OTHER_FILES += \
     images/cancel.png \
     images/pen.png \
     images/ok.png \
-    images/save.png
+    images/save.png \
+    images/Gnome-video-x-generic.svg \
+    images/Gnome-media-playback-start.svg \
+    images/Gnome-folder-open.svg \
+    images/Gnome-emblem-photos.svg \
+    images/Gnome-audio-x-generic.svg
 
 RESOURCES += \
     avrpioremote.qrc

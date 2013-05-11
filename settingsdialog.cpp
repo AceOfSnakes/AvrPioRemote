@@ -34,7 +34,10 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
 
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
+    ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
     SetLanguage();
+
+    ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value("StartLoggingInTestWindow", false).toBool());
 
     ui->RestoreMainWindowCheckBox->setChecked(m_Settings.value("SaveMainWindowGeometry", true).toBool());
     ui->RestoreEQWindowCheckBox->setChecked(m_Settings.value("SaveEQWindowGeometry", false).toBool());
@@ -43,6 +46,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
     ui->RestoreSpeakerSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLSSettingsWindowGeometry", false).toBool());
     ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value("SaveTestWindowGeometry", false).toBool());
     ui->RestoreLMSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool());
+    ui->RestoreUSBWindowCheckBox->setChecked(m_Settings.value("SaveUsbWindowGeometry", false).toBool());
 }
 
 SettingsDialog::~SettingsDialog()
@@ -190,4 +194,19 @@ void SettingsDialog::on_RestoreTestWindowCheckBox_clicked()
 void SettingsDialog::on_RestoreLMSettingsWindowCheckBox_clicked()
 {
     m_Settings.setValue("SaveLMSettingsWindowGeometry", ui->RestoreLMSettingsWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreUSBWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveUsbWindowGeometry", ui->RestoreUSBWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_ShowUSBCheckBox_clicked()
+{
+    m_Settings.setValue("AutoShowUSB", ui->ShowUSBCheckBox->isChecked());
+}
+
+void SettingsDialog::on_StartLoggingInTestWindowCheckBox_clicked()
+{
+    m_Settings.setValue("StartLoggingInTestWindow", ui->StartLoggingInTestWindowCheckBox->isChecked());
 }

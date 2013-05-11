@@ -10,7 +10,9 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
     ui(new Ui::TestDialog),
     m_Comm(Comm),
     m_Settings(Settings),
-    m_PositionSet(false)
+    m_PositionSet(false),
+    m_LogEnabled(false),
+    m_InvertFilter(false)
 {
     ui->setupUi(this);
 
@@ -19,6 +21,8 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
     {
         m_PositionSet = restoreGeometry(m_Settings.value("TestWindowGeometry").toByteArray());
     }
+
+    m_LogEnabled = m_Settings.value("StartLoggingInTestWindow", false).toBool();
 
     connect((&m_Comm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
@@ -66,13 +70,45 @@ void TestDialog::on_ClearButton_clicked()
 
 void TestDialog::NewDataReceived(QString data)
 {
-    AddToList("<-- " + data);
+    if (m_LogEnabled)
+    {
+        // filter
+        bool found = false;
+        for(int i = 0; i < m_FilterStrings.count(); i++)
+        {
+            if (data.startsWith(m_FilterStrings[i], Qt::CaseInsensitive))
+            {
+                found = true;
+                break;
+            }
+        }
+        if (m_InvertFilter && found)
+            AddToList("<-- " + data);
+        else if (!m_InvertFilter && !found)
+            AddToList("<-- " + data);
+    }
 }
 
 
 void TestDialog::LogSendCmd(QString data)
 {
-    AddToList("--> " + data);
+    if (m_LogEnabled)
+    {
+        // filter
+        bool found = false;
+        for(int i = 0; i < m_FilterStrings.count(); i++)
+        {
+            if (data.startsWith(m_FilterStrings[i], Qt::CaseInsensitive))
+            {
+                found = true;
+                break;
+            }
+        }
+        if (m_InvertFilter && found)
+            AddToList("--> " + data);
+        else if (!m_InvertFilter && !found)
+            AddToList("--> " + data);
+    }
 }
 
 
@@ -120,4 +156,28 @@ void TestDialog::on_SaveButton_clicked()
     {
         ts << ui->listWidget->item(i)->text() << endl;
     }
+}
+
+
+void TestDialog::on_LogCommunicationCheckBox_clicked()
+{
+    m_LogEnabled = ui->LogCommunicationCheckBox->isChecked();
+}
+
+
+void TestDialog::on_FilterLineEdit_textChanged(const QString &arg1)
+{
+    QString str = arg1.trimmed();
+    if (str == "")
+    {
+        m_FilterStrings.clear();
+        return;
+    }
+    m_FilterStrings = str.split(QRegExp("\\s+"));
+}
+
+
+void TestDialog::on_checkBox_clicked()
+{
+    m_InvertFilter = ui->checkBox->isChecked();
 }
