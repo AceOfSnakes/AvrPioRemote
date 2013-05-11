@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>365</height>
+    <width>352</width>
+    <height>391</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>250</y>
+     <y>280</y>
      <width>131</width>
      <height>101</height>
     </rect>
@@ -149,8 +149,8 @@
   <widget class="QPushButton" name="NetPauseButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>250</y>
+     <x>160</x>
+     <y>290</y>
      <width>41</width>
      <height>23</height>
     </rect>
@@ -165,8 +165,8 @@
   <widget class="QPushButton" name="NetPlayButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>250</y>
+     <x>210</x>
+     <y>290</y>
      <width>41</width>
      <height>23</height>
     </rect>
@@ -181,8 +181,8 @@
   <widget class="QPushButton" name="NetNextButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>280</y>
+     <x>210</x>
+     <y>320</y>
      <width>41</width>
      <height>23</height>
     </rect>
@@ -197,8 +197,8 @@
   <widget class="QPushButton" name="NetPrevButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>280</y>
+     <x>160</x>
+     <y>320</y>
      <width>41</width>
      <height>23</height>
     </rect>
@@ -213,8 +213,8 @@
   <widget class="QPushButton" name="NetStopButton">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>250</y>
+     <x>260</x>
+     <y>290</y>
      <width>41</width>
      <height>23</height>
     </rect>
@@ -229,8 +229,8 @@
   <widget class="QPushButton" name="NetFwdButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>310</y>
+     <x>210</x>
+     <y>350</y>
      <width>41</width>
      <height>23</height>
     </rect>
@@ -245,8 +245,8 @@
   <widget class="QPushButton" name="NetRevButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>310</y>
+     <x>160</x>
+     <y>350</y>
      <width>41</width>
      <height>23</height>
     </rect>
@@ -350,9 +350,9 @@
   <widget class="QPushButton" name="NetAddFavButton">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>280</y>
-     <width>91</width>
+     <x>260</x>
+     <y>320</y>
+     <width>81</width>
      <height>23</height>
     </rect>
    </property>
@@ -366,14 +366,71 @@
   <widget class="QPushButton" name="NetRemoveFavButton">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>310</y>
-     <width>91</width>
+     <x>260</x>
+     <y>350</y>
+     <width>81</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Remove Fav</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="NetSwitchToNetRadioButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Internet Radio</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="NetSwitchToMediaServerButton">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>240</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Media Server</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="NetSwitchToFavoritesButton">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>240</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Favorites</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
    <property name="autoDefault">
     <bool>false</bool>

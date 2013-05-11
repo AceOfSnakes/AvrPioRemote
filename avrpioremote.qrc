@@ -4,5 +4,10 @@
         <file>images/ok.png</file>
         <file>images/pen.png</file>
         <file>images/save.png</file>
+        <file>images/Gnome-audio-x-generic.png</file>
+        <file>images/Gnome-emblem-photos.png</file>
+        <file>images/Gnome-folder-open.png</file>
+        <file>images/Gnome-media-playback-start.png</file>
+        <file>images/Gnome-video-x-generic.png</file>
     </qresource>
 </RCC>

@@ -2,7 +2,6 @@
 #include "ui_netradiodialog.h"
 #include <QDebug>
 #include <qtextcodec.h>
-#include <QDir>
 
 NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
     QDialog(parent),
@@ -35,26 +34,20 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
 
-    QDir dir;
     // directory
-    QString path = dir.absoluteFilePath("images/Gnome-folder-open.svg");
-    QIcon icon1(path);
+    QIcon icon1(QString::fromUtf8(":/new/prefix1/images/Gnome-folder-open.png"));
     m_Icons.insert(1, icon1);
     // audio
-    path = dir.absoluteFilePath("images/Gnome-audio-x-generic.svg");
-    QIcon icon2(path);
+    QIcon icon2(QString::fromUtf8(":/new/prefix1/images/Gnome-audio-x-generic.png"));
     m_Icons.insert(2, icon2);
     // photo
-    path = dir.absoluteFilePath("images/Gnome-emblem-photos.svg");
-    QIcon icon3(path);
+    QIcon icon3(QString::fromUtf8(":/new/prefix1/images/Gnome-emblem-photos.png"));
     m_Icons.insert(3, icon3);
     // video
-    path = dir.absoluteFilePath("images/Gnome-media-playback-start.svg");
-    QIcon icon4(path);
+    QIcon icon4(QString::fromUtf8(":/new/prefix1/images/Gnome-media-playback-start.png"));
     m_Icons.insert(4, icon4);
     // now playing
-    path = dir.absoluteFilePath("images/Gnome-video-x-generic.svg");
-    QIcon icon5(path);
+    QIcon icon5(QString::fromUtf8(":/new/prefix1/images/Gnome-video-x-generic.png"));
     m_Icons.insert(5, icon5);
 
     m_Timer.setSingleShot(false);
@@ -113,11 +106,32 @@ void NetRadioDialog::InputFunctionData(int no, QString name)
         {
             ui->NetAddFavButton->setEnabled(false);
             ui->NetRemoveFavButton->setEnabled(true);
+            ui->NetSwitchToFavoritesButton->setChecked(true);
+            ui->NetSwitchToMediaServerButton->setChecked(false);
+            ui->NetSwitchToNetRadioButton->setChecked(false);
         }
         else
         {
             ui->NetAddFavButton->setEnabled(true);
             ui->NetRemoveFavButton->setEnabled(false);
+            if (no == 38)
+            {
+                ui->NetSwitchToFavoritesButton->setChecked(false);
+                ui->NetSwitchToMediaServerButton->setChecked(false);
+                ui->NetSwitchToNetRadioButton->setChecked(true);
+            }
+            else if (no == 44)
+            {
+                ui->NetSwitchToFavoritesButton->setChecked(false);
+                ui->NetSwitchToMediaServerButton->setChecked(true);
+                ui->NetSwitchToNetRadioButton->setChecked(false);
+            }
+            else
+            {
+                ui->NetSwitchToFavoritesButton->setChecked(false);
+                ui->NetSwitchToMediaServerButton->setChecked(false);
+                ui->NetSwitchToNetRadioButton->setChecked(false);
+            }
         }
         this->setWindowTitle(name);
     }
@@ -383,4 +397,22 @@ void NetRadioDialog::on_NetAddFavButton_clicked()
 void NetRadioDialog::on_NetRemoveFavButton_clicked()
 {
     emit SendCmd("33NW"); // clear / remove fav
+}
+
+void NetRadioDialog::on_NetSwitchToNetRadioButton_clicked()
+{
+    ui->NetSwitchToNetRadioButton->setChecked(!ui->NetSwitchToNetRadioButton->isChecked());
+    SendCmd("38FN");
+}
+
+void NetRadioDialog::on_NetSwitchToMediaServerButton_clicked()
+{
+    ui->NetSwitchToMediaServerButton->setChecked(!ui->NetSwitchToMediaServerButton->isChecked());
+    SendCmd("44FN");
+}
+
+void NetRadioDialog::on_NetSwitchToFavoritesButton_clicked()
+{
+    ui->NetSwitchToFavoritesButton->setChecked(!ui->NetSwitchToFavoritesButton->isChecked());
+    SendCmd("45FN");
 }

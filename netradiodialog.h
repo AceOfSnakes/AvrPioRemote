@@ -66,10 +66,11 @@ private slots:
     void on_PageUpButton_2_clicked();
     void on_PageDownButton_2_clicked();
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
-
     void on_NetAddFavButton_clicked();
-
     void on_NetRemoveFavButton_clicked();
+    void on_NetSwitchToNetRadioButton_clicked();
+    void on_NetSwitchToMediaServerButton_clicked();
+    void on_NetSwitchToFavoritesButton_clicked();
 
 signals:
     void SendCmd(QString data);
