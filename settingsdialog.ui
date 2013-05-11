@@ -83,6 +83,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="ShowReceiverNameInTitleCheckBox">
+         <property name="text">
+          <string>Show Receiver name in window title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="ShowTunerCheckBox">
          <property name="text">
           <string>Show Tuner window automatically</string>

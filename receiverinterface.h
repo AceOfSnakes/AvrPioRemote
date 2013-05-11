@@ -58,6 +58,8 @@ signals:
     void DFiltData(bool set);
     void SpeakerData(QString name);
     void usbData (QString name);
+    void ReceiverType (QString no, QString name);
+    void ReceiverNetworkName (QString name);
 };
 
 #endif // RECEIVERINTERFACE_H

@@ -40,8 +40,8 @@ private slots:
     void on_RestoreLMSettingsWindowCheckBox_clicked();
     void on_RestoreUSBWindowCheckBox_clicked();
     void on_ShowUSBCheckBox_clicked();
-
     void on_StartLoggingInTestWindowCheckBox_clicked();
+    void on_ShowReceiverNameInTitleCheckBox_clicked();
 
 private:
     QSettings&          m_Settings;

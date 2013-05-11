@@ -47,6 +47,8 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
     ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value("SaveTestWindowGeometry", false).toBool());
     ui->RestoreLMSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool());
     ui->RestoreUSBWindowCheckBox->setChecked(m_Settings.value("SaveUsbWindowGeometry", false).toBool());
+
+    ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
 }
 
 SettingsDialog::~SettingsDialog()
@@ -209,4 +211,9 @@ void SettingsDialog::on_ShowUSBCheckBox_clicked()
 void SettingsDialog::on_StartLoggingInTestWindowCheckBox_clicked()
 {
     m_Settings.setValue("StartLoggingInTestWindow", ui->StartLoggingInTestWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_ShowReceiverNameInTitleCheckBox_clicked()
+{
+    m_Settings.setValue("ShowReceiverNameInTitle", ui->ShowReceiverNameInTitleCheckBox->isChecked());
 }

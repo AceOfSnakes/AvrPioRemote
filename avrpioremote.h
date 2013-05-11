@@ -116,6 +116,8 @@ public slots:
     void HiBitData(bool set);
     void PqlsData(bool set);
     void DFiltData(bool set);
+    void ReceiverType (QString no, QString name);
+    void ReceiverNetworkName (QString name);
 private slots:
     void CommError(QString socketError);
     void CommConnected();
@@ -153,9 +155,7 @@ private slots:
     void on_Num2Button_clicked();
     void on_Num3Button_clicked();
     void on_ShowAllListeningModesButton_clicked();
-
     void on_InputVideoButton_clicked();
-
     void on_ATBEQModesButton_clicked();
 
 signals:

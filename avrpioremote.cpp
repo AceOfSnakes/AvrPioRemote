@@ -72,6 +72,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((&m_ReceiverInterface), SIGNAL(HiBitData(bool)), this,  SLOT(HiBitData(bool)));
     connect((&m_ReceiverInterface), SIGNAL(PqlsData(bool)), this,  SLOT(PqlsData(bool)));
     connect((&m_ReceiverInterface), SIGNAL(DFiltData(bool)), this,  SLOT(DFiltData(bool)));
+    connect((&m_ReceiverInterface), SIGNAL(ReceiverType(QString,QString)), this,  SLOT(ReceiverType(QString,QString)));
+    connect((&m_ReceiverInterface), SIGNAL(ReceiverNetworkName(QString)), this,  SLOT(ReceiverNetworkName(QString)));
 
     // configure ip adress edit iput
     ui->lineEditIP1->setValidator(&m_IpValidator);
@@ -513,6 +515,8 @@ void AVRPioRemote::CommConnected()
     ui->pushButtonConnect->setText(tr("Disconnect"));
     ui->pushButtonConnect->setChecked(true);
     m_ReceiverOnline = true;
+    SendCmd("?RGD"); // Receiver-Kennung
+    SendCmd("?SSO"); // Receiver friendly name (network)
     RequestStatus();
 }
 
@@ -966,3 +970,17 @@ void AVRPioRemote::on_ATBEQModesButton_clicked()
 {
     m_EQDialog->ShowEQDialog();
 }
+
+void AVRPioRemote::ReceiverType (QString/* no*/, QString name)
+{
+    if(m_Settings.value("ShowReceiverNameInTitle", true).toBool())
+    {
+        this->setWindowTitle(name);
+    }
+}
+
+
+void AVRPioRemote::ReceiverNetworkName (QString/* name*/)
+{
+}
+

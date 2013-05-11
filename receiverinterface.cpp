@@ -1,6 +1,8 @@
 #include "receiverinterface.h"
 #include "Defs.h"
 #include <QTextCodec>
+#include <QStringList>
+#include <QRegExp>
 
 string trim(const string &t, const string &ws)
 {
@@ -441,6 +443,26 @@ void ReceiverInterface::InterpretString(const QString& data)
         int n = 0;
         sscanf(data.toLatin1(), "ATA%d", &n);
         emit DFiltData(n != 0);
+    }
+    else if (data.startsWith("RGD"))
+    {
+        QStringList l = data.mid(3).split(QRegExp("[<>]"), QString::SkipEmptyParts);
+        QString str1, str2;
+        if (l.count() > 0)
+            str1 = l[0];
+        if (l.count() > 1)
+            str2 = l[1];
+        emit ReceiverType(str1, str2);
+    }
+    else if (data.startsWith("SSO"))
+    {
+        QString name = data.mid(3);
+        name = name.trimmed();
+        while (name.startsWith("\""))
+            name.remove(0, 1);
+        while (name.endsWith("\""))
+            name.chop(1);
+        emit ReceiverNetworkName(name);
     }
 }
 
