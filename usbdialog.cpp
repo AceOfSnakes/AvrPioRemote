@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <qtextcodec.h>
 
+
 usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
     QDialog(parent),
     m_Settings(settings),
@@ -28,13 +29,15 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
 
     connect((&m_Comm), SIGNAL(usbData(QString)), this, SLOT(usbrecData(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-
+    connect((&m_Comm), SIGNAL(DisplayData(int, QString)),this,SLOT(randrepeattest(int,QString)));
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
 
     m_Timer.setSingleShot(false);
     m_Timer.setInterval(10000);
-    Timeout();
+//    Timeout();
+    ui->brandom->setText(tr("Random off"));
+    ui->brepeat->setText(tr("Repeat off"));
 }
 
 
@@ -282,7 +285,7 @@ void usbDialog::on_bdirectctl_clicked()
 
 void usbDialog::on_brandom_clicked()
 {
-        emit SendCmd("08IP"); // random weiterschalten
+    emit SendCmd("08IP"); // random weiterschalten
 }
 
 
@@ -291,3 +294,13 @@ void usbDialog::on_brepeat_clicked()
     emit SendCmd("07IP"); // repeat weiterschalten
 }
 
+void usbDialog::randrepeattest(int no, QString name)
+{
+    QString str,str1;
+    str=name.trimmed();
+    str1=str.mid(0,6);
+    if(str1=="Repeat")
+        ui->brepeat->setText(str);
+    else if(str1=="Random")
+        ui->brandom->setText(str);
+}

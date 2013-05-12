@@ -323,7 +323,7 @@
   <widget class="QPushButton" name="bicontrol">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>330</y>
      <width>81</width>
      <height>23</height>
@@ -344,7 +344,7 @@
   <widget class="QPushButton" name="bdirectctl">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>360</y>
      <width>81</width>
      <height>23</height>
@@ -386,7 +386,7 @@
   <widget class="QPushButton" name="brandom">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>270</y>
      <width>80</width>
      <height>26</height>
@@ -399,7 +399,7 @@
   <widget class="QPushButton" name="brepeat">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>300</y>
      <width>80</width>
      <height>26</height>

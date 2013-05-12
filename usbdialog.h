@@ -39,6 +39,7 @@ private:
 public slots:
     void usbrecData(QString data);
     void ShowusbDialog();
+    void randrepeattest(int dispNo, QString data);
 
 private slots:
     void on_CursorUpButton_clicked();
