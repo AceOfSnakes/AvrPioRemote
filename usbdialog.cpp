@@ -16,6 +16,8 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
     m_TotalNumberOfItems = 0;
     m_SelectedItemIndex = 0;
     m_VisibleListSize = 0;
+    m_ScreenType = 0;
+
 
     ui->setupUi(this);
 
@@ -38,7 +40,23 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
 //    Timeout();
     ui->brandom->setText(tr("Random off"));
     ui->brepeat->setText(tr("Repeat off"));
+    // directory
+    QIcon icon1(QString::fromUtf8(":/new/prefix1/images/Gnome-folder-open.png"));
+    m_Icons.insert(1, icon1);
+    // audio
+    QIcon icon2(QString::fromUtf8(":/new/prefix1/images/Gnome-audio-x-generic.png"));
+    m_Icons.insert(2, icon2);
+    // photo
+    QIcon icon3(QString::fromUtf8(":/new/prefix1/images/Gnome-emblem-photos.png"));
+    m_Icons.insert(3, icon3);
+    // video
+    QIcon icon4(QString::fromUtf8(":/new/prefix1/images/Gnome-media-playback-start.png"));
+    m_Icons.insert(4, icon4);
+    // now playing
+    QIcon icon5(QString::fromUtf8(":/new/prefix1/images/Gnome-video-x-generic.png"));
+    m_Icons.insert(5, icon5);
 }
+
 
 
 usbDialog::~usbDialog()
@@ -95,9 +113,11 @@ void usbDialog::usbrecData(QString data)
         ui->listWidget->clear();
         // qDebug() << "maximum number of list " << n;
     }
-//    else if (data.startsWith("GCH"))
-//    {
-//        int screenType = data.mid(3, 2).toInt();
+    else if (data.startsWith("GCI"))
+    {
+        m_ScreenType = data.mid(3, 2).toInt();
+
+        //        int screenType = data.mid(3, 2).toInt();
 //        int listUpdateFlag = data.mid(5, 1).toInt();
 //        int topMenuKey = data.mid(6, 1).toInt();
 //        int toolsKey = data.mid(7, 1).toInt();
@@ -106,7 +126,7 @@ void usbDialog::usbrecData(QString data)
 //        qDebug() << "ScreenType " << screenType << " ListUpdateFlag " << listUpdateFlag
 //                 << " TopMenuKey " << topMenuKey << " ToolsKey " << toolsKey
 //                 << " ReturnKey " << returnKey << " ScreenName <" << screenName << ">";
-//    }
+    }
     else if (data.startsWith("GDI"))
     {
         m_IndexOfLine1 = data.mid(3, 5).toInt();
@@ -122,7 +142,7 @@ void usbDialog::usbrecData(QString data)
     {
 //        int LineNumber = data.mid(3, 2).toInt();
         int FocusInformation = data.mid(5, 1).toInt();
-//        int LineDataType = data.mid(6, 2).toInt();
+        int LineDataType = data.mid(6, 2).toInt();
         QString DisplayLine = data.mid(8);
         DisplayLine = DisplayLine.trimmed();
         while (DisplayLine.startsWith("\""))
@@ -133,13 +153,18 @@ void usbDialog::usbrecData(QString data)
 
         if (DisplayLine!="0")
            ui->listWidget->addItem(DisplayLine);
+        if (m_ScreenType == 1)
+        {
+            int index = ui->listWidget->count() - 1;
+            ui->listWidget->item(index)->setIcon(m_Icons[LineDataType]);
         if (FocusInformation)
         {
             QBrush brush(QColor(0, 0, 255));
             //int index = ui->listWidgetLog->currentIndex().row();
-            int index = ui->listWidget->count() - 1;
+//            int index = ui->listWidget->count() - 1;
             ui->listWidget->item(index)->setForeground(brush);
             m_SelectedItemIndex = index;
+        }
         }
     }
 /*    else if (data.startsWith("GHH"))

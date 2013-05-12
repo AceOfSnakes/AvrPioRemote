@@ -7,7 +7,7 @@
 #include "receiverinterface.h"
 #include <QTimer>
 #include <QMoveEvent>
-
+#include <QIcon>
 
 namespace Ui {
 class usbDialog;
@@ -33,6 +33,8 @@ private:
     QStringList         m_StationList;
     ReceiverInterface&  m_Comm;
     bool                m_PositionSet;
+    int                 m_ScreenType;
+    QMap<int, QIcon>    m_Icons;
 
     void moveEvent(QMoveEvent*event);
 
