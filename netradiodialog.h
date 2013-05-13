@@ -26,7 +26,7 @@
 #include <QMoveEvent>
 #include <QIcon>
 #include <QMap>
-
+#include <inttypes.h>
 
 namespace Ui {
 class NetRadioDialog;
