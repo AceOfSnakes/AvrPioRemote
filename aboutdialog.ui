@@ -30,7 +30,7 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Hosted on SourgeForge.net</string>
+      <string>License GPLv2 (c) 2013</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -40,7 +40,7 @@
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Version 0.1.13</string>
+      <string>Version 0.1.14</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -79,7 +79,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;amp;forum_id=273&amp;amp;thread=2280&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Found a bug or have wisches? Click here&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;amp;forum_id=273&amp;amp;thread=2280&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Found a bug or have a wisch? Click here&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="textFormat">
       <enum>Qt::RichText</enum>

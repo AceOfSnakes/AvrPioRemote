@@ -342,13 +342,18 @@ DIRECT</translation>
         <translation>Steuerungssoftware für Pioneer Receiver</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="33"/>
         <source>Hosted on SourgeForge.net</source>
-        <translation>Hosted on SourgeForge.net</translation>
+        <translation type="obsolete">Hosted on SourgeForge.net</translation>
+    </message>
+    <message>
+        <location filename="aboutdialog.ui" line="33"/>
+        <source>License GPLv2 (c) 2013</source>
+        <translation>Lizenz GPLv2 (c) 2013</translation>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="43"/>
-        <source>Version 0.1.11</source>
+        <source>Version 0.1.14</source>
+        <oldsource>Version 0.1.13</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -358,7 +363,8 @@ DIRECT</translation>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="82"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;amp;forum_id=273&amp;amp;thread=2280&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Found a bug or have wisches? Click here&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;amp;forum_id=273&amp;amp;thread=2280&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Found a bug or have a wisch? Click here&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <oldsource>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;amp;forum_id=273&amp;amp;thread=2280&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Found a bug or have wisches? Click here&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;quot;&lt;a href=&quot;http://www.hifi-forum.de/index.php?action=browseT&amp;amp;forum_id=273&amp;amp;thread=2280&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Einen Fehler entdeckt oder ein Wunsch? Hier klicken&lt;/span&gt;&lt;/a&gt;&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -700,115 +706,186 @@ DIRECT</translation>
     <name>NetRadioDialog</name>
     <message>
         <location filename="netradiodialog.ui" line="14"/>
-        <location filename="netradiodialog.cpp" line="126"/>
+        <location filename="netradiodialog.cpp" line="151"/>
         <source>NetRadio</source>
         <translation>NetRadio</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="51"/>
+        <location filename="netradiodialog.ui" line="57"/>
         <source>&lt;</source>
         <translation>&lt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="67"/>
-        <location filename="netradiodialog.ui" line="281"/>
+        <location filename="netradiodialog.ui" line="73"/>
+        <location filename="netradiodialog.ui" line="287"/>
         <source>^</source>
         <translation>^</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="83"/>
+        <location filename="netradiodialog.ui" line="89"/>
         <source>&gt;</source>
         <translation>&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="99"/>
-        <location filename="netradiodialog.ui" line="300"/>
+        <location filename="netradiodialog.ui" line="105"/>
+        <location filename="netradiodialog.ui" line="306"/>
         <source>v</source>
         <translation>v</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="115"/>
+        <location filename="netradiodialog.ui" line="121"/>
         <source>o</source>
         <translation>o</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="136"/>
+        <location filename="netradiodialog.ui" line="142"/>
         <source>BACK</source>
         <translation>Zurück</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="153"/>
+        <location filename="netradiodialog.ui" line="159"/>
         <source>||</source>
         <translation>||</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="169"/>
+        <location filename="netradiodialog.ui" line="175"/>
         <source>PLAY</source>
         <translation>PLAY</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="185"/>
+        <location filename="netradiodialog.ui" line="191"/>
         <source>|&gt;</source>
         <translation>|&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="201"/>
+        <location filename="netradiodialog.ui" line="207"/>
         <source>&lt;|</source>
         <translation>&lt;|</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="217"/>
+        <location filename="netradiodialog.ui" line="223"/>
         <source>STOP</source>
         <translation>STOP</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="233"/>
+        <location filename="netradiodialog.ui" line="239"/>
         <source>|&gt;|&gt;</source>
         <translation>|&gt;|&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="249"/>
+        <location filename="netradiodialog.ui" line="255"/>
         <source>&lt;|&lt;|</source>
         <translation>&lt;|&lt;|</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="278"/>
+        <location filename="netradiodialog.ui" line="284"/>
         <source>Page Up</source>
         <translation>Seite nach oben</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="297"/>
+        <location filename="netradiodialog.ui" line="303"/>
         <source>Page Down</source>
         <translation>Seite nach unten</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="316"/>
+        <location filename="netradiodialog.ui" line="322"/>
         <source>Page Up 100 lines</source>
         <translation>Seite nach oben (100 Zeilen)</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="319"/>
+        <location filename="netradiodialog.ui" line="325"/>
         <source>^^</source>
         <translation>^^</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="335"/>
+        <location filename="netradiodialog.ui" line="341"/>
         <source>Page Down 100 lines</source>
         <translation>Seite nach unten (100 Zeilen)</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="338"/>
+        <location filename="netradiodialog.ui" line="344"/>
         <source>vv</source>
         <translation>vv</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="354"/>
+        <location filename="netradiodialog.ui" line="360"/>
         <source>Add Fav</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="370"/>
+        <location filename="netradiodialog.ui" line="376"/>
         <source>Remove Fav</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="392"/>
+        <source>Internet Radio</source>
+        <translation type="unfinished">Internet Radio</translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="411"/>
+        <source>Media Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="430"/>
+        <source>Favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="571"/>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="655"/>
+        <source>TITLE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="711"/>
+        <source>Artist</source>
+        <translation>Artist</translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="795"/>
+        <source>ARTIST</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="851"/>
+        <source>Album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="935"/>
+        <source>ALBUM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1016"/>
+        <source>Time: </source>
+        <translation>Zeit: </translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1031"/>
+        <source>--:--</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1057"/>
+        <source>Genre: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1072"/>
+        <location filename="netradiodialog.ui" line="1113"/>
+        <source>?</source>
+        <translation type="unfinished">?</translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1098"/>
+        <source>Format: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -874,6 +951,11 @@ Do you want to continue?</source>
         <location filename="settingsdialog.ui" line="30"/>
         <source>Auto</source>
         <translation>Auto</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="88"/>
+        <source>Show Receiver name in window title</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="109"/>
@@ -1213,7 +1295,7 @@ CUT</translation>
     <message>
         <location filename="usbdialog.ui" line="14"/>
         <source>iPod/USB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">iPod/USB</translation>
     </message>
     <message>
         <location filename="usbdialog.ui" line="51"/>
@@ -1330,6 +1412,16 @@ CUT</translation>
     <message>
         <location filename="usbdialog.ui" line="409"/>
         <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="usbdialog.cpp" line="41"/>
+        <source>Random off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="usbdialog.cpp" line="42"/>
+        <source>Repeat off</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

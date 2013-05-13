@@ -1,3 +1,20 @@
+/*
+ * AVRPioRemote
+ * Copyright (C) 2013  Andreas Müller, Ulrich Mensfeld
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef NETRADIODIALOG_H
 #define NETRADIODIALOG_H
 
@@ -38,6 +55,10 @@ private:
     QMap<int, QIcon>    m_Icons;
     int                 m_ScreenType;
     int                 m_ListUpdateFlag;
+    uint64_t            m_PlayTime;
+    QTimer              m_PlayTimeTimer;
+    QString             m_PlayFormat;
+    QString             m_PlayBitrate;
 
     void moveEvent(QMoveEvent*event);
 
@@ -54,6 +75,7 @@ private slots:
     void on_CursorReturnButton_clicked();
     void on_NetPauseButton_clicked();
     void Timeout();
+    void RefreshPlayTime();
     void on_NetPlayButton_clicked();
     void on_NetStopButton_clicked();
     void on_NetPrevButton_clicked();
