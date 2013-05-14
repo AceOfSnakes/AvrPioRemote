@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>422</width>
-    <height>394</height>
+    <height>412</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,14 +32,14 @@
   <widget class="QFrame" name="frame_7">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>150</x>
      <y>280</y>
      <width>131</width>
-     <height>101</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="frameShadow">
     <enum>QFrame::Sunken</enum>
@@ -50,7 +50,7 @@
       <x>10</x>
       <y>40</y>
       <width>31</width>
-      <height>23</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -64,9 +64,9 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>10</y>
+      <y>2</y>
       <width>31</width>
-      <height>23</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -82,7 +82,7 @@
       <x>90</x>
       <y>40</y>
       <width>31</width>
-      <height>21</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -96,9 +96,9 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>70</y>
+      <y>80</y>
       <width>31</width>
-      <height>23</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -114,32 +114,11 @@
       <x>50</x>
       <y>40</y>
       <width>31</width>
-      <height>23</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>o</string>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="CursorReturnButton">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>70</y>
-      <width>31</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>6</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>BACK</string>
     </property>
     <property name="autoDefault">
      <bool>false</bool>
@@ -350,9 +329,9 @@
   <widget class="QPushButton" name="NetAddFavButton">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>290</y>
-     <width>81</width>
+     <x>320</x>
+     <y>360</y>
+     <width>91</width>
      <height>31</height>
     </rect>
    </property>
@@ -366,9 +345,9 @@
   <widget class="QPushButton" name="NetRemoveFavButton">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>290</y>
-     <width>81</width>
+     <x>320</x>
+     <y>320</y>
+     <width>91</width>
      <height>31</height>
     </rect>
    </property>
@@ -382,9 +361,9 @@
   <widget class="QPushButton" name="NetSwitchToNetRadioButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>350</y>
-     <width>81</width>
+     <x>10</x>
+     <y>280</y>
+     <width>101</width>
      <height>31</height>
     </rect>
    </property>
@@ -401,9 +380,9 @@
   <widget class="QPushButton" name="NetSwitchToMediaServerButton">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>350</y>
-     <width>81</width>
+     <x>10</x>
+     <y>320</y>
+     <width>101</width>
      <height>31</height>
     </rect>
    </property>
@@ -420,9 +399,9 @@
   <widget class="QPushButton" name="NetSwitchToFavoritesButton">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>350</y>
-     <width>81</width>
+     <x>10</x>
+     <y>360</y>
+     <width>101</width>
      <height>31</height>
     </rect>
    </property>
@@ -1118,27 +1097,29 @@
     </item>
    </layout>
   </widget>
-  <zorder>listWidget</zorder>
-  <zorder>frame_7</zorder>
-  <zorder>NetPauseButton</zorder>
-  <zorder>NetPlayButton</zorder>
-  <zorder>NetNextButton</zorder>
-  <zorder>NetPrevButton</zorder>
-  <zorder>NetStopButton</zorder>
-  <zorder>NetFwdButton</zorder>
-  <zorder>NetRevButton</zorder>
-  <zorder>UnderListEdit</zorder>
-  <zorder>PageUpButton</zorder>
-  <zorder>PageDownButton</zorder>
-  <zorder>PageUpButton_2</zorder>
-  <zorder>PageDownButton_2</zorder>
-  <zorder>NetAddFavButton</zorder>
-  <zorder>NetRemoveFavButton</zorder>
-  <zorder>NetSwitchToNetRadioButton</zorder>
-  <zorder>NetSwitchToMediaServerButton</zorder>
-  <zorder>NetSwitchToFavoritesButton</zorder>
-  <zorder>PlayWindowFrame</zorder>
-  <zorder>horizontalLayoutWidget_2</zorder>
+  <widget class="QPushButton" name="CursorReturnButton">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>280</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>RETURN</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
