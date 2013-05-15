@@ -249,19 +249,20 @@ void EQDialog::DataReceived(QString data)
 
 void EQDialog::Timeout()
 {
-    // send the eq settings to the receiver, zuerst Mainbass+Treble
+    // send the eq settings to the receiver
     QString str;
+
+/*  bass+treble, set not here because of sound-mod may not allow setting and generate a "not avail"
     str=QString("%1BA").arg(m_Sliders[9]->value()*-1);
     if (str.size() <4)
             str="0"+str;
-//     qDebug() <<"bass" <<str;
      SendCmd(str);
+
      str=QString("%1TR").arg(m_Sliders[10]->value()*-1);
      if (str.size() <4)
              str="0"+str;
-//      qDebug() <<"treble" <<str;
       SendCmd(str);
-
+*/
 
     QString cmd = "00";
     for (int i = 0; i < 9; i++)
@@ -271,8 +272,6 @@ void EQDialog::Timeout()
     }
     cmd.append("50ATB");
     emit SendCmd(cmd);
-
-
 }
 
 

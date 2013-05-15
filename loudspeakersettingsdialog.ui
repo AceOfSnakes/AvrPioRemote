@@ -748,14 +748,14 @@
   <widget class="QLabel" name="label_15">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>340</x>
      <y>410</y>
-     <width>61</width>
+     <width>81</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>mem info</string>
+    <string>mem info:</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="meminf">
