@@ -226,6 +226,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="ShowDefaultInputNameCheckBox">
+         <property name="text">
+          <string>Show default name of the input line</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

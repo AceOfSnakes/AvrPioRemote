@@ -42,11 +42,11 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     }
     if (lang.startsWith("de"))
     {
-        m_Translater.load("avrpioremote_de");
+        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_de"));
     }
     else
     {
-        m_Translater.load("avrpioremote_en");
+        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
     }
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
@@ -441,7 +441,10 @@ void AVRPioRemote::AudioStatusData(QString codec, QString samplingRate)
 
 void AVRPioRemote::InputFunctionData(int no, QString name)
 {
-    ui->InputLineEdit->setText(name);
+    if (m_Settings.value("ShowDefaultInputName", false).toBool())
+        ui->InputNameLineEdit->setText(name);
+    else
+        ui->InputNameLineEdit->setToolTip(name);
     SelectInputButton(no);
     QString str = QString("?RGB%1").arg(no, 2, 10, QLatin1Char('0'));
     SendCmd(str.toLocal8Bit());
@@ -457,7 +460,10 @@ void AVRPioRemote::PhaseData(int phase)
 
 void AVRPioRemote::InputNameData(QString name)
 {
-    ui->InputNameLineEdit->setText(name);
+    if (!m_Settings.value("ShowDefaultInputName", false).toBool())
+        ui->InputNameLineEdit->setText(name);
+    else
+        ui->InputNameLineEdit->setToolTip(name);
 }
 
 
@@ -617,7 +623,6 @@ void AVRPioRemote::ClearScreen()
     ui->AudioCodecLineEdit->setText("");
     ui->AudioSampleRateLineEdit->setText("");
     ui->VolumeLineEdit->setText("");
-    ui->InputLineEdit->setText("");
     ui->InputNameLineEdit->setText("");
 }
 
@@ -706,11 +711,11 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
 
-        pAction = new QAction(tr("IPod/USB"), this);
+        pAction = new QAction(tr("IPod / USB"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_usbDialog, SLOT(ShowusbDialog()));
 
-        pAction = new QAction(tr("Equalizer"), this);
+        pAction = new QAction(tr("Equalizer / Tone"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
 

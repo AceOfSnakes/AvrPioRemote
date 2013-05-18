@@ -60,6 +60,8 @@ private slots:
     void on_StartLoggingInTestWindowCheckBox_clicked();
     void on_ShowReceiverNameInTitleCheckBox_clicked();
 
+    void on_ShowDefaultInputNameCheckBox_clicked();
+
 private:
     QSettings&          m_Settings;
     Ui::SettingsDialog *ui;

@@ -80,6 +80,7 @@ private slots:
     void on_eqba_sliderReleased();
     void on_eqtr_sliderReleased();
     void on_bypass_clicked();
+    void on_XCurveSlider_sliderReleased();
 };
 extern const char* eqnames[];
 #endif // EQDIALOG_H

@@ -177,6 +177,7 @@ void EQDialog::ShowEQDialog()
     SendCmd("?BA");
     SendCmd("?TR");
     SendCmd("?TO");
+    SendCmd("?SST");
 }
 
 
@@ -206,7 +207,7 @@ void EQDialog::DataReceived(QString data)
             m_Labels[i]->setText(str);
         }
     }
-    if (data.startsWith("BA") || data.startsWith("TR"))
+    else if (data.startsWith("BA") || data.startsWith("TR"))
     {
           str=data.mid(2,2);
           wert=str.toInt();
@@ -227,20 +228,34 @@ void EQDialog::DataReceived(QString data)
             m_Labels[10]->setText(str);
         }
     }
-    if (data.startsWith("TO"))
+    else if (data.startsWith("TO"))
     {
         wert=data.mid(2,1).toInt();
         if (wert==0)
         {
             ui->bypass->setText("Bypass");
-            ui->eqtr->hide(); // setDisabled(true);
-            ui->eqba->hide(); // setDisabled(true);
+            ui->eqtr->setDisabled(true);
+            ui->eqba->setDisabled(true);
          }
          else
         {
             ui->bypass->setText("Tone");
-            ui->eqtr->setVisible(true);//  setEnabled(true);
-            ui->eqba->setVisible(true);//  setEnabled(true);
+            ui->eqtr->setEnabled(true);
+            ui->eqba->setEnabled(true);
+        }
+    }
+    else if (data.startsWith("SST"))
+    {
+        wert=data.mid(3,1).toInt();
+        ui->XCurveSlider->setSliderPosition(wert);
+        if (wert <= 6 && wert > 0)
+        {
+            double dB = (double)wert * (-.5f);
+            ui->XCurveLabel->setText(QString("%1").arg(dB, 3, 'f', 1));
+        }
+        else
+        {
+            ui->XCurveLabel->setText(tr("OFF"));
         }
     }
 }
@@ -378,3 +393,9 @@ void EQDialog::on_bypass_clicked()
 
 }
 
+
+void EQDialog::on_XCurveSlider_sliderReleased()
+{
+    QString cmd = QString("%1SST").arg(ui->XCurveSlider->sliderPosition());
+    emit SendCmd(cmd);
+}

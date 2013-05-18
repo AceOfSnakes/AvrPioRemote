@@ -268,6 +268,7 @@ void ReceiverInterface::InterpretString(const QString& data)
 
             // channel format info data5-data20
             // output channel data21-33
+            emit AudioStatusData(codec, samplingRate);
         }
     }
     else if (data.startsWith("VST"))

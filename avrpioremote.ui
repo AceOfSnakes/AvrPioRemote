@@ -866,51 +866,9 @@ DIRECT</string>
   <widget class="QLineEdit" name="InputNameLineEdit">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>80</y>
-     <width>111</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>7</pointsize>
-    </font>
-   </property>
-   <property name="frame">
-    <bool>true</bool>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>65</y>
-     <width>51</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>6</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>NAME</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="InputLineEdit">
-   <property name="geometry">
-    <rect>
      <x>10</x>
      <y>80</y>
-     <width>91</width>
+     <width>201</width>
      <height>21</height>
     </rect>
    </property>
@@ -979,7 +937,7 @@ DIRECT</string>
     <rect>
      <x>10</x>
      <y>65</y>
-     <width>51</width>
+     <width>201</width>
      <height>16</height>
     </rect>
    </property>
@@ -989,7 +947,7 @@ DIRECT</string>
     </font>
    </property>
    <property name="text">
-    <string>INPUT</string>
+    <string>INPUT NAME</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -1125,8 +1083,6 @@ DIRECT</string>
   <zorder>label_27</zorder>
   <zorder>label_28</zorder>
   <zorder>InputNameLineEdit</zorder>
-  <zorder>label_7</zorder>
-  <zorder>InputLineEdit</zorder>
   <zorder>AudioCodecLineEdit</zorder>
   <zorder>ListeningModeLineEdit</zorder>
   <zorder>label_6</zorder>
