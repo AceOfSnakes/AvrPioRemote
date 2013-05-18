@@ -42,10 +42,6 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
 
     ui->setupUi(this);
 
-    //this->setFixedSize(this->size());
-
-    //ui->PlayWindowFrame->move(ui->listWidget->pos());
-    //ui->PlayWindowFrame->setVisible(false);
     ui->DisplayWidget->setCurrentIndex(0);
 
     // restore the position of the window
@@ -79,7 +75,7 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
 
     m_Timer.setSingleShot(false);
     m_Timer.setInterval(10000);
-    Timeout();
+    //Timeout();
 
     m_PlayTimeTimer.setInterval(200);
 }
@@ -218,10 +214,6 @@ void NetRadioDialog::NetData(QString data)
         {
             // play window
             ui->DisplayWidget->setCurrentIndex(1);
-//            if (!ui->PlayWindowFrame->isVisible())
-//                ui->PlayWindowFrame->setVisible(true);
-//            if (ui->listWidget->isVisible())
-//                ui->listWidget->setVisible(false);
             m_PlayTimeTimer.start();
         }
         else
@@ -229,10 +221,6 @@ void NetRadioDialog::NetData(QString data)
             m_PlayTimeTimer.stop();
             ui->TimeLabel->setText("--:--");
             ui->DisplayWidget->setCurrentIndex(0);
-//            if (ui->PlayWindowFrame->isVisible())
-//                ui->PlayWindowFrame->setVisible(false);
-//            if (!ui->listWidget->isVisible())
-//                ui->listWidget->setVisible(true);
             ui->listWidget->clear();
         }
         m_ScreenType = ScreenType;

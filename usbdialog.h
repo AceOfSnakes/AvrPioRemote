@@ -52,6 +52,10 @@ private:
     bool                m_PositionSet;
     int                 m_ScreenType;
     QMap<int, QIcon>    m_Icons;
+    uint64_t            m_PlayTime;
+    QTimer              m_PlayTimeTimer;
+    QString             m_PlayFormat;
+    QString             m_PlayBitrate;
 
     void moveEvent(QMoveEvent*event);
 
@@ -69,6 +73,7 @@ private slots:
     void on_CursorReturnButton_clicked();
     void on_NetPauseButton_clicked();
     void Timeout();
+    void RefreshPlayTime();
     void on_NetPlayButton_clicked();
     void on_NetStopButton_clicked();
     void on_NetPrevButton_clicked();
@@ -81,13 +86,9 @@ private slots:
     void on_PageUpButton_2_clicked();
     void on_PageDownButton_2_clicked();
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
-
     void on_bicontrol_clicked();
-
     void on_bdirectctl_clicked();
-
     void on_brandom_clicked();
-
     void on_brepeat_clicked();
 
 signals:

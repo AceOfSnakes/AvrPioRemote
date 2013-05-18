@@ -18,7 +18,7 @@
 #include "usbdialog.h"
 #include "ui_usbdialog.h"
 #include <QDebug>
-#include <qtextcodec.h>
+#include <QDateTime>
 
 
 usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
@@ -26,7 +26,8 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
     m_Settings(settings),
     ui(new Ui::usbDialog),
     m_Comm(Comm),
-    m_PositionSet(false)
+    m_PositionSet(false),
+    m_PlayTimeTimer(this)
 {
     m_IndexOfLine1 = 0;
     m_IndexOfLastLine = 0;
@@ -34,11 +35,12 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
     m_SelectedItemIndex = 0;
     m_VisibleListSize = 0;
     m_ScreenType = 0;
+    m_PlayTime = 0;
+    m_PlayFormat = "-";
+    m_PlayBitrate = "-";
 
 
     ui->setupUi(this);
-
-    this->setFixedSize(this->size());
 
     // restore the position of the window
     if (m_Settings.value("SaveUsbWindowGeometry", false).toBool())
@@ -51,10 +53,13 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
     connect((&m_Comm), SIGNAL(DisplayData(int, QString)),this,SLOT(randrepeattest(int,QString)));
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
+    connect((&m_PlayTimeTimer), SIGNAL(timeout()), this, SLOT(RefreshPlayTime()));
 
     m_Timer.setSingleShot(false);
     m_Timer.setInterval(10000);
-//    Timeout();
+
+    m_PlayTimeTimer.setInterval(200);
+
     ui->brandom->setText(tr("Random off"));
     ui->brepeat->setText(tr("Repeat off"));
     // directory
@@ -121,18 +126,55 @@ void usbDialog::Timeout()
 }
 
 
+void usbDialog::RefreshPlayTime()
+{
+    if (m_ScreenType >= 2 && m_ScreenType <= 5)
+    {
+        uint64_t tmp = QDateTime::currentMSecsSinceEpoch() / 1000ULL - m_PlayTime;
+        uint64_t hour = tmp / 3600ULL;
+        tmp = tmp - hour * 3600;
+        uint64_t min = tmp / 60;
+        uint64_t sec = tmp % 60;
+        if (hour > 0)
+        {
+            ui->TimeLabel->setText(QString("%1:%2:%3").arg(hour, 2, 10, QChar('0')).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')));
+        }
+        else
+        {
+            ui->TimeLabel->setText(QString("%1:%2").arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')));
+        }
+    }
+    else
+    {
+        m_PlayTimeTimer.stop();
+    }
+}
+
+
 void usbDialog::usbrecData(QString data)
 {
-     //qDebug() << " >>>>>>>>>>>>>>>>>>>>> " << data;
     if (data.startsWith("GBI"))
     {
         m_VisibleListSize = data.mid(3, 2).toInt();
-        ui->listWidget->clear();
         // qDebug() << "maximum number of list " << n;
     }
     else if (data.startsWith("GCI"))
     {
-        m_ScreenType = data.mid(3, 2).toInt();
+        int ScreenType = data.mid(3, 2).toInt();
+        if (ScreenType >= 2 && ScreenType <= 5)
+        {
+            // play window
+            ui->DisplayWidget->setCurrentIndex(1);
+            m_PlayTimeTimer.start();
+        }
+        else
+        {
+            m_PlayTimeTimer.stop();
+            ui->TimeLabel->setText("--:--");
+            ui->DisplayWidget->setCurrentIndex(0);
+            ui->listWidget->clear();
+        }
+        m_ScreenType = ScreenType;
 
         //        int screenType = data.mid(3, 2).toInt();
 //        int listUpdateFlag = data.mid(5, 1).toInt();
@@ -157,7 +199,7 @@ void usbDialog::usbrecData(QString data)
     }
     else if (data.startsWith("GEI"))
     {
-//        int LineNumber = data.mid(3, 2).toInt();
+        int LineNumber = data.mid(3, 2).toInt();
         int FocusInformation = data.mid(5, 1).toInt();
         int LineDataType = data.mid(6, 2).toInt();
         QString DisplayLine = data.mid(8);
@@ -166,23 +208,74 @@ void usbDialog::usbrecData(QString data)
             DisplayLine.remove(0, 1);
         while (DisplayLine.endsWith("\""))
             DisplayLine.chop(1);
-//        qDebug() << DisplayLine <<"GEI       xxxxxxxxxxxxxxxxxxxx";
 
-        if (DisplayLine!="0")
-           ui->listWidget->addItem(DisplayLine);
+        int index = LineNumber - 1;
         if (m_ScreenType == 1)
         {
-            int index = ui->listWidget->count() - 1;
+            ui->listWidget->addItem(DisplayLine);
+            ui->listWidget->item(index)->setText(DisplayLine);
             ui->listWidget->item(index)->setIcon(m_Icons[LineDataType]);
-        if (FocusInformation)
+            if (FocusInformation)
+            {
+                QBrush brush(QColor(0, 0, 255));
+                ui->listWidget->item(index)->setForeground(brush);
+                m_SelectedItemIndex = index;
+                //QString text = QString("%1/%2").arg(m_IndexOfLine1 + m_SelectedItemIndex).arg(m_TotalNumberOfItems);
+                //ui->UnderListEdit->setText(text);
+            }
+        }
+        else if (m_ScreenType >= 2 && m_ScreenType <= 5)
         {
-            QBrush brush(QColor(0, 0, 255));
-            //int index = ui->listWidgetLog->currentIndex().row();
-//            int index = ui->listWidget->count() - 1;
-            ui->listWidget->item(index)->setForeground(brush);
-            m_SelectedItemIndex = index;
+            switch(LineDataType)
+            {
+            case 20: // Track
+                ui->TitleLabel->setText(DisplayLine);
+                break;
+            case 21: // Artist
+                ui->ArtistLabel->setText(DisplayLine);
+                break;
+            case 22: // Album
+                ui->AlbumLabel->setText(DisplayLine);
+                break;
+            case 23: // Time
+            {
+                uint64_t hour = 0;
+                uint64_t min = 0;
+                uint64_t sec = 0;
+                QStringList list = DisplayLine.split(":", QString::SkipEmptyParts);
+                if (list.count() > 2)
+                {
+                    hour = list[0].toInt();
+                    min = list[1].toInt();
+                    sec = list[2].toInt();
+                }
+                else
+                if (list.count() > 1)
+                {
+                    min = list[0].toInt();
+                    sec = list[1].toInt();
+                }
+                m_PlayTime = QDateTime::currentMSecsSinceEpoch() / 1000ULL - (hour * 3600ULL + min * 60ULL + sec);
+                m_PlayTimeTimer.start(); // resync
+                break;
+            }
+            case 24: // Genre
+                ui->GenreLabel->setText(DisplayLine);
+                break;
+            case 26: // Format
+                m_PlayFormat = DisplayLine;
+                ui->FormatLabel->setText(m_PlayFormat + " " + m_PlayBitrate);
+                break;
+            case 27: // Bitrate
+            {
+                int bitrate = DisplayLine.toInt() / 1000;
+                m_PlayBitrate = QString("%1kBit/s").arg(bitrate);
+                ui->FormatLabel->setText(m_PlayFormat + " " + m_PlayBitrate);
+                break;
+            }
+            }
         }
-        }
+
     }
 /*    else if (data.startsWith("GHH"))
     {
