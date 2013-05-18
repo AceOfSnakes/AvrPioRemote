@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QMoveEvent>
 #include <QIcon>
+#include <inttypes.h>
 
 namespace Ui {
 class usbDialog;
