@@ -57,6 +57,7 @@ private:
     QSettings&          m_Settings;
     int                 m_SelectedPreset;
     bool                m_PositionSet;
+    bool                m_ToneON;
 
     bool ReadFile(const QString& fileName);
     bool SaveFile(const QString& fileName);

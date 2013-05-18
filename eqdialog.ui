@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
+    <width>682</width>
     <height>464</height>
    </rect>
   </property>
@@ -157,7 +157,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>421</width>
+     <width>441</width>
      <height>351</height>
     </rect>
    </property>
@@ -169,7 +169,7 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>421</width>
+     <width>900</width>
      <height>351</height>
     </size>
    </property>
@@ -784,7 +784,7 @@
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>450</x>
      <y>10</y>
      <width>131</width>
      <height>351</height>
@@ -922,9 +922,9 @@
   <widget class="QFrame" name="frame_3">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>580</x>
      <y>10</y>
-     <width>71</width>
+     <width>91</width>
      <height>351</height>
     </rect>
    </property>
@@ -937,7 +937,7 @@
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>330</y>
       <width>61</width>
       <height>16</height>
@@ -953,7 +953,7 @@
    <widget class="QSlider" name="XCurveSlider">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>40</x>
       <y>60</y>
       <width>16</width>
       <height>261</height>
@@ -984,7 +984,7 @@
    <widget class="QLabel" name="XCurveLabel">
     <property name="geometry">
      <rect>
-      <x>15</x>
+      <x>25</x>
       <y>30</y>
       <width>41</width>
       <height>16</height>
@@ -1000,7 +1000,7 @@
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>0</y>
       <width>71</width>
       <height>31</height>
@@ -1014,6 +1014,19 @@
     </property>
    </widget>
   </widget>
+  <zorder>frame_3</zorder>
+  <zorder>frame_2</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>selectmem</zorder>
+  <zorder>label_4</zorder>
+  <zorder>savebutt</zorder>
+  <zorder>restbutt</zorder>
+  <zorder>label_5</zorder>
+  <zorder>meminf</zorder>
+  <zorder>bypass</zorder>
+  <zorder>label_8</zorder>
+  <zorder>label_9</zorder>
+  <zorder>frame</zorder>
  </widget>
  <resources/>
  <connections/>

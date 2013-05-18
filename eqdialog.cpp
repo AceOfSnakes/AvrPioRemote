@@ -42,7 +42,8 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     m_Timer(this),
     m_Settings(settings),
     m_SelectedPreset(-1), // flat
-    m_PositionSet(false)
+    m_PositionSet(false),
+    m_ToneON(false)
 {
     ui->setupUi(this);
     this->setFixedSize(this->size());
@@ -209,23 +210,36 @@ void EQDialog::DataReceived(QString data)
     }
     else if (data.startsWith("BA") || data.startsWith("TR"))
     {
-          str=data.mid(2,2);
-          wert=str.toInt();
-          if (data.startsWith("BA"))
+        str=data.mid(2,2);
+        wert=str.toInt();
+        if (m_ToneON)
         {
-            m_EQPresets[0].m_Values[9]=wert;
-            m_Sliders[9]->setSliderPosition(wert*-1);
-            wert=6-wert;
-            str=QString("%1dB").arg(wert);
-            m_Labels[9]->setText(str);
+            if (data.startsWith("BA"))
+            {
+                m_EQPresets[0].m_Values[9]=wert;
+                m_Sliders[9]->setSliderPosition(wert*-1);
+                wert=6-wert;
+                str=QString("%1dB").arg(wert);
+                m_Labels[9]->setText(str);
+            }
+            else
+            {
+                m_EQPresets[0].m_Values[10]=wert;
+                m_Sliders[10]->setSliderPosition(wert*-1);
+                wert=6-wert;
+                str=QString("%1dB").arg(wert);
+                m_Labels[10]->setText(str);
+            }
         }
         else
         {
-            m_EQPresets[0].m_Values[10]=wert;
-            m_Sliders[10]->setSliderPosition(wert*-1);
-            wert=6-wert;
-            str=QString("%1dB").arg(wert);
-            m_Labels[10]->setText(str);
+            m_EQPresets[0].m_Values[9]=6;
+            m_Sliders[9]->setSliderPosition(-6);
+            m_Labels[9]->setText("odB");
+
+            m_EQPresets[0].m_Values[10]=6;
+            m_Sliders[10]->setSliderPosition(-6);
+            m_Labels[10]->setText("odB");
         }
     }
     else if (data.startsWith("TO"))
@@ -233,15 +247,25 @@ void EQDialog::DataReceived(QString data)
         wert=data.mid(2,1).toInt();
         if (wert==0)
         {
+            m_ToneON = false;
             ui->bypass->setText("Bypass");
             ui->eqtr->setDisabled(true);
             ui->eqba->setDisabled(true);
-         }
-         else
+
+            m_Sliders[9]->setSliderPosition(-6);
+            m_Labels[9]->setText("odB");
+
+            m_Sliders[10]->setSliderPosition(-6);
+            m_Labels[10]->setText("odB");
+        }
+        else
         {
+            m_ToneON = true;
             ui->bypass->setText("Tone");
             ui->eqtr->setEnabled(true);
             ui->eqba->setEnabled(true);
+            SendCmd("?BA");
+            SendCmd("?TR");
         }
     }
     else if (data.startsWith("SST"))
