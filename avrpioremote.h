@@ -20,7 +20,6 @@
 
 #include <QDialog>
 #include <QMenu>
-#include <QIntValidator>
 #include <QThread>
 #include "Defs.h"
 #include "netradiodialog.h"
@@ -35,8 +34,9 @@
 #include "logger.h"
 #include <QTranslator>
 #include <QTimer>
-#include <listeningmodedialog.h>
-#include <usbdialog.h>
+#include "listeningmodedialog.h"
+#include "usbdialog.h"
+#include "zonecontroldialog.h"
 
 
 namespace Ui {
@@ -88,8 +88,6 @@ private:
     ReceiverInterface m_ReceiverInterface;
     int             m_IpPort;
     QString         m_IpAddress;
-    QIntValidator   m_IpValidator;
-    QIntValidator   m_IpPortValidator;
     QSettings       m_Settings;
     NetRadioDialog* m_NetRadioDialog;
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
@@ -99,24 +97,28 @@ private:
     SettingsDialog* m_SettingsDialog;
     EQDialog*       m_EQDialog;
     ListeningModeDialog* m_Listendiag;
-    usbDialog*  m_usbDialog;
+    usbDialog*      m_usbDialog;
+    ZoneControlDialog*  m_ZoneControlDialog;
 
     //    QThre;ad*        m_TCPThread;
     bool            m_ReceiverOnline;
     bool            m_FavoritesCompatibilityMode;
     QTranslator     m_Translater;
     QTimer          m_StatusLineTimer;
+    QPushButton*    m_SelectedInput;
+    QPushButton*    m_SelectedInputZ2;
+    QPushButton*    m_SelectedInputZ3;
 
-    void SelectInputButton(int idx);
+    void SelectInputButton(int idx, int zone = 1);
     void ClearScreen();
     void ConnectReceiver();
+    QPushButton* FindInputButton(int idx);
 
     void closeEvent(QCloseEvent *event);
     QVector<QPushButton*> m_InputButtons;
 
 public slots:
     void EnableControls(bool enable);
-    void EnableIPInput(bool enable);
     void RequestStatus(bool input = true);
     bool SendCmd(const QString& cmd);
     void NewDataReceived(QString data);
@@ -127,6 +129,7 @@ public slots:
     void ErrorData(int type);
     void AudioStatusData(QString codec, QString samplingRate);
     void InputFunctionData(int no, QString name);
+    void ZoneInput (int zone, int input);
     void PhaseData(int phase);
     void InputNameData(QString name);
     void ListeningModeData(QString name);
@@ -135,6 +138,7 @@ public slots:
     void DFiltData(bool set);
     void ReceiverType (QString no, QString name);
     void ReceiverNetworkName (QString name);
+    void onConnect();
 private slots:
     void CommError(QString socketError);
     void CommConnected();
@@ -143,7 +147,6 @@ private slots:
     void LMSelectedAction(QString Param);
     void on_MoreButton_clicked();
     void on_VolumeUpButton_clicked();
-    void onConnect();
     void StatusLineTimeout();
     void on_pushButtonConnect_clicked();
     //void ConnectWorkerErrorString(QString);
@@ -174,6 +177,8 @@ private slots:
     void on_ShowAllListeningModesButton_clicked();
     void on_InputVideoButton_clicked();
     void on_ATBEQModesButton_clicked();
+
+    void on_ZoneControlButton_clicked();
 
 signals:
     void NetData(QString data);

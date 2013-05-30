@@ -226,11 +226,11 @@ void ReceiverInterface::InterpretString(const QString& data)
         int vol = 0;
         sscanf(data.toLatin1(), "VOL%d", &vol);
         double dB = -80.5 + (double)vol * 0.5;
-        QString str;
-        if (dB <= 0.0)
-            str = QString("%1dB").arg(dB, 4, 'f', 1);
-        else
-            str = QString("+%1dB").arg(dB, 4, 'f', 1);
+//        QString str;
+//        if (dB <= 0.0)
+//            str = QString("%1dB").arg(dB, 4, 'f', 1);
+//        else
+//            str = QString("+%1dB").arg(dB, 4, 'f', 1);
         emit VolumeData(dB);
     }
     else if (data.startsWith("MUT"))
@@ -481,6 +481,102 @@ void ReceiverInterface::InterpretString(const QString& data)
         while (name.endsWith("\""))
             name.chop(1);
         emit ReceiverNetworkName(name);
+    }
+    else if (data.startsWith("APR0"))
+    {
+        emit ZonePower(2, true);
+    }
+    else if (data.startsWith("APR1"))
+    {
+        emit ZonePower(2, false);
+    }
+    else if (data.startsWith("BPR0"))
+    {
+        emit ZonePower(3, true);
+    }
+    else if (data.startsWith("BPR1"))
+    {
+        emit ZonePower(3, false);
+    }
+    else if (data.startsWith("ZEP0"))
+    {
+        emit ZonePower(4, true);
+    }
+    else if (data.startsWith("ZEP1"))
+    {
+        emit ZonePower(4, false);
+    }
+    else if (data.startsWith("Z2F"))
+    {
+        int n = 0;
+        sscanf(data.toLatin1(), "Z2F%d", &n);
+        emit ZoneInput(2, n);
+    }
+    else if (data.startsWith("Z3F"))
+    {
+        int n = 0;
+        sscanf(data.toLatin1(), "Z3F%d", &n);
+        emit ZoneInput(3, n);
+    }
+    else if (data.startsWith("ZEA"))
+    {
+        int n = 0;
+        sscanf(data.toLatin1(), "ZEA%d", &n);
+        emit ZoneInput(4, n);
+    }
+    else if (data.startsWith("ZV"))
+    {
+        int vol = 0;
+        sscanf(data.toLatin1(), "ZV%d", &vol);
+        if (vol == 0)
+        {
+            emit ZoneVolume(2, vol, "- - -");
+        }
+        else
+        {
+            double dB = -81.0 + (double)vol * 1.0;
+            QString str;
+            if (dB <= 0.0)
+                str = QString("%1dB").arg(dB, 4, 'f', 1);
+            else
+                str = QString("+%1dB").arg(dB, 4, 'f', 1);
+            emit ZoneVolume(2, vol, str);
+        }
+    }
+    else if (data.startsWith("YV"))
+    {
+        int vol = 0;
+        sscanf(data.toLatin1(), "YV%d", &vol);
+        if (vol == 0)
+        {
+            emit ZoneVolume(3, vol, "- - -");
+        }
+        else
+        {
+            double dB = -81.0 + (double)vol * 1.0;
+            QString str;
+            if (dB <= 0.0)
+                str = QString("%1dB").arg(dB, 4, 'f', 1);
+            else
+                str = QString("+%1dB").arg(dB, 4, 'f', 1);
+            emit ZoneVolume(3, vol, str);
+        }
+    }
+    else if (data.startsWith("Z2MUT0"))
+    {
+        emit ZoneMute(2, true);
+    }
+    else if (data.startsWith("Z2MUT1"))
+    {
+        emit ZoneMute(2, false);
+    }
+    else if (data.startsWith("Z3MUT0"))
+    {
+        emit ZoneMute(3, true);
+    }
+    else if (data.startsWith("Z3MUT1"))
+    {
+        emit ZoneMute(3, false);
     }
 }
 

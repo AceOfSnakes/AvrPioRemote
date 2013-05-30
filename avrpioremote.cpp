@@ -26,14 +26,17 @@
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AVRPioRemote),
-    m_IpValidator(0, 255, this),
-    m_IpPortValidator(0, 35535, this),
     m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
     m_FavoritesCompatibilityMode(false),
     m_StatusLineTimer(this)
 {
     m_IpPort = 8102;
     m_ReceiverOnline = false;
+
+    m_SelectedInput   = NULL;
+    m_SelectedInputZ2 = NULL;
+    m_SelectedInputZ3 = NULL;
+
 
     QString lang = m_Settings.value("Language", "auto").toString();
     if (lang == "auto")
@@ -67,6 +70,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     // disable controls
     EnableControls(false);
     ui->PowerButton->setEnabled(false);
+    ui->ZoneControlButton->setEnabled(false);
 
     // get compatibility setting for favorites list for LX-83
     m_FavoritesCompatibilityMode = m_Settings.value("FavoritesCompatibilityMode", false).toBool();
@@ -91,19 +95,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((&m_ReceiverInterface), SIGNAL(DFiltData(bool)), this,  SLOT(DFiltData(bool)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverType(QString,QString)), this,  SLOT(ReceiverType(QString,QString)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverNetworkName(QString)), this,  SLOT(ReceiverNetworkName(QString)));
-
-    // configure ip adress edit iput
-    ui->lineEditIP1->setValidator(&m_IpValidator);
-    ui->lineEditIP2->setValidator(&m_IpValidator);
-    ui->lineEditIP3->setValidator(&m_IpValidator);
-    ui->lineEditIP4->setValidator(&m_IpValidator);
-    ui->lineEditIPPort->setValidator(&m_IpPortValidator);
-    // get the saved ip address data
-    ui->lineEditIP1->setText(m_Settings.value("IP/1", "192").toString());
-    ui->lineEditIP2->setText(m_Settings.value("IP/2", "168").toString());
-    ui->lineEditIP3->setText(m_Settings.value("IP/3", "1").toString());
-    ui->lineEditIP4->setText(m_Settings.value("IP/4", "1").toString());
-    ui->lineEditIPPort->setText(m_Settings.value("IP/PORT", "8102").toString());
+    connect((&m_ReceiverInterface), SIGNAL(ZoneInput(int, int)),this,SLOT(ZoneInput(int, int)));
 
     // make a list with buttons that correspond to a input type
     /* 00 */ m_InputButtons.append(NULL); //"PHONO"
@@ -181,12 +173,14 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_OldFavoritesDialog = new OldFavoritesDialog(this, &m_ReceiverInterface);
 
     // create Settings dialog
-    m_SettingsDialog = new SettingsDialog(this, m_Settings);
+    m_SettingsDialog = new SettingsDialog(this, m_Settings, m_ReceiverInterface);
 
     // create EQ dialog
-    m_EQDialog = new EQDialog(this, m_ReceiverInterface,m_Settings);
+    m_EQDialog = new EQDialog(this, m_ReceiverInterface, m_Settings);
 
-    m_Listendiag = new  ListeningModeDialog(this, m_Settings, m_ReceiverInterface );
+    m_Listendiag = new  ListeningModeDialog(this, m_Settings, m_ReceiverInterface);
+
+    m_ZoneControlDialog = new ZoneControlDialog(this, m_Settings, m_ReceiverInterface);
 
 }
 
@@ -221,10 +215,10 @@ void AVRPioRemote::StatusLineTimeout()
 }
 
 
-void AVRPioRemote::SelectInputButton(int idx)
+QPushButton* AVRPioRemote::FindInputButton(int idx)
 {
-    int i = 0;
     QPushButton* found = NULL;
+    int i = 0;
     // find a button associated with the input
     while (m_InputButtons[i] != (QPushButton*)-1)
     {
@@ -232,22 +226,56 @@ void AVRPioRemote::SelectInputButton(int idx)
         {
             if (i == idx)
             {
-                // select the found input button
-                m_InputButtons[i]->setChecked(true);
                 found = m_InputButtons[i];
-            }
-            else
-            {
-                // unselect all other input buttons
-                if(m_InputButtons[i] != found)
-                    m_InputButtons[i]->setChecked(false);
+                break;
             }
         }
         i++;
     }
-    // if it is a net input, open NetRadio window, otherwise close it
-    if (found == ui->InputNetButton)
+    return found;
+}
+
+
+void AVRPioRemote::SelectInputButton(int idx, int zone)
+{
+    int i = 0;
+    QPushButton* found = NULL;
+    // find a button associated with the input
+    found = FindInputButton(idx);
+
+    if (zone == 1)
+        m_SelectedInput = found;
+    else if (zone == 2)
+        m_SelectedInputZ2 = found;
+    else if (zone == 3)
+        m_SelectedInputZ3 = found;
+
+    if (zone == 1 && found != NULL)
     {
+        m_SelectedInput = found;
+        while (m_InputButtons[i] != (QPushButton*)-1)
+        {
+            if (m_InputButtons[i] != NULL)
+            {
+                if (i == idx)
+                {
+                    // select the found input button
+                    m_InputButtons[i]->setChecked(true);
+                }
+                else
+                {
+                    // unselect all other input buttons
+                    if(m_InputButtons[i] != found)
+                        m_InputButtons[i]->setChecked(false);
+                }
+            }
+            i++;
+        }
+    }
+    // if it is a net input, open NetRadio window, otherwise close it
+    if (m_SelectedInput == ui->InputNetButton || m_SelectedInputZ2 == ui->InputNetButton || m_SelectedInputZ3 == ui->InputNetButton)
+    {
+
         if (!m_FavoritesCompatibilityMode)
         {
             m_NetRadioDialog->ShowNetDialog();
@@ -270,9 +298,9 @@ void AVRPioRemote::SelectInputButton(int idx)
                 m_OldFavoritesDialog->hide();
         }
     }
-    // if it is the tuner input, open Tuner window, otherwise close it
 
-    if (found == ui->InputTunerButton)
+    // if it is the tuner input, open Tuner window, otherwise close it
+    if (m_SelectedInput == ui->InputTunerButton || m_SelectedInputZ2 == ui->InputTunerButton || m_SelectedInputZ3 == ui->InputTunerButton)
     {
         m_TunerDialog->ShowTunerDialog();
     }
@@ -281,7 +309,9 @@ void AVRPioRemote::SelectInputButton(int idx)
         if (m_TunerDialog->isVisible())
             m_TunerDialog->hide();
     }
-    if (found == ui->InputIpodButton)
+
+    // if it is the tuner input, open Tuner window, otherwise close it
+    if (m_SelectedInput == ui->InputIpodButton || m_SelectedInputZ2 == ui->InputIpodButton || m_SelectedInputZ3 == ui->InputIpodButton)
     {
         m_usbDialog->ShowusbDialog();
     }
@@ -327,7 +357,7 @@ void AVRPioRemote::LMSelectedAction(QString Param)
 void AVRPioRemote::ConnectReceiver()
 {
     ui->pushButtonConnect->setEnabled(false);
-    EnableIPInput(false);
+    m_SettingsDialog->EnableIPInput(false);
 
     ui->StatusLineEdit->setText(tr("Connecting..."));
     m_StatusLineTimer.start();
@@ -452,6 +482,12 @@ void AVRPioRemote::InputFunctionData(int no, QString name)
 }
 
 
+void AVRPioRemote::ZoneInput (int zone, int input)
+{
+    SelectInputButton(input, zone);
+}
+
+
 void AVRPioRemote::PhaseData(int phase)
 {
     ui->PhaseButton->setChecked(phase != 0);
@@ -520,12 +556,13 @@ void AVRPioRemote::CommError(QString socketError)
 {
     Logger::Log("tcp error");
     ui->pushButtonConnect->setEnabled(true);
-    EnableIPInput(true);
+    m_SettingsDialog->EnableIPInput(true);
     EnableControls(false);
     ui->pushButtonConnect->setText(tr("Connect"));
     ClearScreen();
     ui->StatusLineEdit->setText(socketError);
     m_StatusLineTimer.start();
+    ui->ZoneControlButton->setEnabled(false);
 }
 
 void AVRPioRemote::CommConnected()
@@ -537,6 +574,7 @@ void AVRPioRemote::CommConnected()
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setText(tr("Disconnect"));
     ui->pushButtonConnect->setChecked(true);
+    ui->ZoneControlButton->setEnabled(true);
     m_ReceiverOnline = true;
     SendCmd("?RGD"); // Receiver-Kennung
     SendCmd("?SSO"); // Receiver friendly name (network)
@@ -546,30 +584,14 @@ void AVRPioRemote::CommConnected()
 void AVRPioRemote::CommDisconnected()
 {
     Logger::Log("disconnected");
-    EnableIPInput(true);
+    m_SettingsDialog->EnableIPInput(true);
     ui->pushButtonConnect->setText(tr("Connect"));
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
     EnableControls(false);
     ClearScreen();
+    ui->ZoneControlButton->setEnabled(false);
 }
-
-//void AVRPioRemote::Log(const QString& text)
-//{
-//    Log(text, QColor(0, 0, 0));
-//}
-
-//void AVRPioRemote::Log(const QString& text, const QColor& color)
-//{
-////    ui->listWidgetLog->addItem(text);
-////    if (ui->listWidgetLog->count() > 100)
-////        ui->listWidgetLog->removeItemWidget(ui->listWidgetLog->item(0));
-////    ui->listWidgetLog->setCurrentItem(ui->listWidgetLog->item(ui->listWidgetLog->count() - 1));
-////    QBrush brush(color);
-////    int index = ui->listWidgetLog->currentIndex().row();
-////    ui->listWidgetLog->item(index)->setForeground(brush);
-//    qDebug() << text;
-//}
 
 bool AVRPioRemote::SendCmd(const QString& cmd)
 {
@@ -607,14 +629,6 @@ void AVRPioRemote::EnableControls(bool enable)
     ui->ATBEQModesButton->setEnabled(enable);
 }
 
-void AVRPioRemote::EnableIPInput(bool enable)
-{
-    ui->lineEditIP1->setEnabled(enable);
-    ui->lineEditIP2->setEnabled(enable);
-    ui->lineEditIP3->setEnabled(enable);
-    ui->lineEditIP4->setEnabled(enable);
-    ui->lineEditIPPort->setEnabled(enable);
-}
 
 void AVRPioRemote::ClearScreen()
 {
@@ -626,6 +640,7 @@ void AVRPioRemote::ClearScreen()
     ui->InputNameLineEdit->setText("");
 }
 
+
 void AVRPioRemote::onConnect()
 {
     if (!m_ReceiverInterface.IsConnected())
@@ -634,43 +649,36 @@ void AVRPioRemote::onConnect()
         // read settings from the line edits
         QString ip1, ip2, ip3, ip4, ip_port;
         // first the 4 ip address blocks
-        ip1 = ui->lineEditIP1->text().trimmed();
+        m_SettingsDialog->GetIpAddress(ip1, ip2, ip3, ip4, ip_port);
         if (ip1 == "")
         {
             ip1 = "192"; // set default
-            ui->lineEditIP1->setText(ip1);
         }
-        ip2 = ui->lineEditIP2->text().trimmed();
         if (ip2 == "")
         {
             ip2 = "168"; // set default
-            ui->lineEditIP2->setText(ip2);
         }
-        ip3 = ui->lineEditIP3->text().trimmed();
         if (ip3 == "")
         {
             ip3 = "1"; // set default
-            ui->lineEditIP3->setText(ip3);
         }
-        ip4 = ui->lineEditIP4->text().trimmed();
         if (ip4 == "")
         {
             ip4 = "192"; // set default
-            ui->lineEditIP4->setText(ip4);
         }
         m_IpAddress = ip1 + "." + ip2 + "." + ip3 + "." + ip4;
         // and then th ip port
-        ip_port = ui->lineEditIPPort->text().trimmed();
         if (ip_port == "")
         {
             ip_port = "8102"; // set default
-            ui->lineEditIPPort->setText(ip_port);
+            m_IpPort = 8102;
         }
         else
         {
             m_IpPort = ip_port.toInt();
         }
         // save the ip address and port permanently
+        m_SettingsDialog->GetIpAddress(ip1, ip2, ip3, ip4, ip_port);
         m_Settings.setValue("IP/1", ip1);
         m_Settings.setValue("IP/2", ip2);
         m_Settings.setValue("IP/3", ip3);
@@ -1006,3 +1014,8 @@ void AVRPioRemote::ReceiverNetworkName (QString/* name*/)
 {
 }
 
+
+void AVRPioRemote::on_ZoneControlButton_clicked()
+{
+    m_ZoneControlDialog->ShowZoneControlDialog();
+}

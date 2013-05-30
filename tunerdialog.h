@@ -52,6 +52,7 @@ private:
     QString                     m_DisplayString;
     bool                        m_TunerInputSelected;
     bool                        m_PositionSet;
+    int                         m_TunerStringPosition;
 
     bool GetScrolledString(QString input);
 

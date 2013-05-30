@@ -21,6 +21,8 @@
 #include <QDialog>
 #include <QSettings>
 #include <QTranslator>
+#include <QIntValidator>
+#include "receiverinterface.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -31,15 +33,21 @@ class SettingsDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit SettingsDialog(QWidget *parent, QSettings& settings);
+    explicit SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~SettingsDialog();
 
     void SetLanguage();
+    void GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString &port);
+    void SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port);
 
 public slots:
     void ShowSettingsDialog();
+    void EnableIPInput(bool enable);
 
 private slots:
+    void CommError(QString socketError);
+    void CommConnected();
+    void CommDisconnected();
     void on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state);
     void on_FavoriteLX83CompatibilityModeCheckBox_stateChanged(int state);
     void on_LanguageAutoRadioButton_clicked(bool checked);
@@ -59,13 +67,20 @@ private slots:
     void on_ShowUSBCheckBox_clicked();
     void on_StartLoggingInTestWindowCheckBox_clicked();
     void on_ShowReceiverNameInTitleCheckBox_clicked();
-
     void on_ShowDefaultInputNameCheckBox_clicked();
+    void on_RestoreZoneControlWindowCheckBox_clicked();
+    void on_pushButtonConnect_clicked();
+
+signals:
+    void onConnect();
 
 private:
     QSettings&          m_Settings;
-    Ui::SettingsDialog *ui;
     QTranslator         m_Translater;
+    QIntValidator       m_IpValidator;
+    QIntValidator       m_IpPortValidator;
+    ReceiverInterface&  m_Comm;
+    Ui::SettingsDialog *ui;
 };
 
 #endif // SETTINGSDIALOG_H

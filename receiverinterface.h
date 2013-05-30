@@ -77,6 +77,10 @@ signals:
     void usbData (QString name);
     void ReceiverType (QString no, QString name);
     void ReceiverNetworkName (QString name);
+    void ZonePower (int zone, bool on);
+    void ZoneInput (int zone, int input);
+    void ZoneVolume (int zone, int volume, QString asString);
+    void ZoneMute (int zone, bool muted);
 };
 
 #endif // RECEIVERINTERFACE_H

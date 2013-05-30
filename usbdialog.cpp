@@ -429,7 +429,7 @@ void usbDialog::on_brepeat_clicked()
     emit SendCmd("07IP"); // repeat weiterschalten
 }
 
-void usbDialog::randrepeattest(int no, QString name)
+void usbDialog::randrepeattest(int/* no*/, QString name)
 {
     QString str,str1;
     str=name.trimmed();

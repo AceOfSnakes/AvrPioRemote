@@ -19,12 +19,17 @@
 #include "ui_settingsdialog.h"
 #include <QDebug>
 
-SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
+SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface &Comm) :
     QDialog(parent),
     m_Settings(settings),
+    m_IpValidator(0, 255, this),
+    m_IpPortValidator(0, 35535, this),
+    m_Comm(Comm),
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
+
+    ui->tabWidget->setCurrentIndex(0);
 
     ui->TunerVSX922CompatibilityModeCheckBox->setChecked(m_Settings.value("TunerCompatibilityMode", false).toBool());
     ui->FavoriteLX83CompatibilityModeCheckBox->setChecked(m_Settings.value("FavoritesCompatibilityMode", false).toBool());
@@ -51,7 +56,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
 
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
-    ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
+    ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
     SetLanguage();
 
     ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value("StartLoggingInTestWindow", false).toBool());
@@ -64,10 +69,29 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings) :
     ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value("SaveTestWindowGeometry", false).toBool());
     ui->RestoreLMSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool());
     ui->RestoreUSBWindowCheckBox->setChecked(m_Settings.value("SaveUsbWindowGeometry", false).toBool());
+    ui->RestoreZoneControlWindowCheckBox->setChecked(m_Settings.value("SaveZoneControlWindowGeometry", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
 
     ui->ShowDefaultInputNameCheckBox->setChecked(m_Settings.value("ShowDefaultInputName", false).toBool());
+
+    // configure ip adress edit input
+    ui->lineEditIP1->setValidator(&m_IpValidator);
+    ui->lineEditIP2->setValidator(&m_IpValidator);
+    ui->lineEditIP3->setValidator(&m_IpValidator);
+    ui->lineEditIP4->setValidator(&m_IpValidator);
+    ui->lineEditIPPort->setValidator(&m_IpPortValidator);
+    // get the saved ip address data
+    ui->lineEditIP1->setText(m_Settings.value("IP/1", "192").toString());
+    ui->lineEditIP2->setText(m_Settings.value("IP/2", "168").toString());
+    ui->lineEditIP3->setText(m_Settings.value("IP/3", "1").toString());
+    ui->lineEditIP4->setText(m_Settings.value("IP/4", "1").toString());
+    ui->lineEditIPPort->setText(m_Settings.value("IP/PORT", "8102").toString());
+
+    connect((&m_Comm), SIGNAL(Connected()), this, SLOT(CommConnected()));
+    connect((&m_Comm), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
+    connect((&m_Comm), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
+    connect((this), SIGNAL(onConnect()), parent,  SLOT(onConnect()));
 }
 
 SettingsDialog::~SettingsDialog()
@@ -90,30 +114,62 @@ void SettingsDialog::ShowSettingsDialog()
     }
 }
 
+void SettingsDialog::GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString& port)
+{
+    ip1 = ui->lineEditIP1->text().trimmed();
+    ip2 = ui->lineEditIP2->text().trimmed();
+    ip3 = ui->lineEditIP3->text().trimmed();
+    ip4 = ui->lineEditIP4->text().trimmed();
+    port = ui->lineEditIPPort->text().trimmed();
+}
+
+void SettingsDialog::SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port)
+{
+    ui->lineEditIP1->setText(ip1);
+    ui->lineEditIP2->setText(ip2);
+    ui->lineEditIP3->setText(ip3);
+    ui->lineEditIP4->setText(ip4);
+    ui->lineEditIPPort->setText(port);
+}
+
+void SettingsDialog::EnableIPInput(bool enable)
+{
+    ui->lineEditIP1->setEnabled(enable);
+    ui->lineEditIP2->setEnabled(enable);
+    ui->lineEditIP3->setEnabled(enable);
+    ui->lineEditIP4->setEnabled(enable);
+    ui->lineEditIPPort->setEnabled(enable);
+}
+
+void SettingsDialog::CommError(QString/* socketError*/)
+{
+    ui->pushButtonConnect->setEnabled(true);
+    ui->pushButtonConnect->setText(tr("Connect"));
+}
+
+void SettingsDialog::CommConnected()
+{
+    ui->pushButtonConnect->setEnabled(true);
+    ui->pushButtonConnect->setText(tr("Disconnect"));
+    ui->pushButtonConnect->setChecked(true);
+}
+
+void SettingsDialog::CommDisconnected()
+{
+    ui->pushButtonConnect->setText(tr("Connect"));
+    ui->pushButtonConnect->setEnabled(true);
+    ui->pushButtonConnect->setChecked(false);
+}
 
 void SettingsDialog::on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state)
 {
-    if (Qt::Checked == state)
-    {
-        m_Settings.setValue("TunerCompatibilityMode", true);
-    }
-    else
-    {
-        m_Settings.setValue("TunerCompatibilityMode", false);
-    }
+    m_Settings.setValue("TunerCompatibilityMode", (Qt::Checked == state));
 }
 
 
 void SettingsDialog::on_FavoriteLX83CompatibilityModeCheckBox_stateChanged(int state)
 {
-    if (Qt::Checked == state)
-    {
-        m_Settings.setValue("FavoritesCompatibilityMode", true);
-    }
-    else
-    {
-        m_Settings.setValue("FavoritesCompatibilityMode", false);
-    }
+    m_Settings.setValue("FavoritesCompatibilityMode", (Qt::Checked == state));
 }
 
 
@@ -240,4 +296,18 @@ void SettingsDialog::on_ShowReceiverNameInTitleCheckBox_clicked()
 void SettingsDialog::on_ShowDefaultInputNameCheckBox_clicked()
 {
     m_Settings.setValue("ShowDefaultInputName", ui->ShowDefaultInputNameCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreZoneControlWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveZoneControlWindowGeometry", ui->RestoreZoneControlWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_pushButtonConnect_clicked()
+{
+    bool checked = !ui->pushButtonConnect->isChecked();
+    ui->pushButtonConnect->setChecked(checked);
+    if (!checked)
+        ui->pushButtonConnect->setEnabled(false);
+    emit onConnect();
 }

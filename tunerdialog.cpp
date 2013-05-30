@@ -27,7 +27,8 @@ TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &se
     ui(new Ui::TunerDialog),
     m_Comm(Comm),
     m_TunerInputSelected(false),
-    m_PositionSet(false)
+    m_PositionSet(false),
+    m_TunerStringPosition(-1)
 {
     ui->setupUi(this);
 
@@ -574,11 +575,12 @@ bool TunerDialog::GetScrolledString(QString input)
     // find the current string in the saved
     int pos = m_DisplayString.lastIndexOf(tmp);
 //    qDebug() << "|" << input << "| |" << tmp << "| " << pos;
-    if (pos == -1)
+    if ((pos == -1) && (m_TunerStringPosition != (pos + 1)))
     {
         // nothing is found, so take the current string as the beginning
         // of our new string
         m_DisplayString = input;
+        m_TunerStringPosition = -1;
         //m_Firstline = input;
     }
     else
@@ -586,6 +588,7 @@ bool TunerDialog::GetScrolledString(QString input)
         // integrate the current string in to our saved string
         // it get only one character longer
         m_DisplayString.replace(pos, input.length(), input);
+        m_TunerStringPosition = pos;
     }
     return false;
 }
