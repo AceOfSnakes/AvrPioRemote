@@ -386,7 +386,7 @@ void LoudspeakerSettingsDialog::on_savebutt_clicked()
     str=QString("mem%1-%2/LSset").arg(ui->selectmem->currentIndex()).arg(str1);
      m_Settings.setValue(str,ui->meminf->text());
 
-     for (int i=0;i<6;i++)
+/*     for (int i=0;i<6;i++) //mcacc nicht speichern, da LS-Settings dort auch drin sind
      {
          if (m_buttons[i]->isChecked())
          {
@@ -394,7 +394,7 @@ void LoudspeakerSettingsDialog::on_savebutt_clicked()
               m_Settings.setValue(str,i);
               break;
          }
-     }
+     }*/
 }
 
 
@@ -404,6 +404,15 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
     QString str;
     int str1;
     str1=m_Settings.value("IP/4").toInt();//letztes Oktett IP anhängen, falls mehrere Reciever
+
+/*    ui->speaker->setCurrentIndex(0);  //Speicherung entfernt, da LS-Settings auch in mcacc gespeichert werden--Konflikte
+    ui->speakermode->setCurrentIndex(mLSpaar[0]);
+    str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
+    str1=m_Settings.value(str).toInt();   //Nummer des Buttons aus der m_button Liste (0-5)
+    if (!m_buttons[str1]->isChecked())
+        m_buttons[str1]->click();
+*/
+//    str1=m_Settings.value("IP/4").toInt();//letztes Oktett IP anhängen, falls mehrere Reciever
 
     for (int i=0;i<12;i++)
     {
@@ -434,12 +443,7 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
 //          qDebug() << str;
           SendCmd(str);
     }
-    ui->speaker->setCurrentIndex(0);
-    ui->speakermode->setCurrentIndex(mLSpaar[0]);
-    str=QString("mem%1-%2/mcacc").arg(ui->selectmem->currentIndex()).arg(str1);
-    str1=m_Settings.value(str).toInt();   //Nummer des Buttons aus der m_button Liste (0-5)
-    if (!m_buttons[str1]->isChecked())
-        m_buttons[str1]->click();
+
  }
 
 
