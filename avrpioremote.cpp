@@ -36,6 +36,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_SelectedInput   = NULL;
     m_SelectedInputZ2 = NULL;
     m_SelectedInputZ3 = NULL;
+    m_Zone2PowerOn    = false;
+    m_Zone3PowerOn    = false;
 
 
     QString lang = m_Settings.value("Language", "auto").toString();
@@ -96,6 +98,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((&m_ReceiverInterface), SIGNAL(ReceiverType(QString,QString)), this,  SLOT(ReceiverType(QString,QString)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverNetworkName(QString)), this,  SLOT(ReceiverNetworkName(QString)));
     connect((&m_ReceiverInterface), SIGNAL(ZoneInput(int, int)),this,SLOT(ZoneInput(int, int)));
+    connect((&m_ReceiverInterface), SIGNAL(ZonePower(int, bool)),this,SLOT(ZonePower(int, bool)));
 
     // make a list with buttons that correspond to a input type
     /* 00 */ m_InputButtons.append(NULL); //"PHONO"
@@ -277,7 +280,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
         }
     }
     // if it is a net input, open NetRadio window, otherwise close it
-    if (m_SelectedInput == ui->InputNetButton || m_SelectedInputZ2 == ui->InputNetButton || m_SelectedInputZ3 == ui->InputNetButton)
+    if (m_SelectedInput == ui->InputNetButton || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputNetButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputNetButton))
     {
 
         if (!m_FavoritesCompatibilityMode)
@@ -304,7 +307,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
     }
 
     // if it is the tuner input, open Tuner window, otherwise close it
-    if (m_SelectedInput == ui->InputTunerButton || m_SelectedInputZ2 == ui->InputTunerButton || m_SelectedInputZ3 == ui->InputTunerButton)
+    if (m_SelectedInput == ui->InputTunerButton || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputTunerButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputTunerButton))
     {
         m_TunerDialog->ShowTunerDialog(true);
     }
@@ -315,7 +318,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
     }
 
     // if it is the tuner input, open Tuner window, otherwise close it
-    if (m_SelectedInput == ui->InputIpodButton || m_SelectedInputZ2 == ui->InputIpodButton || m_SelectedInputZ3 == ui->InputIpodButton)
+    if (m_SelectedInput == ui->InputIpodButton || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputIpodButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputIpodButton))
     {
         m_usbDialog->ShowusbDialog(true);
     }
@@ -1036,4 +1039,20 @@ void AVRPioRemote::ReceiverNetworkName (QString/* name*/)
 void AVRPioRemote::on_ZoneControlButton_clicked()
 {
     m_ZoneControlDialog->ShowZoneControlDialog();
+}
+
+void AVRPioRemote::ZonePower (int zone, bool on)
+{
+    if (zone == 2)
+    {
+        m_Zone2PowerOn = on;
+        if (!on)
+            m_SelectedInputZ2 = NULL;
+    }
+    else if (zone == 3)
+    {
+        m_Zone3PowerOn = on;
+        if (!on)
+            m_SelectedInputZ3 = NULL;
+    }
 }

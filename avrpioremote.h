@@ -111,6 +111,8 @@ private:
     QPushButton*    m_SelectedInput;
     QPushButton*    m_SelectedInputZ2;
     QPushButton*    m_SelectedInputZ3;
+    bool            m_Zone2PowerOn;
+    bool            m_Zone3PowerOn;
 
     void SelectInputButton(int idx, int zone = 1);
     void ClearScreen();
@@ -142,6 +144,7 @@ public slots:
     void ReceiverType (QString no, QString name);
     void ReceiverNetworkName (QString name);
     void onConnect();
+    void ZonePower (int zone, bool on);
 private slots:
     void CommError(QString socketError);
     void CommConnected();
