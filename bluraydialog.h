@@ -60,7 +60,8 @@ private:
     void moveEvent(QMoveEvent*event);
 
 public slots:
-    void ShowBluRayDialog();
+    void ManualShowBluRayDialog();
+    void ShowBluRayDialog(bool autoShow);
     void EnableControls(bool enable);
     void EnableIPInput(bool enable);
     

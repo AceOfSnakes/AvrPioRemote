@@ -59,7 +59,8 @@ private:
     void moveEvent(QMoveEvent*event);
 
 public slots:
-    void ShowTunerDialog();
+    void ManualShowTunerDialog();
+    void ShowTunerDialog(bool autoShow);
     void DataReceived(QString data);
     void SelectClassButton(int idx);
     void SelectPresetButton(int idx);

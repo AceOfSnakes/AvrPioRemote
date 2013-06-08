@@ -282,7 +282,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
 
         if (!m_FavoritesCompatibilityMode)
         {
-            m_NetRadioDialog->ShowNetDialog();
+            m_NetRadioDialog->ShowNetDialog(true);
         }
         else
         {
@@ -306,7 +306,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
     // if it is the tuner input, open Tuner window, otherwise close it
     if (m_SelectedInput == ui->InputTunerButton || m_SelectedInputZ2 == ui->InputTunerButton || m_SelectedInputZ3 == ui->InputTunerButton)
     {
-        m_TunerDialog->ShowTunerDialog();
+        m_TunerDialog->ShowTunerDialog(true);
     }
     else
     {
@@ -317,7 +317,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
     // if it is the tuner input, open Tuner window, otherwise close it
     if (m_SelectedInput == ui->InputIpodButton || m_SelectedInputZ2 == ui->InputIpodButton || m_SelectedInputZ3 == ui->InputIpodButton)
     {
-        m_usbDialog->ShowusbDialog();
+        m_usbDialog->ShowusbDialog(true);
     }
     else
     {
@@ -327,7 +327,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
    
     if (found == ui->InputBdButton)
     {
-        m_BluRayDialog->ShowBluRayDialog();
+        m_BluRayDialog->ShowBluRayDialog(true);
     }
     else
     {
@@ -727,19 +727,19 @@ void AVRPioRemote::on_MoreButton_clicked()
     {
         pAction = new QAction(tr("Internet Radio"), this);
         MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ShowNetDialog()));
+        connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ManualShowNetDialog()));
 
         pAction = new QAction(tr("BluRay"), this);
         MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ShowBluRayDialog()));	
+        connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ManualShowBluRayDialog()));
 	
         pAction = new QAction(tr("Tuner"), this);
         MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
+        connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ManualShowTunerDialog()));
 
         pAction = new QAction(tr("IPod / USB"), this);
         MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_usbDialog, SLOT(ShowusbDialog()));
+        connect(pAction, SIGNAL(triggered()), m_usbDialog, SLOT(ManualShowusbDialog()));
 
         pAction = new QAction(tr("Equalizer / Tone"), this);
         MyMenu.addAction(pAction);
@@ -913,7 +913,7 @@ void AVRPioRemote::on_InputCdButton_clicked()
 
 void AVRPioRemote::on_InputIpodButton_clicked()
 {
-    m_usbDialog->ShowusbDialog();
+    m_usbDialog->ShowusbDialog(true);
     ui->InputIpodButton->setChecked(!ui->InputIpodButton->isChecked());
     SendCmd("17FN");
 }
@@ -945,7 +945,7 @@ void AVRPioRemote::on_InputNetButton_clicked()
 void AVRPioRemote::on_InputTunerButton_clicked()
 {
     ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
-    m_TunerDialog->ShowTunerDialog();
+    m_TunerDialog->ShowTunerDialog(true);
     SendCmd("02FN");
 }
 

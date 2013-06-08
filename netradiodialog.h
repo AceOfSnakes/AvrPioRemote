@@ -64,7 +64,8 @@ private:
 
 public slots:
     void NetData(QString data);
-    void ShowNetDialog();
+    void ManualShowNetDialog();
+    void ShowNetDialog(bool autoShow);
     void InputFunctionData(int no, QString name);
 private slots:
     void on_CursorUpButton_clicked();

@@ -94,9 +94,14 @@ void usbDialog::moveEvent(QMoveEvent* event)
 }
 
 
-void usbDialog::ShowusbDialog()
+void usbDialog::ManualShowusbDialog()
+{
+    ShowusbDialog(false);
+}
+
+void usbDialog::ShowusbDialog(bool autoShow)
 {   
-    if (m_Settings.value("AutoShowUSB", true).toBool() && !isVisible())
+    if ((!autoShow) || (m_Settings.value("AutoShowUSB", true).toBool() && !isVisible()))
     {
         emit SendCmd("?GAI");
         if (!m_PositionSet || !m_Settings.value("SaveUsbWindowGeometry", false).toBool())

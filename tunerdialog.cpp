@@ -110,9 +110,14 @@ void TunerDialog::moveEvent(QMoveEvent* event)
 }
 
 
-void TunerDialog::ShowTunerDialog()
+void TunerDialog::ManualShowTunerDialog()
 {
-    if (m_Settings.value("AutoShowTuner", true).toBool() && !isVisible())
+    ShowTunerDialog(false);
+}
+
+void TunerDialog::ShowTunerDialog(bool autoShow)
+{
+    if ((!autoShow) || (m_Settings.value("AutoShowTuner", true).toBool() && !isVisible()))
     {
         if (!m_PositionSet || !m_Settings.value("SaveTunerWindowGeometry", false).toBool())
         {

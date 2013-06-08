@@ -93,10 +93,14 @@ void NetRadioDialog::moveEvent(QMoveEvent* event)
     QDialog::moveEvent(event);
 }
 
+void NetRadioDialog::ManualShowNetDialog()
+{
+    ShowNetDialog(false);
+}
 
-void NetRadioDialog::ShowNetDialog()
+void NetRadioDialog::ShowNetDialog(bool autoShow)
 {   
-    if (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible())
+    if ((!autoShow) || (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible()))
     {
         emit SendCmd("?GAH");
         if (!m_PositionSet || !m_Settings.value("SaveNetRadioWindowGeometry", false).toBool())
