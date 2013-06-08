@@ -71,6 +71,10 @@ private slots:
     void on_RestoreZoneControlWindowCheckBox_clicked();
     void on_pushButtonConnect_clicked();
 
+    void on_ShowBlueRayWindowCheckBox_clicked();
+
+    void on_RestoreBlueRayWindowCheckBox_clicked();
+
 signals:
     void onConnect();
 

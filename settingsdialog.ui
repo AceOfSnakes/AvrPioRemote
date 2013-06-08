@@ -325,6 +325,37 @@
        </layout>
       </widget>
      </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>BlueRay</string>
+      </attribute>
+      <widget class="QCheckBox" name="ShowBlueRayWindowCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>211</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Show BlueRay window automatically</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="RestoreBlueRayWindowCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>191</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Remember last window position</string>
+       </property>
+      </widget>
+     </widget>
      <widget class="QWidget" name="tab_6">
       <attribute name="title">
        <string>Common</string>

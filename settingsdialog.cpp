@@ -57,6 +57,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
+    ui->ShowBlueRayWindowCheckBox->setChecked(m_Settings.value("AutoShowBlueRay", false).toBool());
     SetLanguage();
 
     ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value("StartLoggingInTestWindow", false).toBool());
@@ -70,6 +71,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->RestoreLMSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool());
     ui->RestoreUSBWindowCheckBox->setChecked(m_Settings.value("SaveUsbWindowGeometry", false).toBool());
     ui->RestoreZoneControlWindowCheckBox->setChecked(m_Settings.value("SaveZoneControlWindowGeometry", false).toBool());
+    ui->RestoreBlueRayWindowCheckBox->setChecked(m_Settings.value("SaveBlueRayWindowGeometry", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
 
@@ -310,4 +312,14 @@ void SettingsDialog::on_pushButtonConnect_clicked()
     if (!checked)
         ui->pushButtonConnect->setEnabled(false);
     emit onConnect();
+}
+
+void SettingsDialog::on_ShowBlueRayWindowCheckBox_clicked()
+{
+    m_Settings.setValue("AutoShowBlueRay", ui->ShowBlueRayWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreBlueRayWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveBlueRayWindowGeometry", ui->RestoreBlueRayWindowCheckBox->isChecked());
 }

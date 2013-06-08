@@ -37,14 +37,14 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     ui->setupUi(this);
 
     // restore the position of the window
-    if (m_Settings.value("SaveBluRayWindowGeometry", false).toBool())
+    if (m_Settings.value("SaveBlueRayWindowGeometry", false).toBool())
     {
-        m_PositionSet = restoreGeometry(m_Settings.value("BluRayWindowGeometry").toByteArray());
+        m_PositionSet = restoreGeometry(m_Settings.value("BlueRayWindowGeometry").toByteArray());
     }
     EnableControls(false);
     ui->BdPowerButton->setEnabled(false);
    
-    connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
+    //connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(const QString&)));
     // player interface
     connect((&m_PlayerInterface), SIGNAL(Connected()), this, SLOT(CommConnected()));
     connect((&m_PlayerInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
@@ -74,7 +74,7 @@ BluRayDialog::~BluRayDialog()
 
 void BluRayDialog::moveEvent(QMoveEvent* event)
 {
-    m_Settings.setValue("BluRayWindowGeometry", saveGeometry());
+    m_Settings.setValue("BlueRayWindowGeometry", saveGeometry());
     QDialog::moveEvent(event);
 }
 
@@ -99,10 +99,9 @@ void BluRayDialog::ConnectPlayer()
 
 void BluRayDialog::ShowBluRayDialog()
 {   
-    if (m_Settings.value("AutoShowBluRay", true).toBool() && !isVisible())
+    if (m_Settings.value("AutoShowBlueRay", true).toBool() && !isVisible())
     {
-        emit SendCmd("?GAH");
-        if (!m_PositionSet || !m_Settings.value("SaveBluRayWindowGeometry", false).toBool())
+        if (!m_PositionSet || !m_Settings.value("SaveBlueRayWindowGeometry", false).toBool())
         {
             QWidget* Parent = dynamic_cast<QWidget*>(parent());
             if (Parent != NULL)
