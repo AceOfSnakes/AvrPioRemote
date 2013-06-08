@@ -17,11 +17,13 @@ SOURCES += main.cpp \
         avrpioremote.cpp \
         Defs.cpp \
     netradiodialog.cpp \
+    bluraydialog.cpp \
     aboutdialog.cpp \
     loudspeakersettingsdialog.cpp \
     tunerdialog.cpp \
     actionwithparameter.cpp \
     receiverinterface.cpp \
+    playerinterface.cpp \
     testdialog.cpp \
     oldfavoritesdialog.cpp \
     getoldfavoritelistdialog.cpp \
@@ -36,11 +38,13 @@ SOURCES += main.cpp \
 HEADERS  += avrpioremote.h \
          Defs.h \
     netradiodialog.h \
+    bluraydialog.h \
     aboutdialog.h \
     loudspeakersettingsdialog.h \
     tunerdialog.h \
     actionwithparameter.h \
     receiverinterface.h \
+    playerinterface.h \
     testdialog.h \
     oldfavoritesdialog.h \
     getoldfavoritelistdialog.h \
@@ -55,6 +59,7 @@ HEADERS  += avrpioremote.h \
 
 FORMS    += avrpioremote.ui \
     netradiodialog.ui \
+    bluraydialog.ui \
     aboutdialog.ui \
     loudspeakersettingsdialog.ui \
     tunerdialog.ui \

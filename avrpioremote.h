@@ -23,6 +23,7 @@
 #include <QThread>
 #include "Defs.h"
 #include "netradiodialog.h"
+#include "bluraydialog.h"
 #include "aboutdialog.h"
 #include "loudspeakersettingsdialog.h"
 #include "tunerdialog.h"
@@ -86,10 +87,12 @@ public:
 private:
     Ui::AVRPioRemote *ui;
     ReceiverInterface m_ReceiverInterface;
+    PlayerInterface m_PlayerInterface;
     int             m_IpPort;
     QString         m_IpAddress;
     QSettings       m_Settings;
     NetRadioDialog* m_NetRadioDialog;
+    BluRayDialog*   m_BluRayDialog;
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
     TunerDialog*    m_TunerDialog;
     TestDialog*     m_TestDialog;

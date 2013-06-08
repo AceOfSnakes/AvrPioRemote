@@ -157,6 +157,9 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
 
+        // create BluRay dialog
+    m_BluRayDialog = new BluRayDialog(this, m_Settings, m_PlayerInterface);
+    
     // create usb dialog
     m_usbDialog = new usbDialog(this, m_Settings, m_ReceiverInterface);
 
@@ -188,6 +191,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 AVRPioRemote::~AVRPioRemote()
 {
     delete m_NetRadioDialog;
+    delete m_BluRayDialog;
     delete m_usbDialog;
     delete m_LoudspeakerSettingsDialog;
     delete m_TunerDialog;
@@ -320,7 +324,17 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
         if (m_usbDialog->isVisible())
             m_usbDialog->hide();
     }
-
+   
+    if (found == ui->InputBdButton)
+    {
+        m_BluRayDialog->ShowBluRayDialog();
+    }
+    else
+    {
+        if (m_BluRayDialog->isVisible())
+            m_BluRayDialog->hide();
+    }
+    
 }
 
 //void AVRPioRemote::SocketStateChanged(QAbstractSocket::SocketState State)
@@ -715,6 +729,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ShowNetDialog()));
 
+        pAction = new QAction(tr("BluRay"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ShowBluRayDialog()));	
+	
         pAction = new QAction(tr("Tuner"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ShowTunerDialog()));
