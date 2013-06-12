@@ -104,7 +104,7 @@ void BluRayDialog::ManualShowBluRayDialog()
 
 void BluRayDialog::ShowBluRayDialog(bool autoShow)
 {   
-    if ((!autoShow) || (m_Settings.value("AutoShowBlueRay", true).toBool() && !isVisible()))
+    if ((!autoShow) || (m_Settings.value("AutoShowBlueRay", false).toBool() && !isVisible()))
     {
         if (!m_PositionSet || !m_Settings.value("SaveBlueRayWindowGeometry", false).toBool())
         {
