@@ -77,6 +77,10 @@ private slots:
     void on_selectmem_currentIndexChanged(int index);
     void clear_toggles();
     void checkbox();
+    void on_spa_clicked();
+    void on_spb_clicked();
+    void on_spab_clicked();
+    void on_spoff_clicked();
 };
 
 extern const char* LStyp[]; //Lautsprecherkonfig (SB/FH, Zone2 etc)

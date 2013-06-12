@@ -241,6 +241,22 @@ void LoudspeakerSettingsDialog::Speakerinfo(QString data)
        m_buttons[wert]->setChecked(true);
      }
 //  qDebug() << "speakerdaten:" <<data  <<sysValue <<wert;
+   if (data.startsWith("SPK"))
+     {
+       wert=data.mid(3,1).toInt();
+       ui->spa->setChecked(false);
+       ui->spb->setChecked(false);
+       ui->spab->setChecked(false);
+       ui->spoff->setChecked(false);
+       if (wert==1)
+           ui->spa->setChecked(true);
+       else if (wert==2)
+          ui->spb->setChecked(true);
+       else if (wert==3)
+          ui->spab->setChecked(true);
+       else if (wert==0)
+          ui->spoff->setChecked(true);
+     }
 }
 
 
@@ -285,7 +301,7 @@ void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
 //            qDebug() << str <<"  CLVDaten";
             SendCmd(str);
     }
-
+    SendCmd("?SPK");
     SendCmd("?MC");
 }
 
@@ -526,4 +542,24 @@ void LoudspeakerSettingsDialog::clear_toggles()
 {
     for (int i=0;i<6;i++)
     m_buttons[i]->setChecked(false);
+}
+
+void LoudspeakerSettingsDialog::on_spa_clicked()
+{
+        SendCmd("1SPK");
+}
+
+void LoudspeakerSettingsDialog::on_spb_clicked()
+{
+        SendCmd("2SPK");
+}
+
+void LoudspeakerSettingsDialog::on_spab_clicked()
+{
+        SendCmd("3SPK");
+}
+
+void LoudspeakerSettingsDialog::on_spoff_clicked()
+{
+        SendCmd("0SPK");
 }
