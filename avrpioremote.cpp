@@ -328,7 +328,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
             m_usbDialog->hide();
     }
    
-    if (found == ui->InputBdButton)
+    if (m_SelectedInput == ui->InputBdButton || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputBdButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputBdButton))
     {
         m_BluRayDialog->ShowBluRayDialog(true);
     }
