@@ -10,7 +10,7 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="26"/>
-        <location filename="avrpioremote.cpp" line="400"/>
+        <location filename="avrpioremote.cpp" line="418"/>
         <source>ON</source>
         <translation type="unfinished"></translation>
     </message>
@@ -107,7 +107,7 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="400"/>
-        <location filename="avrpioremote.cpp" line="753"/>
+        <location filename="avrpioremote.cpp" line="779"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
@@ -159,8 +159,8 @@ DIRECT</source>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="611"/>
-        <location filename="avrpioremote.cpp" line="561"/>
-        <location filename="avrpioremote.cpp" line="588"/>
+        <location filename="avrpioremote.cpp" line="579"/>
+        <location filename="avrpioremote.cpp" line="606"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -180,105 +180,375 @@ DIRECT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="362"/>
+        <location filename="avrpioremote.cpp" line="380"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="400"/>
+        <location filename="avrpioremote.cpp" line="418"/>
         <source>OFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="433"/>
+        <location filename="avrpioremote.cpp" line="451"/>
         <source>This doesn&apos;t work now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="438"/>
+        <location filename="avrpioremote.cpp" line="456"/>
         <source>This doesn&apos;t work with this receiver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="443"/>
+        <location filename="avrpioremote.cpp" line="461"/>
         <source>Command error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="448"/>
+        <location filename="avrpioremote.cpp" line="466"/>
         <source>Parameter error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="453"/>
+        <location filename="avrpioremote.cpp" line="471"/>
         <source>Receiver busy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="458"/>
+        <location filename="avrpioremote.cpp" line="476"/>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="572"/>
+        <location filename="avrpioremote.cpp" line="590"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="575"/>
+        <location filename="avrpioremote.cpp" line="593"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="714"/>
+        <location filename="avrpioremote.cpp" line="732"/>
         <source>Internet Radio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="718"/>
+        <location filename="avrpioremote.cpp" line="736"/>
+        <source>BluRay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="740"/>
         <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="722"/>
+        <location filename="avrpioremote.cpp" line="744"/>
         <source>IPod / USB</source>
         <oldsource>IPod/USB</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="726"/>
+        <location filename="avrpioremote.cpp" line="748"/>
         <source>Equalizer / Tone</source>
         <oldsource>Equalizer/Tone</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="730"/>
+        <location filename="avrpioremote.cpp" line="752"/>
         <source>Speaker Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="734"/>
+        <location filename="avrpioremote.cpp" line="756"/>
         <source>ListenMode Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="743"/>
+        <location filename="avrpioremote.cpp" line="760"/>
+        <source>Audio / Video Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="769"/>
         <source>Refresh status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="757"/>
+        <location filename="avrpioremote.cpp" line="783"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="761"/>
+        <location filename="avrpioremote.cpp" line="787"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="765"/>
+        <location filename="avrpioremote.cpp" line="791"/>
         <source>About AVRPioRemote</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AVSettingsDialog</name>
+    <message>
+        <location filename="avsettingsdialog.ui" line="14"/>
+        <source>Audio/ Video Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="22"/>
+        <source>Aspect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="35"/>
+        <source>Adv. Video Adjust</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="45"/>
+        <source>Sound Delay (frames)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="52"/>
+        <source>Dual Mono</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="65"/>
+        <source>Dialog Enhancement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="72"/>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="79"/>
+        <source>BNR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="86"/>
+        <source>MNR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="93"/>
+        <source>Sharpness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="100"/>
+        <source>Detail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="107"/>
+        <source>Hue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="114"/>
+        <source>YNR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="124"/>
+        <source>Resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="131"/>
+        <source>Chroma Level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="138"/>
+        <source>Contrast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="148"/>
+        <source>CNR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="155"/>
+        <source>Signal Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="162"/>
+        <source>Black Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="169"/>
+        <source>MCACC Memory Set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="176"/>
+        <source>Pure Cinema</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="192"/>
+        <source>Prog. Motion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="199"/>
+        <source>Stream Smoother</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="209"/>
+        <source>Phase Control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="240"/>
+        <location filename="avsettingsdialog.ui" line="276"/>
+        <location filename="avsettingsdialog.ui" line="312"/>
+        <location filename="avsettingsdialog.ui" line="351"/>
+        <location filename="avsettingsdialog.ui" line="419"/>
+        <location filename="avsettingsdialog.ui" line="458"/>
+        <location filename="avsettingsdialog.ui" line="497"/>
+        <location filename="avsettingsdialog.ui" line="533"/>
+        <location filename="avsettingsdialog.ui" line="569"/>
+        <location filename="avsettingsdialog.ui" line="611"/>
+        <location filename="avsettingsdialog.ui" line="647"/>
+        <location filename="avsettingsdialog.ui" line="686"/>
+        <location filename="avsettingsdialog.ui" line="725"/>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="749"/>
+        <source>Effect Strenth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="756"/>
+        <source>HDMI Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="763"/>
+        <source>HDMI Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="770"/>
+        <source>Dimmer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="777"/>
+        <source>Sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="784"/>
+        <source>Video Converter On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="791"/>
+        <source>Virtual SB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="798"/>
+        <source>Virtual Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="805"/>
+        <source>Virtual Wide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="812"/>
+        <source>Analog Input ATT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="819"/>
+        <source>MCACC Equalizer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="826"/>
+        <source>Standing Wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="833"/>
+        <source>Digital Noise Reduction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="840"/>
+        <source>HiBit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="847"/>
+        <source>Fixed PCM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="854"/>
+        <source>SACD Gain +6dB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="861"/>
+        <source>Auto Delay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="868"/>
+        <source>Loudness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="875"/>
+        <source>Virtual Depth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="882"/>
+        <source>Sound Retriever</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="892"/>
+        <source>DRC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="899"/>
+        <source>LFE ATT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.ui" line="912"/>
+        <source>PQLS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avsettingsdialog.cpp" line="48"/>
+        <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -319,6 +589,354 @@ DIRECT</source>
     <message>
         <location filename="aboutdialog.ui" line="129"/>
         <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BluRayDialog</name>
+    <message>
+        <location filename="bluraydialog.ui" line="26"/>
+        <source>Bluray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="50"/>
+        <source>ON</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="75"/>
+        <source>CONNECT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="110"/>
+        <source>CONTINUED</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="129"/>
+        <location filename="bluraydialog.ui" line="138"/>
+        <source>192</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="150"/>
+        <location filename="bluraydialog.ui" line="192"/>
+        <location filename="bluraydialog.ui" line="234"/>
+        <source>.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="171"/>
+        <location filename="bluraydialog.ui" line="180"/>
+        <source>168</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="213"/>
+        <location filename="bluraydialog.ui" line="222"/>
+        <location filename="bluraydialog.ui" line="264"/>
+        <location filename="bluraydialog.ui" line="1376"/>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="255"/>
+        <location filename="bluraydialog.ui" line="1398"/>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="276"/>
+        <source>:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="297"/>
+        <location filename="bluraydialog.ui" line="306"/>
+        <source>8102</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="343"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="468"/>
+        <source>Track: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="486"/>
+        <location filename="bluraydialog.ui" line="1568"/>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="517"/>
+        <source>Time: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="535"/>
+        <source>--:--</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="572"/>
+        <source>Development status, not full functional!!!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="584"/>
+        <source>Contact for Bluray Dialog: avrpioremote@multimedia4linux.de</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="611"/>
+        <source>INDEX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="633"/>
+        <source>PROGRAM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="655"/>
+        <source>BOOKMARK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="677"/>
+        <source>ZOOM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="716"/>
+        <source>^</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="747"/>
+        <source>&lt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="769"/>
+        <source>HOME MENU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="791"/>
+        <source>o</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="813"/>
+        <source>&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="835"/>
+        <source>v</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="863"/>
+        <source>AUDIO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="888"/>
+        <source>FL DIMMER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="913"/>
+        <source>TOP MENU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="942"/>
+        <source>SUBTITLE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="967"/>
+        <source>CD/DVD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="992"/>
+        <source>FUNCTION</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1028"/>
+        <source>ANGLE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1050"/>
+        <source>HDMI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1072"/>
+        <source>EXIT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1105"/>
+        <source>2nd VIDEO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1130"/>
+        <source>A-B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1155"/>
+        <source>DISPLAY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1180"/>
+        <source>REPLAY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1210"/>
+        <source>2nd AUDIO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1232"/>
+        <source>REPEAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1254"/>
+        <source>KEYLOCK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1264"/>
+        <source>SKIP SEARCH</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1298"/>
+        <source>RETURN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1324"/>
+        <source>HOME MEDIA GALLERY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1346"/>
+        <source>POPUP MENU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1420"/>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1442"/>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1464"/>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1486"/>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1508"/>
+        <source>7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1530"/>
+        <source>8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1549"/>
+        <source>9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1587"/>
+        <source>CLEAR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1606"/>
+        <source>ENTER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1642"/>
+        <source>OPEN/CLOSE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1677"/>
+        <source>PLAY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1699"/>
+        <source>||</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1721"/>
+        <source>STOP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1759"/>
+        <source>&lt;|&lt;|</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1781"/>
+        <source>|&gt;|&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1819"/>
+        <source>&lt;|</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.ui" line="1841"/>
+        <source>|&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.cpp" line="132"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.cpp" line="144"/>
+        <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -668,7 +1286,7 @@ DIRECT</source>
     <name>NetRadioDialog</name>
     <message>
         <location filename="netradiodialog.ui" line="26"/>
-        <location filename="netradiodialog.cpp" line="165"/>
+        <location filename="netradiodialog.cpp" line="169"/>
         <source>NetRadio</source>
         <translation type="unfinished"></translation>
     </message>
@@ -895,42 +1513,42 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="356"/>
+        <location filename="settingsdialog.ui" line="387"/>
         <source>German</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="336"/>
+        <location filename="settingsdialog.ui" line="367"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="349"/>
+        <location filename="settingsdialog.ui" line="380"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="342"/>
+        <location filename="settingsdialog.ui" line="373"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="366"/>
+        <location filename="settingsdialog.ui" line="397"/>
         <source>Show Receiver name in window title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="469"/>
+        <location filename="settingsdialog.ui" line="509"/>
         <source>Zone Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="506"/>
+        <location filename="settingsdialog.ui" line="548"/>
         <source>Show iPod/USB window automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="380"/>
+        <location filename="settingsdialog.ui" line="411"/>
         <source>Start logging in Test window (slow)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -984,88 +1602,108 @@ Do you want to continue?</source>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="315"/>
-        <location filename="settingsdialog.cpp" line="145"/>
-        <location filename="settingsdialog.cpp" line="157"/>
+        <location filename="settingsdialog.cpp" line="150"/>
+        <location filename="settingsdialog.cpp" line="162"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="330"/>
+        <source>BlueRay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="342"/>
+        <source>Show BlueRay window automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="355"/>
+        <source>Remember last window position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="361"/>
         <source>Common</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="401"/>
+        <location filename="settingsdialog.ui" line="432"/>
         <source>Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="407"/>
+        <location filename="settingsdialog.ui" line="438"/>
         <source>Restore window position on start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="413"/>
+        <location filename="settingsdialog.ui" line="446"/>
         <source>Main Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="420"/>
+        <location filename="settingsdialog.ui" line="453"/>
+        <source>Audio/Video Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="460"/>
         <source>Equalizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="427"/>
+        <location filename="settingsdialog.ui" line="467"/>
         <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="434"/>
+        <location filename="settingsdialog.ui" line="474"/>
         <source>NetRadio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="441"/>
+        <location filename="settingsdialog.ui" line="481"/>
         <source>Speaker settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="448"/>
+        <location filename="settingsdialog.ui" line="488"/>
         <source>Test window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="455"/>
+        <location filename="settingsdialog.ui" line="495"/>
         <source>Listening mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="462"/>
+        <location filename="settingsdialog.ui" line="502"/>
         <source>iPod/USB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="373"/>
+        <location filename="settingsdialog.ui" line="404"/>
         <source>Show default name of the input line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="550"/>
+        <location filename="settingsdialog.ui" line="591"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="492"/>
+        <location filename="settingsdialog.ui" line="534"/>
         <source>Show Tuner window automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="499"/>
+        <location filename="settingsdialog.ui" line="541"/>
         <source>Show NetRadio window automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="151"/>
+        <location filename="settingsdialog.cpp" line="156"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>

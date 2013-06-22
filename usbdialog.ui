@@ -1220,7 +1220,6 @@
   </layout>
   <zorder>frame</zorder>
   <zorder>PlayWindowFrame</zorder>
-  <zorder>horizontalLayoutWidget</zorder>
  </widget>
  <resources/>
  <connections/>

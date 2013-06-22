@@ -75,6 +75,8 @@ private slots:
 
     void on_RestoreBlueRayWindowCheckBox_clicked();
 
+    void on_RestoreAVSettingsWindowCheckBox_clicked();
+
 signals:
     void onConnect();
 

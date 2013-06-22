@@ -439,67 +439,78 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QCheckBox" name="RestoreMainWindowCheckBox">
-            <property name="text">
-             <string>Main Window</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreEQWindowCheckBox">
-            <property name="text">
-             <string>Equalizer</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreTunerWindowCheckBox">
-            <property name="text">
-             <string>Tuner</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreNetRadioWindowCheckBox">
-            <property name="text">
-             <string>NetRadio</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreSpeakerSettingsWindowCheckBox">
-            <property name="text">
-             <string>Speaker settings</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreTestWindowCheckBox">
-            <property name="text">
-             <string>Test window</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreLMSettingsWindowCheckBox">
-            <property name="text">
-             <string>Listening mode</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreUSBWindowCheckBox">
-            <property name="text">
-             <string>iPod/USB</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="RestoreZoneControlWindowCheckBox">
-            <property name="text">
-             <string>Zone Control</string>
-            </property>
-           </widget>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="RestoreMainWindowCheckBox">
+              <property name="text">
+               <string>Main Window</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="RestoreAVSettingsWindowCheckBox">
+              <property name="text">
+               <string>Audio/Video Settings</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="RestoreEQWindowCheckBox">
+              <property name="text">
+               <string>Equalizer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="RestoreTunerWindowCheckBox">
+              <property name="text">
+               <string>Tuner</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="RestoreNetRadioWindowCheckBox">
+              <property name="text">
+               <string>NetRadio</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QCheckBox" name="RestoreSpeakerSettingsWindowCheckBox">
+              <property name="text">
+               <string>Speaker settings</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QCheckBox" name="RestoreTestWindowCheckBox">
+              <property name="text">
+               <string>Test window</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QCheckBox" name="RestoreLMSettingsWindowCheckBox">
+              <property name="text">
+               <string>Listening mode</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QCheckBox" name="RestoreUSBWindowCheckBox">
+              <property name="text">
+               <string>iPod/USB</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0">
+             <widget class="QCheckBox" name="RestoreZoneControlWindowCheckBox">
+              <property name="text">
+               <string>Zone Control</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <spacer name="verticalSpacer">
@@ -556,7 +567,6 @@
       <zorder>ShowUSBCheckBox</zorder>
       <zorder>ShowNetRadioCheckBox</zorder>
       <zorder>ShowTunerCheckBox</zorder>
-      <zorder>verticalSpacer_2</zorder>
      </widget>
     </widget>
    </item>

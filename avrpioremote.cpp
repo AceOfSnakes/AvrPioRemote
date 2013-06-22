@@ -188,6 +188,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_ZoneControlDialog = new ZoneControlDialog(this, m_Settings, m_ReceiverInterface);
 
+    m_AVSettingsDialog = new AVSettingsDialog(this, m_Settings, m_ReceiverInterface);
 }
 
 
@@ -755,6 +756,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         pAction = new QAction(tr("ListenMode Settings"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_Listendiag, SLOT(ShowListeningDialog()));
+
+        pAction = new QAction(tr("Audio / Video Settings"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_AVSettingsDialog, SLOT(ShowAVSettingsDialog()));
 
 
 //        pAction = new QAction(tr("Compatible Favorites"), this);

@@ -44,7 +44,7 @@ PlayerInterface::PlayerInterface()
     // socket
     connect((&m_Socket), SIGNAL(connected()), this, SLOT(TcpConnected()));
     connect((&m_Socket), SIGNAL(disconnected()), this, SLOT(TcpDisconnected()));
-    connect((&m_Socket), SIGNAL(readyRead()), this, SLOT(ReadString()));
+    //connect((&m_Socket), SIGNAL(readyRead()), this, SLOT(ReadString()));
     //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
     connect((&m_Socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
 }

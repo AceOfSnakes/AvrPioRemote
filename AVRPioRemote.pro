@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     eqdialog.cpp \
     listeningmodedialog.cpp \
     usbdialog.cpp \
-    zonecontroldialog.cpp
+    zonecontroldialog.cpp \
+    avsettingsdialog.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -53,7 +54,8 @@ HEADERS  += avrpioremote.h \
     eqdialog.h \
     listeningmodedialog.h \
     usbdialog.h \
-    zonecontroldialog.h
+    zonecontroldialog.h \
+    avsettingsdialog.h
  
 
 
@@ -70,7 +72,8 @@ FORMS    += avrpioremote.ui \
     eqdialog.ui \
     listeningmodedialog.ui \
     usbdialog.ui \
-    zonecontroldialog.ui
+    zonecontroldialog.ui \
+    avsettingsdialog.ui
 
 
 OTHER_FILES += \

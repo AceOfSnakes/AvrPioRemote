@@ -38,6 +38,7 @@
 #include "listeningmodedialog.h"
 #include "usbdialog.h"
 #include "zonecontroldialog.h"
+#include "avsettingsdialog.h"
 
 
 namespace Ui {
@@ -102,6 +103,7 @@ private:
     ListeningModeDialog* m_Listendiag;
     usbDialog*      m_usbDialog;
     ZoneControlDialog*  m_ZoneControlDialog;
+    AVSettingsDialog*  m_AVSettingsDialog;
 
     //    QThre;ad*        m_TCPThread;
     bool            m_ReceiverOnline;

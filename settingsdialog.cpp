@@ -72,6 +72,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->RestoreUSBWindowCheckBox->setChecked(m_Settings.value("SaveUsbWindowGeometry", false).toBool());
     ui->RestoreZoneControlWindowCheckBox->setChecked(m_Settings.value("SaveZoneControlWindowGeometry", false).toBool());
     ui->RestoreBlueRayWindowCheckBox->setChecked(m_Settings.value("SaveBlueRayWindowGeometry", false).toBool());
+    ui->RestoreAVSettingsWindowCheckBox->setChecked(m_Settings.value("SaveAVSettingsWindowGeometry", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
 
@@ -322,4 +323,9 @@ void SettingsDialog::on_ShowBlueRayWindowCheckBox_clicked()
 void SettingsDialog::on_RestoreBlueRayWindowCheckBox_clicked()
 {
     m_Settings.setValue("SaveBlueRayWindowGeometry", ui->RestoreBlueRayWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_RestoreAVSettingsWindowCheckBox_clicked()
+{
+    m_Settings.setValue("SaveAVSettingsWindowGeometry", ui->RestoreAVSettingsWindowCheckBox->isChecked());
 }
