@@ -29,9 +29,9 @@ string trim(const string &t, const string &ws)
     if (found != string::npos)
         str.erase(found+1);
     else
-        str.clear();            // str is all whitespace
+        return "";
 
-    return str;
+    return str.erase(0, str.find_first_not_of(ws.c_str()));
 }
 
 
