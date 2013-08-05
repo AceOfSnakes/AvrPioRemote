@@ -81,6 +81,8 @@ signals:
     void ZoneInput (int zone, int input);
     void ZoneVolume (int zone, int volume, QString asString);
     void ZoneMute (int zone, bool muted);
+    void MCACC (int mcacc);
+    void MCACCEQ (int mcacc, QString speaker, int eqidx, int value);
 };
 
 #endif // RECEIVERINTERFACE_H

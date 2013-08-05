@@ -10,7 +10,7 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="26"/>
-        <location filename="avrpioremote.cpp" line="418"/>
+        <location filename="avrpioremote.cpp" line="424"/>
         <source>ON</source>
         <translation>EIN</translation>
     </message>
@@ -107,7 +107,7 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="400"/>
-        <location filename="avrpioremote.cpp" line="779"/>
+        <location filename="avrpioremote.cpp" line="789"/>
         <source>-</source>
         <translation>-</translation>
     </message>
@@ -160,8 +160,8 @@ DIRECT</translation>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="611"/>
-        <location filename="avrpioremote.cpp" line="579"/>
-        <location filename="avrpioremote.cpp" line="606"/>
+        <location filename="avrpioremote.cpp" line="585"/>
+        <location filename="avrpioremote.cpp" line="612"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
@@ -218,86 +218,91 @@ DIRECT</translation>
         <translation>EQ</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="380"/>
+        <location filename="avrpioremote.cpp" line="386"/>
         <source>Connecting...</source>
         <translation>Verbinden...</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="418"/>
+        <location filename="avrpioremote.cpp" line="424"/>
         <source>OFF</source>
         <translation>AUS</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="451"/>
+        <location filename="avrpioremote.cpp" line="457"/>
         <source>This doesn&apos;t work now</source>
         <translation>Zur Zeit nicht möglich</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="456"/>
+        <location filename="avrpioremote.cpp" line="462"/>
         <source>This doesn&apos;t work with this receiver</source>
         <translation>Dieser Reciever unterstützt diese Funktion nicht</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="461"/>
+        <location filename="avrpioremote.cpp" line="467"/>
         <source>Command error</source>
         <translation>Fehlerhafter Befehl</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="466"/>
+        <location filename="avrpioremote.cpp" line="472"/>
         <source>Parameter error</source>
         <translation>Parameterfehler, möglicherweise wird diese Einstelung von diesem Receiver nicht unterstützt</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="471"/>
+        <location filename="avrpioremote.cpp" line="477"/>
         <source>Receiver busy</source>
         <translation>Receiver ist zur Zeit beschäftigt</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="476"/>
+        <location filename="avrpioremote.cpp" line="482"/>
         <source>Unknown error</source>
         <translation>Unbekannter Fehler</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="590"/>
+        <location filename="avrpioremote.cpp" line="596"/>
         <source>Connected</source>
         <translation>Verbunden</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="593"/>
+        <location filename="avrpioremote.cpp" line="599"/>
         <source>Disconnect</source>
         <translation>Trennen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="732"/>
+        <location filename="avrpioremote.cpp" line="738"/>
         <source>Internet Radio</source>
         <translation>Internet Radio</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="736"/>
+        <location filename="avrpioremote.cpp" line="742"/>
         <source>BluRay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="740"/>
+        <location filename="avrpioremote.cpp" line="746"/>
         <source>Tuner</source>
         <translation>Tuner</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="744"/>
+        <location filename="avrpioremote.cpp" line="750"/>
         <source>IPod / USB</source>
         <oldsource>IPod/USB</oldsource>
         <translation>IPod / USB</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="748"/>
+        <location filename="avrpioremote.cpp" line="754"/>
         <source>Equalizer / Tone</source>
         <oldsource>Equalizer/Tone</oldsource>
         <translation>Equalizer / Klang</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="760"/>
+        <location filename="avrpioremote.cpp" line="766"/>
         <source>Audio / Video Settings</source>
         <translation>Audio / Video Einstellungen</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="770"/>
+        <source>MCACC Equalizer</source>
+        <translation></translation>
     </message>
     <message>
         <source>Equalizer</source>
@@ -305,12 +310,12 @@ DIRECT</translation>
         <translation type="obsolete">Equalizer</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="752"/>
+        <location filename="avrpioremote.cpp" line="758"/>
         <source>Speaker Settings</source>
         <translation>Lautsprechereinstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="756"/>
+        <location filename="avrpioremote.cpp" line="762"/>
         <source>ListenMode Settings</source>
         <translation>Hörmoduseinstellungen</translation>
     </message>
@@ -319,22 +324,22 @@ DIRECT</translation>
         <translation type="obsolete">Kompatible Favoritenliste</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="769"/>
+        <location filename="avrpioremote.cpp" line="779"/>
         <source>Refresh status</source>
         <translation>Status erneuern</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="783"/>
+        <location filename="avrpioremote.cpp" line="793"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="787"/>
+        <location filename="avrpioremote.cpp" line="797"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="791"/>
+        <location filename="avrpioremote.cpp" line="801"/>
         <source>About AVRPioRemote</source>
         <translation>Über AVRPioRemote</translation>
     </message>
@@ -622,8 +627,8 @@ DIRECT</translation>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="43"/>
-        <source>Version 0.1.16</source>
-        <oldsource>Version 0.1.15</oldsource>
+        <source>Version 0.1.17</source>
+        <oldsource>Version 0.1.16</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1295,6 +1300,26 @@ DIRECT</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="loudspeakersettingsdialog.ui" line="872"/>
+        <source>SP A/SB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="885"/>
+        <source>SP B/FH</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="898"/>
+        <source>SP A+B/FH/SB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="911"/>
+        <source>SP OFF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="loudspeakersettingsdialog.ui" line="537"/>
         <source>FH L/R</source>
         <translation type="unfinished"></translation>
@@ -1340,6 +1365,171 @@ DIRECT</translation>
         <source>mem info:</source>
         <oldsource>mem info</oldsource>
         <translation>Speicherinfo</translation>
+    </message>
+</context>
+<context>
+    <name>MCACCEQDialog</name>
+    <message>
+        <location filename="mcacceqdialog.ui" line="14"/>
+        <source>MCACC Equalizer</source>
+        <translation>MCACC Equalizer</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="69"/>
+        <location filename="mcacceqdialog.cpp" line="274"/>
+        <source>Save to file</source>
+        <translation>Speichern in</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="85"/>
+        <location filename="mcacceqdialog.cpp" line="296"/>
+        <source>Restore from file</source>
+        <translation>Laden aus</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="126"/>
+        <source>Front Left</source>
+        <translation>Front Links</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="139"/>
+        <source>Front Right</source>
+        <translation>Front Rechts</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="152"/>
+        <source>Center</source>
+        <translation>Zenter</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="165"/>
+        <source>Surround Left</source>
+        <translation>Surround Links</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="178"/>
+        <source>Surround Right</source>
+        <translation>Surround Rechts</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="191"/>
+        <source>Surround Back Left</source>
+        <translation>Surround Back Links</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="204"/>
+        <source>Surround Back Right</source>
+        <translation>Surround Back Rechts</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="217"/>
+        <source>Front Height Left</source>
+        <translation>Front Höhe Links</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="230"/>
+        <source>Front Height Right</source>
+        <translation>Front Höhe Rechts</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="243"/>
+        <source>Front Wide Left</source>
+        <translation>Front Breite Links</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="256"/>
+        <source>Front Wide Right</source>
+        <translation>Front Breite Rechts</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="493"/>
+        <source>63 Hz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="509"/>
+        <source>125 Hz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="525"/>
+        <source>250 Hz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="541"/>
+        <source>500 Hz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="557"/>
+        <source>1 kHz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="573"/>
+        <source>2 kHz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="589"/>
+        <source>4 kHz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="605"/>
+        <source>8 kHz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="621"/>
+        <source>16 kHz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="637"/>
+        <location filename="mcacceqdialog.ui" line="653"/>
+        <location filename="mcacceqdialog.ui" line="669"/>
+        <location filename="mcacceqdialog.ui" line="685"/>
+        <location filename="mcacceqdialog.ui" line="701"/>
+        <location filename="mcacceqdialog.ui" line="717"/>
+        <location filename="mcacceqdialog.ui" line="733"/>
+        <location filename="mcacceqdialog.ui" line="749"/>
+        <location filename="mcacceqdialog.ui" line="765"/>
+        <source>0 dB</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.cpp" line="273"/>
+        <source>Beware: only the current MCACC memory (No %1) will be saved!</source>
+        <translation>Achtung: nur der aktuelle MCACC Set (Nr %1) wird gespeichert!</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.cpp" line="276"/>
+        <location filename="mcacceqdialog.cpp" line="300"/>
+        <source>Restore from...</source>
+        <translation>Laden aus...</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.cpp" line="277"/>
+        <location filename="mcacceqdialog.cpp" line="301"/>
+        <source>Settings file (*.ini)</source>
+        <translation>Einstellungen (*.ini)</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.cpp" line="295"/>
+        <source>Beware: the current MCACC memory (No %1) will be overwritten!</source>
+        <translation>Achtung: der aktuelle MCACC Set (Nr %1) wird überschrieben!</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.cpp" line="296"/>
+        <source>Continue</source>
+        <translation>Weiter</translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.cpp" line="296"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
     </message>
 </context>
 <context>
@@ -1578,42 +1768,47 @@ Do you want to continue?</source>
         <translation>LX 83 kompatibler Favoriten Modus</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="387"/>
+        <location filename="settingsdialog.ui" line="396"/>
         <source>German</source>
         <translation>Deutsch</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="367"/>
+        <location filename="settingsdialog.ui" line="376"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="380"/>
+        <location filename="settingsdialog.ui" line="389"/>
         <source>English</source>
         <translation>Englisch</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="373"/>
+        <location filename="settingsdialog.ui" line="382"/>
         <source>Auto</source>
         <translation>Auto</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="397"/>
+        <location filename="settingsdialog.ui" line="413"/>
         <source>Show Receiver name in window title</source>
         <translation>Zeige Receivernamen in der Titelleiste</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="509"/>
+        <location filename="settingsdialog.ui" line="525"/>
         <source>Zone Control</source>
-        <translation type="unfinished">Zonensteuerung</translation>
+        <translation>Zonensteuerung</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="548"/>
+        <location filename="settingsdialog.ui" line="532"/>
+        <source>MCACC Equalizer</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="571"/>
         <source>Show iPod/USB window automatically</source>
         <translation>iPod/USB-Fenster automatisch zeigen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="411"/>
+        <location filename="settingsdialog.ui" line="427"/>
         <source>Start logging in Test window (slow)</source>
         <translation>Starte Logging im Testfenster (langsam)</translation>
     </message>
@@ -1666,14 +1861,14 @@ Do you want to continue?</source>
         <translation type="unfinished">8102</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="315"/>
-        <location filename="settingsdialog.cpp" line="150"/>
-        <location filename="settingsdialog.cpp" line="162"/>
+        <location filename="settingsdialog.ui" line="321"/>
+        <location filename="settingsdialog.cpp" line="155"/>
+        <location filename="settingsdialog.cpp" line="167"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="330"/>
+        <location filename="settingsdialog.ui" line="336"/>
         <source>BlueRay</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1683,92 +1878,97 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="355"/>
+        <location filename="settingsdialog.ui" line="349"/>
         <source>Remember last window position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="361"/>
+        <location filename="settingsdialog.ui" line="370"/>
         <source>Common</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="432"/>
+        <location filename="settingsdialog.ui" line="403"/>
+        <source>Русский</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="448"/>
         <source>Windows</source>
         <translation>Fenster</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="438"/>
+        <location filename="settingsdialog.ui" line="454"/>
         <source>Restore window position on start</source>
         <translation>Fensterposition beim Starten wiederherstellen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="446"/>
+        <location filename="settingsdialog.ui" line="462"/>
         <source>Main Window</source>
         <translation>Hauptfenster</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="453"/>
+        <location filename="settingsdialog.ui" line="469"/>
         <source>Audio/Video Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="460"/>
+        <location filename="settingsdialog.ui" line="476"/>
         <source>Equalizer</source>
         <translation>Equalizer</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="467"/>
+        <location filename="settingsdialog.ui" line="483"/>
         <source>Tuner</source>
         <translation>Tuner</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="474"/>
+        <location filename="settingsdialog.ui" line="490"/>
         <source>NetRadio</source>
         <translation>NetRadio</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="481"/>
+        <location filename="settingsdialog.ui" line="497"/>
         <source>Speaker settings</source>
         <translation>Lautsprechereinstellungen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="488"/>
+        <location filename="settingsdialog.ui" line="504"/>
         <source>Test window</source>
         <translation>Testfenster</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="495"/>
+        <location filename="settingsdialog.ui" line="511"/>
         <source>Listening mode</source>
         <translation>Hörmodi</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="502"/>
+        <location filename="settingsdialog.ui" line="518"/>
         <source>iPod/USB</source>
         <translation>iPod/USB</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="404"/>
+        <location filename="settingsdialog.ui" line="420"/>
         <source>Show default name of the input line</source>
         <translation>Zeige default Eingangsnamen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="591"/>
+        <location filename="settingsdialog.ui" line="614"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="534"/>
+        <location filename="settingsdialog.ui" line="557"/>
         <source>Show Tuner window automatically</source>
         <translation>Tuner-Fenster automatisch zeigen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="541"/>
+        <location filename="settingsdialog.ui" line="564"/>
         <source>Show NetRadio window automatically</source>
         <translation>NetRadio-Fenster automatisch zeigen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="156"/>
+        <location filename="settingsdialog.cpp" line="161"/>
         <source>Disconnect</source>
         <translation>Trennen</translation>
     </message>

@@ -11,5 +11,6 @@
         <file>images/Gnome-video-x-generic.png</file>
         <file>avrpioremote_de.qm</file>
         <file>avrpioremote_en.qm</file>
+        <file>avrpioremote_ru.qm</file>
     </qresource>
 </RCC>

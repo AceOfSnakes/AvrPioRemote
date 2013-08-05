@@ -61,6 +61,7 @@ public slots:
 //    void SpeakerReceived(QString data);
     void ShowLoudspeakerSettingsDialog();
     void Speakerinfo(QString data);
+    void MCACC(int mcacc);
     void error(int);
 
 signals:

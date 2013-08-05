@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MCACCEQDialog</class>
+ <widget class="QDialog" name="MCACCEQDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>639</width>
+    <height>338</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MCACC Equalizer</string>
+  </property>
+  <widget class="QComboBox" name="MCACCcomboBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string notr="true">MCACC 1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string notr="true">MCACC 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string notr="true">MCACC 3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string notr="true">MCACC 4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string notr="true">MCACC 5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string notr="true">MCACC 6</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="SaveToFilePushButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>290</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save to file</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="RestoreFromFilePushButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>290</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Restore from file</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider63Hz">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonFrontLeftCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Front Left</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonFrontRightCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Front Right</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonCenterCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Center</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonSurroundLeftCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Surround Left</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonSurroundRightCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Surround Right</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonSurroundBackLeftCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Surround Back Left</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonSurroundBackRightCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Surround Back Right</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonFrontHeightLeftCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>190</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Front Height Left</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonFrontHeightRightCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>210</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Front Height Right</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonFrontWideLeftCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Front Wide Left</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="RadioButtonFrontWideRightCh">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>250</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Front Wide Right</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider125Hz">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider250Hz">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider500Hz">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider1kHz">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider2kHz">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider4kHz">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider8kHz">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Slider16kHz">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>69</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>26</number>
+   </property>
+   <property name="maximum">
+    <number>74</number>
+   </property>
+   <property name="singleStep">
+    <number>0</number>
+   </property>
+   <property name="pageStep">
+    <number>0</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>63 Hz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>125 Hz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>250 Hz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>500 Hz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1 kHz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>2 kHz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>4 kHz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>8 kHz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>250</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>16 kHz</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label63Hz">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label125Hz">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label250Hz">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label500Hz">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label1kHz">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label2kHz">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label4kHz">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label8kHz">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label16kHz">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>50</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 dB</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

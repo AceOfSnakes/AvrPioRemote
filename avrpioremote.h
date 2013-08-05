@@ -39,6 +39,7 @@
 #include "usbdialog.h"
 #include "zonecontroldialog.h"
 #include "avsettingsdialog.h"
+#include "mcacceqdialog.h"
 
 
 namespace Ui {
@@ -104,6 +105,7 @@ private:
     usbDialog*      m_usbDialog;
     ZoneControlDialog*  m_ZoneControlDialog;
     AVSettingsDialog*  m_AVSettingsDialog;
+    MCACCEQDialog*  m_MCACCEQDialog;
 
     //    QThre;ad*        m_TCPThread;
     bool            m_ReceiverOnline;

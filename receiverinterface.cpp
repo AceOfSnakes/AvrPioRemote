@@ -210,10 +210,13 @@ void ReceiverInterface::InterpretString(const QString& data)
         QString displayData = DecodeHexString(data.mid(4));
         emit DisplayData(no, displayData);
     }
-    else if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("MC") || data.startsWith("SPK"))
+    else if (data.startsWith("MC"))
     {
-        QString name = data;
-        emit SpeakerData(name);
+        emit MCACC(data.mid(2).toInt());
+    }
+    else if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("SPK"))
+    {
+        emit SpeakerData(data);
     }
     else if (data.startsWith("PWR"))
     {
@@ -577,6 +580,10 @@ void ReceiverInterface::InterpretString(const QString& data)
     else if (data.startsWith("Z3MUT1"))
     {
         emit ZoneMute(3, false);
+    }
+    else if (data.startsWith("SUW"))
+    {
+        emit MCACCEQ(data.mid(3, 2).toInt(), data.mid(5, 3), data.mid(8, 2).toInt(), data.mid(10, 2).toInt());
     }
 }
 

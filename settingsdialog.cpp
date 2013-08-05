@@ -49,6 +49,10 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     {
         ui->LanguageGermanRadioButton->setChecked(true);
     }
+    else if (lang.startsWith("ru"))
+    {
+        ui->LanguageRussianRadioButton->setChecked(true);
+    }
     else
     {
         ui->LanguageEnglishRadioButton->setChecked(true);
@@ -73,6 +77,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->RestoreZoneControlWindowCheckBox->setChecked(m_Settings.value("SaveZoneControlWindowGeometry", false).toBool());
     ui->RestoreBlueRayWindowCheckBox->setChecked(m_Settings.value("SaveBlueRayWindowGeometry", false).toBool());
     ui->RestoreAVSettingsWindowCheckBox->setChecked(m_Settings.value("SaveAVSettingsWindowGeometry", false).toBool());
+    ui->RestoreMCACCEQWindowCheckBox->setChecked(m_Settings.value("SaveMCACCEQWindowGeometry", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
 
@@ -328,4 +333,18 @@ void SettingsDialog::on_RestoreBlueRayWindowCheckBox_clicked()
 void SettingsDialog::on_RestoreAVSettingsWindowCheckBox_clicked()
 {
     m_Settings.setValue("SaveAVSettingsWindowGeometry", ui->RestoreAVSettingsWindowCheckBox->isChecked());
+}
+
+void SettingsDialog::on_LanguageRussianRadioButton_clicked(bool checked)
+{
+    if (checked)
+    {
+        m_Settings.setValue("Language", "ru");
+        SetLanguage();
+    }
+}
+
+void SettingsDialog::on_RestoreMCACCEQWindowCheckBox_clicked(bool checked)
+{
+    m_Settings.setValue("SaveMCACCEQWindowGeometry", checked);
 }

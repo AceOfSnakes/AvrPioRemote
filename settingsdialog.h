@@ -77,6 +77,10 @@ private slots:
 
     void on_RestoreAVSettingsWindowCheckBox_clicked();
 
+    void on_LanguageRussianRadioButton_clicked(bool checked);
+
+    void on_RestoreMCACCEQWindowCheckBox_clicked(bool checked);
+
 signals:
     void onConnect();
 

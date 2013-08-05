@@ -108,6 +108,7 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
     connect(&m_Comm,SIGNAL(ErrorData(int)),this,SLOT(error(int))); //Fehler abfangen beim setzen der LSConfig
     connect(&m_Comm,SIGNAL(SpeakerData(QString)),this,SLOT(Speakerinfo(QString)));
+    connect(&m_Comm,SIGNAL(MCACC(int)),this,SLOT(MCACC(int)));
 
     connect(ui->sfl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
     connect(ui->sfr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
@@ -201,6 +202,13 @@ void LoudspeakerSettingsDialog::moveEvent(QMoveEvent* event)
 }
 
 
+void LoudspeakerSettingsDialog::MCACC(int mcacc)
+{
+    //      qDebug() <<"MC wert: " << wert;
+          clear_toggles();
+          m_buttons[mcacc - 1]->setChecked(true);
+}
+
 void LoudspeakerSettingsDialog::Speakerinfo(QString data)
 {
     QString str;
@@ -233,13 +241,6 @@ void LoudspeakerSettingsDialog::Speakerinfo(QString data)
       }
       setslider();
    }
-   if (data.startsWith("MC"))
-     {
- //      qDebug() <<"MC wert: " << wert;
-       wert=data.mid(2,1).toInt()-1;
-       clear_toggles();
-       m_buttons[wert]->setChecked(true);
-     }
 //  qDebug() << "speakerdaten:" <<data  <<sysValue <<wert;
    if (data.startsWith("SPK"))
      {

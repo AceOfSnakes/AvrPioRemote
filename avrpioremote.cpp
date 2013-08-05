@@ -49,6 +49,10 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     {
         m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_de"));
     }
+    else if (lang.startsWith("ru"))
+    {
+        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_ru"));
+    }
     else
     {
         m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
@@ -189,6 +193,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_ZoneControlDialog = new ZoneControlDialog(this, m_Settings, m_ReceiverInterface);
 
     m_AVSettingsDialog = new AVSettingsDialog(this, m_Settings, m_ReceiverInterface);
+
+    m_MCACCEQDialog = new MCACCEQDialog(this, m_Settings, m_ReceiverInterface);
 }
 
 
@@ -760,6 +766,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         pAction = new QAction(tr("Audio / Video Settings"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_AVSettingsDialog, SLOT(ShowAVSettingsDialog()));
+
+        pAction = new QAction(tr("MCACC Equalizer"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_MCACCEQDialog, SLOT(ShowMCACCEQDialog()));
 
 
 //        pAction = new QAction(tr("Compatible Favorites"), this);

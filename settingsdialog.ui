@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
+    <width>442</width>
     <height>451</height>
    </rect>
   </property>
@@ -66,7 +66,7 @@
         <rect>
          <x>20</x>
          <y>70</y>
-         <width>381</width>
+         <width>391</width>
          <height>78</height>
         </rect>
        </property>
@@ -304,6 +304,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButtonConnect">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
@@ -329,32 +335,35 @@
       <attribute name="title">
        <string>BlueRay</string>
       </attribute>
-      <widget class="QCheckBox" name="ShowBlueRayWindowCheckBox">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>211</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Show BlueRay window automatically</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="RestoreBlueRayWindowCheckBox">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>191</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Remember last window position</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QCheckBox" name="ShowBlueRayWindowCheckBox">
+         <property name="text">
+          <string>Show BlueRay window automatically</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="RestoreBlueRayWindowCheckBox">
+         <property name="text">
+          <string>Remember last window position</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>309</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_6">
       <attribute name="title">
@@ -385,6 +394,13 @@
            <widget class="QRadioButton" name="LanguageGermanRadioButton">
             <property name="text">
              <string>German</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="LanguageRussianRadioButton">
+            <property name="text">
+             <string>Русский</string>
             </property>
            </widget>
           </item>
@@ -507,6 +523,13 @@
              <widget class="QCheckBox" name="RestoreZoneControlWindowCheckBox">
               <property name="text">
                <string>Zone Control</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="RestoreMCACCEQWindowCheckBox">
+              <property name="text">
+               <string>MCACC Equalizer</string>
               </property>
              </widget>
             </item>
