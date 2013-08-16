@@ -287,19 +287,19 @@ void MCACCEQDialog::on_SaveToFilePushButton_clicked()
     QString msg = tr("Beware: only the current MCACC memory (No %1) will be saved!").arg(mcacc);
     QMessageBox::warning(this, tr("Save to file"), msg);
 
-/*    QString filename = QFileDialog::getSaveFileName(this, tr("Restore from..."),
+    QString filename = QFileDialog::getSaveFileName(this, tr("Restore from..."),
                                               QString(), tr("Settings file (*.ini)"));
     if (filename.isEmpty())
         return;
     if (!(filename.endsWith(".ini", Qt::CaseInsensitive)))
         filename += ".ini";
 
-    QSettings settings(filename, QSettings::IniFormat);*/
-    m_Settings.setValue("MCACC", mcacc);
+    QSettings settings(filename, QSettings::IniFormat);
+    settings.setValue("MCACC", mcacc);
     for (int i = 0; i < (int)m_EQData.size(); i++)
     {
         for( int j = 0; j < (int)m_EQData[i].size(); j++)
-            m_Settings.setValue(QString("CHANNEL%1_EQ%2").arg(i).arg(j), m_EQData[i][j]);
+            settings.setValue(QString("CHANNEL%1_EQ%2").arg(i).arg(j), m_EQData[i][j]);
     }
 }
 
@@ -311,18 +311,18 @@ void MCACCEQDialog::on_RestoreFromFilePushButton_clicked()
 
     if (result != 0)
         return;
-/*    QString filename = QFileDialog::getOpenFileName(this, tr("Restore from..."),
+    QString filename = QFileDialog::getOpenFileName(this, tr("Restore from..."),
                                               QString(), tr("Settings file (*.ini)"));
     if (filename.isEmpty())
         return;
     if (!(filename.endsWith(".ini", Qt::CaseInsensitive)))
         filename += ".ini";
-    QSettings settings(filename, QSettings::IniFormat);*/
+    QSettings settings(filename, QSettings::IniFormat);
     for (int i = 0; i < (int)m_EQData.size(); i++)
     {
         for( int j = 0; j < (int)m_EQData[i].size(); j++)
         {
-            m_EQData[i][j] = m_Settings.value(QString("CHANNEL%1_EQ%2").arg(i).arg(j), 50).toInt();
+            m_EQData[i][j] = settings.value(QString("CHANNEL%1_EQ%2").arg(i).arg(j), 50).toInt();
             QString cmd = QString("00%1%2%3SUW").arg(eqchannels[i]).arg(j, 2, 10, QChar('0')).arg(m_EQData[i][j]);
             SendCmd(cmd);
         }
