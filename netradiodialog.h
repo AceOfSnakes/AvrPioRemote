@@ -94,6 +94,11 @@ private slots:
     void on_NetSwitchToNetRadioButton_clicked();
     void on_NetSwitchToMediaServerButton_clicked();
     void on_NetSwitchToFavoritesButton_clicked();
+    void on_pushButton_clicked();
+
+    void on_RepeatButton_clicked();
+
+    void on_RandomButton_clicked();
 
 signals:
     void SendCmd(QString data);

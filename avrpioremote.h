@@ -118,6 +118,10 @@ private:
     bool            m_Zone2PowerOn;
     bool            m_Zone3PowerOn;
 
+    QIcon           m_PowerButtonOnIcon;
+    QIcon           m_PowerButtonOffIcon;
+    bool            m_PowerOn;
+
     void SelectInputButton(int idx, int zone = 1);
     void ClearScreen();
     void ConnectReceiver();

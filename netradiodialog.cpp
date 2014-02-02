@@ -20,6 +20,7 @@
 #include <QDebug>
 #include <qtextcodec.h>
 #include <QDateTime>
+#include <QClipboard>
 
 NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm) :
     QDialog(parent),
@@ -541,4 +542,21 @@ void NetRadioDialog::on_NetSwitchToFavoritesButton_clicked()
 {
     ui->NetSwitchToFavoritesButton->setChecked(!ui->NetSwitchToFavoritesButton->isChecked());
     SendCmd("45FN");
+}
+
+void NetRadioDialog::on_pushButton_clicked()
+{
+    QString newText = ui->TitleLabel->text() + ";" + ui->ArtistLabel->text() + ";" + ui->AlbumLabel->text();
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(newText);
+}
+
+void NetRadioDialog::on_RepeatButton_clicked()
+{
+    emit SendCmd("34NW"); // repeat
+}
+
+void NetRadioDialog::on_RandomButton_clicked()
+{
+    emit SendCmd("35NW"); // random
 }

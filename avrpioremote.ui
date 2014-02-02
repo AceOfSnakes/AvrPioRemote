@@ -13,28 +13,6 @@
   <property name="windowTitle">
    <string>AVRPioRemote</string>
   </property>
-  <widget class="QPushButton" name="PowerButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>110</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>ON</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-   <property name="default">
-    <bool>false</bool>
-   </property>
-  </widget>
   <widget class="QPushButton" name="MoreButton">
    <property name="enabled">
     <bool>true</bool>
@@ -415,11 +393,25 @@
      <x>160</x>
      <y>320</y>
      <width>51</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Mute</string>
+   </property>
    <property name="text">
-    <string>MUTE</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normalon>:/new/prefix1/images/kmixdocked_mute.png</normalon>
+    </iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
    </property>
    <property name="checkable">
     <bool>true</bool>
@@ -455,7 +447,7 @@ DIRECT</string>
     <rect>
      <x>10</x>
      <y>320</y>
-     <width>71</width>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -465,7 +457,8 @@ DIRECT</string>
     </font>
    </property>
    <property name="text">
-    <string>ADV SURR</string>
+    <string>ADV
+SURR</string>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -495,7 +488,7 @@ DIRECT</string>
   <widget class="QPushButton" name="ShowAllListeningModesButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>70</x>
      <y>320</y>
      <width>31</width>
      <height>31</height>
@@ -508,8 +501,21 @@ DIRECT</string>
      <bold>true</bold>
     </font>
    </property>
+   <property name="toolTip">
+    <string>Choose the listening mode</string>
+   </property>
    <property name="text">
-    <string>?</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="avrpioremote.qrc">
+     <normaloff>:/new/prefix1/images/Crystal_Clear_app_xmms.png</normaloff>:/new/prefix1/images/Crystal_Clear_app_xmms.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -594,10 +600,10 @@ DIRECT</string>
   <widget class="QPushButton" name="pushButtonConnect">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>400</y>
-     <width>101</width>
-     <height>31</height>
+     <x>80</x>
+     <y>390</y>
+     <width>131</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -760,9 +766,9 @@ DIRECT</string>
   <widget class="QPushButton" name="ATBEQModesButton">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>320</y>
-     <width>41</width>
+     <width>51</width>
      <height>31</height>
     </rect>
    </property>
@@ -775,6 +781,17 @@ DIRECT</string>
    </property>
    <property name="text">
     <string>EQ</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normalon>:/new/prefix1/images/eq.png</normalon>
+    </iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -799,9 +816,9 @@ DIRECT</string>
   <widget class="QPushButton" name="ZoneControlButton">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>80</x>
      <y>110</y>
-     <width>41</width>
+     <width>51</width>
      <height>31</height>
     </rect>
    </property>
@@ -819,8 +836,61 @@ DIRECT</string>
     <bool>false</bool>
    </property>
   </widget>
+  <widget class="QToolButton" name="PowerButton">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>106</y>
+     <width>48</width>
+     <height>42</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>48</width>
+     <height>42</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>48</width>
+     <height>42</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="avrpioremote.qrc">
+     <normaloff>:/new/prefix1/images/Crystal_Clear_action_exit_green.png</normaloff>
+     <normalon>:/new/prefix1/images/Crystal_Clear_action_exit.png</normalon>:/new/prefix1/images/Crystal_Clear_action_exit_green.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="popupMode">
+    <enum>QToolButton::DelayedPopup</enum>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonFollowStyle</enum>
+   </property>
+   <property name="autoRaise">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>AudioSampleRateLineEdit</zorder>
-  <zorder>PowerButton</zorder>
   <zorder>MoreButton</zorder>
   <zorder>InputBdButton</zorder>
   <zorder>InputDvdButton</zorder>
@@ -858,8 +928,11 @@ DIRECT</string>
   <zorder>ATBEQModesButton</zorder>
   <zorder>StatusLineEdit</zorder>
   <zorder>ZoneControlButton</zorder>
+  <zorder>PowerButton</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="avrpioremote.qrc"/>
+ </resources>
  <connections/>
 </ui>

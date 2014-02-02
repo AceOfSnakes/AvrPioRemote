@@ -12,5 +12,28 @@
         <file>avrpioremote_de.qm</file>
         <file>avrpioremote_en.qm</file>
         <file>avrpioremote_ru.qm</file>
+        <file>images/Crystal_Clear_app_xmms.png</file>
+        <file>images/Crystal_Clear_action_exit.png</file>
+        <file>images/Crystal_Clear_action_exit_green.png</file>
+        <file>images/eq.png</file>
+        <file>images/kmixdocked_mute.png</file>
+        <file>images/media-playback-pause-7.png</file>
+        <file>images/media-playback-start-7.png</file>
+        <file>images/media-seek-backward-7.png</file>
+        <file>images/media-seek-forward-7.png</file>
+        <file>images/media-skip-backward-7.png</file>
+        <file>images/media-skip-forward-7.png</file>
+        <file>images/media-playback-stop-7.png</file>
+        <file>images/arrow-down-3.png</file>
+        <file>images/arrow-left-3.png</file>
+        <file>images/arrow-right-3.png</file>
+        <file>images/arrow-up-3.png</file>
+        <file>images/Crystal_Clear_action_apply.png</file>
+        <file>images/arrow-down.png</file>
+        <file>images/arrow-down-double.png</file>
+        <file>images/arrow-up.png</file>
+        <file>images/arrow-up-double.png</file>
+        <file>images/edit-add.png</file>
+        <file>images/edit-remove-3.png</file>
     </qresource>
 </RCC>

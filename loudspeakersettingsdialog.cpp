@@ -225,7 +225,7 @@ void LoudspeakerSettingsDialog::Speakerinfo(QString data)
         sysValue=data.mid(3,2).toInt();
         wert=data.mid(5,1).toInt();
         mLSpaar[sysValue]=wert; //Werte der einzelnen Speaker (Large, NO etc)
-//       qDebug() << "wertepaar" << sysValue <<"array" <<mLSpaar[sysValue];
+        qDebug() << "wertepaar" << sysValue <<"array" <<mLSpaar[sysValue];
         wert=ui->speaker->currentIndex();
         ui->speakermode->setCurrentIndex(mLSpaar[wert]);
    }

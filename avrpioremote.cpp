@@ -39,6 +39,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_Zone2PowerOn    = false;
     m_Zone3PowerOn    = false;
 
+    m_PowerOn         = false;
+
 
     QString lang = m_Settings.value("Language", "auto").toString();
     if (lang == "auto")
@@ -72,6 +74,10 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     {
         restoreGeometry(m_Settings.value("MainWindowGeometry").toByteArray());
     }
+
+    m_PowerButtonOffIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit_green.png", QSize(128, 128));
+    m_PowerButtonOnIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit.png", QSize(128, 128));
+
 
     // disable controls
     EnableControls(false);
@@ -420,10 +426,13 @@ void AVRPioRemote::DisplayData(int, QString data)
 
 void AVRPioRemote::PowerData(bool powerOn)
 {
-    ui->PowerButton->setChecked(powerOn);
+    //ui->PowerButton->setChecked(powerOn);
+    ui->PowerButton->setIcon((powerOn)?m_PowerButtonOffIcon:m_PowerButtonOnIcon);
+
     ui->PowerButton->setText((!powerOn)?tr("ON"):tr("OFF"));
     EnableControls(powerOn);
     m_ReceiverOnline = powerOn;
+    m_PowerOn = powerOn;
 }
 
 
@@ -834,8 +843,8 @@ void AVRPioRemote::on_pushButtonConnect_clicked()
 
 void AVRPioRemote::on_PowerButton_clicked()
 {
-    ui->PowerButton->setChecked(!ui->PowerButton->isChecked());
-    if (!ui->PowerButton->isChecked())
+    //ui->PowerButton->setChecked(!ui->PowerButton->isChecked());
+    if (!m_PowerOn)
     {
         SendCmd("PO");
         SendCmd("PO");

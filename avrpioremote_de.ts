@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE">
+<TS version="2.1" language="de_DE">
 <context>
     <name>AVRPioRemote</name>
     <message>
@@ -163,12 +163,13 @@ DIRECT</translation>
         <location filename="avrpioremote.cpp" line="585"/>
         <location filename="avrpioremote.cpp" line="612"/>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="unfinished">Mit dem Receiver
+Verbinden</translation>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="816"/>
         <source>Zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Zonen</translation>
     </message>
     <message>
         <source>192</source>
@@ -220,7 +221,7 @@ DIRECT</translation>
     <message>
         <location filename="avrpioremote.cpp" line="386"/>
         <source>Connecting...</source>
-        <translation>Verbinden...</translation>
+        <translation>Verbinden mit dem Receiver...</translation>
     </message>
     <message>
         <location filename="avrpioremote.cpp" line="424"/>
@@ -265,7 +266,8 @@ DIRECT</translation>
     <message>
         <location filename="avrpioremote.cpp" line="599"/>
         <source>Disconnect</source>
-        <translation>Trennen</translation>
+        <translation>Vom Receiver
+Trennen</translation>
     </message>
     <message>
         <location filename="avrpioremote.cpp" line="738"/>
@@ -536,7 +538,7 @@ DIRECT</translation>
     <message>
         <location filename="avsettingsdialog.ui" line="819"/>
         <source>MCACC Equalizer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MCACC Equalizer</translation>
     </message>
     <message>
         <location filename="avsettingsdialog.ui" line="826"/>
@@ -627,8 +629,8 @@ DIRECT</translation>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="43"/>
-        <source>Version 0.1.17</source>
-        <oldsource>Version 0.1.16</oldsource>
+        <source>Version 0.1.18</source>
+        <oldsource>Version 0.1.17</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1252,7 +1254,7 @@ DIRECT</translation>
     <message>
         <location filename="loudspeakersettingsdialog.ui" line="498"/>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zenter</translation>
     </message>
     <message>
         <location filename="loudspeakersettingsdialog.ui" line="511"/>
@@ -1376,13 +1378,13 @@ DIRECT</translation>
     </message>
     <message>
         <location filename="mcacceqdialog.ui" line="69"/>
-        <location filename="mcacceqdialog.cpp" line="274"/>
+        <location filename="mcacceqdialog.cpp" line="288"/>
         <source>Save to file</source>
         <translation>Speichern in</translation>
     </message>
     <message>
         <location filename="mcacceqdialog.ui" line="85"/>
-        <location filename="mcacceqdialog.cpp" line="296"/>
+        <location filename="mcacceqdialog.cpp" line="310"/>
         <source>Restore from file</source>
         <translation>Laden aus</translation>
     </message>
@@ -1500,34 +1502,39 @@ DIRECT</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="273"/>
+        <location filename="mcacceqdialog.ui" line="781"/>
+        <source>pairwise setting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.cpp" line="287"/>
         <source>Beware: only the current MCACC memory (No %1) will be saved!</source>
         <translation>Achtung: nur der aktuelle MCACC Set (Nr %1) wird gespeichert!</translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="276"/>
-        <location filename="mcacceqdialog.cpp" line="300"/>
+        <location filename="mcacceqdialog.cpp" line="290"/>
+        <location filename="mcacceqdialog.cpp" line="314"/>
         <source>Restore from...</source>
         <translation>Laden aus...</translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="277"/>
-        <location filename="mcacceqdialog.cpp" line="301"/>
+        <location filename="mcacceqdialog.cpp" line="291"/>
+        <location filename="mcacceqdialog.cpp" line="315"/>
         <source>Settings file (*.ini)</source>
         <translation>Einstellungen (*.ini)</translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="295"/>
+        <location filename="mcacceqdialog.cpp" line="309"/>
         <source>Beware: the current MCACC memory (No %1) will be overwritten!</source>
         <translation>Achtung: der aktuelle MCACC Set (Nr %1) wird überschrieben!</translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="296"/>
+        <location filename="mcacceqdialog.cpp" line="310"/>
         <source>Continue</source>
         <translation>Weiter</translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="296"/>
+        <location filename="mcacceqdialog.cpp" line="310"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -1536,34 +1543,34 @@ DIRECT</translation>
     <name>NetRadioDialog</name>
     <message>
         <location filename="netradiodialog.ui" line="26"/>
-        <location filename="netradiodialog.cpp" line="169"/>
+        <location filename="netradiodialog.cpp" line="170"/>
         <source>NetRadio</source>
         <translation>NetRadio</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1256"/>
+        <location filename="netradiodialog.ui" line="1356"/>
         <source>&lt;</source>
         <translation>&lt;</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="868"/>
-        <location filename="netradiodialog.ui" line="1284"/>
+        <location filename="netradiodialog.ui" line="1384"/>
         <source>^</source>
         <translation>^</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1312"/>
+        <location filename="netradiodialog.ui" line="1412"/>
         <source>&gt;</source>
         <translation>&gt;</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="899"/>
-        <location filename="netradiodialog.ui" line="1340"/>
+        <location filename="netradiodialog.ui" line="1440"/>
         <source>v</source>
         <translation>v</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1368"/>
+        <location filename="netradiodialog.ui" line="1468"/>
         <source>o</source>
         <translation>o</translation>
     </message>
@@ -1572,37 +1579,37 @@ DIRECT</translation>
         <translation type="obsolete">Zurück</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="943"/>
+        <location filename="netradiodialog.ui" line="997"/>
         <source>||</source>
         <translation>||</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="965"/>
+        <location filename="netradiodialog.ui" line="1019"/>
         <source>PLAY</source>
         <translation>PLAY</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1107"/>
+        <location filename="netradiodialog.ui" line="1161"/>
         <source>|&gt;</source>
         <translation>|&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1085"/>
+        <location filename="netradiodialog.ui" line="1139"/>
         <source>&lt;|</source>
         <translation>&lt;|</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="987"/>
+        <location filename="netradiodialog.ui" line="1041"/>
         <source>STOP</source>
         <translation>STOP</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1047"/>
+        <location filename="netradiodialog.ui" line="1101"/>
         <source>|&gt;|&gt;</source>
         <translation>|&gt;|&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1025"/>
+        <location filename="netradiodialog.ui" line="1079"/>
         <source>&lt;|&lt;|</source>
         <translation>&lt;|&lt;|</translation>
     </message>
@@ -1637,33 +1644,48 @@ DIRECT</translation>
         <translation>vv</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1410"/>
+        <location filename="netradiodialog.ui" line="940"/>
+        <source>Copy to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1260"/>
+        <source>Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1273"/>
+        <source>Random</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1516"/>
         <source>Return</source>
         <oldsource>RETURN</oldsource>
         <translation>Zurück</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1442"/>
+        <location filename="netradiodialog.ui" line="1548"/>
         <source>Add Fav</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1426"/>
+        <location filename="netradiodialog.ui" line="1532"/>
         <source>Remove Fav</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1142"/>
+        <location filename="netradiodialog.ui" line="1196"/>
         <source>Internet Radio</source>
         <translation>Internet Radio</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1161"/>
+        <location filename="netradiodialog.ui" line="1215"/>
         <source>Media Server</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1180"/>
+        <location filename="netradiodialog.ui" line="1234"/>
         <source>Favorites</source>
         <translation>Favoriten</translation>
     </message>
@@ -1875,12 +1897,12 @@ Do you want to continue?</source>
     <message>
         <location filename="settingsdialog.ui" line="342"/>
         <source>Show BlueRay window automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>BlueRay Fenster automatisch öffnen</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="349"/>
         <source>Remember last window position</source>
-        <translation type="unfinished"></translation>
+        <translation>Fensterposition beim Starten wiederherstellen</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="370"/>

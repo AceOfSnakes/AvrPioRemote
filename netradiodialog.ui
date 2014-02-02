@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>400</height>
+    <width>482</width>
+    <height>403</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>400</height>
+    <height>403</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>400</height>
+    <height>403</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -803,38 +803,12 @@
           <string>Page Up 100 lines</string>
          </property>
          <property name="text">
-          <string>^^</string>
+          <string/>
          </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="PageDownButton_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>41</width>
-           <height>41</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>41</width>
-           <height>41</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Page Down 100 lines</string>
-         </property>
-         <property name="text">
-          <string>vv</string>
+         <property name="icon">
+          <iconset>
+           <normalon>:/new/prefix1/images/arrow-up-double.png</normalon>
+          </iconset>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -865,7 +839,12 @@
           <string>Page Up</string>
          </property>
          <property name="text">
-          <string>^</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/new/prefix1/images/arrow-up.png</normalon>
+          </iconset>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -896,7 +875,102 @@
           <string>Page Down</string>
          </property>
          <property name="text">
-          <string>v</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/new/prefix1/images/arrow-down.png</normalon>
+          </iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="PageDownButton_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>41</width>
+           <height>41</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>41</width>
+           <height>41</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Page Down 100 lines</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/new/prefix1/images/arrow-down-double.png</normalon>
+          </iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>31</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>31</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Copy to clipboard</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="avrpioremote.qrc">
+           <normaloff>:/new/prefix1/images/save.png</normaloff>:/new/prefix1/images/save.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>16</height>
+          </size>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -940,7 +1014,12 @@
         </size>
        </property>
        <property name="text">
-        <string>||</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/new/prefix1/images/media-playback-pause-7.png</normalon>
+        </iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -962,7 +1041,12 @@
         </size>
        </property>
        <property name="text">
-        <string>PLAY</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/new/prefix1/images/media-playback-start-7.png</normalon>
+        </iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -984,7 +1068,12 @@
         </size>
        </property>
        <property name="text">
-        <string>STOP</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/new/prefix1/images/media-playback-stop-7.png</normalon>
+        </iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -1022,7 +1111,11 @@
         </size>
        </property>
        <property name="text">
-        <string>&lt;|&lt;|</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="avrpioremote.qrc">
+         <normaloff>:/new/prefix1/images/media-seek-backward-7.png</normaloff>:/new/prefix1/images/media-seek-backward-7.png</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -1044,7 +1137,11 @@
         </size>
        </property>
        <property name="text">
-        <string>|&gt;|&gt;</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="avrpioremote.qrc">
+         <normaloff>:/new/prefix1/images/media-seek-forward-7.png</normaloff>:/new/prefix1/images/media-seek-forward-7.png</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -1082,7 +1179,12 @@
         </size>
        </property>
        <property name="text">
-        <string>&lt;|</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/new/prefix1/images/media-skip-backward-7.png</normalon>
+        </iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -1104,7 +1206,12 @@
         </size>
        </property>
        <property name="text">
-        <string>|&gt;</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/new/prefix1/images/media-skip-forward-7.png</normalon>
+        </iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -1190,12 +1297,61 @@
       </layout>
      </item>
      <item>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="RepeatButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Repeat</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="RandomButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Random</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -1253,7 +1409,12 @@
          </size>
         </property>
         <property name="text">
-         <string>&lt;</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normalon>:/new/prefix1/images/arrow-left-3.png</normalon>
+         </iconset>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -1281,7 +1442,12 @@
          </size>
         </property>
         <property name="text">
-         <string>^</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normalon>:/new/prefix1/images/arrow-up-3.png</normalon>
+         </iconset>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -1309,7 +1475,12 @@
          </size>
         </property>
         <property name="text">
-         <string>&gt;</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normalon>:/new/prefix1/images/arrow-right-3.png</normalon>
+         </iconset>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -1337,7 +1508,12 @@
          </size>
         </property>
         <property name="text">
-         <string>v</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normalon>:/new/prefix1/images/arrow-down-3.png</normalon>
+         </iconset>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -1365,7 +1541,12 @@
          </size>
         </property>
         <property name="text">
-         <string>o</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normalon>:/new/prefix1/images/Crystal_Clear_action_apply.png</normalon>
+         </iconset>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -1377,9 +1558,6 @@
       <spacer name="horizontalSpacer_6">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -1415,22 +1593,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="NetRemoveFavButton">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>31</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Remove Fav</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="NetAddFavButton">
          <property name="minimumSize">
           <size>
@@ -1439,7 +1601,33 @@
           </size>
          </property>
          <property name="text">
-          <string>Add Fav</string>
+          <string>Favorite</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/new/prefix1/images/edit-add.png</normalon>
+          </iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="NetRemoveFavButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Favorite</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/new/prefix1/images/edit-remove-3.png</normalon>
+          </iconset>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -1448,23 +1636,12 @@
        </item>
       </layout>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_8">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="avrpioremote.qrc"/>
+ </resources>
  <connections/>
 </ui>
