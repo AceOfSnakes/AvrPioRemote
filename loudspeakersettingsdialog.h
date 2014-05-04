@@ -34,8 +34,6 @@ class LoudspeakerSettingsDialog;
 class LoudspeakerSettingsDialog : public QDialog
 {
     Q_OBJECT
-
-
     
 public:
     explicit LoudspeakerSettingsDialog(QWidget *parent, QSettings& settings,ReceiverInterface& Comm);

@@ -34,7 +34,8 @@ SOURCES += main.cpp \
     usbdialog.cpp \
     zonecontroldialog.cpp \
     avsettingsdialog.cpp \
-    mcacceqdialog.cpp
+    mcacceqdialog.cpp \
+    autosearchdialog.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -57,7 +58,8 @@ HEADERS  += avrpioremote.h \
     usbdialog.h \
     zonecontroldialog.h \
     avsettingsdialog.h \
-    mcacceqdialog.h
+    mcacceqdialog.h \
+    autosearchdialog.h
  
 
 
@@ -76,7 +78,8 @@ FORMS    += avrpioremote.ui \
     usbdialog.ui \
     zonecontroldialog.ui \
     avsettingsdialog.ui \
-    mcacceqdialog.ui
+    mcacceqdialog.ui \
+    autosearchdialog.ui
 
 
 OTHER_FILES += \
@@ -88,7 +91,40 @@ OTHER_FILES += \
     images/Gnome-media-playback-start.svg \
     images/Gnome-folder-open.svg \
     images/Gnome-emblem-photos.svg \
-    images/Gnome-audio-x-generic.svg
+    images/Gnome-audio-x-generic.svg \
+    android/AndroidManifest.xml \
+    android/res/layout/splash.xml \
+    android/res/values/libs.xml \
+    android/res/values/strings.xml \
+    android/res/values-de/strings.xml \
+    android/res/values-el/strings.xml \
+    android/res/values-es/strings.xml \
+    android/res/values-et/strings.xml \
+    android/res/values-fa/strings.xml \
+    android/res/values-fr/strings.xml \
+    android/res/values-id/strings.xml \
+    android/res/values-it/strings.xml \
+    android/res/values-ja/strings.xml \
+    android/res/values-ms/strings.xml \
+    android/res/values-nb/strings.xml \
+    android/res/values-nl/strings.xml \
+    android/res/values-pl/strings.xml \
+    android/res/values-pt-rBR/strings.xml \
+    android/res/values-ro/strings.xml \
+    android/res/values-rs/strings.xml \
+    android/res/values-ru/strings.xml \
+    android/res/values-zh-rCN/strings.xml \
+    android/res/values-zh-rTW/strings.xml \
+    android/version.xml \
+    android/res/drawable/icon.png \
+    android/res/drawable/logo.png \
+    android/res/drawable-hdpi/icon.png \
+    android/res/drawable-ldpi/icon.png \
+    android/res/drawable-mdpi/icon.png \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/src/org/kde/necessitas/origo/QtActivity.java \
+    android/src/org/kde/necessitas/origo/QtApplication.java
 
 RESOURCES += \
     avrpioremote.qrc

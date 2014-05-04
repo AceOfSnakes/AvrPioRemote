@@ -18,6 +18,7 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include <QDebug>
+#include <QMessageBox>
 
 SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface &Comm) :
     QDialog(parent),
@@ -25,7 +26,8 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     m_IpValidator(0, 255, this),
     m_IpPortValidator(0, 35535, this),
     m_Comm(Comm),
-    ui(new Ui::SettingsDialog)
+    ui(new Ui::SettingsDialog),
+    m_AutoSearchDialog(NULL)
 {
     ui->setupUi(this);
 
@@ -152,12 +154,14 @@ void SettingsDialog::EnableIPInput(bool enable)
 void SettingsDialog::CommError(QString/* socketError*/)
 {
     ui->pushButtonConnect->setEnabled(true);
+    ui->pushButtonAuto->setEnabled(true);
     ui->pushButtonConnect->setText(tr("Connect"));
 }
 
 void SettingsDialog::CommConnected()
 {
     ui->pushButtonConnect->setEnabled(true);
+    ui->pushButtonAuto->setEnabled(false);
     ui->pushButtonConnect->setText(tr("Disconnect"));
     ui->pushButtonConnect->setChecked(true);
 }
@@ -166,7 +170,7 @@ void SettingsDialog::CommDisconnected()
 {
     ui->pushButtonConnect->setText(tr("Connect"));
     ui->pushButtonConnect->setEnabled(true);
-    ui->pushButtonConnect->setChecked(false);
+    ui->pushButtonAuto->setEnabled(true);
 }
 
 void SettingsDialog::on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state)
@@ -316,7 +320,10 @@ void SettingsDialog::on_pushButtonConnect_clicked()
     bool checked = !ui->pushButtonConnect->isChecked();
     ui->pushButtonConnect->setChecked(checked);
     if (!checked)
+    {
         ui->pushButtonConnect->setEnabled(false);
+        ui->pushButtonAuto->setEnabled(true);
+    }
     emit onConnect();
 }
 
@@ -347,4 +354,36 @@ void SettingsDialog::on_LanguageRussianRadioButton_clicked(bool checked)
 void SettingsDialog::on_RestoreMCACCEQWindowCheckBox_clicked(bool checked)
 {
     m_Settings.setValue("SaveMCACCEQWindowGeometry", checked);
+}
+
+void SettingsDialog::on_pushButtonAuto_clicked()
+{
+    do
+    {
+        delete m_AutoSearchDialog;
+        m_AutoSearchDialog = new AutoSearchDialog(this);
+        if (m_AutoSearchDialog == NULL || !m_AutoSearchDialog->IsActivated())
+        {
+            QMessageBox::warning(this, "AVRPioRemote", tr("Coud not load or initialize zhe HUpnp library"));
+            delete m_AutoSearchDialog;
+            m_AutoSearchDialog = NULL;
+            return;
+        }
+        m_AutoSearchDialog->exec();
+    } while(m_AutoSearchDialog->m_Result == 2);
+    if (m_AutoSearchDialog->m_Result == 1)
+    {
+        QString ip = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->ip;
+        int port = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->port;
+        qDebug() << QString("Found: %1:%2").arg(ip).arg(port);
+        QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
+        qDebug() << l;
+        if (l.size() == 4)
+        {
+            SetIpAddress(l[0], l[1], l[2], l[3], QString("%1").arg(port));
+        }
+
+    }
+    delete m_AutoSearchDialog;
+    m_AutoSearchDialog = NULL;
 }

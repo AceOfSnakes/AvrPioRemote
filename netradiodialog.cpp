@@ -210,7 +210,7 @@ void NetRadioDialog::NetData(QString data)
     if (data.startsWith("GBH"))
     {
         m_VisibleListSize = data.mid(3, 2).toInt();
-        // qDebug() << "maximum number of list " << n;
+         qDebug() << "visible list size " << m_VisibleListSize;
     }
     else if (data.startsWith("GCH"))
     {
@@ -243,9 +243,9 @@ void NetRadioDialog::NetData(QString data)
         m_IndexOfLine1 = data.mid(3, 5).toInt();
         m_IndexOfLastLine = data.mid(8, 5).toInt();
         m_TotalNumberOfItems = data.mid(13, 5).toInt();
-//        qDebug() << "IndexOfLine1 " << m_IndexOfLine1
-//                 << " IndexOfLastLine " << m_IndexOfLastLine
-//                 << " TotalNumberOfItems " << m_TotalNumberOfItems;
+        qDebug() << "IndexOfLine1 " << m_IndexOfLine1
+                 << " IndexOfLastLine " << m_IndexOfLastLine
+                 << " TotalNumberOfItems " << m_TotalNumberOfItems;
     }
     else if (data.startsWith("GEH"))
     {
@@ -470,40 +470,40 @@ void NetRadioDialog::on_listWidget_currentRowChanged(int /*currentRow*/)
 
 void NetRadioDialog::on_PageUpButton_clicked()
 {
-    int pos = m_IndexOfLine1 + m_SelectedItemIndex;
+    int pos = m_IndexOfLine1;// + m_SelectedItemIndex;
     pos -= m_VisibleListSize;
-    if (pos <= 1)
-        pos = m_TotalNumberOfItems + pos - 1;
+    if (pos < 1)
+        pos = (m_TotalNumberOfItems / 8) * 8;// + pos - 1;
     QString cmd = QString("%1GGH").arg(pos, 5, 10, QChar('0'));
     emit SendCmd(cmd);
 }
 
 void NetRadioDialog::on_PageDownButton_clicked()
 {
-    int pos = m_IndexOfLine1 + m_SelectedItemIndex;
+    int pos = m_IndexOfLine1;// + m_SelectedItemIndex;
     pos += m_VisibleListSize;
-    if (pos >= m_TotalNumberOfItems)
-        pos = pos % m_TotalNumberOfItems -1;
+    if (pos > m_TotalNumberOfItems)
+        pos = 1;//pos % m_TotalNumberOfItems -1;
     QString cmd = QString("%1GGH").arg(pos, 5, 10, QChar('0'));
     emit SendCmd(cmd);
 }
 
 void NetRadioDialog::on_PageUpButton_2_clicked()
 {
-    int pos = m_IndexOfLine1 + m_SelectedItemIndex;
-    pos -= 100;
-    if (pos <= 1)
-        pos = m_TotalNumberOfItems + pos - 1;
+    int pos = m_IndexOfLine1;// + m_SelectedItemIndex;
+    pos -= 108;
+    if (pos < 1)
+        pos = (m_TotalNumberOfItems / 8) * 8;// + pos - 1;
     QString cmd = QString("%1GGH").arg(pos, 5, 10, QChar('0'));
     emit SendCmd(cmd);
 }
 
 void NetRadioDialog::on_PageDownButton_2_clicked()
 {
-    int pos = m_IndexOfLine1 + m_SelectedItemIndex;
-    pos += 100;
-    if (pos >= m_TotalNumberOfItems)
-        pos = pos % m_TotalNumberOfItems - 1;
+    int pos = m_IndexOfLine1;// + m_SelectedItemIndex;
+    pos += 108;
+    if (pos > m_TotalNumberOfItems)
+        pos = 1;//pos % m_TotalNumberOfItems - 1;
     QString cmd = QString("%1GGH").arg(pos, 5, 10, QChar('0'));
     emit SendCmd(cmd);
 }

@@ -1,0 +1,1 @@
+Please download and build HUPnP library from http://www.herqq.org/

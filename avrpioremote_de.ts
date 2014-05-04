@@ -9,165 +9,177 @@
         <translation>AVRPioRemote</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="26"/>
-        <location filename="avrpioremote.cpp" line="424"/>
+        <location filename="avrpioremote.cpp" line="434"/>
         <source>ON</source>
         <translation>EIN</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="51"/>
+        <location filename="avrpioremote.ui" line="29"/>
         <source>EQ, LS-Einstellungen, Eingangseditor usw.</source>
         <translation>EQ, LS-Einstellungen, Einganseditor usw.</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="54"/>
+        <location filename="avrpioremote.ui" line="32"/>
         <source>MORE!</source>
         <translation>MEHR!</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="73"/>
+        <location filename="avrpioremote.ui" line="51"/>
         <source>BD</source>
         <translation>BD</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="92"/>
+        <location filename="avrpioremote.ui" line="70"/>
         <source>DVD</source>
         <translation>DVD</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="111"/>
+        <location filename="avrpioremote.ui" line="89"/>
         <source>DVR</source>
         <translation>DVR</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="130"/>
+        <location filename="avrpioremote.ui" line="108"/>
         <source>HDMI</source>
         <translation>HDMI</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="149"/>
+        <location filename="avrpioremote.ui" line="127"/>
         <source>TV</source>
         <translation>TV</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="168"/>
+        <location filename="avrpioremote.ui" line="146"/>
         <source>CD</source>
         <translation>CD</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="187"/>
+        <location filename="avrpioremote.ui" line="165"/>
         <source>NET</source>
         <translation>NET</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="206"/>
+        <location filename="avrpioremote.ui" line="184"/>
         <source>ADPT</source>
         <translation>ADPT</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="225"/>
+        <location filename="avrpioremote.ui" line="203"/>
         <source>iP/USB</source>
         <oldsource>iPod</oldsource>
         <translation>iPod</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="244"/>
+        <location filename="avrpioremote.ui" line="222"/>
         <source>SAT</source>
         <translation>SAT</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="263"/>
+        <location filename="avrpioremote.ui" line="241"/>
         <source>VIDEO</source>
         <translation>VIDEO</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="282"/>
+        <location filename="avrpioremote.ui" line="260"/>
         <source>TUNER</source>
         <translation>TUNER</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="301"/>
+        <location filename="avrpioremote.ui" line="279"/>
         <source>&lt;-</source>
         <translation>&lt;-</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="317"/>
+        <location filename="avrpioremote.ui" line="295"/>
         <source>-&gt;</source>
         <translation>-&gt;</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="338"/>
+        <location filename="avrpioremote.ui" line="316"/>
         <source>VOLUME</source>
         <translation>VOLUME</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="354"/>
+        <location filename="avrpioremote.ui" line="332"/>
         <source>+</source>
         <translation>+</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="400"/>
-        <location filename="avrpioremote.cpp" line="789"/>
+        <location filename="avrpioremote.ui" line="378"/>
+        <location filename="avrpioremote.cpp" line="800"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="422"/>
-        <source>MUTE</source>
-        <translation>MUTE</translation>
+        <location filename="avrpioremote.ui" line="400"/>
+        <source>Mute</source>
+        <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="446"/>
+        <location filename="avrpioremote.ui" line="460"/>
+        <source>ADV
+SURR</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.ui" line="505"/>
+        <source>Choose the listening mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MUTE</source>
+        <translation type="obsolete">MUTE</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.ui" line="438"/>
         <source>AUTO/ALC/
 DIRECT</source>
         <translation>AUTO/ALC/
 DIRECT</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="468"/>
         <source>ADV SURR</source>
-        <translation>ADV SURR</translation>
+        <translation type="obsolete">ADV SURR</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="489"/>
+        <location filename="avrpioremote.ui" line="482"/>
         <source>STANDARD</source>
         <translation>STANDARD</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="512"/>
         <source>?</source>
-        <translation>?</translation>
+        <translation type="obsolete">?</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="528"/>
+        <location filename="avrpioremote.ui" line="534"/>
         <source>S.Retr</source>
         <translation>S.Retr</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="547"/>
+        <location filename="avrpioremote.ui" line="553"/>
         <source>PHASE</source>
         <translation>PHASE</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="566"/>
+        <location filename="avrpioremote.ui" line="572"/>
         <source>PQLS</source>
         <translation>PQLS</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="585"/>
+        <location filename="avrpioremote.ui" line="591"/>
         <source>Hi-Bit</source>
         <translation>Hi-Bit</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="611"/>
-        <location filename="avrpioremote.cpp" line="585"/>
-        <location filename="avrpioremote.cpp" line="612"/>
+        <location filename="avrpioremote.ui" line="617"/>
+        <location filename="avrpioremote.cpp" line="596"/>
+        <location filename="avrpioremote.cpp" line="623"/>
         <source>Connect</source>
-        <translation type="unfinished">Mit dem Receiver
+        <translation>Mit dem Receiver
 Verbinden</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="816"/>
+        <location filename="avrpioremote.ui" line="833"/>
         <source>Zone</source>
         <translation>Zonen</translation>
     </message>
@@ -197,7 +209,7 @@ Verbinden</translation>
         <translation type="obsolete">.</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="704"/>
+        <location filename="avrpioremote.ui" line="710"/>
         <source>INPUT NAME</source>
         <translation>INPUT NAME</translation>
     </message>
@@ -214,95 +226,95 @@ Verbinden</translation>
         <translation type="obsolete">EINGANG</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="777"/>
+        <location filename="avrpioremote.ui" line="783"/>
         <source>EQ</source>
         <translation>EQ</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="386"/>
+        <location filename="avrpioremote.cpp" line="394"/>
         <source>Connecting...</source>
         <translation>Verbinden mit dem Receiver...</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="424"/>
+        <location filename="avrpioremote.cpp" line="434"/>
         <source>OFF</source>
         <translation>AUS</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="457"/>
+        <location filename="avrpioremote.cpp" line="468"/>
         <source>This doesn&apos;t work now</source>
         <translation>Zur Zeit nicht möglich</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="462"/>
+        <location filename="avrpioremote.cpp" line="473"/>
         <source>This doesn&apos;t work with this receiver</source>
         <translation>Dieser Reciever unterstützt diese Funktion nicht</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="467"/>
+        <location filename="avrpioremote.cpp" line="478"/>
         <source>Command error</source>
         <translation>Fehlerhafter Befehl</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="472"/>
+        <location filename="avrpioremote.cpp" line="483"/>
         <source>Parameter error</source>
         <translation>Parameterfehler, möglicherweise wird diese Einstelung von diesem Receiver nicht unterstützt</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="477"/>
+        <location filename="avrpioremote.cpp" line="488"/>
         <source>Receiver busy</source>
         <translation>Receiver ist zur Zeit beschäftigt</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="482"/>
+        <location filename="avrpioremote.cpp" line="493"/>
         <source>Unknown error</source>
         <translation>Unbekannter Fehler</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="596"/>
+        <location filename="avrpioremote.cpp" line="607"/>
         <source>Connected</source>
         <translation>Verbunden</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="599"/>
+        <location filename="avrpioremote.cpp" line="610"/>
         <source>Disconnect</source>
         <translation>Vom Receiver
 Trennen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="738"/>
+        <location filename="avrpioremote.cpp" line="749"/>
         <source>Internet Radio</source>
         <translation>Internet Radio</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="742"/>
+        <location filename="avrpioremote.cpp" line="753"/>
         <source>BluRay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="746"/>
+        <location filename="avrpioremote.cpp" line="757"/>
         <source>Tuner</source>
         <translation>Tuner</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="750"/>
+        <location filename="avrpioremote.cpp" line="761"/>
         <source>IPod / USB</source>
         <oldsource>IPod/USB</oldsource>
         <translation>IPod / USB</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="754"/>
+        <location filename="avrpioremote.cpp" line="765"/>
         <source>Equalizer / Tone</source>
         <oldsource>Equalizer/Tone</oldsource>
         <translation>Equalizer / Klang</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="766"/>
+        <location filename="avrpioremote.cpp" line="777"/>
         <source>Audio / Video Settings</source>
         <translation>Audio / Video Einstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="770"/>
+        <location filename="avrpioremote.cpp" line="781"/>
         <source>MCACC Equalizer</source>
         <translation></translation>
     </message>
@@ -312,12 +324,12 @@ Trennen</translation>
         <translation type="obsolete">Equalizer</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="758"/>
+        <location filename="avrpioremote.cpp" line="769"/>
         <source>Speaker Settings</source>
         <translation>Lautsprechereinstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="762"/>
+        <location filename="avrpioremote.cpp" line="773"/>
         <source>ListenMode Settings</source>
         <translation>Hörmoduseinstellungen</translation>
     </message>
@@ -326,22 +338,22 @@ Trennen</translation>
         <translation type="obsolete">Kompatible Favoritenliste</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="779"/>
+        <location filename="avrpioremote.cpp" line="790"/>
         <source>Refresh status</source>
         <translation>Status erneuern</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="793"/>
+        <location filename="avrpioremote.cpp" line="804"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="797"/>
+        <location filename="avrpioremote.cpp" line="808"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="801"/>
+        <location filename="avrpioremote.cpp" line="812"/>
         <source>About AVRPioRemote</source>
         <translation>Über AVRPioRemote</translation>
     </message>
@@ -624,13 +636,14 @@ Trennen</translation>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="33"/>
-        <source>License GPLv2 (c) 2013</source>
-        <translation>Lizenz GPLv2 (c) 2013</translation>
+        <source>License GPLv2 (c) 2014</source>
+        <oldsource>License GPLv2 (c) 2013</oldsource>
+        <translation type="unfinished">Lizenz GPLv2 (c) 2013</translation>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="43"/>
-        <source>Version 0.1.18</source>
-        <oldsource>Version 0.1.17</oldsource>
+        <source>Version 0.1.19</source>
+        <oldsource>Version 0.1.18</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -648,6 +661,46 @@ Trennen</translation>
         <location filename="aboutdialog.ui" line="129"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>AutoSearchDialog</name>
+    <message>
+        <location filename="autosearchdialog.ui" line="14"/>
+        <source>Automatic search</source>
+        <translation>Automatische Suche</translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.ui" line="20"/>
+        <source>Please choose your receiver from the list below.
+It can take some minutes, so please be patient. If after about 5 minutes your device is still not found, you have to enter the IP address manually.</source>
+        <translation>Bitte wählen Sie Ihren Receiver aus der unteren Liste
+Es kann mehrere Minuten dauern, bitte haben Sie geduld. Wenn Ihr Receiver nach etwa 5 Minuten immer noch nicht gefunden wurde, müssen Sie die IP Adresse manuell eingeben.</translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.ui" line="36"/>
+        <source>Time elapsed: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.ui" line="43"/>
+        <source>0:0</source>
+        <translation type="unfinished">0:0</translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.ui" line="83"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.ui" line="103"/>
+        <source>Repeat</source>
+        <translation>Wiederholen</translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.ui" line="123"/>
+        <source>Continue</source>
+        <translation>Weiter</translation>
     </message>
 </context>
 <context>
@@ -1548,78 +1601,64 @@ Trennen</translation>
         <translation>NetRadio</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1356"/>
         <source>&lt;</source>
-        <translation>&lt;</translation>
+        <translation type="obsolete">&lt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="868"/>
-        <location filename="netradiodialog.ui" line="1384"/>
         <source>^</source>
-        <translation>^</translation>
+        <translation type="obsolete">^</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1412"/>
         <source>&gt;</source>
-        <translation>&gt;</translation>
+        <translation type="obsolete">&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="899"/>
-        <location filename="netradiodialog.ui" line="1440"/>
         <source>v</source>
-        <translation>v</translation>
+        <translation type="obsolete">v</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1468"/>
         <source>o</source>
-        <translation>o</translation>
+        <translation type="obsolete">o</translation>
     </message>
     <message>
         <source>BACK</source>
         <translation type="obsolete">Zurück</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="997"/>
         <source>||</source>
-        <translation>||</translation>
+        <translation type="obsolete">||</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1019"/>
         <source>PLAY</source>
-        <translation>PLAY</translation>
+        <translation type="obsolete">PLAY</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1161"/>
         <source>|&gt;</source>
-        <translation>|&gt;</translation>
+        <translation type="obsolete">|&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1139"/>
         <source>&lt;|</source>
-        <translation>&lt;|</translation>
+        <translation type="obsolete">&lt;|</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1041"/>
         <source>STOP</source>
-        <translation>STOP</translation>
+        <translation type="obsolete">STOP</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1101"/>
         <source>|&gt;|&gt;</source>
-        <translation>|&gt;|&gt;</translation>
+        <translation type="obsolete">|&gt;|&gt;</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1079"/>
         <source>&lt;|&lt;|</source>
-        <translation>&lt;|&lt;|</translation>
+        <translation type="obsolete">&lt;|&lt;|</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="865"/>
+        <location filename="netradiodialog.ui" line="839"/>
         <source>Page Up</source>
         <translation>Seite nach oben</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="896"/>
+        <location filename="netradiodialog.ui" line="875"/>
         <source>Page Down</source>
         <translation>Seite nach unten</translation>
     </message>
@@ -1629,63 +1668,51 @@ Trennen</translation>
         <translation>Seite nach oben (100 Zeilen)</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="806"/>
         <source>^^</source>
-        <translation>^^</translation>
+        <translation type="obsolete">^^</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="834"/>
+        <location filename="netradiodialog.ui" line="911"/>
         <source>Page Down 100 lines</source>
         <translation>Seite nach unten (100 Zeilen)</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="837"/>
         <source>vv</source>
-        <translation>vv</translation>
+        <translation type="obsolete">vv</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="940"/>
+        <location filename="netradiodialog.ui" line="960"/>
         <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1260"/>
+        <location filename="netradiodialog.ui" line="1313"/>
         <source>Repeat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1273"/>
+        <location filename="netradiodialog.ui" line="1329"/>
         <source>Random</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1516"/>
+        <location filename="netradiodialog.ui" line="1588"/>
         <source>Return</source>
         <oldsource>RETURN</oldsource>
         <translation>Zurück</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1548"/>
-        <source>Add Fav</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="netradiodialog.ui" line="1532"/>
-        <source>Remove Fav</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="netradiodialog.ui" line="1196"/>
+        <location filename="netradiodialog.ui" line="1249"/>
         <source>Internet Radio</source>
         <translation>Internet Radio</translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1215"/>
+        <location filename="netradiodialog.ui" line="1268"/>
         <source>Media Server</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="netradiodialog.ui" line="1234"/>
+        <location filename="netradiodialog.ui" line="1287"/>
         <source>Favorites</source>
         <translation>Favoriten</translation>
     </message>
@@ -1745,6 +1772,12 @@ Trennen</translation>
         <source>Format: </source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="netradiodialog.ui" line="1604"/>
+        <location filename="netradiodialog.ui" line="1625"/>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OldFavoritesDialog</name>
@@ -1779,58 +1812,59 @@ Do you want to continue?</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="61"/>
+        <location filename="settingsdialog.ui" line="39"/>
         <source>VSX 922 compatible mode</source>
         <oldsource>VSX 922 compatible tuner mode</oldsource>
         <translation>VSX 922 kompatibler Modus</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="45"/>
+        <location filename="settingsdialog.ui" line="49"/>
         <source>LX 83 compatible favorite mode</source>
         <translation>LX 83 kompatibler Favoriten Modus</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="396"/>
+        <location filename="settingsdialog.ui" line="463"/>
         <source>German</source>
         <translation>Deutsch</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="376"/>
+        <location filename="settingsdialog.ui" line="443"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="389"/>
+        <location filename="settingsdialog.ui" line="456"/>
         <source>English</source>
         <translation>Englisch</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="382"/>
+        <location filename="settingsdialog.ui" line="317"/>
+        <location filename="settingsdialog.ui" line="449"/>
         <source>Auto</source>
         <translation>Auto</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="413"/>
+        <location filename="settingsdialog.ui" line="480"/>
         <source>Show Receiver name in window title</source>
         <translation>Zeige Receivernamen in der Titelleiste</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="525"/>
+        <location filename="settingsdialog.ui" line="592"/>
         <source>Zone Control</source>
         <translation>Zonensteuerung</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="532"/>
+        <location filename="settingsdialog.ui" line="599"/>
         <source>MCACC Equalizer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="571"/>
+        <location filename="settingsdialog.ui" line="638"/>
         <source>Show iPod/USB window automatically</source>
         <translation>iPod/USB-Fenster automatisch zeigen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="427"/>
+        <location filename="settingsdialog.ui" line="494"/>
         <source>Start logging in Test window (slow)</source>
         <translation>Starte Logging im Testfenster (langsam)</translation>
     </message>
@@ -1840,159 +1874,164 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="80"/>
+        <location filename="settingsdialog.ui" line="64"/>
         <source>IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="100"/>
-        <location filename="settingsdialog.ui" line="109"/>
+        <location filename="settingsdialog.ui" line="86"/>
+        <location filename="settingsdialog.ui" line="95"/>
         <source>192</source>
         <translation type="unfinished">192</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="121"/>
-        <location filename="settingsdialog.ui" line="169"/>
-        <location filename="settingsdialog.ui" line="217"/>
+        <location filename="settingsdialog.ui" line="107"/>
+        <location filename="settingsdialog.ui" line="155"/>
+        <location filename="settingsdialog.ui" line="203"/>
         <source>.</source>
         <translation type="unfinished">.</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="148"/>
-        <location filename="settingsdialog.ui" line="157"/>
+        <location filename="settingsdialog.ui" line="134"/>
+        <location filename="settingsdialog.ui" line="143"/>
         <source>168</source>
         <translation type="unfinished">168</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="196"/>
-        <location filename="settingsdialog.ui" line="205"/>
-        <location filename="settingsdialog.ui" line="244"/>
-        <location filename="settingsdialog.ui" line="253"/>
+        <location filename="settingsdialog.ui" line="182"/>
+        <location filename="settingsdialog.ui" line="191"/>
+        <location filename="settingsdialog.ui" line="230"/>
+        <location filename="settingsdialog.ui" line="239"/>
         <source>1</source>
         <translation type="unfinished">1</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="265"/>
+        <location filename="settingsdialog.ui" line="251"/>
         <source>:</source>
         <translation type="unfinished">:</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="292"/>
-        <location filename="settingsdialog.ui" line="301"/>
+        <location filename="settingsdialog.ui" line="278"/>
+        <location filename="settingsdialog.ui" line="287"/>
         <source>8102</source>
         <translation type="unfinished">8102</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="321"/>
-        <location filename="settingsdialog.cpp" line="155"/>
-        <location filename="settingsdialog.cpp" line="167"/>
+        <location filename="settingsdialog.ui" line="353"/>
+        <location filename="settingsdialog.cpp" line="158"/>
+        <location filename="settingsdialog.cpp" line="171"/>
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="336"/>
+        <location filename="settingsdialog.ui" line="403"/>
         <source>BlueRay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="342"/>
+        <location filename="settingsdialog.ui" line="409"/>
         <source>Show BlueRay window automatically</source>
         <translation>BlueRay Fenster automatisch öffnen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="349"/>
+        <location filename="settingsdialog.ui" line="416"/>
         <source>Remember last window position</source>
         <translation>Fensterposition beim Starten wiederherstellen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="370"/>
+        <location filename="settingsdialog.ui" line="437"/>
         <source>Common</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="403"/>
+        <location filename="settingsdialog.ui" line="470"/>
         <source>Русский</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="448"/>
+        <location filename="settingsdialog.ui" line="515"/>
         <source>Windows</source>
         <translation>Fenster</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="454"/>
+        <location filename="settingsdialog.ui" line="521"/>
         <source>Restore window position on start</source>
         <translation>Fensterposition beim Starten wiederherstellen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="462"/>
+        <location filename="settingsdialog.ui" line="529"/>
         <source>Main Window</source>
         <translation>Hauptfenster</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="469"/>
+        <location filename="settingsdialog.ui" line="536"/>
         <source>Audio/Video Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="476"/>
+        <location filename="settingsdialog.ui" line="543"/>
         <source>Equalizer</source>
         <translation>Equalizer</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="483"/>
+        <location filename="settingsdialog.ui" line="550"/>
         <source>Tuner</source>
         <translation>Tuner</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="490"/>
+        <location filename="settingsdialog.ui" line="557"/>
         <source>NetRadio</source>
         <translation>NetRadio</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="497"/>
+        <location filename="settingsdialog.ui" line="564"/>
         <source>Speaker settings</source>
         <translation>Lautsprechereinstellungen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="504"/>
+        <location filename="settingsdialog.ui" line="571"/>
         <source>Test window</source>
         <translation>Testfenster</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="511"/>
+        <location filename="settingsdialog.ui" line="578"/>
         <source>Listening mode</source>
         <translation>Hörmodi</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="518"/>
+        <location filename="settingsdialog.ui" line="585"/>
         <source>iPod/USB</source>
         <translation>iPod/USB</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="420"/>
+        <location filename="settingsdialog.ui" line="487"/>
         <source>Show default name of the input line</source>
         <translation>Zeige default Eingangsnamen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="614"/>
+        <location filename="settingsdialog.ui" line="681"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="557"/>
+        <location filename="settingsdialog.ui" line="624"/>
         <source>Show Tuner window automatically</source>
         <translation>Tuner-Fenster automatisch zeigen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="564"/>
+        <location filename="settingsdialog.ui" line="631"/>
         <source>Show NetRadio window automatically</source>
         <translation>NetRadio-Fenster automatisch zeigen</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="161"/>
+        <location filename="settingsdialog.cpp" line="165"/>
         <source>Disconnect</source>
         <translation>Trennen</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.cpp" line="367"/>
+        <source>Coud not load or initialize zhe HUpnp library</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2318,46 +2357,36 @@ CUT</translation>
         <translation type="unfinished">iPod/USB</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1009"/>
         <source>&lt;</source>
-        <translation type="unfinished">&lt;</translation>
+        <translation type="obsolete">&lt;</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="796"/>
-        <location filename="usbdialog.ui" line="1025"/>
         <source>^</source>
-        <translation type="unfinished">^</translation>
+        <translation type="obsolete">^</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1041"/>
         <source>&gt;</source>
-        <translation type="unfinished">&gt;</translation>
+        <translation type="obsolete">&gt;</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="871"/>
-        <location filename="usbdialog.ui" line="1057"/>
         <source>v</source>
-        <translation type="unfinished">v</translation>
+        <translation type="obsolete">v</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1073"/>
         <source>o</source>
-        <translation type="unfinished">o</translation>
+        <translation type="obsolete">o</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="978"/>
         <source>||</source>
-        <translation type="unfinished">||</translation>
+        <translation type="obsolete">||</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1212"/>
         <source>PLAY</source>
-        <translation type="unfinished">PLAY</translation>
+        <translation type="obsolete">PLAY</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1164"/>
         <source>|&gt;</source>
-        <translation type="unfinished">|&gt;</translation>
+        <translation type="obsolete">|&gt;</translation>
     </message>
     <message>
         <location filename="usbdialog.ui" line="209"/>
@@ -2416,24 +2445,20 @@ CUT</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="962"/>
         <source>&lt;|</source>
-        <translation type="unfinished">&lt;|</translation>
+        <translation type="obsolete">&lt;|</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1111"/>
         <source>STOP</source>
-        <translation type="unfinished">STOP</translation>
+        <translation type="obsolete">STOP</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1180"/>
         <source>|&gt;|&gt;</source>
-        <translation type="unfinished">|&gt;|&gt;</translation>
+        <translation type="obsolete">|&gt;|&gt;</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1196"/>
         <source>&lt;|&lt;|</source>
-        <translation type="unfinished">&lt;|&lt;|</translation>
+        <translation type="obsolete">&lt;|&lt;|</translation>
     </message>
     <message>
         <location filename="usbdialog.ui" line="793"/>
@@ -2441,52 +2466,50 @@ CUT</translation>
         <translation>Seite nach oben</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="868"/>
+        <location filename="usbdialog.ui" line="883"/>
         <source>Page Down</source>
         <translation>Seite nach unten</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="818"/>
+        <location filename="usbdialog.ui" line="823"/>
         <source>Page Up 100 lines</source>
         <translation>Seite nach oben (100 Zeilen)</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="821"/>
         <source>^^</source>
-        <translation type="unfinished">^^</translation>
+        <translation type="obsolete">^^</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="843"/>
+        <location filename="usbdialog.ui" line="853"/>
         <source>Page Down 100 lines</source>
         <translation>Seite nach unten (100 Zeilen)</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="846"/>
         <source>vv</source>
-        <translation type="unfinished">vv</translation>
+        <translation type="obsolete">vv</translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1132"/>
+        <location filename="usbdialog.ui" line="1192"/>
         <source>iPodControl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="946"/>
+        <location filename="usbdialog.ui" line="966"/>
         <source>iDirectCtlr</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1095"/>
+        <location filename="usbdialog.ui" line="1150"/>
         <source>back to top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="1148"/>
+        <location filename="usbdialog.ui" line="1208"/>
         <source>Random</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="usbdialog.ui" line="925"/>
+        <location filename="usbdialog.ui" line="945"/>
         <source>Repeat</source>
         <translation type="unfinished"></translation>
     </message>

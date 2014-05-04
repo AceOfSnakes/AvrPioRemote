@@ -40,7 +40,7 @@
 #include "zonecontroldialog.h"
 #include "avsettingsdialog.h"
 #include "mcacceqdialog.h"
-
+#include "autosearchdialog.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -88,24 +88,25 @@ public:
 
 private:
     Ui::AVRPioRemote *ui;
-    ReceiverInterface m_ReceiverInterface;
-    PlayerInterface m_PlayerInterface;
-    int             m_IpPort;
-    QString         m_IpAddress;
-    QSettings       m_Settings;
-    NetRadioDialog* m_NetRadioDialog;
-    BluRayDialog*   m_BluRayDialog;
+    ReceiverInterface           m_ReceiverInterface;
+    PlayerInterface             m_PlayerInterface;
+    int                         m_IpPort;
+    QString                     m_IpAddress;
+    QSettings                   m_Settings;
+    NetRadioDialog*             m_NetRadioDialog;
+    BluRayDialog*               m_BluRayDialog;
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
-    TunerDialog*    m_TunerDialog;
-    TestDialog*     m_TestDialog;
-    OldFavoritesDialog* m_OldFavoritesDialog;
-    SettingsDialog* m_SettingsDialog;
-    EQDialog*       m_EQDialog;
-    ListeningModeDialog* m_Listendiag;
-    usbDialog*      m_usbDialog;
-    ZoneControlDialog*  m_ZoneControlDialog;
-    AVSettingsDialog*  m_AVSettingsDialog;
-    MCACCEQDialog*  m_MCACCEQDialog;
+    TunerDialog*                m_TunerDialog;
+    TestDialog*                 m_TestDialog;
+    OldFavoritesDialog*         m_OldFavoritesDialog;
+    SettingsDialog*             m_SettingsDialog;
+    EQDialog*                   m_EQDialog;
+    ListeningModeDialog*        m_Listendiag;
+    usbDialog*                  m_usbDialog;
+    ZoneControlDialog*          m_ZoneControlDialog;
+    AVSettingsDialog*           m_AVSettingsDialog;
+    MCACCEQDialog*              m_MCACCEQDialog;
+    AutoSearchDialog*           m_AutoSearchDialog;
 
     //    QThre;ad*        m_TCPThread;
     bool            m_ReceiverOnline;

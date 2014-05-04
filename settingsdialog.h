@@ -23,6 +23,7 @@
 #include <QTranslator>
 #include <QIntValidator>
 #include "receiverinterface.h"
+#include "autosearchdialog.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -81,6 +82,8 @@ private slots:
 
     void on_RestoreMCACCEQWindowCheckBox_clicked(bool checked);
 
+    void on_pushButtonAuto_clicked();
+
 signals:
     void onConnect();
 
@@ -91,6 +94,7 @@ private:
     QIntValidator       m_IpPortValidator;
     ReceiverInterface&  m_Comm;
     Ui::SettingsDialog *ui;
+    AutoSearchDialog*   m_AutoSearchDialog;
 };
 
 #endif // SETTINGSDIALOG_H

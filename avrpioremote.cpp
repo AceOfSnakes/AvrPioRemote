@@ -201,6 +201,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_AVSettingsDialog = new AVSettingsDialog(this, m_Settings, m_ReceiverInterface);
 
     m_MCACCEQDialog = new MCACCEQDialog(this, m_Settings, m_ReceiverInterface);
+
+    m_AutoSearchDialog = NULL;
 }
 
 
