@@ -25,8 +25,6 @@ struct STRING_PAIR
     const char *text;
 };
 
-QString FindString(const STRING_PAIR pairs[], const QString& key);
-
 enum MCACCMEMORY
 {
     MCACCMemoryCurrent = 0,
@@ -68,10 +66,11 @@ enum EQ_FREQUENCY
 
 QString GetLoudspeakerName(const LOUDSPEAKERNAME Ls);
 QString GetEQFrequencyIdentifier(const EQ_FREQUENCY freq);
+QString FindValueByKey(const STRING_PAIR pairs[], const QString& key);
 
 extern const char* AST1[];
 extern const char* AST3[];
-extern const char* VIDEO_INPUT[];
+extern const STRING_PAIR VIDEO_INPUT[];
 extern const char* VIDEO_INPUT_TERMINAL[];
 extern const char* VIDEO_INPUT_RESOLUTION[];
 extern const char* VIDEO_INPUT_ASPECT[];

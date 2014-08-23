@@ -41,6 +41,7 @@
 #include "avsettingsdialog.h"
 #include "mcacceqdialog.h"
 #include "autosearchdialog.h"
+#include "wiringdialog.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -107,6 +108,7 @@ private:
     AVSettingsDialog*           m_AVSettingsDialog;
     MCACCEQDialog*              m_MCACCEQDialog;
     AutoSearchDialog*           m_AutoSearchDialog;
+    WiringDialog*               m_WiringDialog;
 
     //    QThre;ad*        m_TCPThread;
     bool            m_ReceiverOnline;
@@ -129,6 +131,7 @@ private:
     QPushButton* FindInputButton(int idx);
 
     void closeEvent(QCloseEvent *event);
+    void changeEvent(QEvent *e);
     QVector<QPushButton*> m_InputButtons;
 
 public slots:

@@ -3,10 +3,10 @@
 
 #include <QDialog>
 #include <QModelIndex>
-#include "hupnpwrapper.h"
 #include <QLibrary>
 #include <QtNetwork/QTcpSocket>
 #include "logger.h"
+#include <QUdpSocket>
 
 namespace Ui {
 class AutoSearchDialog;
@@ -44,18 +44,19 @@ public:
     explicit AutoSearchDialog(QWidget *parent = 0);
     ~AutoSearchDialog();
 
-    bool IsActivated() {return m_HUpnpWrapper != NULL;}
-
     int                     m_Result;
-    int                     m_SelectedIndex;
+    //int                     m_SelectedIndex;
+    QString                 m_SelectedAddress;
+    int                     m_SelectedPort;
     QVector<RemoteDevice*>  m_DeviceInList;
 
 protected:
     void changeEvent(QEvent *e);
-    void FreeLib();
-    HUpnpWrapper*           m_HUpnpWrapper;
-    QLibrary                m_lib;
     QVector<RemoteDevice*>  m_RemoteDevices;
+    QVector<QUdpSocket*>    m_MulticatsSockets;
+    QHostAddress            m_GroupAddress;
+
+    void SendMsg();
 
 private slots:
     void NewDevice(QString name, QString url);
@@ -63,6 +64,7 @@ private slots:
     void TcpError(QAbstractSocket::SocketError socketError);
     void TcpConnected();
     void TcpDisconnected();
+    void ProcessPendingDatagrams();
     void on_CancelButton_clicked();
     void on_continueButton_clicked();
     void on_repeatButton_clicked();
@@ -71,6 +73,7 @@ private slots:
 
 private:
     Ui::AutoSearchDialog *ui;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // AUTOSEARCHDIALOG_H

@@ -34,5 +34,6 @@ void Logger::Log(const QString& msg)
     //    QBrush brush(color);
     //    int index = ui->listWidgetLog->currentIndex().row();
     //    ui->listWidgetLog->item(index)->setForeground(brush);
-    qDebug() << msg;
+
+    //qDebug() << msg;
 }

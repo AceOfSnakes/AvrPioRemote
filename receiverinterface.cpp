@@ -194,7 +194,7 @@ bool ReceiverInterface::SendCmd(const QString& cmd)
 {
 //    Log("--> " + cmd, QColor(0, 200, 0));
     CmdToBeSend(cmd);
-    Logger::Log("--> " + cmd);
+    //Logger::Log("--> " + cmd);
     QString tmp = cmd + "\r";
     return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
 }
@@ -348,12 +348,17 @@ void ReceiverInterface::InterpretString(const QString& data)
     }
     else if (data.startsWith("FN"))
     {
-        int n = 0;
-        sscanf(data.toLatin1(), "FN%d", &n);
-        QString str = (n >= 0 && n <= 48)?(VIDEO_INPUT[n]):"unknown";
-        if (str == "")
-            str = "unknown";
-        emit InputFunctionData(n, str);
+        if (data.length() >=4)
+        {
+            int n = 0;
+            sscanf(data.toLatin1(), "FN%d", &n);
+            QString key = data.mid(2, 2);
+            //QString str = (n >= 0 && n <= 48)?(VIDEO_INPUT[n]):"unknown";
+            QString str = FindValueByKey(VIDEO_INPUT, key);
+            if (str == "")
+                str = "unknown";
+            emit InputFunctionData(n, str);
+        }
     }
     else if (data.startsWith("RGB"))
     {
@@ -363,7 +368,7 @@ void ReceiverInterface::InterpretString(const QString& data)
     }
     else if (data.startsWith("SR"))
     {
-        QString text = FindString(LISTENING_MODE, data.mid(2, 4));
+        QString text = FindValueByKey(LISTENING_MODE, data.mid(2, 4));
         if (text == "")
             text = "---";
         //ui->lineEditListeningMode->setText(text);
@@ -371,7 +376,7 @@ void ReceiverInterface::InterpretString(const QString& data)
     }
     else if (data.startsWith("LM"))
     {
-        QString text = FindString(PLAYING_LISTENING_MODE, data.mid(2, 4));
+        QString text = FindValueByKey(PLAYING_LISTENING_MODE, data.mid(2, 4));
         if (text == "")
             text = "---";
         emit ListeningModeData(text);

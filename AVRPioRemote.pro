@@ -12,7 +12,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = AVRPioRemote
 TEMPLATE = app
 
-
+static { # everything below takes effect with CONFIG += static
+    CONFIG += static
+    CONFIG += staticlib # this is needed if you create a static library, not a static executable
+    DEFINES += STATIC
+    message("~~~ static build ~~~") # this is for information, that the static build is done
+    win32: TARGET = $$join(TARGET,,,s) #this adds an s in the end, so you can seperate static build from non static build
+}
 SOURCES += main.cpp \
         avrpioremote.cpp \
         Defs.cpp \
@@ -35,7 +41,11 @@ SOURCES += main.cpp \
     zonecontroldialog.cpp \
     avsettingsdialog.cpp \
     mcacceqdialog.cpp \
-    autosearchdialog.cpp
+    autosearchdialog.cpp \
+    wiringdialog.cpp \
+    wiringmodel.cpp \
+    comboboxdelegate.cpp \
+    checkboxdelegate.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -59,7 +69,11 @@ HEADERS  += avrpioremote.h \
     zonecontroldialog.h \
     avsettingsdialog.h \
     mcacceqdialog.h \
-    autosearchdialog.h
+    autosearchdialog.h \
+    wiringdialog.h \
+    wiringmodel.h \
+    comboboxdelegate.h \
+    checkboxdelegate.h
  
 
 
@@ -79,7 +93,8 @@ FORMS    += avrpioremote.ui \
     zonecontroldialog.ui \
     avsettingsdialog.ui \
     mcacceqdialog.ui \
-    autosearchdialog.ui
+    autosearchdialog.ui \
+    wiringdialog.ui
 
 
 OTHER_FILES += \

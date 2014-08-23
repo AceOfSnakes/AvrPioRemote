@@ -203,6 +203,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_MCACCEQDialog = new MCACCEQDialog(this, m_Settings, m_ReceiverInterface);
 
     m_AutoSearchDialog = NULL;
+
+    m_WiringDialog = new WiringDialog(this, m_Settings, m_ReceiverInterface);
 }
 
 
@@ -217,8 +219,12 @@ AVRPioRemote::~AVRPioRemote()
     delete m_OldFavoritesDialog;
     delete m_SettingsDialog;
     delete m_EQDialog;
-    delete ui;
     delete m_Listendiag;
+    delete m_ZoneControlDialog;
+    delete m_AVSettingsDialog;
+    delete m_MCACCEQDialog;
+    delete m_WiringDialog;
+    delete ui;
 }
 
 
@@ -228,6 +234,18 @@ void AVRPioRemote::closeEvent(QCloseEvent *event)
     // save the window position
     m_Settings.setValue("MainWindowGeometry", saveGeometry());
     QDialog::closeEvent(event);
+}
+
+void AVRPioRemote::changeEvent(QEvent *e)
+{
+    QDialog::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }
 
 
@@ -781,6 +799,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         pAction = new QAction(tr("MCACC Equalizer"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_MCACCEQDialog, SLOT(ShowMCACCEQDialog()));
+
+        pAction = new QAction(tr("Wiring Wizard"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_WiringDialog, SLOT(ShowWiringDialog()));
 
 
 //        pAction = new QAction(tr("Compatible Favorites"), this);

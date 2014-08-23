@@ -71,17 +71,11 @@ private slots:
     void on_ShowDefaultInputNameCheckBox_clicked();
     void on_RestoreZoneControlWindowCheckBox_clicked();
     void on_pushButtonConnect_clicked();
-
     void on_ShowBlueRayWindowCheckBox_clicked();
-
     void on_RestoreBlueRayWindowCheckBox_clicked();
-
     void on_RestoreAVSettingsWindowCheckBox_clicked();
-
     void on_LanguageRussianRadioButton_clicked(bool checked);
-
     void on_RestoreMCACCEQWindowCheckBox_clicked(bool checked);
-
     void on_pushButtonAuto_clicked();
 
 signals:

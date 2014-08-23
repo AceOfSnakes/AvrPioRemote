@@ -362,19 +362,14 @@ void SettingsDialog::on_pushButtonAuto_clicked()
     {
         delete m_AutoSearchDialog;
         m_AutoSearchDialog = new AutoSearchDialog(this);
-        if (m_AutoSearchDialog == NULL || !m_AutoSearchDialog->IsActivated())
-        {
-            QMessageBox::warning(this, "AVRPioRemote", tr("Coud not load or initialize zhe HUpnp library"));
-            delete m_AutoSearchDialog;
-            m_AutoSearchDialog = NULL;
-            return;
-        }
         m_AutoSearchDialog->exec();
     } while(m_AutoSearchDialog->m_Result == 2);
     if (m_AutoSearchDialog->m_Result == 1)
     {
-        QString ip = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->ip;
-        int port = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->port;
+        //QString ip = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->ip;
+        QString ip = m_AutoSearchDialog->m_SelectedAddress;
+        //int port = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->port;
+        int port = m_AutoSearchDialog->m_SelectedPort;
         qDebug() << QString("Found: %1:%2").arg(ip).arg(port);
         QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
         qDebug() << l;

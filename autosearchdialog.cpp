@@ -4,6 +4,7 @@
 #include <QHostAddress>
 #include <QThread>
 #include <QRegExp>
+#include <QtNetwork>
 
 RemoteDevice::RemoteDevice()
 {
@@ -35,9 +36,8 @@ RemoteDevice::~RemoteDevice()
 AutoSearchDialog::AutoSearchDialog(QWidget *parent) :
     QDialog(parent),
     m_Result(0),
-    m_SelectedIndex(-1),
-    m_HUpnpWrapper(NULL),
-    m_lib(this),
+    m_SelectedPort(0),
+    m_GroupAddress("239.255.255.250"),
     ui(new Ui::AutoSearchDialog)
 {
     ui->setupUi(this);
@@ -45,42 +45,38 @@ AutoSearchDialog::AutoSearchDialog(QWidget *parent) :
     ui->label->setVisible(false);
     ui->timeLabel->setVisible(false);
 
-    QString path = qApp->applicationDirPath();
-    m_lib.setFileName(path + "/HUpnpWrapper");
-    if (!m_lib.load())
+    foreach (const QNetworkInterface& iface, QNetworkInterface::allInterfaces())
     {
-        Logger::Log("Could not load " + path + "/HUpnpWrapper");
-        Logger::Log(m_lib.errorString());
-        return;
+        if (iface.flags() & QNetworkInterface::IsUp && !(iface.flags() & QNetworkInterface::IsLoopBack))
+        {
+            QUdpSocket* socket = new QUdpSocket(this);
+            if (!socket->bind(QHostAddress::AnyIPv4, 0, QUdpSocket::ReuseAddressHint | QUdpSocket::ShareAddress))
+            {
+                qDebug("1: Error %s", socket->errorString().toStdString().c_str());
+                delete socket;
+                continue;
+            }
+            if (!socket->joinMulticastGroup(m_GroupAddress))
+            {
+                qDebug("2: Error %s", socket->errorString().toStdString().c_str());
+                delete socket;
+                continue;
+            }
+            socket->setSocketOption(QAbstractSocket::MulticastTtlOption, 5);
+            socket->setMulticastInterface(iface);
+
+            connect(socket, SIGNAL(readyRead()),
+                    this, SLOT(ProcessPendingDatagrams()));
+            m_MulticatsSockets.push_back(socket);
+        }
     }
-    Q_ASSERT(m_lib.isLoaded());
-    typedef HUpnpWrapper* (*_GetInstance) ();
-    _GetInstance getInstance = (_GetInstance)m_lib.resolve("GetInstance");
-    if (getInstance == NULL)
-    {
-        Logger::Log("Could not get C function GetInstance from " + path + "/HUpnpWrapper");
-        Logger::Log(m_lib.errorString());
-        return;
-    }
-    m_HUpnpWrapper = getInstance();
-    if(m_HUpnpWrapper == NULL)
-    {
-        Logger::Log("Could not get the instance of HUpnpWrapper");
-        return;
-    }
-    connect(m_HUpnpWrapper,SIGNAL(NewDevice(QString,QString)), this, SLOT(NewDevice(QString,QString)));
-    //connect(this,SIGNAL(UpdateLabel(QString)), this, SLOT(SetLabel(QString)));
-    if(!m_HUpnpWrapper->Init())
-    {
-        Logger::Log("Could not initialize HUpnpWrapper");
-        FreeLib();
-        return;
-    }
+
+    SendMsg();
+    //connect(m_HUpnpWrapper,SIGNAL(NewDevice(QString,QString)), this, SLOT(NewDevice(QString,QString)));
 }
 
 AutoSearchDialog::~AutoSearchDialog()
 {
-    FreeLib();
     foreach (RemoteDevice* tmp, m_RemoteDevices) {
         delete tmp;
     }
@@ -104,36 +100,16 @@ void AutoSearchDialog::changeEvent(QEvent *e)
     }
 }
 
-void AutoSearchDialog::FreeLib()
-{
-    if (m_HUpnpWrapper != NULL)
-    {
-        typedef void (*_FreeInstance) (HUpnpWrapper*);
-        _FreeInstance freeInstance = (_FreeInstance)m_lib.resolve("FreeInstance");
-        if (freeInstance == NULL)
-        {
-            Logger::Log("Could not get C function FreeInstance from HUpnpWrapper");
-        }
-        else
-        {
-            freeInstance(m_HUpnpWrapper);
-            m_HUpnpWrapper = NULL;
-        }
-    }
-    if (m_lib.isLoaded())
-        m_lib.unload();
-}
-
 void AutoSearchDialog::NewDevice(QString name, QString url)
 {
 
     //emit UpdateLabel("Device " + name + " " + url);
     QString tmp = url;
-    if (tmp.startsWith("http://"))
-        tmp = tmp.mid(7);
-    int n = tmp.indexOf(":");
-    if (n != -1)
-        tmp = tmp.mid(0, n);
+//    if (tmp.startsWith("http://"))
+//        tmp = tmp.mid(7);
+//    int n = tmp.indexOf(":");
+//    if (n != -1)
+//        tmp = tmp.mid(0, n);
 
     Logger::Log(name + " " + url + " " + tmp);
     RemoteDevice* device = new RemoteDevice();
@@ -186,7 +162,7 @@ void AutoSearchDialog::ReadString()
     data.resize(count + 1);
     device->socket->read(&data[0], count);
     data[count] = '\0';
-    QString str = QString::fromAscii((const char*)&data[0]);
+    QString str = QString::fromLatin1((const char*)&data[0]);
     Logger::Log(str);
     Logger::Log(QString("QHostAddress: %1:%2").arg(device->ip).arg(device->port));
 
@@ -205,10 +181,19 @@ void AutoSearchDialog::ReadString()
             rd->port = device->port;
             m_DeviceInList.append(rd);
             ui->listWidget->addItem(QString("%1 (%2:%3)").arg(str2).arg(device->ip).arg(device->port));
+            if (ui->listWidget->count() == 1) {
+                ui->listWidget->setCurrentRow(0);
+                m_SelectedAddress = device->ip;
+                m_SelectedPort = device->port;
+            }
+            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, device->ip);
+            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, device->port);
             int idx = m_RemoteDevices.indexOf(device);
             if (idx != -1)
                 m_RemoteDevices.remove(idx);
-            delete device;
+            device->socket->close();
+            device->socket->disconnect();
+            device->deleteLater();
             return;
         }
     }
@@ -218,7 +203,7 @@ void AutoSearchDialog::ReadString()
     int idx = m_RemoteDevices.indexOf(device);
     if (idx != -1)
         m_RemoteDevices.remove(idx);
-    delete device;
+    device->deleteLater();
     if (port == 23)
     {
         device = new RemoteDevice();
@@ -304,12 +289,61 @@ void AutoSearchDialog::on_repeatButton_clicked()
 
 void AutoSearchDialog::on_listWidget_clicked(const QModelIndex &index)
 {
-    m_SelectedIndex = index.row();
+    //m_SelectedIndex = index.row();
+    m_SelectedAddress = ui->listWidget->item(index.row())->data(Qt::UserRole).toString();
+    m_SelectedPort = ui->listWidget->item(index.row())->data(Qt::UserRole + 1).toInt();
 }
 
 void AutoSearchDialog::on_listWidget_doubleClicked(const QModelIndex &index)
 {
     m_Result = 1;
-    m_SelectedIndex = index.row();
+    //m_SelectedIndex = index.row();
+    m_SelectedAddress = ui->listWidget->item(index.row())->data(Qt::UserRole).toString();
+    m_SelectedPort = ui->listWidget->item(index.row())->data(Qt::UserRole + 1).toInt();
     close();
 }
+
+void AutoSearchDialog::closeEvent(QCloseEvent *event)
+{
+    foreach(QUdpSocket* socket, m_MulticatsSockets)
+    {
+        socket->leaveMulticastGroup(m_GroupAddress);
+        socket->close();
+        delete socket;
+    }
+    m_MulticatsSockets.clear();
+    QWidget::closeEvent(event);
+}
+
+void AutoSearchDialog::ProcessPendingDatagrams()
+{
+    foreach( QUdpSocket* socket, m_MulticatsSockets)
+    {
+        while (socket->hasPendingDatagrams()) {
+            QByteArray datagram;
+            QHostAddress remoteAddr;
+            datagram.resize(socket->pendingDatagramSize());
+            socket->readDatagram(datagram.data(), datagram.size(), &remoteAddr);
+            QString data = QString(datagram);
+            if (data.contains("200 OK", Qt::CaseInsensitive) && data.contains("rootdevice", Qt::CaseInsensitive)) {
+                //qDebug() << remoteAddr.toString();
+                NewDevice("", remoteAddr.toString());
+            }
+        }
+    }
+}
+
+void AutoSearchDialog::SendMsg()
+{
+    QByteArray datagram = "M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 1\r\nST: upnp:rootdevice\r\nUSER-AGENT: AVRPioRemote\r\n\r\n\r\n";
+
+    foreach(QUdpSocket* socket, m_MulticatsSockets)
+    {
+        //qDebug() << "Send to :" << socket->multicastInterface().humanReadableName();
+        if (socket->writeDatagram(datagram, m_GroupAddress, 1900) == -1)
+        {
+            qDebug() << QString("Error on %1!!!").arg(socket->localAddress().toString());
+        }
+    }
+}
+
