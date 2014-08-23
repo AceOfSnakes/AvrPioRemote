@@ -1,4 +1,4 @@
-#include "CheckBoxDelegate.h"
+#include "checkboxdelegate.h"
 
 #include <QEvent>
 #include <QModelIndex>
