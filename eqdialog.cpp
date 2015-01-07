@@ -35,7 +35,7 @@ const char* eqnames[] = {
 
 
 
-EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings) :
+EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings) :
     QDialog(parent),
     ui(new Ui::EQDialog),
     m_Comm(Comm),
@@ -69,6 +69,9 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
     connect(ui->eq8k,  SIGNAL(valueChanged(int)), this, SLOT(OnSliderValueChanged(int)));
     connect(ui->eq16k, SIGNAL(valueChanged(int)), this, SLOT(OnSliderValueChanged(int)));
 
+    // emphasis slider
+    connect(ui->eqEmphasisBass, SIGNAL(valueChanged(int)), this, SLOT(OnEmphasisSliderReleased()));
+    connect(ui->eqEmphasisCenter, SIGNAL(valueChanged(int)), this, SLOT(OnEmphasisSliderReleased()));
 
     // save sliders in a list
     m_Sliders.append(ui->eq63);
@@ -107,9 +110,22 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
   //  QString path = QDir::currentPath() + "/" + "ATBEQPresets.xml";
   //  ReadFile(path);
 
+
     QStringList mstr1;
     mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5" << "Memory 6";
     ui->selectmem->addItems(mstr1);
+
+    QString str1 = m_Settings.value("IP/4").toString(); //letztes Oktett IP anhängen, falls mehrere Reciever
+    QString str = QString("EQ-%1/SelectedPreset").arg(str1);
+    m_SelectedPreset = m_Settings.value(str, 0).toInt();
+    qDebug() << str << m_SelectedPreset;
+
+    SelectPreset(m_SelectedPreset);
+    ui->selectmem->setCurrentIndex(m_SelectedPreset);
+    connect(ui->selectmem, SIGNAL(currentIndexChanged(int)), this, SLOT(onSelectmemCurrentIndexChanged(int)));
+
+    m_EmphasisDialog = new EmphasisDialog(this, m_Settings);
+    connect(m_EmphasisDialog, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 
 //    SelectPreset(-1);
 }
@@ -117,6 +133,7 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm,QSettings &settings)
 
 EQDialog::~EQDialog()
 {
+    delete m_EmphasisDialog;
     delete ui;
 }
 
@@ -130,16 +147,18 @@ void EQDialog::moveEvent(QMoveEvent* event)
 
 void EQDialog::SelectPreset(int preset)
 {
-    m_SelectedPreset = preset;
-    if (preset >= 0 && preset <= 4)
+    if (preset >= 0 && preset <= 5)
     {
+        m_SelectedPreset = preset;
         // set the sliders
         for (int i = 0; i < 11; i++)
         {
             m_Sliders[i]->setValue(m_EQPresets[preset].m_Values[i]);
-            if (i>8) //bass+treble
+            if (i > 8) //bass+treble
                  m_Sliders[i]->setValue(m_EQPresets[preset].m_Values[i]*-1);
         }
+        //ui->eqEmphasisCenter->setValue(m_EmphasisDialog->GetCenter());
+        //ui->eqEmphasisBass->setValue(m_EmphasisDialog->GetBass());
     }
     else // FLAT
     {
@@ -148,10 +167,12 @@ void EQDialog::SelectPreset(int preset)
         {
             m_Sliders[i]->setValue(50);
         }
-             m_Sliders[9]->setValue(-6); //Bass
-             m_Sliders[10]->setValue(-6); //Treble
+        m_Sliders[9]->setValue(-6); //Bass
+        m_Sliders[10]->setValue(-6); //Treble
+        ui->eqEmphasisCenter->setValue(50);
+        ui->eqEmphasisBass->setValue(50);
         // select the FLAT button
-        ui->pushButton->setChecked(false);
+        ui->eqFlatPushButton->setChecked(false);
     }
     m_Timer.start();
 }
@@ -179,12 +200,17 @@ void EQDialog::ShowEQDialog()
     SendCmd("?TR");
     SendCmd("?TO");
     SendCmd("?SST");
+    SendCmd("?ILV");
 }
 
 
 void EQDialog::DataReceived(QString data)
 {
-   int wert;
+    if (!isVisible())
+    {
+        return;
+    }
+    int wert;
     double eqValue = 0;
     QString str;
     if (data.startsWith("ATB"))
@@ -193,7 +219,7 @@ void EQDialog::DataReceived(QString data)
         {
             eqValue = data.mid(5 + i * 2, 2).toInt();
             m_Sliders[i]->setSliderPosition(eqValue);
-            m_EQPresets[0].m_Values[i]=eqValue;
+            m_EQPresets[m_SelectedPreset].m_Values[i]=eqValue;
 
             eqValue = (eqValue - 50.0) / 2.0;
 
@@ -216,7 +242,7 @@ void EQDialog::DataReceived(QString data)
         {
             if (data.startsWith("BA"))
             {
-                m_EQPresets[0].m_Values[9]=wert;
+                m_EQPresets[m_SelectedPreset].m_Values[9]=wert;
                 m_Sliders[9]->setSliderPosition(wert*-1);
                 wert=6-wert;
                 str=QString("%1dB").arg(wert);
@@ -224,7 +250,7 @@ void EQDialog::DataReceived(QString data)
             }
             else
             {
-                m_EQPresets[0].m_Values[10]=wert;
+                m_EQPresets[m_SelectedPreset].m_Values[10]=wert;
                 m_Sliders[10]->setSliderPosition(wert*-1);
                 wert=6-wert;
                 str=QString("%1dB").arg(wert);
@@ -233,11 +259,11 @@ void EQDialog::DataReceived(QString data)
         }
         else
         {
-            m_EQPresets[0].m_Values[9]=6;
+            m_EQPresets[m_SelectedPreset].m_Values[9]=6;
             m_Sliders[9]->setSliderPosition(-6);
             m_Labels[9]->setText("odB");
 
-            m_EQPresets[0].m_Values[10]=6;
+            m_EQPresets[m_SelectedPreset].m_Values[10]=6;
             m_Sliders[10]->setSliderPosition(-6);
             m_Labels[10]->setText("odB");
         }
@@ -282,16 +308,20 @@ void EQDialog::DataReceived(QString data)
             ui->XCurveLabel->setText(tr("OFF"));
         }
     }
+    else if (data.startsWith("ILV"))
+    {
+        qDebug() << "inp = " << data;
+        m_EmphasisDialog->DataReceived(data);
+    }
+
 }
-
-
 
 void EQDialog::Timeout()
 {
     // send the eq settings to the receiver
     QString str;
 
-/*  bass+treble, set not here because of sound-mod may not allow setting and generate a "not avail"
+/*  bass+treble, set not here because of sound-mode may not allow setting and generate a "not avail"
     str=QString("%1BA").arg(m_Sliders[9]->value()*-1);
     if (str.size() <4)
             str="0"+str;
@@ -323,8 +353,24 @@ void EQDialog::OnSliderValueChanged(int/* value*/)
 }
 
 
+void EQDialog::OnEmphasisSliderReleased()
+{
+    QObject* sender = QObject::sender();
+    //QString id = sender->objectName();
+    //qDebug() << id;
+    if (sender == ui->eqEmphasisCenter)
+    {
+        m_EmphasisDialog->SetCenter(ui->eqEmphasisCenter->value());
+    }
+    else if (sender == ui->eqEmphasisBass)
+    {
+        m_EmphasisDialog->SetBass(ui->eqEmphasisBass->value());
+    }
+}
 
-void EQDialog::on_pushButton_clicked() // FLAT
+
+
+void EQDialog::on_eqFlatPushButton_clicked() // FLAT
 {
     SelectPreset(-1);
 }
@@ -332,20 +378,20 @@ void EQDialog::on_pushButton_clicked() // FLAT
 
 void EQDialog::on_savebutt_clicked()
 {
-      //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox,
-        QString str;
-        int str1;
-        str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
+    //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox,
+    QString str;
+    int str1;
+    str1 = m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
 
-        for (int i=0;i<11;i++)
-        {
-            str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
+    for (int i = 0; i < 11; i++)
+    {
+        str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
 
-           m_Settings.setValue(str,m_EQPresets[0].m_Values[i]);
-//            qDebug() <<str <<m_EQPresets[0].m_Values[i];
-        }
-       str=QString("mem%1-%2/EQset").arg(ui->selectmem->currentIndex()).arg(str1);
-        m_Settings.setValue(str,ui->meminf->text());
+        m_Settings.setValue(str,m_EQPresets[m_SelectedPreset].m_Values[i]);
+        //            qDebug() <<str <<m_EQPresets[0].m_Values[i];
+    }
+    str=QString("mem%1-%2/EQset").arg(ui->selectmem->currentIndex()).arg(str1);
+    m_Settings.setValue(str,ui->meminf->text());
 }
 
 
@@ -356,25 +402,31 @@ void EQDialog::on_restbutt_clicked()
       int str1;
       str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
 
-      for (int i=0;i<11;i++)
+      qDebug() << "m_SelectedPreset" << m_SelectedPreset;
+      for (int i = 0; i < 11; i++)
       {
-          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(eqnames[i]);
+          str = QString("mem%1-%2/%3").arg(m_SelectedPreset).arg(str1).arg(eqnames[i]);
 
-          m_EQPresets[0].m_Values[i]=m_Settings.value(str).toInt();
-//          qDebug() <<str <<m_EQPresets[0].m_Values[i];
+          m_EQPresets[m_SelectedPreset].m_Values[i] = m_Settings.value(str).toInt();
+          qDebug() <<str <<m_EQPresets[0].m_Values[i];
       }
-      SelectPreset(0);
+      SelectPreset(m_SelectedPreset);
 }
 
 
-void EQDialog::on_selectmem_currentIndexChanged(int index)
+void EQDialog::onSelectmemCurrentIndexChanged(int index)
 {
     QString str;
     int str1;
+    m_SelectedPreset = index;
+    qDebug() << index;
     str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
     str=QString("mem%1-%2/EQset").arg(index).arg(str1);
     str=m_Settings.value(str).toString();
     ui->meminf->setText(str);
+    str = QString("EQ-%1/SelectedPreset").arg(str1);
+    qDebug() << "item changed" << str << m_SelectedPreset;
+    m_Settings.setValue(str, m_SelectedPreset);
 }
 
 
@@ -422,4 +474,9 @@ void EQDialog::on_XCurveSlider_sliderReleased()
 {
     QString cmd = QString("%1SST").arg(ui->XCurveSlider->sliderPosition());
     emit SendCmd(cmd);
+}
+
+void EQDialog::on_emphasisPushButton_clicked()
+{
+    m_EmphasisDialog->show();
 }

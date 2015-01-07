@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QPushButton>
 #include <QMoveEvent>
+#include "emphasisdialog.h"
 
 namespace Ui {
 class EQDialog;
@@ -34,9 +35,9 @@ class EQDialog;
 class EQPreset
 {
 public:
-    QString         m_Name;
-    QPushButton*    m_Button;
-    int             m_Values[11];
+    //QString         m_Name;
+    //QPushButton*    m_Button;
+    int             m_Values[13];
 };
 
 class EQDialog : public QDialog
@@ -53,11 +54,12 @@ private:
     QList<QSlider*>     m_Sliders;
     QList<QLabel*>      m_Labels;
     QTimer              m_Timer;
-    EQPreset            m_EQPresets[4];
+    EQPreset            m_EQPresets[6];
     QSettings&          m_Settings;
     int                 m_SelectedPreset;
     bool                m_PositionSet;
     bool                m_ToneON;
+    EmphasisDialog*     m_EmphasisDialog;
 
     bool ReadFile(const QString& fileName);
     bool SaveFile(const QString& fileName);
@@ -74,14 +76,16 @@ signals:
 private slots:
     void Timeout();
     void OnSliderValueChanged(int value);
-    void on_pushButton_clicked();
+    void OnEmphasisSliderReleased();
+    void on_eqFlatPushButton_clicked();
     void on_savebutt_clicked();
     void on_restbutt_clicked();
-    void on_selectmem_currentIndexChanged(int index);
+    void onSelectmemCurrentIndexChanged(int index);
     void on_eqba_sliderReleased();
     void on_eqtr_sliderReleased();
     void on_bypass_clicked();
     void on_XCurveSlider_sliderReleased();
+    void on_emphasisPushButton_clicked();
 };
 extern const char* eqnames[];
 #endif // EQDIALOG_H

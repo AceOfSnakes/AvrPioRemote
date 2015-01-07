@@ -9,7 +9,7 @@
         <translation>AVRPioRemote</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="434"/>
+        <location filename="avrpioremote.cpp" line="452"/>
         <source>ON</source>
         <translation>EIN</translation>
     </message>
@@ -106,7 +106,7 @@
     </message>
     <message>
         <location filename="avrpioremote.ui" line="378"/>
-        <location filename="avrpioremote.cpp" line="800"/>
+        <location filename="avrpioremote.cpp" line="822"/>
         <source>-</source>
         <translation>-</translation>
     </message>
@@ -172,8 +172,8 @@ DIRECT</translation>
     </message>
     <message>
         <location filename="avrpioremote.ui" line="617"/>
-        <location filename="avrpioremote.cpp" line="596"/>
-        <location filename="avrpioremote.cpp" line="623"/>
+        <location filename="avrpioremote.cpp" line="614"/>
+        <location filename="avrpioremote.cpp" line="641"/>
         <source>Connect</source>
         <translation>Mit dem Receiver
 Verbinden</translation>
@@ -231,92 +231,97 @@ Verbinden</translation>
         <translation>EQ</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="394"/>
+        <location filename="avrpioremote.cpp" line="412"/>
         <source>Connecting...</source>
         <translation>Verbinden mit dem Receiver...</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="434"/>
+        <location filename="avrpioremote.cpp" line="452"/>
         <source>OFF</source>
         <translation>AUS</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="468"/>
+        <location filename="avrpioremote.cpp" line="486"/>
         <source>This doesn&apos;t work now</source>
         <translation>Zur Zeit nicht möglich</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="473"/>
+        <location filename="avrpioremote.cpp" line="491"/>
         <source>This doesn&apos;t work with this receiver</source>
         <translation>Dieser Reciever unterstützt diese Funktion nicht</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="478"/>
+        <location filename="avrpioremote.cpp" line="496"/>
         <source>Command error</source>
         <translation>Fehlerhafter Befehl</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="483"/>
+        <location filename="avrpioremote.cpp" line="501"/>
         <source>Parameter error</source>
         <translation>Parameterfehler, möglicherweise wird diese Einstelung von diesem Receiver nicht unterstützt</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="488"/>
+        <location filename="avrpioremote.cpp" line="506"/>
         <source>Receiver busy</source>
         <translation>Receiver ist zur Zeit beschäftigt</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="493"/>
+        <location filename="avrpioremote.cpp" line="511"/>
         <source>Unknown error</source>
         <translation>Unbekannter Fehler</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="607"/>
+        <location filename="avrpioremote.cpp" line="625"/>
         <source>Connected</source>
         <translation>Verbunden</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="610"/>
+        <location filename="avrpioremote.cpp" line="628"/>
         <source>Disconnect</source>
         <translation>Vom Receiver
 Trennen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="749"/>
+        <location filename="avrpioremote.cpp" line="767"/>
         <source>Internet Radio</source>
         <translation>Internet Radio</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="753"/>
+        <location filename="avrpioremote.cpp" line="771"/>
         <source>BluRay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="757"/>
+        <location filename="avrpioremote.cpp" line="775"/>
         <source>Tuner</source>
         <translation>Tuner</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="761"/>
+        <location filename="avrpioremote.cpp" line="779"/>
         <source>IPod / USB</source>
         <oldsource>IPod/USB</oldsource>
         <translation>IPod / USB</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="765"/>
+        <location filename="avrpioremote.cpp" line="783"/>
         <source>Equalizer / Tone</source>
         <oldsource>Equalizer/Tone</oldsource>
         <translation>Equalizer / Klang</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="777"/>
+        <location filename="avrpioremote.cpp" line="795"/>
         <source>Audio / Video Settings</source>
         <translation>Audio / Video Einstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="781"/>
+        <location filename="avrpioremote.cpp" line="799"/>
         <source>MCACC Equalizer</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="803"/>
+        <source>Wiring Wizard</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Equalizer</source>
@@ -324,12 +329,12 @@ Trennen</translation>
         <translation type="obsolete">Equalizer</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="769"/>
+        <location filename="avrpioremote.cpp" line="787"/>
         <source>Speaker Settings</source>
         <translation>Lautsprechereinstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="773"/>
+        <location filename="avrpioremote.cpp" line="791"/>
         <source>ListenMode Settings</source>
         <translation>Hörmoduseinstellungen</translation>
     </message>
@@ -338,22 +343,22 @@ Trennen</translation>
         <translation type="obsolete">Kompatible Favoritenliste</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="790"/>
+        <location filename="avrpioremote.cpp" line="812"/>
         <source>Refresh status</source>
         <translation>Status erneuern</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="804"/>
+        <location filename="avrpioremote.cpp" line="826"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="808"/>
+        <location filename="avrpioremote.cpp" line="830"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="812"/>
+        <location filename="avrpioremote.cpp" line="834"/>
         <source>About AVRPioRemote</source>
         <translation>Über AVRPioRemote</translation>
     </message>
@@ -642,8 +647,8 @@ Trennen</translation>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="43"/>
-        <source>Version 0.1.19</source>
-        <oldsource>Version 0.1.18</oldsource>
+        <source>Version 0.1.22</source>
+        <oldsource>Version 0.1.19</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -678,27 +683,27 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
 Es kann mehrere Minuten dauern, bitte haben Sie geduld. Wenn Ihr Receiver nach etwa 5 Minuten immer noch nicht gefunden wurde, müssen Sie die IP Adresse manuell eingeben.</translation>
     </message>
     <message>
-        <location filename="autosearchdialog.ui" line="36"/>
+        <location filename="autosearchdialog.ui" line="39"/>
         <source>Time elapsed: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="autosearchdialog.ui" line="43"/>
+        <location filename="autosearchdialog.ui" line="49"/>
         <source>0:0</source>
         <translation type="unfinished">0:0</translation>
     </message>
     <message>
-        <location filename="autosearchdialog.ui" line="83"/>
+        <location filename="autosearchdialog.ui" line="89"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="autosearchdialog.ui" line="103"/>
+        <location filename="autosearchdialog.ui" line="109"/>
         <source>Repeat</source>
         <translation>Wiederholen</translation>
     </message>
     <message>
-        <location filename="autosearchdialog.ui" line="123"/>
+        <location filename="autosearchdialog.ui" line="129"/>
         <source>Continue</source>
         <translation>Weiter</translation>
     </message>
@@ -1058,37 +1063,35 @@ Es kann mehrere Minuten dauern, bitte haben Sie geduld. Wenn Ihr Receiver nach e
         <translation type="obsolete">EQ</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="445"/>
+        <location filename="eqdialog.ui" line="418"/>
         <source>0 dB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="293"/>
+        <location filename="eqdialog.ui" line="266"/>
         <source>-6 dB</source>
         <translation>-6 dB</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="777"/>
+        <location filename="eqdialog.ui" line="750"/>
         <source>+6 dB</source>
         <translation>+6 dB</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="29"/>
         <source>All 0dB</source>
-        <translation>Alle 0dB</translation>
+        <translation type="vanished">Alle 0dB</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="64"/>
         <source>to/from file</source>
-        <translation>An/Aus Datei</translation>
+        <translation type="vanished">An/Aus Datei</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="77"/>
+        <location filename="eqdialog.ui" line="83"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="90"/>
+        <location filename="eqdialog.ui" line="96"/>
         <source>Restore</source>
         <translation>Laden</translation>
     </message>
@@ -1103,109 +1106,139 @@ Es kann mehrere Minuten dauern, bitte haben Sie geduld. Wenn Ihr Receiver nach e
         <translation>EQ / Klang</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="277"/>
-        <location filename="eqdialog.ui" line="353"/>
-        <location filename="eqdialog.ui" line="429"/>
-        <location filename="eqdialog.ui" line="461"/>
-        <location filename="eqdialog.ui" line="505"/>
-        <location filename="eqdialog.ui" line="521"/>
-        <location filename="eqdialog.ui" line="565"/>
-        <location filename="eqdialog.ui" line="597"/>
-        <location filename="eqdialog.ui" line="613"/>
-        <location filename="eqdialog.ui" line="825"/>
-        <location filename="eqdialog.ui" line="878"/>
+        <location filename="eqdialog.ui" line="250"/>
+        <location filename="eqdialog.ui" line="326"/>
+        <location filename="eqdialog.ui" line="402"/>
+        <location filename="eqdialog.ui" line="434"/>
+        <location filename="eqdialog.ui" line="478"/>
+        <location filename="eqdialog.ui" line="494"/>
+        <location filename="eqdialog.ui" line="538"/>
+        <location filename="eqdialog.ui" line="570"/>
+        <location filename="eqdialog.ui" line="586"/>
+        <location filename="eqdialog.ui" line="798"/>
+        <location filename="eqdialog.ui" line="851"/>
+        <location filename="eqdialog.ui" line="1044"/>
+        <location filename="eqdialog.ui" line="1100"/>
         <source>0.0</source>
         <translation>0.0</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="673"/>
+        <location filename="eqdialog.ui" line="646"/>
         <source>250</source>
         <translation>250</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="309"/>
+        <location filename="eqdialog.ui" line="282"/>
         <source>125</source>
         <translation>125</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="369"/>
+        <location filename="eqdialog.ui" line="29"/>
+        <source>Eq FLAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="64"/>
+        <source>Preset:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="109"/>
+        <source>User defined info:</source>
+        <translation>Beschreibung:</translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="342"/>
         <source>63</source>
         <translation>63</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="581"/>
+        <location filename="eqdialog.ui" line="554"/>
         <source>500</source>
         <translation>500</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="733"/>
+        <location filename="eqdialog.ui" line="706"/>
         <source>2k</source>
         <translation>2k</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="413"/>
+        <location filename="eqdialog.ui" line="1028"/>
+        <source>Emphasis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="1156"/>
+        <source>Center</source>
+        <translation type="unfinished">Zenter</translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="1172"/>
+        <source>Bass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="1192"/>
+        <source>Emph FLAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="386"/>
         <source>1k</source>
         <translation>1k</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="689"/>
+        <location filename="eqdialog.ui" line="662"/>
         <source>4k</source>
         <translation>4k</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="657"/>
+        <location filename="eqdialog.ui" line="630"/>
         <source>8k</source>
         <translation>8k</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="233"/>
+        <location filename="eqdialog.ui" line="206"/>
         <source>16k</source>
         <translation>16k</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="103"/>
         <source>mem info</source>
-        <translation>Speicherinfo</translation>
+        <translation type="vanished">Speicherinfo</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="192"/>
+        <location filename="eqdialog.ui" line="165"/>
         <source>Active Settings</source>
         <oldsource>Activ Settings</oldsource>
         <translation>Aktuelle Einstellungen</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="809"/>
+        <location filename="eqdialog.ui" line="782"/>
         <source>Main Bass/Treble</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="126"/>
+        <location filename="eqdialog.ui" line="904"/>
         <source>Bypass</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="139"/>
-        <source>Bypass/Tone Switch</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="eqdialog.ui" line="152"/>
         <source>Set all Sliders to 0</source>
-        <translation>Setze alle Regler auf 0dB</translation>
+        <translation type="vanished">Setze alle Regler auf 0dB</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="1010"/>
+        <location filename="eqdialog.ui" line="996"/>
         <source>X - Curve</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="994"/>
-        <location filename="eqdialog.cpp" line="282"/>
+        <location filename="eqdialog.ui" line="980"/>
+        <location filename="eqdialog.cpp" line="309"/>
         <source>OFF</source>
         <translation>AUS</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="947"/>
+        <location filename="eqdialog.ui" line="933"/>
         <source>dB/oct</source>
         <translation></translation>
     </message>
@@ -1688,7 +1721,7 @@ Es kann mehrere Minuten dauern, bitte haben Sie geduld. Wenn Ihr Receiver nach e
     <message>
         <location filename="netradiodialog.ui" line="1313"/>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wiederholen</translation>
     </message>
     <message>
         <location filename="netradiodialog.ui" line="1329"/>
@@ -2028,11 +2061,6 @@ Do you want to continue?</source>
         <source>Disconnect</source>
         <translation>Trennen</translation>
     </message>
-    <message>
-        <location filename="settingsdialog.cpp" line="367"/>
-        <source>Coud not load or initialize zhe HUpnp library</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TestDialog</name>
@@ -2297,6 +2325,14 @@ CUT</translation>
     </message>
 </context>
 <context>
+    <name>WiringDialog</name>
+    <message>
+        <location filename="wiringdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ZoneControlDialog</name>
     <message>
         <location filename="zonecontroldialog.ui" line="14"/>
@@ -2511,7 +2547,7 @@ CUT</translation>
     <message>
         <location filename="usbdialog.ui" line="945"/>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wiederholen</translation>
     </message>
     <message>
         <location filename="usbdialog.cpp" line="63"/>
