@@ -276,11 +276,6 @@ DIRECT</source>
         <translation>MCACC эквалайзер</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="803"/>
-        <source>Wiring Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="avrpioremote.cpp" line="812"/>
         <source>Refresh status</source>
         <translation>Обновить данные</translation>
@@ -1005,17 +1000,27 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
         <translation type="vanished">из файла</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="83"/>
+        <location filename="eqdialog.ui" line="58"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="96"/>
+        <location filename="eqdialog.ui" line="74"/>
         <source>Restore</source>
         <translation>Восстановить</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="904"/>
+        <location filename="eqdialog.ui" line="146"/>
+        <source>Current EQ Values</source>
+        <translation>Эквалайзер</translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="753"/>
+        <source>FLAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="903"/>
         <source>Bypass</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1024,142 +1029,217 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
         <translation type="obsolete">Установить все крутилки в ноль</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="29"/>
-        <source>Eq FLAT</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="eqdialog.ui" line="64"/>
+        <location filename="eqdialog.ui" line="39"/>
         <source>Preset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="109"/>
+        <location filename="eqdialog.ui" line="90"/>
         <source>User defined info:</source>
         <translation>Описание:</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="165"/>
         <source>Active Settings</source>
-        <translation type="unfinished">Актуальные настройки</translation>
+        <translation type="obsolete">Актуальные настройки</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="206"/>
+        <location filename="eqdialog.ui" line="190"/>
         <source>16k</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="250"/>
-        <location filename="eqdialog.ui" line="326"/>
-        <location filename="eqdialog.ui" line="402"/>
-        <location filename="eqdialog.ui" line="434"/>
+        <location filename="eqdialog.ui" line="234"/>
+        <location filename="eqdialog.ui" line="310"/>
+        <location filename="eqdialog.ui" line="386"/>
+        <location filename="eqdialog.ui" line="418"/>
+        <location filename="eqdialog.ui" line="462"/>
         <location filename="eqdialog.ui" line="478"/>
-        <location filename="eqdialog.ui" line="494"/>
-        <location filename="eqdialog.ui" line="538"/>
+        <location filename="eqdialog.ui" line="522"/>
+        <location filename="eqdialog.ui" line="554"/>
         <location filename="eqdialog.ui" line="570"/>
-        <location filename="eqdialog.ui" line="586"/>
-        <location filename="eqdialog.ui" line="798"/>
-        <location filename="eqdialog.ui" line="851"/>
-        <location filename="eqdialog.ui" line="1044"/>
-        <location filename="eqdialog.ui" line="1100"/>
+        <location filename="eqdialog.ui" line="791"/>
+        <location filename="eqdialog.ui" line="847"/>
+        <location filename="eqdialog.ui" line="1065"/>
+        <location filename="eqdialog.ui" line="1121"/>
         <source>0.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="266"/>
+        <location filename="eqdialog.ui" line="250"/>
         <source>-6 dB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="282"/>
+        <location filename="eqdialog.ui" line="266"/>
         <source>125</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="342"/>
+        <location filename="eqdialog.ui" line="326"/>
         <source>63</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="386"/>
+        <location filename="eqdialog.ui" line="370"/>
         <source>1k</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="418"/>
+        <location filename="eqdialog.ui" line="402"/>
         <source>0 dB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="554"/>
+        <location filename="eqdialog.ui" line="538"/>
         <source>500</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="630"/>
+        <location filename="eqdialog.ui" line="614"/>
         <source>8k</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="646"/>
+        <location filename="eqdialog.ui" line="630"/>
         <source>250</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="662"/>
+        <location filename="eqdialog.ui" line="646"/>
         <source>4k</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="706"/>
+        <location filename="eqdialog.ui" line="690"/>
         <source>2k</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="750"/>
+        <location filename="eqdialog.ui" line="734"/>
         <source>+6 dB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="782"/>
-        <source>Main Bass/Treble</source>
-        <translation>Басс / Высокие</translation>
+        <location filename="eqdialog.ui" line="938"/>
+        <source>Treble</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="933"/>
+        <location filename="eqdialog.ui" line="1226"/>
+        <source>Save/Restore</source>
+        <translation>Сохранять/Восстанавливать</translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="1232"/>
+        <source>EQ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="1246"/>
+        <source>Tone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="1253"/>
+        <source>X-Curve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main Bass/Treble</source>
+        <translation type="vanished">Басс / Высокие</translation>
+    </message>
+    <message>
+        <location filename="eqdialog.ui" line="970"/>
         <source>dB/oct</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="980"/>
-        <location filename="eqdialog.cpp" line="309"/>
+        <location filename="eqdialog.ui" line="1017"/>
+        <location filename="eqdialog.cpp" line="182"/>
         <source>OFF</source>
         <translation type="unfinished">ВЫКЛ</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="996"/>
+        <location filename="eqdialog.ui" line="1033"/>
         <source>X - Curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="1028"/>
+        <location filename="eqdialog.ui" line="1209"/>
+        <location filename="eqdialog.ui" line="1239"/>
         <source>Emphasis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="1156"/>
+        <location filename="eqdialog.ui" line="1177"/>
         <source>Center</source>
-        <translation type="unfinished">Центр</translation>
+        <translation>Центр</translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="1172"/>
+        <location filename="eqdialog.ui" line="922"/>
+        <location filename="eqdialog.ui" line="1193"/>
         <source>Bass</source>
+        <translation>Бас</translation>
+    </message>
+</context>
+<context>
+    <name>EmphasisDialog</name>
+    <message>
+        <location filename="emphasisdialog.ui" line="14"/>
+        <source>Emphasis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="eqdialog.ui" line="1192"/>
-        <source>Emph FLAT</source>
+        <location filename="emphasisdialog.ui" line="35"/>
+        <source>Emphasis Channels</source>
+        <translation>Emphasis каналы</translation>
+    </message>
+    <message>
+        <location filename="emphasisdialog.ui" line="81"/>
+        <source>FLAT</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="emphasisdialog.ui" line="109"/>
+        <source>Bass Ch. 1</source>
+        <translation type="unfinished">Бас канал 1</translation>
+    </message>
+    <message>
+        <location filename="emphasisdialog.ui" line="123"/>
+        <source>Bass Ch. 2</source>
+        <translation type="unfinished">Бас канал 2</translation>
+    </message>
+    <message>
+        <location filename="emphasisdialog.ui" line="135"/>
+        <source>Reset</source>
+        <translation>Автоматически</translation>
+    </message>
+    <message>
+        <location filename="emphasisdialog.ui" line="144"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Please select the bass channel:&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can find out which channels are responsible for bass by trying it out.&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;For the SC-2022 (7.1) there is only one bass channel at position 8, so please let the second channel empty.&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;For the LX-88 (9.2) there are two bass channels at positions 19 and 20.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <oldsource>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Please select the bass channel:&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can find out which channels are responsible for bass by trying it out.&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;For the SC-2022 (7.1) there is only one bass channel at position 8, so please let the second channel empty.&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;For the LX-88 there are two bass channels at positions 19 and 20.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
+        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Пожалуйста выберите бас каналы:&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Вы можете определить бас каналы изменяя положения ползунков.&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;У SC-2022го (7.1) есть только один канал номмер 8, пожалуйста оставьте второй канал пустым.&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;У LX-88го (9.2) есть два канала с номерами 19 и 20.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1182,6 +1262,24 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
     <message>
         <location filename="getoldfavoritelistdialog.cpp" line="68"/>
         <source>The favorites list is aquired.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LabeledSlider</name>
+    <message>
+        <location filename="labeledslider.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="labeledslider.ui" line="20"/>
+        <source>top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="labeledslider.ui" line="56"/>
+        <source>bottom</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1767,8 +1865,8 @@ Do you want to continue?</source>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="353"/>
-        <location filename="settingsdialog.cpp" line="158"/>
-        <location filename="settingsdialog.cpp" line="171"/>
+        <location filename="settingsdialog.cpp" line="157"/>
+        <location filename="settingsdialog.cpp" line="170"/>
         <source>Connect</source>
         <translation>Соединить</translation>
     </message>
@@ -1919,7 +2017,7 @@ Do you want to continue?</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="165"/>
+        <location filename="settingsdialog.cpp" line="164"/>
         <source>Disconnect</source>
         <translation>Рассоединить</translation>
     </message>

@@ -24,6 +24,7 @@ public:
     int GetBass();
     int GetCenter();
     QString GetChannelString();
+    void SetChannelString(QString str);
 
 protected:
     void changeEvent(QEvent *e);
@@ -47,9 +48,12 @@ public slots:
 
 private slots:
     void on_flatPushButton_clicked();
+    void on_resetPushButton_clicked();
 
 signals:
     void SendCmd(QString);
+    void BassChanged(int);
+    void CenterChanged(int);
 };
 
 #endif // EMPHASISDIALOG_H

@@ -45,7 +45,6 @@ void EmphasisDialog::ReadBassChannels()
 
     m_BassCh1 = m_Settings.value(str1, -1).toInt();
     m_BassCh2 = m_Settings.value(str2, -1).toInt();
-    qDebug() << "Read Bass Channels:" << m_BassCh1 << m_BassCh2;
 }
 
 void EmphasisDialog::SaveBassChannels()
@@ -60,7 +59,6 @@ void EmphasisDialog::SaveBassChannels()
 
     m_Settings.setValue(str1, m_BassCh1);
     m_Settings.setValue(str2, m_BassCh2);
-    qDebug() << "Save Bass Channels:" << m_BassCh1 << m_BassCh2;
 }
 
 void EmphasisDialog::CreateEmphasisSlider(int count)
@@ -88,24 +86,6 @@ void EmphasisDialog::CreateEmphasisSlider(int count)
         ui->sliderLayout->addWidget(slider);
         ui->bassCh1ComboBox->addItem(chNumber);
         ui->bassCh2ComboBox->addItem(chNumber);
-
-
-//        QVBoxLayout* layout = new QVBoxLayout();
-//        ui->bassCh1ComboBox->addItem(chNumber);
-//        ui->bassCh2ComboBox->addItem(chNumber);
-//        QLabel* label = new QLabel(chNumber);
-//        label->setAlignment(Qt::AlignHCenter);
-//        layout->addWidget(label);
-//        QSlider* slider = new QSlider(Qt::Vertical);
-//        slider->setMaximum(74);
-//        slider->setMinimum(26);
-//        slider->setSingleStep(1);
-//        slider->setPageStep(0);
-//        slider->setTracking(false);
-//        connect(slider, SIGNAL(valueChanged(int)), this, SLOT(OnSliderReleased()));
-//        m_EmphasisSliders.append(slider);
-//        layout->addWidget(slider);
-//        ui->sliderLayout->addLayout(layout);
     }
     ui->bassCh2ComboBox->addItem(" ");
     if (m_BassCh1 == -1)
@@ -136,12 +116,11 @@ void EmphasisDialog::CreateEmphasisSlider(int count)
     }
     ui->bassCh1ComboBox->blockSignals(false);
     ui->bassCh2ComboBox->blockSignals(false);
-    qDebug() << "Bass Channel 1:" << m_BassCh1;
-    qDebug() << "Bass Channel 2:" << m_BassCh2;
 }
 
 void EmphasisDialog::DataReceived(QString data)
 {
+    //qDebug() << "inp = " << data;
     // 5050745050505050505050505050505050506868ILV // LX88 20Ch
     // 5050385050505050505050505050505050ILV // SC2022 17Ch
     int count = (data.length() - 3) / 2;
@@ -153,13 +132,29 @@ void EmphasisDialog::DataReceived(QString data)
     for (int i = 0; i < count && i < m_EmphasisSliders.count(); i++)
     {
         int n = data.mid(3 + i * 2, 2).toInt();
+        m_EmphasisSliders[i]->blockSignals(true);
         m_EmphasisSliders[i]->SetValue(n);
+        m_EmphasisSliders[i]->blockSignals(false);
     }
 }
 
 void EmphasisDialog::OnSliderReleased()
 {
-    //QObject* sender = QObject::sender();
+    QObject* sender = QObject::sender();
+    LabeledSlider* slider = dynamic_cast<LabeledSlider*>(sender);
+    if (slider != NULL)
+    {
+        for (int i = 0; i < m_EmphasisSliders.count(); i++)
+        {
+            if (m_EmphasisSliders[i] == slider)
+            {
+                if (i == 2)
+                    emit CenterChanged(m_EmphasisSliders[i]->GetValue());
+                else if (i == m_BassCh1 || i == m_BassCh2)
+                    emit BassChanged(m_EmphasisSliders[i]->GetValue());
+            }
+        }
+    }
     QString cmd = GetChannelString();
     cmd += "ILV";
     emit SendCmd(cmd);
@@ -189,7 +184,6 @@ void EmphasisDialog::on_flatPushButton_clicked()
 
 void EmphasisDialog::SetBass(int n)
 {
-    qDebug() << "Set Bass:" << n << m_BassCh1 << m_BassCh2;
     if (m_BassCh1 != -1 && m_BassCh2 != -1)
     {
         m_EmphasisSliders[m_BassCh1]->SetValue(n);
@@ -223,7 +217,6 @@ void EmphasisDialog::BassCh1ComboBoxIndexChanged(int n)
 {
     m_BassCh1 = n;
     SaveBassChannels();
-    qDebug() << "Selected Bass Channel 1:" << m_BassCh1;
 }
 
 void EmphasisDialog::BassCh2ComboBoxIndexChanged(int n)
@@ -233,5 +226,42 @@ void EmphasisDialog::BassCh2ComboBoxIndexChanged(int n)
     else
         m_BassCh2 = n;
     SaveBassChannels();
-    qDebug() << "Selected Bass Channel 2:" << m_BassCh2;
+}
+
+void EmphasisDialog::on_resetPushButton_clicked()
+{
+    ui->bassCh1ComboBox->blockSignals(true);
+    ui->bassCh2ComboBox->blockSignals(true);
+    // reset
+    if (m_EmphasisSliders.count() == 20) // LX88
+    {
+        m_BassCh1 = 18;
+        m_BassCh2 = 19;
+    }
+    else
+    {
+        m_BassCh1 = 7;
+        m_BassCh2 = -1;
+    }
+    SaveBassChannels();
+    if (m_BassCh1 >= ui->bassCh1ComboBox->count())
+        m_BassCh1 = ui->bassCh1ComboBox->count() - 1;
+    ui->bassCh1ComboBox->setCurrentIndex(m_BassCh1);
+    if (m_BassCh2 == -1)
+    {
+        ui->bassCh2ComboBox->setCurrentIndex(ui->bassCh2ComboBox->count() - 1);
+    }
+    else
+    {
+        ui->bassCh2ComboBox->setCurrentIndex(m_BassCh2);
+    }
+    ui->bassCh1ComboBox->blockSignals(false);
+    ui->bassCh2ComboBox->blockSignals(false);
+    emit BassChanged(GetBass());
+}
+
+void EmphasisDialog::SetChannelString(QString str)
+{
+    DataReceived("ILV" + str);
+    OnSliderReleased();
 }

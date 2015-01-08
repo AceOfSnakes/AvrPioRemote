@@ -800,9 +800,9 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_MCACCEQDialog, SLOT(ShowMCACCEQDialog()));
 
-        pAction = new QAction(tr("Wiring Wizard"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_WiringDialog, SLOT(ShowWiringDialog()));
+//        pAction = new QAction(tr("Wiring Wizard"), this);
+//        MyMenu.addAction(pAction);
+//        connect(pAction, SIGNAL(triggered()), m_WiringDialog, SLOT(ShowWiringDialog()));
 
 
 //        pAction = new QAction(tr("Compatible Favorites"), this);

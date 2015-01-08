@@ -26,6 +26,7 @@ protected:
 
 private:
     Ui::LabeledSlider *ui;
+    void retranslateUi(QWidget *);
 
 signals:
     void ValueChanged(int n);

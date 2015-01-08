@@ -32,14 +32,6 @@ class EQDialog;
 }
 
 
-class EQPreset
-{
-public:
-    //QString         m_Name;
-    //QPushButton*    m_Button;
-    int             m_Values[13];
-};
-
 class EQDialog : public QDialog
 {
     Q_OBJECT
@@ -51,10 +43,9 @@ public:
 private:
     Ui::EQDialog *ui;
     ReceiverInterface&  m_Comm;
-    QList<QSlider*>     m_Sliders;
-    QList<QLabel*>      m_Labels;
+    QList<QSlider*>     m_EQSliders;
+    QList<QLabel*>      m_EQLabels;
     QTimer              m_Timer;
-    EQPreset            m_EQPresets[6];
     QSettings&          m_Settings;
     int                 m_SelectedPreset;
     bool                m_PositionSet;
@@ -65,6 +56,14 @@ private:
     bool SaveFile(const QString& fileName);
     void ResetEQPresets();
     void SelectPreset(int preset);
+    void SetEqSlider(int value, QSlider* slider, QLabel* label);
+    void SetToneSlider(int value, QSlider* slider, QLabel* label);
+    void SetXCurveSlider(int value, QSlider* slider, QLabel* label);
+    void SetEmphasisSlider(int value, QSlider* slider, QLabel* label);
+    void RestorePreset(int nr, bool eq, bool emph, bool tone, bool xcurve);
+    void SavePreset(int nr, bool eq, bool emph, bool tone, bool xcurve);
+    void SaveFilter();
+    void RestoreFilter();
 
     void moveEvent(QMoveEvent*event);
 
@@ -77,6 +76,9 @@ private slots:
     void Timeout();
     void OnSliderValueChanged(int value);
     void OnEmphasisSliderReleased();
+    void CenterChanged(int);
+    void BassChanged(int);
+    void onSaveCheckBoxToggled(bool);
     void on_eqFlatPushButton_clicked();
     void on_savebutt_clicked();
     void on_restbutt_clicked();

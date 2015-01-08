@@ -20,12 +20,21 @@ void LabeledSlider::changeEvent(QEvent *e)
     QWidget::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
-        ui->retranslateUi(this);
+        //ui->retranslateUi(this);
+        retranslateUi(this);
         break;
     default:
         break;
     }
 }
+
+void LabeledSlider::retranslateUi(QWidget */*LabeledSlider*/)
+{
+//    LabeledSlider->setWindowTitle(QApplication::translate("LabeledSlider", "Form", 0));
+//    topLabel->setText(QApplication::translate("LabeledSlider", "top", 0));
+//    bottomLabel->setText(QApplication::translate("LabeledSlider", "bottom", 0));
+} // retranslateUi
+
 
 void LabeledSlider::Init(int max, int min, int value, bool topLabelVisible, QString topLabelText, bool bottomLabelVisible, QString bottomLabelText)
 {

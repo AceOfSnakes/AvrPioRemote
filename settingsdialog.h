@@ -89,6 +89,9 @@ private:
     ReceiverInterface&  m_Comm;
     Ui::SettingsDialog *ui;
     AutoSearchDialog*   m_AutoSearchDialog;
+
+protected:
+    void changeEvent(QEvent *e);
 };
 
 #endif // SETTINGSDIALOG_H

@@ -57,6 +57,9 @@
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="restbutt">
    <property name="geometry">
@@ -69,6 +72,9 @@
    </property>
    <property name="text">
     <string>Restore</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -798,10 +804,10 @@
      </rect>
     </property>
     <property name="minimum">
-     <number>-12</number>
+     <number>0</number>
     </property>
     <property name="maximum">
-     <number>0</number>
+     <number>12</number>
     </property>
     <property name="singleStep">
      <number>1</number>
@@ -810,16 +816,19 @@
      <number>0</number>
     </property>
     <property name="value">
-     <number>-6</number>
+     <number>6</number>
     </property>
     <property name="sliderPosition">
-     <number>-6</number>
+     <number>6</number>
+    </property>
+    <property name="tracking">
+     <bool>true</bool>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
     </property>
     <property name="invertedAppearance">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="invertedControls">
      <bool>false</bool>
@@ -851,10 +860,10 @@
      </rect>
     </property>
     <property name="minimum">
-     <number>-12</number>
+     <number>0</number>
     </property>
     <property name="maximum">
-     <number>0</number>
+     <number>12</number>
     </property>
     <property name="singleStep">
      <number>1</number>
@@ -863,16 +872,19 @@
      <number>0</number>
     </property>
     <property name="value">
-     <number>-6</number>
+     <number>6</number>
     </property>
     <property name="sliderPosition">
-     <number>-6</number>
+     <number>6</number>
+    </property>
+    <property name="tracking">
+     <bool>true</bool>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
     </property>
     <property name="invertedAppearance">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="invertedControls">
      <bool>false</bool>
@@ -889,6 +901,12 @@
     </property>
     <property name="text">
      <string>Bypass</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_15">
@@ -1190,59 +1208,53 @@
     <property name="text">
      <string>Emphasis</string>
     </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
    </widget>
   </widget>
-  <widget class="QCheckBox" name="saveEqCheckBox">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>10</x>
      <y>370</y>
-     <width>201</width>
-     <height>17</height>
+     <width>251</width>
+     <height>81</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Save EQ</string>
+   <property name="title">
+    <string>Save/Restore</string>
    </property>
-  </widget>
-  <widget class="QCheckBox" name="saveToneCheckBox">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>390</y>
-     <width>201</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Save Tone</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="saveEmphasisCheckBox">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>410</y>
-     <width>201</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>SaveEmphasis</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>430</y>
-     <width>201</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Save X-Curve</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QCheckBox" name="saveEqCheckBox">
+      <property name="text">
+       <string>EQ</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QCheckBox" name="saveEmphasisCheckBox">
+      <property name="text">
+       <string>Emphasis</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QCheckBox" name="saveToneCheckBox">
+      <property name="text">
+       <string>Tone</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QCheckBox" name="saveXCurveCheckBox">
+      <property name="text">
+       <string>X-Curve</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <zorder>frame_3</zorder>
   <zorder>frame_2</zorder>
@@ -1254,10 +1266,7 @@
   <zorder>label_5</zorder>
   <zorder>meminf</zorder>
   <zorder>frame</zorder>
-  <zorder>saveEqCheckBox</zorder>
-  <zorder>saveToneCheckBox</zorder>
-  <zorder>saveEmphasisCheckBox</zorder>
-  <zorder>checkBox</zorder>
+  <zorder>groupBox</zorder>
  </widget>
  <resources/>
  <connections/>

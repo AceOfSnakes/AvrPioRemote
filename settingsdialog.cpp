@@ -64,7 +64,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
     ui->ShowBlueRayWindowCheckBox->setChecked(m_Settings.value("AutoShowBlueRay", false).toBool());
-    SetLanguage();
 
     ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value("StartLoggingInTestWindow", false).toBool());
 
@@ -107,6 +106,19 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
+}
+
+
+void SettingsDialog::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }
 
 
@@ -217,20 +229,25 @@ void SettingsDialog::on_LanguageGermanRadioButton_clicked(bool checked)
 
 void SettingsDialog::SetLanguage()
 {
-/*    QString lang = m_Settings.value("Language", "auto").toString();
+    QString lang = m_Settings.value("Language", "auto").toString();
     if (lang == "auto")
     {
         lang = QLocale::system().name();
     }
     if (lang.startsWith("de"))
     {
-        m_Translater.load("avrpioremote_de");
+        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_de"));
+    }
+    else if (lang.startsWith("ru"))
+    {
+        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_ru"));
     }
     else
     {
-        m_Translater.load("avrpioremote_en");
+        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
     }
-    QCoreApplication::installTranslator(&m_Translater);*/
+    QCoreApplication::installTranslator(&m_Translater);
+
 }
 
 
