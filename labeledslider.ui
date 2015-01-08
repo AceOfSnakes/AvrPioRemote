@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="topLabel">
      <property name="text">
-      <string>top</string>
+      <string notr="true">top</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -53,7 +53,7 @@
    <item>
     <widget class="QLabel" name="bottomLabel">
      <property name="text">
-      <string>bottom</string>
+      <string notr="true">bottom</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

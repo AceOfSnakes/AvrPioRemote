@@ -80,10 +80,10 @@
                  </font>
                 </property>
                 <property name="inputMask">
-                 <string/>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>192</string>
+                 <string notr="true">192</string>
                 </property>
                 <property name="maxLength">
                  <number>3</number>
@@ -128,10 +128,10 @@
                  </font>
                 </property>
                 <property name="inputMask">
-                 <string/>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>168</string>
+                 <string notr="true">168</string>
                 </property>
                 <property name="maxLength">
                  <number>3</number>
@@ -176,10 +176,10 @@
                  </font>
                 </property>
                 <property name="inputMask">
-                 <string/>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>1</string>
+                 <string notr="true">1</string>
                 </property>
                 <property name="maxLength">
                  <number>3</number>
@@ -224,10 +224,10 @@
                  </font>
                 </property>
                 <property name="inputMask">
-                 <string/>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>1</string>
+                 <string notr="true">1</string>
                 </property>
                 <property name="maxLength">
                  <number>3</number>
@@ -272,10 +272,10 @@
                  </font>
                 </property>
                 <property name="inputMask">
-                 <string/>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>8102</string>
+                 <string notr="true">8102</string>
                 </property>
                 <property name="maxLength">
                  <number>5</number>
