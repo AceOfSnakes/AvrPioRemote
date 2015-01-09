@@ -4,7 +4,7 @@
 #include <QModelIndex>
 #include <QDebug>
 #include <QApplication>
-#include <wiringmodel.h>
+#include "wiringmodel.h"
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QCheckBox>

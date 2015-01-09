@@ -18,7 +18,7 @@
 #include "loudspeakersettingsdialog.h"
 #include "ui_loudspeakersettingsdialog.h"
 #include "QDebug"
-#include <receiverinterface.h>
+#include "receiverinterface.h"
 
 
 const char* LStyp[] = {

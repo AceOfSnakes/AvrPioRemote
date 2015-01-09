@@ -5,7 +5,7 @@
 #include <QModelIndex>
 #include <QApplication>
 #include <QDebug>
-#include <wiringmodel.h>
+#include "wiringmodel.h"
 
 ComboBoxDelegate::ComboBoxDelegate(QObject *parent)
     :QItemDelegate(parent)

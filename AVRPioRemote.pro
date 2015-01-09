@@ -146,7 +146,9 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistro.aidl \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/kde/necessitas/origo/QtActivity.java \
-    android/src/org/kde/necessitas/origo/QtApplication.java
+    android/src/org/kde/necessitas/origo/QtApplication.java \
+    pio-icon1.ico \
+    AVRPioRemote.rc
 
 RESOURCES += \
     avrpioremote.qrc
@@ -154,3 +156,5 @@ RESOURCES += \
 TRANSLATIONS = avrpioremote_en.ts \
                avrpioremote_de.ts \
                avrpioremote_ru.ts \
+
+RC_FILE = AVRPioRemote.rc
