@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = AVRPioRemote
 TEMPLATE = app
+win32: RC_ICONS = pio-icon1.ico
 
 static { # everything below takes effect with CONFIG += static
     CONFIG += static

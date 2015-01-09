@@ -49,7 +49,7 @@ void LabeledSlider::Init(int max, int min, int value, bool topLabelVisible, QStr
     ui->bottomLabel->setText(bottomLabelText);
 }
 
-void LabeledSlider::LabeledSlider::SetValue(int n, bool blockSig)
+void LabeledSlider::SetValue(int n, bool blockSig)
 {
     if (blockSig)
         ui->slider->blockSignals(true);

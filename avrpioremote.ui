@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AVRPioRemote</string>
+   <string notr="true">AVRPioRemote</string>
   </property>
   <widget class="QPushButton" name="MoreButton">
    <property name="enabled">
