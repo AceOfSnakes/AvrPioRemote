@@ -42,6 +42,7 @@
 #include "mcacceqdialog.h"
 #include "autosearchdialog.h"
 #include "wiringdialog.h"
+#include "hdmicontroldialog.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -109,6 +110,7 @@ private:
     MCACCEQDialog*              m_MCACCEQDialog;
     AutoSearchDialog*           m_AutoSearchDialog;
     WiringDialog*               m_WiringDialog;
+    HdmiControlDialog*          m_HdmiControlDialog;
 
     //    QThre;ad*        m_TCPThread;
     bool            m_ReceiverOnline;
@@ -124,6 +126,7 @@ private:
     QIcon           m_PowerButtonOnIcon;
     QIcon           m_PowerButtonOffIcon;
     bool            m_PowerOn;
+    bool            m_Connected;
 
     void SelectInputButton(int idx, int zone = 1);
     void ClearScreen();

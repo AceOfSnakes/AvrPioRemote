@@ -40,6 +40,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_Zone3PowerOn    = false;
 
     m_PowerOn         = false;
+    m_Connected       = false;
 
 
     QString lang = m_Settings.value("Language", "auto").toString();
@@ -77,12 +78,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_PowerButtonOffIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit_green.png", QSize(128, 128));
     m_PowerButtonOnIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit.png", QSize(128, 128));
-
-
-    // disable controls
-    EnableControls(false);
-    ui->PowerButton->setEnabled(false);
-    ui->ZoneControlButton->setEnabled(false);
 
     // get compatibility setting for favorites list for LX-83
     m_FavoritesCompatibilityMode = m_Settings.value("FavoritesCompatibilityMode", false).toBool();
@@ -205,6 +200,13 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_AutoSearchDialog = NULL;
 
     m_WiringDialog = new WiringDialog(this, m_Settings, m_ReceiverInterface);
+
+    m_HdmiControlDialog = new HdmiControlDialog(this, m_Settings, m_ReceiverInterface);
+
+    // disable controls
+    EnableControls(false);
+    ui->PowerButton->setEnabled(false);
+    ui->ZoneControlButton->setEnabled(false);
 }
 
 
@@ -224,6 +226,7 @@ AVRPioRemote::~AVRPioRemote()
     delete m_AVSettingsDialog;
     delete m_MCACCEQDialog;
     delete m_WiringDialog;
+    delete m_HdmiControlDialog;
     delete ui;
 }
 
@@ -608,6 +611,7 @@ void AVRPioRemote::RequestStatus(bool input)
 void AVRPioRemote::CommError(QString socketError)
 {
     Logger::Log("tcp error");
+    m_Connected = false;
     ui->pushButtonConnect->setEnabled(true);
     m_SettingsDialog->EnableIPInput(true);
     EnableControls(false);
@@ -621,6 +625,7 @@ void AVRPioRemote::CommError(QString socketError)
 void AVRPioRemote::CommConnected()
 {
     Logger::Log("connected");
+    m_Connected = true;
     ui->PowerButton->setEnabled(true);
     ui->StatusLineEdit->setText(tr("Connected"));
     m_StatusLineTimer.start();
@@ -637,6 +642,7 @@ void AVRPioRemote::CommConnected()
 void AVRPioRemote::CommDisconnected()
 {
     Logger::Log("disconnected");
+    m_Connected = false;
     m_SettingsDialog->EnableIPInput(true);
     ui->pushButtonConnect->setText(tr("Connect"));
     ui->pushButtonConnect->setEnabled(true);
@@ -656,22 +662,27 @@ void AVRPioRemote::EnableControls(bool enable)
 {
     ui->DFiltButton->setEnabled(enable);
     ui->HiBitButton->setEnabled(enable);
-    ui->InputAdptButton->setEnabled(enable);
-    ui->InputBdButton->setEnabled(enable);
-    ui->InputCdButton->setEnabled(enable);
-    ui->InputDvdButton->setEnabled(enable);
-    ui->InputDvrButton->setEnabled(enable);
-    ui->InputHdmiButton->setEnabled(enable);
-    ui->InputIpodButton->setEnabled(enable);
-    ui->InputLeftButton->setEnabled(enable);
-    ui->InputNetButton->setEnabled(enable);
-    ui->InputRightButton->setEnabled(enable);
-    ui->InputSatButton->setEnabled(enable);
-    ui->InputTunerButton->setEnabled(enable);
-    ui->InputTvButton->setEnabled(enable);
-    ui->InputVideoButton->setEnabled(enable);
-    ui->Num1Button->setEnabled(enable);
-    ui->Num2Button->setEnabled(enable);
+
+    if (!m_HdmiControlDialog->IsLastEnabled() || enable)
+    {
+        ui->InputAdptButton->setEnabled(enable);
+        ui->InputBdButton->setEnabled(enable);
+        ui->InputCdButton->setEnabled(enable);
+        ui->InputDvdButton->setEnabled(enable);
+        ui->InputDvrButton->setEnabled(enable);
+        ui->InputHdmiButton->setEnabled(enable);
+        ui->InputIpodButton->setEnabled(enable);
+        ui->InputLeftButton->setEnabled(enable);
+        ui->InputNetButton->setEnabled(enable);
+        ui->InputRightButton->setEnabled(enable);
+        ui->InputSatButton->setEnabled(enable);
+        ui->InputTunerButton->setEnabled(enable);
+        ui->InputTvButton->setEnabled(enable);
+        ui->InputVideoButton->setEnabled(enable);
+        ui->Num1Button->setEnabled(enable);
+        ui->Num2Button->setEnabled(enable);
+    }
+
     ui->Num3Button->setEnabled(enable);
     ui->PhaseButton->setEnabled(enable);
     ui->PqlsButton->setEnabled(enable);
@@ -800,6 +811,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_MCACCEQDialog, SLOT(ShowMCACCEQDialog()));
 
+        pAction = new QAction(tr("HDMI Control"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_HdmiControlDialog, SLOT(ShowHdmiControlDialog()));
+
 //        pAction = new QAction(tr("Wiring Wizard"), this);
 //        MyMenu.addAction(pAction);
 //        connect(pAction, SIGNAL(triggered()), m_WiringDialog, SLOT(ShowWiringDialog()));
@@ -819,6 +834,7 @@ void AVRPioRemote::on_MoreButton_clicked()
 //        pAction = new QAction("Show Zone 2", this);
 //        pAction = new QAction("Input Wizard", this);
     }
+
     pAction = new QAction(tr("-"), this);
     pAction->setSeparator(true);
     MyMenu.addAction(pAction);

@@ -48,7 +48,10 @@ SOURCES += main.cpp \
     comboboxdelegate.cpp \
     checkboxdelegate.cpp \
     emphasisdialog.cpp \
-    labeledslider.cpp
+    labeledslider.cpp \
+    cmd/cmdbase.cpp \
+    cmd/receivedobjectbase.cpp \
+    hdmicontroldialog.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -78,7 +81,10 @@ HEADERS  += avrpioremote.h \
     comboboxdelegate.h \
     checkboxdelegate.h \
     emphasisdialog.h \
-    labeledslider.h
+    labeledslider.h \
+    cmd/cmdbase.h \
+    cmd/receivedobjectbase.h \
+    hdmicontroldialog.h
  
 
 
@@ -101,7 +107,8 @@ FORMS    += avrpioremote.ui \
     autosearchdialog.ui \
     wiringdialog.ui \
     emphasisdialog.ui \
-    labeledslider.ui
+    labeledslider.ui \
+    hdmicontroldialog.ui
 
 
 OTHER_FILES += \
