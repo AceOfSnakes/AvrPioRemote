@@ -121,6 +121,30 @@ void WiringDialog::ShowWiringDialog()
 //    SendCmd("?PR");
 }
 
+void WiringDialog::ResponseReceived(ReceivedObjectBase *response)
+{
+    InputNameResponse* inputname = dynamic_cast<InputNameResponse*>(response);
+    if (inputname != NULL)
+    {
+        if (m_CurrentAction == ACTION_GET_NAME)
+        {
+            QString id = QString("%1").arg(inputname->GetInputNo(), 2, 10, (QChar)'0');
+            if (m_CurrentInput->id == id)
+            {
+                m_CurrentInput->alias = inputname->GetInputName();
+                m_ParameterErrorCount = 0;
+                m_CurrentAction = ACTION_GET_AUDIO_ASSIGNMENT;
+                QString cmd = QString("?SSC%1000").arg(m_CurrentInput->id);
+                SendCmd(cmd);
+                return;
+            }
+            QString str = QString("?RGB%1").arg(m_CurrentInput->id);
+            SendCmd(str);
+            return;
+        }
+        return;
+    }
+}
 void WiringDialog::AquireData()
 {
     m_ParameterErrorCount = 0;
@@ -170,31 +194,7 @@ void WiringDialog::DataReceived(QString data)
         }
     }
 
-    if (m_CurrentAction == ACTION_GET_NAME)
-    {
-        //qDebug() << "GET_NAME: " << data;
-        if (data.startsWith("RGB"))
-        {
-            if (data.length() >= 5)
-            {
-                QString alias = data.mid(6);
-                QString id = data.mid(3, 2);
-                if (m_CurrentInput->id == id)
-                {
-                    m_CurrentInput->alias = alias;
-                    m_ParameterErrorCount = 0;
-                    m_CurrentAction = ACTION_GET_AUDIO_ASSIGNMENT;
-                    QString cmd = QString("?SSC%1000").arg(m_CurrentInput->id);
-                    SendCmd(cmd);
-                    return;
-                }
-            }
-        }
-        QString str = QString("?RGB%1").arg(m_CurrentInput->id);
-        SendCmd(str);
-        return;
-    }
-    else if (m_CurrentAction == ACTION_GET_AUDIO_ASSIGNMENT)
+    if (m_CurrentAction == ACTION_GET_AUDIO_ASSIGNMENT)
     {
         if (data.startsWith("SSC"))
         {

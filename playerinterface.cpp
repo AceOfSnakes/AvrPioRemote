@@ -207,51 +207,10 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 void PlayerInterface::InterpretString(const QString& data)
 {
     // DISPLAY
-    if (data.startsWith("FL0"))
-    {
-        int no = 0;
-        sscanf(data.toLatin1(), "FL0%1d", &no);
-        QString displayData = DecodeHexString(data.mid(4));
-        emit DisplayData(no, displayData);
-    }
-    else if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("MC"))
+    if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("MC"))
     {
         QString name = data;
         emit SpeakerData(name);
-    }
-    else if (data.startsWith("PWR"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "PWR%d", &n);
-        emit PowerData(n == 0);
-    }
-    else if (data.startsWith("VOL"))
-    {
-        int vol = 0;
-        sscanf(data.toLatin1(), "VOL%d", &vol);
-        double dB = -80.5 + (double)vol * 0.5;
-        QString str;
-        if (dB <= 0.0)
-            str = QString("%1dB").arg(dB, 4, 'f', 1);
-        else
-            str = QString("+%1dB").arg(dB, 4, 'f', 1);
-        emit VolumeData(dB);
-    }
-    else if (data.startsWith("MUT"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "MUT%d", &n);
-        emit MuteData(n == 0);
-    }
-    else if (data.startsWith("E0"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "E0%d", &n);
-        emit ErrorData(n);
-    }
-    else if (data.startsWith("B00"))
-    {
-        emit ErrorData(-1);
     }
     else if (data.startsWith("AST"))
     {
@@ -354,13 +313,7 @@ void PlayerInterface::InterpretString(const QString& data)
         QString str = (n >= 0 && n <= 48)?(VIDEO_INPUT[n]):"unknown";
         if (str == "")
             str = "unknown";
-        emit InputFunctionData(n, str);
-    }
-    else if (data.startsWith("RGB"))
-    {
-        //bool renamed = (tmp[5] == '1');
-        QString name = data.mid(6);
-        emit InputNameData(name);
+        emit InputChanged(n, str);
     }
     else if (data.startsWith("SR"))
     {
@@ -427,24 +380,6 @@ void PlayerInterface::InterpretString(const QString& data)
         }
         //ui->lineEditTreble->setText(str);
     }
-    else if (data.startsWith("IS"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "IS%d", &n);
-        emit PhaseData(n);
-    }
-    else if (data.startsWith("ATI"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "ATI%d", &n);
-        emit HiBitData(n != 0);
-    }
-    else if (data.startsWith("PQ"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "PQ%d", &n);
-        emit PqlsData(n != 0);
-    }
     else if (data.startsWith("GBH") ||
              data.startsWith("GCH") ||
              data.startsWith("GDH") ||
@@ -459,12 +394,6 @@ void PlayerInterface::InterpretString(const QString& data)
              data.startsWith("GEI"))
     {
         emit usbData(data);
-    }
-    else if (data.startsWith("ATA"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "ATA%d", &n);
-        emit DFiltData(n != 0);
     }
     else if (data.startsWith("RGD"))
     {

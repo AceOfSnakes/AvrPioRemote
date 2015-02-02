@@ -45,8 +45,8 @@ TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &se
 
     connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect(&m_Comm, SIGNAL(DisplayData(int,QString)), this, SLOT(DisplayData(int,QString)));
-    connect(&m_Comm, SIGNAL(InputFunctionData(int,QString)), this, SLOT(InputChanged(int,QString)));
+
+    MsgDistributor::AddResponseListener(this, QStringList() << InputFunctionResponse().getResponseID() << DisplayDataResponse().getResponseID());
 
     m_ClassButtons.push_back(ui->ClassAButton);
     m_ClassButtons.push_back(ui->ClassBButton);
@@ -139,6 +139,36 @@ void TunerDialog::ShowTunerDialog(bool autoShow)
     }
 //    SendCmd("?FR");
     SendCmd("?PR");
+}
+
+
+void TunerDialog::ResponseReceived(ReceivedObjectBase *response)
+{
+    DisplayDataResponse* display = dynamic_cast<DisplayDataResponse*>(response);
+    if (display != NULL)
+    {
+        if (m_TunerInputSelected && display->getDisplayType() == 2)
+        {
+            GetScrolledString(display->getDisplayLine());
+            ui->DisplayEditBig->setText(m_DisplayString);
+        }
+        return;
+    }
+    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    if (inputFunction != NULL)
+    {
+        int no = inputFunction->getNumber();
+        if (no == 2) // tuner
+        {
+            m_TunerInputSelected = true;
+        }
+        else
+        {
+            m_TunerInputSelected = true;
+            ui->DisplayEditBig->clear();
+        }
+        return;
+    }
 }
 
 
@@ -537,31 +567,7 @@ void TunerDialog::on_RenamePresetButton_clicked()
 }
 
 
-void TunerDialog::DisplayData(int no, QString str)
-{
-    if (m_TunerInputSelected && no == 2)
-    {
-        GetScrolledString(str);
-        ui->DisplayEditBig->setText(m_DisplayString);
-    }
-}
-
-
-void TunerDialog::InputChanged(int no, QString/* name*/)
-{
-    if (no == 2) // tuner
-    {
-        m_TunerInputSelected = true;
-    }
-    else
-    {
-        m_TunerInputSelected = true;
-        ui->DisplayEditBig->clear();
-    }
-}
-
-
-// a little bit of magic to compose a list of scrolling shorter strings into
+// a little bit of magic to compose a list of scrolling short strings into
 // a long one
 bool TunerDialog::GetScrolledString(QString input)
 {

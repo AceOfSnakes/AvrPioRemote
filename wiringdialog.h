@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QSettings>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include "Defs.h"
 #include <QVector>
 #include "wiringmodel.h"
@@ -14,13 +14,15 @@ namespace Ui {
 class WiringDialog;
 }
 
-class WiringDialog : public QDialog
+class WiringDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
 
 public:
     explicit WiringDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~WiringDialog();
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
 
 protected:
     void changeEvent(QEvent *e);

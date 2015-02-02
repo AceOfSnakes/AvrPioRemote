@@ -3,20 +3,22 @@
 
 #include <QDialog>
 #include <QSettings>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
+
 
 namespace Ui {
 class HdmiControlDialog;
 }
 
-class HdmiControlDialog : public QDialog
+class HdmiControlDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
 
 public:
     explicit HdmiControlDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Comm);
     ~HdmiControlDialog();
-    bool IsLastEnabled();
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
 
 protected:
     void changeEvent(QEvent *e);
@@ -29,14 +31,12 @@ private:
     ReceiverInterface&          m_Comm;
     bool                        m_PositionSet;
     bool                        m_PowerOn;
-    bool                        m_LastEnabled;
 
 public slots:
     void ShowHdmiControlDialog();
 
 private slots:
     void CommConnected();
-    void DataReceived(QString data);
     void on_hdmiControlCheckBox_toggled(bool);
     void on_hdmiControlModeCheckBox_toggled(bool);
     void on_arcCheckBox_toggled(bool);

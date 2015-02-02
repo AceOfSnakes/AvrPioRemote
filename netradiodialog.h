@@ -21,7 +21,7 @@
 #include <QDialog>
 #include <QSettings>
 #include <QListWidgetItem>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QTimer>
 #include <QMoveEvent>
 #include <QIcon>
@@ -32,14 +32,16 @@ namespace Ui {
 class NetRadioDialog;
 }
 
-class NetRadioDialog : public QDialog
+class NetRadioDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit NetRadioDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~NetRadioDialog();
-    
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
+
 private:
     QSettings&          m_Settings;
     Ui::NetRadioDialog *ui;
@@ -66,7 +68,6 @@ public slots:
     void NetData(QString data);
     void ManualShowNetDialog();
     void ShowNetDialog(bool autoShow);
-    void InputFunctionData(int no, QString name);
 private slots:
     void on_CursorUpButton_clicked();
     void on_CursorLeftButton_clicked();
@@ -95,9 +96,7 @@ private slots:
     void on_NetSwitchToMediaServerButton_clicked();
     void on_NetSwitchToFavoritesButton_clicked();
     void on_pushButton_clicked();
-
     void on_RepeatButton_clicked();
-
     void on_RandomButton_clicked();
 
 signals:

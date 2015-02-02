@@ -2,21 +2,23 @@
 #define ZONECONTROLDIALOG_H
 
 #include <QDialog>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QSettings>
 
 namespace Ui {
 class ZoneControlDialog;
 }
 
-class ZoneControlDialog : public QDialog
+class ZoneControlDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit ZoneControlDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~ZoneControlDialog();
-    
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
+
 private:
     Ui::ZoneControlDialog *ui;
     QSettings&              m_Settings;
@@ -33,11 +35,7 @@ signals:
 
 private slots:
     // Receiver messages
-    void ZonePower (int zone, bool on);
     void ZoneInput (int zone, int input);
-    void ZoneVolume (int zone, int volume, QString asString);
-    void ZoneMute (int zone, bool muted);
-    void DisplayData(int DispNo, QString data);
     // gui controls
     void on_MultiZoneButton_clicked();
     void on_Z2ActivateButton_clicked();

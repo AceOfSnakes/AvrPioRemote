@@ -19,7 +19,8 @@
 #include "ui_listeningmodedialog.h"
 #include "Defs.h"
 #include <QDebug>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
+
 
 ListeningModeDialog::ListeningModeDialog(QWidget *parent,QSettings &settings,ReceiverInterface &Comm ) :
     QDialog(parent),

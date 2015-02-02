@@ -22,14 +22,13 @@
 #include <QMenu>
 #include <QThread>
 #include "Defs.h"
+#include "receiver_interface/receiverinterface.h"
 #include "netradiodialog.h"
 #include "bluraydialog.h"
 #include "aboutdialog.h"
 #include "loudspeakersettingsdialog.h"
 #include "tunerdialog.h"
-#include "receiverinterface.h"
 #include "testdialog.h"
-#include "oldfavoritesdialog.h"
 #include "settingsdialog.h"
 #include "eqdialog.h"
 #include "logger.h"
@@ -48,44 +47,24 @@ namespace Ui {
 class AVRPioRemote;
 }
 
-class Xsleep : public QThread
-{
-public:
-    static void msleep(int ms)
-    {
-        QThread::msleep(ms);
-    }
-};
-
-//class ConnectWorker : public QObject {
-//    Q_OBJECT
-
+//class Xsleep : public QThread
+//{
 //public:
-//    ConnectWorker(QTcpSocket &socket, QString& address, int port, QThread* mainThread);
-//    ~ConnectWorker();
-
-//public slots:
-//    void process();
-
-//signals:
-//    void finished();
-//    void error(QString err);
-
-//private:
-//    // add your variables here
-//    QTcpSocket& Socket;
-//    QString&    Address;
-//    int         Port;
-//    QThread&    MainThread;
+//    static void msleep(int ms)
+//    {
+//        QThread::msleep(ms);
+//    }
 //};
 
-class AVRPioRemote : public QDialog
+
+class AVRPioRemote : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit AVRPioRemote(QWidget *parent = 0);
     ~AVRPioRemote();
+    void ResponseReceived(ReceivedObjectBase *);
 
 
 private:
@@ -100,7 +79,6 @@ private:
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
     TunerDialog*                m_TunerDialog;
     TestDialog*                 m_TestDialog;
-    OldFavoritesDialog*         m_OldFavoritesDialog;
     SettingsDialog*             m_SettingsDialog;
     EQDialog*                   m_EQDialog;
     ListeningModeDialog*        m_Listendiag;
@@ -112,9 +90,8 @@ private:
     WiringDialog*               m_WiringDialog;
     HdmiControlDialog*          m_HdmiControlDialog;
 
-    //    QThre;ad*        m_TCPThread;
+    //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
-    bool            m_FavoritesCompatibilityMode;
     QTranslator     m_Translater;
     QTimer          m_StatusLineTimer;
     QPushButton*    m_SelectedInput;
@@ -127,6 +104,7 @@ private:
     QIcon           m_PowerButtonOffIcon;
     bool            m_PowerOn;
     bool            m_Connected;
+    bool            m_PassThroughLast;
 
     void SelectInputButton(int idx, int zone = 1);
     void ClearScreen();
@@ -137,29 +115,20 @@ private:
     void changeEvent(QEvent *e);
     QVector<QPushButton*> m_InputButtons;
 
+private:
+    void InputChanged(int no, QString name);
+
 public slots:
     void EnableControls(bool enable);
     void RequestStatus(bool input = true);
     bool SendCmd(const QString& cmd);
     void NewDataReceived(QString data);
-    void DisplayData(int DispNo, QString data);
-    void PowerData(bool powerOn);
-    void VolumeData(double dB);
-    void MuteData(bool muted);
-    void ErrorData(int type);
     void AudioStatusData(QString codec, QString samplingRate);
-    void InputFunctionData(int no, QString name);
     void ZoneInput (int zone, int input);
-    void PhaseData(int phase);
-    void InputNameData(QString name);
     void ListeningModeData(QString name);
-    void HiBitData(bool set);
-    void PqlsData(bool set);
-    void DFiltData(bool set);
     void ReceiverType (QString no, QString name);
     void ReceiverNetworkName (QString name);
     void onConnect();
-    void ZonePower (int zone, bool on);
 private slots:
     void CommError(QString socketError);
     void CommConnected();
@@ -179,7 +148,7 @@ private slots:
     void on_InputRightButton_clicked();
     void on_PhaseButton_clicked();
     void on_PqlsButton_clicked();
-    void on_DFiltButton_clicked();
+    void on_SRetrButton_clicked();
     void on_HiBitButton_clicked();
     void on_InputBdButton_clicked();
     void on_InputDvdButton_clicked();

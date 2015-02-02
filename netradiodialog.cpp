@@ -53,7 +53,8 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
 
     connect((&m_Comm), SIGNAL(NetData(QString)), this, SLOT(NetData(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect((&m_Comm), SIGNAL(InputFunctionData(int, QString)), this,  SLOT(InputFunctionData(int, QString)));
+
+    MsgDistributor::AddResponseListener(this, QStringList() << InputFunctionResponse().getResponseID());
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
     connect((&m_PlayTimeTimer), SIGNAL(timeout()), this, SLOT(RefreshPlayTime()));
@@ -121,53 +122,57 @@ void NetRadioDialog::ShowNetDialog(bool autoShow)
      }
 }
 
-
-void NetRadioDialog::InputFunctionData(int no, QString name)
+void NetRadioDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    if (no == 26 || // NET cyclic
-        no == 38 || // internet radio
-        no == 40 || // sirius xm
-        no == 41 || // pandora
-        no == 44 || // media server
-        no == 45    // favorites
-            )
+    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    if (inputFunction != NULL)
     {
-        if (no == 45)
+        int no = inputFunction->getNumber();
+        if (no == 26 || // NET cyclic
+            no == 38 || // internet radio
+            no == 40 || // sirius xm
+            no == 41 || // pandora
+            no == 44 || // media server
+            no == 45    // favorites
+                )
         {
-            ui->NetAddFavButton->setEnabled(false);
-            ui->NetRemoveFavButton->setEnabled(true);
-            ui->NetSwitchToFavoritesButton->setChecked(true);
-            ui->NetSwitchToMediaServerButton->setChecked(false);
-            ui->NetSwitchToNetRadioButton->setChecked(false);
-        }
-        else
-        {
-            ui->NetAddFavButton->setEnabled(true);
-            ui->NetRemoveFavButton->setEnabled(false);
-            if (no == 38)
+            if (no == 45)
             {
-                ui->NetSwitchToFavoritesButton->setChecked(false);
+                ui->NetAddFavButton->setEnabled(false);
+                ui->NetRemoveFavButton->setEnabled(true);
+                ui->NetSwitchToFavoritesButton->setChecked(true);
                 ui->NetSwitchToMediaServerButton->setChecked(false);
-                ui->NetSwitchToNetRadioButton->setChecked(true);
-            }
-            else if (no == 44)
-            {
-                ui->NetSwitchToFavoritesButton->setChecked(false);
-                ui->NetSwitchToMediaServerButton->setChecked(true);
                 ui->NetSwitchToNetRadioButton->setChecked(false);
             }
             else
             {
-                ui->NetSwitchToFavoritesButton->setChecked(false);
-                ui->NetSwitchToMediaServerButton->setChecked(false);
-                ui->NetSwitchToNetRadioButton->setChecked(false);
+                ui->NetAddFavButton->setEnabled(true);
+                ui->NetRemoveFavButton->setEnabled(false);
+                if (no == 38)
+                {
+                    ui->NetSwitchToFavoritesButton->setChecked(false);
+                    ui->NetSwitchToMediaServerButton->setChecked(false);
+                    ui->NetSwitchToNetRadioButton->setChecked(true);
+                }
+                else if (no == 44)
+                {
+                    ui->NetSwitchToFavoritesButton->setChecked(false);
+                    ui->NetSwitchToMediaServerButton->setChecked(true);
+                    ui->NetSwitchToNetRadioButton->setChecked(false);
+                }
+                else
+                {
+                    ui->NetSwitchToFavoritesButton->setChecked(false);
+                    ui->NetSwitchToMediaServerButton->setChecked(false);
+                    ui->NetSwitchToNetRadioButton->setChecked(false);
+                }
             }
+            this->setWindowTitle(inputFunction->getName());
         }
-        this->setWindowTitle(name);
-    }
-    else
-    {
-        this->setWindowTitle(tr("NetRadio"));
+        else
+        {
+            this->setWindowTitle(tr("NetRadio"));
+        }
     }
 }
 
@@ -560,3 +565,4 @@ void NetRadioDialog::on_RandomButton_clicked()
 {
     emit SendCmd("35NW"); // random
 }
+

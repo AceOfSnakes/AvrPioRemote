@@ -22,7 +22,7 @@
 #include <QSettings>
 #include <QTranslator>
 #include <QIntValidator>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include "autosearchdialog.h"
 
 namespace Ui {
@@ -50,7 +50,6 @@ private slots:
     void CommConnected();
     void CommDisconnected();
     void on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state);
-    void on_FavoriteLX83CompatibilityModeCheckBox_stateChanged(int state);
     void on_LanguageAutoRadioButton_clicked(bool checked);
     void on_LanguageEnglishRadioButton_clicked(bool checked);
     void on_LanguageGermanRadioButton_clicked(bool checked);

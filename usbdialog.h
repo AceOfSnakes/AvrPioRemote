@@ -21,7 +21,7 @@
 #include <QDialog>
 #include <QSettings>
 #include <QListWidgetItem>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QTimer>
 #include <QMoveEvent>
 #include <QIcon>
@@ -31,14 +31,16 @@ namespace Ui {
 class usbDialog;
 }
 
-class usbDialog : public QDialog
+class usbDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit usbDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~usbDialog();
-    
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
+
 private:
     QSettings&          m_Settings;
     Ui::usbDialog *ui;
@@ -64,7 +66,6 @@ public slots:
     void usbrecData(QString data);
     void ManualShowusbDialog();
     void ShowusbDialog(bool autoShow);
-    void randrepeattest(int dispNo, QString data);
 
 private slots:
     void on_CursorUpButton_clicked();

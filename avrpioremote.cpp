@@ -18,7 +18,6 @@
 #include "avrpioremote.h"
 #include "ui_avrpioremote.h"
 #include <QDebug>
-//#include <QLayout>
 #include <qtextcodec.h>
 #include "actionwithparameter.h"
 #include <QWidget>
@@ -27,7 +26,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AVRPioRemote),
     m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
-    m_FavoritesCompatibilityMode(false),
     m_StatusLineTimer(this)
 {
     m_IpPort = 8102;
@@ -41,6 +39,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_PowerOn         = false;
     m_Connected       = false;
+    m_PassThroughLast = false;
 
 
     QString lang = m_Settings.value("Language", "auto").toString();
@@ -79,31 +78,16 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_PowerButtonOffIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit_green.png", QSize(128, 128));
     m_PowerButtonOnIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit.png", QSize(128, 128));
 
-    // get compatibility setting for favorites list for LX-83
-    m_FavoritesCompatibilityMode = m_Settings.value("FavoritesCompatibilityMode", false).toBool();
-
     // receiver interface
     connect((&m_ReceiverInterface), SIGNAL(Connected()), this, SLOT(CommConnected()));
     connect((&m_ReceiverInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_ReceiverInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((&m_ReceiverInterface), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
-    connect((&m_ReceiverInterface), SIGNAL(DisplayData(int, QString)), this,  SLOT(DisplayData(int, QString)));
-    connect((&m_ReceiverInterface), SIGNAL(PowerData(bool)), this,  SLOT(PowerData(bool)));
-    connect((&m_ReceiverInterface), SIGNAL(VolumeData(double)), this,  SLOT(VolumeData(double)));
-    connect((&m_ReceiverInterface), SIGNAL(MuteData(bool)), this,  SLOT(MuteData(bool)));
-    connect((&m_ReceiverInterface), SIGNAL(ErrorData(int)), this,  SLOT(ErrorData(int)));
     connect((&m_ReceiverInterface), SIGNAL(AudioStatusData(QString, QString)), this,  SLOT(AudioStatusData(QString, QString)));
-    connect((&m_ReceiverInterface), SIGNAL(InputFunctionData(int, QString)), this,  SLOT(InputFunctionData(int, QString)));
-    connect((&m_ReceiverInterface), SIGNAL(PhaseData(int)), this,  SLOT(PhaseData(int)));
-    connect((&m_ReceiverInterface), SIGNAL(InputNameData(QString)), this,  SLOT(InputNameData(QString)));
     connect((&m_ReceiverInterface), SIGNAL(ListeningModeData(QString)), this,  SLOT(ListeningModeData(QString)));
-    connect((&m_ReceiverInterface), SIGNAL(HiBitData(bool)), this,  SLOT(HiBitData(bool)));
-    connect((&m_ReceiverInterface), SIGNAL(PqlsData(bool)), this,  SLOT(PqlsData(bool)));
-    connect((&m_ReceiverInterface), SIGNAL(DFiltData(bool)), this,  SLOT(DFiltData(bool)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverType(QString,QString)), this,  SLOT(ReceiverType(QString,QString)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverNetworkName(QString)), this,  SLOT(ReceiverNetworkName(QString)));
     connect((&m_ReceiverInterface), SIGNAL(ZoneInput(int, int)),this,SLOT(ZoneInput(int, int)));
-    connect((&m_ReceiverInterface), SIGNAL(ZonePower(int, bool)),this,SLOT(ZonePower(int, bool)));
 
     // make a list with buttons that correspond to a input type
     /* 00 */ m_InputButtons.append(NULL); //"PHONO"
@@ -180,9 +164,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     // create Test dialog
     m_TestDialog = new TestDialog(this, m_ReceiverInterface, m_Settings);
 
-    // create compatible favorites dialog
-    m_OldFavoritesDialog = new OldFavoritesDialog(this, &m_ReceiverInterface);
-
     // create Settings dialog
     m_SettingsDialog = new SettingsDialog(this, m_Settings, m_ReceiverInterface);
 
@@ -207,6 +188,21 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     EnableControls(false);
     ui->PowerButton->setEnabled(false);
     ui->ZoneControlButton->setEnabled(false);
+
+    QStringList responseList;
+    responseList << InputFunctionResponse().getResponseID();
+    responseList << PowerResponse().getResponseID();
+    responseList << DisplayDataResponse().getResponseID();
+    responseList << HDMIPassThroughResponse().getResponseID();
+    responseList << VolumeResponse().getResponseID();
+    responseList << MuteResponse().getResponseID();
+    responseList << InputNameResponse().getResponseID();
+    responseList << ErrorResponse().getResponseID();
+    responseList << PhaseControlResponse().getResponseID();
+    responseList << HiBitResponse().getResponseID();
+    responseList << PQLSControlResponse().getResponseID();
+    responseList << SoundRetrieverResponse().getResponseID();
+    MsgDistributor::AddResponseListener(this, responseList);
 }
 
 
@@ -218,7 +214,6 @@ AVRPioRemote::~AVRPioRemote()
     delete m_LoudspeakerSettingsDialog;
     delete m_TunerDialog;
     delete m_TestDialog;
-    delete m_OldFavoritesDialog;
     delete m_SettingsDialog;
     delete m_EQDialog;
     delete m_Listendiag;
@@ -319,27 +314,12 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
     if (m_SelectedInput == ui->InputNetButton || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputNetButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputNetButton))
     {
 
-        if (!m_FavoritesCompatibilityMode)
-        {
-            m_NetRadioDialog->ShowNetDialog(true);
-        }
-        else
-        {
-            m_OldFavoritesDialog->ShowOldFavoritesDialog();
-        }
+        m_NetRadioDialog->ShowNetDialog(true);
     }
     else
     {
-        if (!m_FavoritesCompatibilityMode)
-        {
-            if (m_NetRadioDialog->isVisible())
-                m_NetRadioDialog->hide();
-        }
-        else
-        {
-            if (m_OldFavoritesDialog->isVisible())
-                m_OldFavoritesDialog->hide();
-        }
+        if (m_NetRadioDialog->isVisible())
+            m_NetRadioDialog->hide();
     }
 
     // if it is the tuner input, open Tuner window, otherwise close it
@@ -440,83 +420,135 @@ void AVRPioRemote::NewDataReceived(QString data)
     Logger::Log("<-- " + data);
 }
 
-
-void AVRPioRemote::DisplayData(int, QString data)
+void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
 {
-    ui->ScreenLineEdit1->setText(data);
-}
-
-
-void AVRPioRemote::PowerData(bool powerOn)
-{
-    //ui->PowerButton->setChecked(powerOn);
-    ui->PowerButton->setIcon((powerOn)?m_PowerButtonOffIcon:m_PowerButtonOnIcon);
-
-    ui->PowerButton->setText((!powerOn)?tr("ON"):tr("OFF"));
-    EnableControls(powerOn);
-    m_ReceiverOnline = powerOn;
-    m_PowerOn = powerOn;
-}
-
-
-void AVRPioRemote::VolumeData(double dB)
-{
-    QString str;
-    if (dB <= -80.5)
-        str = "---.---";
-    else
+    DisplayDataResponse* display = dynamic_cast<DisplayDataResponse*>(response);
+    if (display != NULL)
     {
-        if (dB <= 0.0)
-            str = QString("%1dB").arg(dB, 4, 'f', 1);
+        ui->ScreenLineEdit1->setText(display->getDisplayLine());
+        return;
+    }
+    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    if (inputFunction != NULL)
+    {
+        InputChanged(inputFunction->getNumber(), inputFunction->getName());
+        return;
+    }
+    PowerResponse* power = dynamic_cast<PowerResponse*>(response);
+    if (power != NULL)
+    {
+        if (power->GetZone() == PowerResponse::ZoneMain)
+        {
+            m_PowerOn = power->IsPoweredOn();
+            ui->PowerButton->setIcon((m_PowerOn) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
+            ui->PowerButton->setText((!m_PowerOn) ? tr("ON") : tr("OFF"));
+            EnableControls(m_PowerOn);
+            m_ReceiverOnline = m_PowerOn;
+        }
+        else if (power->GetZone() == PowerResponse::Zone2)
+        {
+            m_Zone2PowerOn = power->IsPoweredOn();
+            if (!m_Zone2PowerOn)
+                m_SelectedInputZ2 = NULL;
+        }
+        else if (power->GetZone() == PowerResponse::Zone3)
+        {
+            m_Zone3PowerOn = power->IsPoweredOn();
+            if (!m_Zone3PowerOn)
+                m_SelectedInputZ3 = NULL;
+        }
+        return;
+    }
+    HDMIPassThroughResponse* pass_through = dynamic_cast<HDMIPassThroughResponse*>(response);
+    if (pass_through != NULL)
+    {
+        m_PassThroughLast = (pass_through->GetPassThroughFunction() == HDMIPassThroughResponse::PassThroughLast);
+        EnableControls(m_PowerOn);
+        return;
+    }
+    VolumeResponse* volume = dynamic_cast<VolumeResponse*>(response);
+    if (volume != NULL)
+    {
+        if (volume->GetZone() == VolumeResponse::ZoneMain)
+        {
+            ui->VolumeLineEdit->setText(volume->GetVolumeString());
+        }
+        return;
+    }
+    MuteResponse* mute = dynamic_cast<MuteResponse*>(response);
+    if (mute != NULL)
+    {
+        if (mute->GetZone() == MuteResponse::ZoneMain)
+            ui->VolumeMuteButton->setChecked(mute->IsMuted());
+        return;
+    }
+    InputNameResponse* inputname = dynamic_cast<InputNameResponse*>(response);
+    if (inputname != NULL)
+    {
+        if (!m_Settings.value("ShowDefaultInputName", false).toBool())
+            ui->InputNameLineEdit->setText(inputname->GetInputName());
         else
-            str = QString("+%1dB").arg(dB, 4, 'f', 1);
+            ui->InputNameLineEdit->setToolTip(inputname->GetInputName());
     }
-    ui->VolumeLineEdit->setText(str);
-}
-
-void AVRPioRemote::MuteData(bool muted)
-{
-    ui->VolumeMuteButton->setChecked(muted);
-}
-
-
-void AVRPioRemote::ErrorData(int type)
-{
-    switch(type)
+    ErrorResponse* error = dynamic_cast<ErrorResponse*>(response);
+    if (error != NULL)
     {
-    case 2:
-        Logger::Log("This doesn't work now");
-        ui->StatusLineEdit->setText(tr("This doesn't work now"));
+        switch(error->GetError())
+        {
+        case ErrorResponse::ErrorDoesntWorkNow:
+            Logger::Log("This doesn't work now");
+            ui->StatusLineEdit->setText(tr("This doesn't work now"));
+            break;
+        case ErrorResponse::ErrorNotSupported:
+            Logger::Log("This doesn't work with this receiver");
+            ui->StatusLineEdit->setText(tr("This doesn't work with this receiver"));
+            break;
+        case ErrorResponse::ErrorCommand:
+            Logger::Log("Command error");
+            ui->StatusLineEdit->setText(tr("Command error"));
+            break;
+        case ErrorResponse::ErrorParameter:
+            Logger::Log("Parameter error");
+            ui->StatusLineEdit->setText(tr("Parameter error"));
+            break;
+        case ErrorResponse::ErrorBusy:
+            Logger::Log("Receiver busy");
+            ui->StatusLineEdit->setText(tr("Receiver busy"));
+            break;
+        default:
+            Logger::Log("Unknown error");
+            ui->StatusLineEdit->setText(tr("Unknown error"));
+            break;
+        }
         m_StatusLineTimer.start();
-        break;
-    case 3:
-        Logger::Log("This does'nt work with this receiver");
-        ui->StatusLineEdit->setText(tr("This doesn't work with this receiver"));
-        m_StatusLineTimer.start();
-        break;
-    case 4:
-        Logger::Log("Command error");
-        ui->StatusLineEdit->setText(tr("Command error"));
-        m_StatusLineTimer.start();
-        break;
-    case 6:
-        Logger::Log("Parameter error");
-        ui->StatusLineEdit->setText(tr("Parameter error"));
-        m_StatusLineTimer.start();
-        break;
-    case -1:
-        Logger::Log("Receiver busy");
-        ui->StatusLineEdit->setText(tr("Receiver busy"));
-        m_StatusLineTimer.start();
-        break;
-    default:
-        Logger::Log("Unknown error");
-        ui->StatusLineEdit->setText(tr("Unknown error"));
-        m_StatusLineTimer.start();
-        break;
+        return;
     }
-}
+    PhaseControlResponse* phase = dynamic_cast<PhaseControlResponse*>(response);
+    if (phase != NULL)
+    {
+        ui->PhaseButton->setChecked(phase->IsPhaseControlOn());
+        return;
+    }
+    HiBitResponse* hibit = dynamic_cast<HiBitResponse*>(response);
+    if (hibit != NULL)
+    {
+        ui->HiBitButton->setChecked(hibit->IsHiBitOn());
+        return;
+    }
+    PQLSControlResponse* pqls = dynamic_cast<PQLSControlResponse*>(response);
+    if (pqls != NULL)
+    {
+        ui->PqlsButton->setChecked(pqls->IsPQLSControlOn());
+        return;
+    }
+    SoundRetrieverResponse* sretr = dynamic_cast<SoundRetrieverResponse*>(response);
+    if (sretr != NULL)
+    {
+        ui->SRetrButton->setChecked(sretr->IsSoundRetrieverOn());
+        return;
+    }
 
+}
 
 void AVRPioRemote::AudioStatusData(QString codec, QString samplingRate)
 {
@@ -525,7 +557,7 @@ void AVRPioRemote::AudioStatusData(QString codec, QString samplingRate)
 }
 
 
-void AVRPioRemote::InputFunctionData(int no, QString name)
+void AVRPioRemote::InputChanged(int no, QString name)
 {
     if (m_Settings.value("ShowDefaultInputName", false).toBool())
         ui->InputNameLineEdit->setText(name);
@@ -544,42 +576,9 @@ void AVRPioRemote::ZoneInput (int zone, int input)
 }
 
 
-void AVRPioRemote::PhaseData(int phase)
-{
-    ui->PhaseButton->setChecked(phase != 0);
-}
-
-
-void AVRPioRemote::InputNameData(QString name)
-{
-    if (!m_Settings.value("ShowDefaultInputName", false).toBool())
-        ui->InputNameLineEdit->setText(name);
-    else
-        ui->InputNameLineEdit->setToolTip(name);
-}
-
-
 void AVRPioRemote::ListeningModeData(QString name)
 {
     ui->ListeningModeLineEdit->setText(name);
-}
-
-
-void AVRPioRemote::HiBitData(bool set)
-{
-    ui->HiBitButton->setChecked(set);
-}
-
-
-void AVRPioRemote::PqlsData(bool set)
-{
-    ui->PqlsButton->setChecked(set);
-}
-
-
-void AVRPioRemote::DFiltData(bool set)
-{
-    ui->DFiltButton->setChecked(set);
 }
 
 
@@ -636,6 +635,7 @@ void AVRPioRemote::CommConnected()
     m_ReceiverOnline = true;
     SendCmd("?RGD"); // Receiver-Kennung
     SendCmd("?SSO"); // Receiver friendly name (network)
+    SendCmd("?STU"); // PassThrough
     RequestStatus();
 }
 
@@ -660,28 +660,30 @@ bool AVRPioRemote::SendCmd(const QString& cmd)
 
 void AVRPioRemote::EnableControls(bool enable)
 {
-    ui->DFiltButton->setEnabled(enable);
+    ui->SRetrButton->setEnabled(enable);
     ui->HiBitButton->setEnabled(enable);
 
-    if (!m_HdmiControlDialog->IsLastEnabled() || enable)
-    {
-        ui->InputAdptButton->setEnabled(enable);
-        ui->InputBdButton->setEnabled(enable);
-        ui->InputCdButton->setEnabled(enable);
-        ui->InputDvdButton->setEnabled(enable);
-        ui->InputDvrButton->setEnabled(enable);
-        ui->InputHdmiButton->setEnabled(enable);
-        ui->InputIpodButton->setEnabled(enable);
-        ui->InputLeftButton->setEnabled(enable);
-        ui->InputNetButton->setEnabled(enable);
-        ui->InputRightButton->setEnabled(enable);
-        ui->InputSatButton->setEnabled(enable);
-        ui->InputTunerButton->setEnabled(enable);
-        ui->InputTvButton->setEnabled(enable);
-        ui->InputVideoButton->setEnabled(enable);
-        ui->Num1Button->setEnabled(enable);
-        ui->Num2Button->setEnabled(enable);
-    }
+    bool enableInputs = false;
+    if ((m_Connected && m_PassThroughLast) || enable)
+        enableInputs = true;
+
+    ui->InputAdptButton->setEnabled(enableInputs);
+    ui->InputBdButton->setEnabled(enableInputs);
+    ui->InputCdButton->setEnabled(enableInputs);
+    ui->InputDvdButton->setEnabled(enableInputs);
+    ui->InputDvrButton->setEnabled(enableInputs);
+    ui->InputHdmiButton->setEnabled(enableInputs);
+    ui->InputIpodButton->setEnabled(enableInputs);
+    ui->InputNetButton->setEnabled(enableInputs);
+    ui->InputSatButton->setEnabled(enableInputs);
+    ui->InputTunerButton->setEnabled(enableInputs);
+    ui->InputTvButton->setEnabled(enableInputs);
+    ui->InputVideoButton->setEnabled(enableInputs);
+
+    ui->InputLeftButton->setEnabled(enable);
+    ui->InputRightButton->setEnabled(enable);
+    ui->Num1Button->setEnabled(enable);
+    ui->Num2Button->setEnabled(enable);
 
     ui->Num3Button->setEnabled(enable);
     ui->PhaseButton->setEnabled(enable);
@@ -819,11 +821,6 @@ void AVRPioRemote::on_MoreButton_clicked()
 //        MyMenu.addAction(pAction);
 //        connect(pAction, SIGNAL(triggered()), m_WiringDialog, SLOT(ShowWiringDialog()));
 
-
-//        pAction = new QAction(tr("Compatible Favorites"), this);
-//        MyMenu.addAction(pAction);
-//        connect(pAction, SIGNAL(triggered()), m_OldFavoritesDialog, SLOT(ShowOldFavoritesDialog()));
-
         pAction = new QAction(tr("Refresh status"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), this, SLOT(RequestStatus()));
@@ -928,11 +925,11 @@ void AVRPioRemote::on_PqlsButton_clicked()
         SendCmd("1PQ");
 }
 
-void AVRPioRemote::on_DFiltButton_clicked()
+void AVRPioRemote::on_SRetrButton_clicked()
 {
-    ui->DFiltButton->setChecked(!ui->DFiltButton->isChecked());
+    ui->SRetrButton->setChecked(!ui->SRetrButton->isChecked());
     //SendCmd("9ATV");
-    if (ui->DFiltButton->isChecked())
+    if (ui->SRetrButton->isChecked())
         SendCmd("0ATA");
     else
         SendCmd("1ATA");
@@ -1105,18 +1102,3 @@ void AVRPioRemote::on_ZoneControlButton_clicked()
     m_ZoneControlDialog->ShowZoneControlDialog();
 }
 
-void AVRPioRemote::ZonePower (int zone, bool on)
-{
-    if (zone == 2)
-    {
-        m_Zone2PowerOn = on;
-        if (!on)
-            m_SelectedInputZ2 = NULL;
-    }
-    else if (zone == 3)
-    {
-        m_Zone3PowerOn = on;
-        if (!on)
-            m_SelectedInputZ3 = NULL;
-    }
-}

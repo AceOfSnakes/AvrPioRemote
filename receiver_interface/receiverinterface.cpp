@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "receiverinterface.h"
+
 #include "Defs.h"
 #include <QTextCodec>
 #include <QStringList>
@@ -169,27 +170,6 @@ void ReceiverInterface::TcpError(QAbstractSocket::SocketError socketError)
 }
 
 
-QString ReceiverInterface::DecodeHexString(const QString& hex)
-{
-    QString str = "";
-    for (int i = 0; i < (int)hex.length(); i+=2)
-    {
-        int c = hex.mid(i, 2).toInt(NULL, 16);
-        if (c == 5)
-            str += "[)";
-        else if (c == 6)
-            str += "(]";
-        else if (c == 9)
-            str += "<|";
-        else if (c == 10)
-            str += "|>";
-        else
-            str += (QChar)c;
-    }
-    return str;
-}
-
-
 bool ReceiverInterface::SendCmd(const QString& cmd)
 {
 //    Log("--> " + cmd, QColor(0, 200, 0));
@@ -202,55 +182,10 @@ bool ReceiverInterface::SendCmd(const QString& cmd)
 
 void ReceiverInterface::InterpretString(const QString& data)
 {
-    // DISPLAY
-    if (data.startsWith("FL0"))
-    {
-        int no = 0;
-        sscanf(data.toLatin1(), "FL0%1d", &no);
-        QString displayData = DecodeHexString(data.mid(4));
-        emit DisplayData(no, displayData);
-    }
-    else if (data.startsWith("MC"))
-    {
-        emit MCACC(data.mid(2).toInt());
-    }
-    else if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("SPK"))
+    MsgDistributor::NotifyListener(data);
+    if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("SPK"))
     {
         emit SpeakerData(data);
-    }
-    else if (data.startsWith("PWR"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "PWR%d", &n);
-        emit PowerData(n == 0);
-    }
-    else if (data.startsWith("VOL"))
-    {
-        int vol = 0;
-        sscanf(data.toLatin1(), "VOL%d", &vol);
-        double dB = -80.5 + (double)vol * 0.5;
-//        QString str;
-//        if (dB <= 0.0)
-//            str = QString("%1dB").arg(dB, 4, 'f', 1);
-//        else
-//            str = QString("+%1dB").arg(dB, 4, 'f', 1);
-        emit VolumeData(dB);
-    }
-    else if (data.startsWith("MUT"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "MUT%d", &n);
-        emit MuteData(n == 0);
-    }
-    else if (data.startsWith("E0"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "E0%d", &n);
-        emit ErrorData(n);
-    }
-    else if (data.startsWith("B00"))
-    {
-        emit ErrorData(-1);
     }
     else if (data.startsWith("AST"))
     {
@@ -346,26 +281,6 @@ void ReceiverInterface::InterpretString(const QString& data)
             // HDMI out 1 Color Space data25-29
         }
     }
-    else if (data.startsWith("FN"))
-    {
-        if (data.length() >=4)
-        {
-            int n = 0;
-            sscanf(data.toLatin1(), "FN%d", &n);
-            QString key = data.mid(2, 2);
-            //QString str = (n >= 0 && n <= 48)?(VIDEO_INPUT[n]):"unknown";
-            QString str = FindValueByKey(VIDEO_INPUT, key);
-            if (str == "")
-                str = "unknown";
-            emit InputFunctionData(n, str);
-        }
-    }
-    else if (data.startsWith("RGB"))
-    {
-        //bool renamed = (tmp[5] == '1');
-        QString name = data.mid(6);
-        emit InputNameData(name);
-    }
     else if (data.startsWith("SR"))
     {
         QString text = FindValueByKey(LISTENING_MODE, data.mid(2, 4));
@@ -380,24 +295,6 @@ void ReceiverInterface::InterpretString(const QString& data)
         if (text == "")
             text = "---";
         emit ListeningModeData(text);
-    }
-    else if (data.startsWith("TO0"))
-    {
-        //ui->pushButtonToneOn->setText("BYPASS");
-        //ui->pushButtonToneOn->setChecked(false);
-        //ui->pushButtonBassDown->setEnabled(false);
-        //ui->pushButtonBassUp->setEnabled(false);
-        //ui->pushButtonTrebleDown->setEnabled(false);
-        //ui->pushButtonTrebleUp->setEnabled(false);
-    }
-    else if (data.startsWith("TO1"))
-    {
-        //ui->pushButtonToneOn->setText("ON");
-        //ui->pushButtonToneOn->setChecked(true);
-        //ui->pushButtonBassDown->setEnabled(true);
-        //ui->pushButtonBassUp->setEnabled(true);
-        //ui->pushButtonTrebleDown->setEnabled(true);
-        //ui->pushButtonTrebleUp->setEnabled(true);
     }
     else if (data.startsWith("BA"))
     {
@@ -431,24 +328,6 @@ void ReceiverInterface::InterpretString(const QString& data)
         }
         //ui->lineEditTreble->setText(str);
     }
-    else if (data.startsWith("IS"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "IS%d", &n);
-        emit PhaseData(n);
-    }
-    else if (data.startsWith("ATI"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "ATI%d", &n);
-        emit HiBitData(n != 0);
-    }
-    else if (data.startsWith("PQ"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "PQ%d", &n);
-        emit PqlsData(n != 0);
-    }
     else if (data.startsWith("GBH") ||
              data.startsWith("GCH") ||
              data.startsWith("GDH") ||
@@ -463,12 +342,6 @@ void ReceiverInterface::InterpretString(const QString& data)
              data.startsWith("GEI"))
     {
         emit usbData(data);
-    }
-    else if (data.startsWith("ATA"))
-    {
-        int n = 0;
-        sscanf(data.toLatin1(), "ATA%d", &n);
-        emit DFiltData(n != 0);
     }
     else if (data.startsWith("RGD"))
     {
@@ -490,30 +363,6 @@ void ReceiverInterface::InterpretString(const QString& data)
             name.chop(1);
         emit ReceiverNetworkName(name);
     }
-    else if (data.startsWith("APR0"))
-    {
-        emit ZonePower(2, true);
-    }
-    else if (data.startsWith("APR1"))
-    {
-        emit ZonePower(2, false);
-    }
-    else if (data.startsWith("BPR0"))
-    {
-        emit ZonePower(3, true);
-    }
-    else if (data.startsWith("BPR1"))
-    {
-        emit ZonePower(3, false);
-    }
-    else if (data.startsWith("ZEP0"))
-    {
-        emit ZonePower(4, true);
-    }
-    else if (data.startsWith("ZEP1"))
-    {
-        emit ZonePower(4, false);
-    }
     else if (data.startsWith("Z2F"))
     {
         int n = 0;
@@ -531,60 +380,6 @@ void ReceiverInterface::InterpretString(const QString& data)
         int n = 0;
         sscanf(data.toLatin1(), "ZEA%d", &n);
         emit ZoneInput(4, n);
-    }
-    else if (data.startsWith("ZV"))
-    {
-        int vol = 0;
-        sscanf(data.toLatin1(), "ZV%d", &vol);
-        if (vol == 0)
-        {
-            emit ZoneVolume(2, vol, "- - -");
-        }
-        else
-        {
-            double dB = -81.0 + (double)vol * 1.0;
-            QString str;
-            if (dB <= 0.0)
-                str = QString("%1dB").arg(dB, 4, 'f', 1);
-            else
-                str = QString("+%1dB").arg(dB, 4, 'f', 1);
-            emit ZoneVolume(2, vol, str);
-        }
-    }
-    else if (data.startsWith("YV"))
-    {
-        int vol = 0;
-        sscanf(data.toLatin1(), "YV%d", &vol);
-        if (vol == 0)
-        {
-            emit ZoneVolume(3, vol, "- - -");
-        }
-        else
-        {
-            double dB = -81.0 + (double)vol * 1.0;
-            QString str;
-            if (dB <= 0.0)
-                str = QString("%1dB").arg(dB, 4, 'f', 1);
-            else
-                str = QString("+%1dB").arg(dB, 4, 'f', 1);
-            emit ZoneVolume(3, vol, str);
-        }
-    }
-    else if (data.startsWith("Z2MUT0"))
-    {
-        emit ZoneMute(2, true);
-    }
-    else if (data.startsWith("Z2MUT1"))
-    {
-        emit ZoneMute(2, false);
-    }
-    else if (data.startsWith("Z3MUT0"))
-    {
-        emit ZoneMute(3, true);
-    }
-    else if (data.startsWith("Z3MUT1"))
-    {
-        emit ZoneMute(3, false);
     }
     else if (data.startsWith("SUW"))
     {

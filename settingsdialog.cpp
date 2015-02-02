@@ -34,10 +34,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->tabWidget->setCurrentIndex(0);
 
     ui->TunerVSX922CompatibilityModeCheckBox->setChecked(m_Settings.value("TunerCompatibilityMode", false).toBool());
-    ui->FavoriteLX83CompatibilityModeCheckBox->setChecked(m_Settings.value("FavoritesCompatibilityMode", false).toBool());
-    // vorerst auf eis gelegt
-    m_Settings.setValue("FavoritesCompatibilityMode", false);
-    ui->FavoriteLX83CompatibilityModeCheckBox->setVisible(false);
 
     //this->setFixedSize(this->size());
     this->setModal(true);
@@ -188,12 +184,6 @@ void SettingsDialog::CommDisconnected()
 void SettingsDialog::on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state)
 {
     m_Settings.setValue("TunerCompatibilityMode", (Qt::Checked == state));
-}
-
-
-void SettingsDialog::on_FavoriteLX83CompatibilityModeCheckBox_stateChanged(int state)
-{
-    m_Settings.setValue("FavoritesCompatibilityMode", (Qt::Checked == state));
 }
 
 

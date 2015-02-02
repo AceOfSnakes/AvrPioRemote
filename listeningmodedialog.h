@@ -22,7 +22,7 @@
 #include <QSettings>
 #include <QComboBox>
 #include <QByteArray>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QLabel>
 #include <QMoveEvent>
 

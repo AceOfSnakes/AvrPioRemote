@@ -18,7 +18,8 @@
 #include "loudspeakersettingsdialog.h"
 #include "ui_loudspeakersettingsdialog.h"
 #include "QDebug"
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
+
 
 
 const char* LStyp[] = {
@@ -106,9 +107,7 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     // communication
 //    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(SpeakerReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect(&m_Comm,SIGNAL(ErrorData(int)),this,SLOT(error(int))); //Fehler abfangen beim setzen der LSConfig
     connect(&m_Comm,SIGNAL(SpeakerData(QString)),this,SLOT(Speakerinfo(QString)));
-    connect(&m_Comm,SIGNAL(MCACC(int)),this,SLOT(MCACC(int)));
 
     connect(ui->sfl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
     connect(ui->sfr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
@@ -185,6 +184,11 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     QStringList mstr1;
     mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5" << "Memory 6";
     ui->selectmem->addItems(mstr1);
+
+    QStringList responseList;
+    responseList << MCACCNumberResponse().getResponseID();
+    responseList << ErrorResponse().getResponseID(); //Fehler abfangen beim setzen der LSConfig
+    MsgDistributor::AddResponseListener(this, responseList);
 }
 
 
@@ -202,11 +206,28 @@ void LoudspeakerSettingsDialog::moveEvent(QMoveEvent* event)
 }
 
 
-void LoudspeakerSettingsDialog::MCACC(int mcacc)
+void LoudspeakerSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    //      qDebug() <<"MC wert: " << wert;
-          clear_toggles();
-          m_buttons[mcacc - 1]->setChecked(true);
+    // mcacc number
+    MCACCNumberResponse* mcacc = dynamic_cast<MCACCNumberResponse*>(response);
+    if (mcacc != NULL)
+    {
+        clear_toggles();
+        m_buttons[mcacc->GetMCACCNumber() - 1]->setChecked(true);
+        return;
+    }
+    ErrorResponse* error = dynamic_cast<ErrorResponse*>(response);
+    if (error != NULL)
+    {
+        // da keine weitere Unterscheidung hier möglich, generell setzen
+        if (errflag > 0)
+        {
+            SendCmd("?SSF");   //Wert nicht angenommen, korrigieren in DataReceived(QString data)
+            errflag--;
+        }
+        ui->speakermode->setCurrentIndex(mLSpaar[ui->speaker->currentIndex()]);
+        return;
+    }
 }
 
 void LoudspeakerSettingsDialog::Speakerinfo(QString data)
@@ -321,19 +342,6 @@ void LoudspeakerSettingsDialog::on_SetBut_clicked()
       mVal=i;
       errflag=1;
     }
-}
-
-
-void LoudspeakerSettingsDialog::error(int)
-{
-// da keine weitere Unterscheidung hier möglich, generell setzen
-    if (errflag>0)
-    {
-        SendCmd("?SSF");   //Wert nicht angenommen, korrigieren in DataReceived(QString data)
-        errflag--;
-    }
-        ui->speakermode->setCurrentIndex(mLSpaar[ui->speaker->currentIndex()]);
-
 }
 
 

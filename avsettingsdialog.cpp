@@ -20,7 +20,6 @@ AVSettingsDialog::AVSettingsDialog(QWidget *parent, QSettings& settings, Receive
 
     connect(this,     SIGNAL(SendCmdSignal(QString)), (&m_Comm), SLOT(SendCmd(QString)));
     connect((&m_Comm), SIGNAL(DataReceived(QString)), this,      SLOT(NewDataReceived(QString)));
-    connect((&m_Comm), SIGNAL(ErrorData(int)),        this,      SLOT(ErrorData(int)));
 
     ui->ResolutionComboBox->addItem("AUTO",     "00");
     ui->ResolutionComboBox->addItem("PURE",     "01");
@@ -130,6 +129,12 @@ AVSettingsDialog::AVSettingsDialog(QWidget *parent, QSettings& settings, Receive
     connect((&m_CmdRepeatTimer), SIGNAL(timeout()), this, SLOT(CmdRepeatTimeout()));
     m_CmdRepeatTimer.setSingleShot(true);
     m_CmdRepeatTimer.setInterval(1000);
+
+    QStringList responseList;
+    responseList << InputFunctionResponse().getResponseID();
+    responseList << MCACCNumberResponse().getResponseID();
+    responseList << ErrorResponse().getResponseID();
+    MsgDistributor::AddResponseListener(this, responseList);
 }
 
 AVSettingsDialog::~AVSettingsDialog()
@@ -171,11 +176,35 @@ void AVSettingsDialog::EnableAVControls(bool enable)
     ui->ChromaLevelSlider->setEnabled(enable);
 }
 
-void AVSettingsDialog::ErrorData(int type)
+void AVSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    if (type == -1 || type == 2)
+    // input
+    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    if (inputFunction != NULL)
     {
-        m_CmdRepeatTimer.start();
+        if (!this->isVisible())
+            return;
+        Refresh();
+        return;
+    }
+    // mcacc memory number
+    MCACCNumberResponse* mcacc = dynamic_cast<MCACCNumberResponse*>(response);
+    if (mcacc != NULL)
+    {
+        //QString no = data.mid(2);
+        //int idx = ui->MemSetNoComboBox->findData(no);
+        qDebug() << "mcacc idx:" << mcacc->GetMCACCNumber();
+        ui->MemSetNoComboBox->setCurrentIndex(mcacc->GetMCACCNumber() - 1);
+        return;
+    }
+    ErrorResponse* error = dynamic_cast<ErrorResponse*>(response);
+    if (error != NULL)
+    {
+        if (error->GetError() == ErrorResponse::ErrorDoesntWorkNow || error->GetError() == ErrorResponse::ErrorBusy)
+        {
+            m_CmdRepeatTimer.start();
+        }
+        return;
     }
 }
 
@@ -415,12 +444,6 @@ void AVSettingsDialog::NewDataReceived(QString data)
         int idx = ui->AspectComboBox->findData(no);
         ui->AspectComboBox->setCurrentIndex(idx);
     }
-    else if (data.startsWith("MC", Qt::CaseInsensitive))
-    {
-        QString no = data.mid(2);
-        int idx = ui->MemSetNoComboBox->findData(no);
-        ui->MemSetNoComboBox->setCurrentIndex(idx);
-    }
     else if (data.startsWith("IS", Qt::CaseInsensitive))
     {
         QString no = data.mid(2);
@@ -553,13 +576,6 @@ void AVSettingsDialog::NewDataReceived(QString data)
         int idx = ui->SleepComboBox->findData(no);
         ui->SleepComboBox->setCurrentIndex(idx);
     }
-}
-
-void AVSettingsDialog::InputFunctionData(int/* no*/, QString/* name*/)
-{
-    if (!this->isVisible())
-        return;
-    Refresh();
 }
 
 void AVSettingsDialog::on_VideoConvCheckBox_clicked(bool checked)

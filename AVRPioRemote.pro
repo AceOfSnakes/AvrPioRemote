@@ -29,11 +29,8 @@ SOURCES += main.cpp \
     loudspeakersettingsdialog.cpp \
     tunerdialog.cpp \
     actionwithparameter.cpp \
-    receiverinterface.cpp \
     playerinterface.cpp \
     testdialog.cpp \
-    oldfavoritesdialog.cpp \
-    getoldfavoritelistdialog.cpp \
     settingsdialog.cpp \
     logger.cpp \
     eqdialog.cpp \
@@ -49,9 +46,28 @@ SOURCES += main.cpp \
     checkboxdelegate.cpp \
     emphasisdialog.cpp \
     labeledslider.cpp \
-    cmd/cmdbase.cpp \
-    cmd/receivedobjectbase.cpp \
-    hdmicontroldialog.cpp
+    hdmicontroldialog.cpp \
+    receiver_interface/msgdistributor.cpp \
+    receiver_interface/response/displaydataresponse.cpp \
+    receiver_interface/response/inputfunctionresponse.cpp \
+    receiver_interface/response/mcaccnumberresponse.cpp \
+    receiver_interface/response/powerresponse.cpp \
+    receiver_interface/response/receivedobjectbase.cpp \
+    receiver_interface/response/responselistener.cpp \
+    receiver_interface/command/cmdbase.cpp \
+    receiver_interface/receiverinterface.cpp \
+    receiver_interface/response/hdmipassthroughresponse.cpp \
+    receiver_interface/response/hdmicontrolresponse.cpp \
+    receiver_interface/response/hdmicontrolmoderesponse.cpp \
+    receiver_interface/response/hdmicontrolarcresponse.cpp \
+    receiver_interface/response/volumeresponse.cpp \
+    receiver_interface/response/muteresponse.cpp \
+    receiver_interface/response/inputnameresponse.cpp \
+    receiver_interface/response/errorresponse.cpp \
+    receiver_interface/response/phasecontrolresponse.cpp \
+    receiver_interface/response/hibitresponse.cpp \
+    receiver_interface/response/pqlscontrolresponse.cpp \
+    receiver_interface/response/soundretrieverresponse.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -62,11 +78,8 @@ HEADERS  += avrpioremote.h \
     loudspeakersettingsdialog.h \
     tunerdialog.h \
     actionwithparameter.h \
-    receiverinterface.h \
     playerinterface.h \
     testdialog.h \
-    oldfavoritesdialog.h \
-    getoldfavoritelistdialog.h \
     settingsdialog.h \
     logger.h \
     eqdialog.h \
@@ -82,9 +95,28 @@ HEADERS  += avrpioremote.h \
     checkboxdelegate.h \
     emphasisdialog.h \
     labeledslider.h \
-    cmd/cmdbase.h \
-    cmd/receivedobjectbase.h \
-    hdmicontroldialog.h
+    hdmicontroldialog.h \
+    receiver_interface/msgdistributor.h \
+    receiver_interface/response/displaydataresponse.h \
+    receiver_interface/response/inputfunctionresponse.h \
+    receiver_interface/response/mcaccnumberresponse.h \
+    receiver_interface/response/powerresponse.h \
+    receiver_interface/response/receivedobjectbase.h \
+    receiver_interface/response/responselistener.h \
+    receiver_interface/command/cmdbase.h \
+    receiver_interface/receiverinterface.h \
+    receiver_interface/response/hdmipassthroughresponse.h \
+    receiver_interface/response/hdmicontrolresponse.h \
+    receiver_interface/response/hdmicontrolmoderesponse.h \
+    receiver_interface/response/hdmicontrolarcresponse.h \
+    receiver_interface/response/volumeresponse.h \
+    receiver_interface/response/muteresponse.h \
+    receiver_interface/response/inputnameresponse.h \
+    receiver_interface/response/errorresponse.h \
+    receiver_interface/response/phasecontrolresponse.h \
+    receiver_interface/response/hibitresponse.h \
+    receiver_interface/response/pqlscontrolresponse.h \
+    receiver_interface/response/soundretrieverresponse.h
  
 
 
@@ -95,7 +127,6 @@ FORMS    += avrpioremote.ui \
     loudspeakersettingsdialog.ui \
     tunerdialog.ui \
     testdialog.ui \
-    oldfavoritesdialog.ui \
     getoldfavoritelistdialog.ui \
     settingsdialog.ui \
     eqdialog.ui \

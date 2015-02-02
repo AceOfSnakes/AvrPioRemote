@@ -19,7 +19,7 @@
 #define EQDIALOG_H
 
 #include <QDialog>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QSlider>
 #include <QLabel>
 #include <QTimer>

@@ -2,7 +2,7 @@
 #define MCACCEQDIALOG_H
 
 #include <QDialog>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QSettings>
 #include <QRadioButton>
 #include <QSlider>
@@ -12,14 +12,16 @@ namespace Ui {
 class MCACCEQDialog;
 }
 
-class MCACCEQDialog : public QDialog
+class MCACCEQDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit MCACCEQDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~MCACCEQDialog();
-    
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
+
 private:
     Ui::MCACCEQDialog *ui;
     QSettings&              m_Settings;
@@ -41,7 +43,6 @@ private:
 public slots:
     void ShowMCACCEQDialog();
     void MCACCEQData(int mcacc, QString speaker, int eqidx, int value);
-    void MCACC(int mcacc);
     void SliderValueChanged();
     void SpeakerClicked();
 

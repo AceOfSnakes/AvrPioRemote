@@ -8,8 +8,7 @@ HdmiControlDialog::HdmiControlDialog(QWidget *parent, QSettings& settings, Recei
     ui(new Ui::HdmiControlDialog),
     m_Comm(Comm),
     m_PositionSet(false),
-    m_PowerOn(false),
-    m_LastEnabled(false)
+    m_PowerOn(false)
 {
     ui->setupUi(this);
 
@@ -20,12 +19,19 @@ HdmiControlDialog::HdmiControlDialog(QWidget *parent, QSettings& settings, Recei
     }
 
     QStringList mstr;
-    mstr << "Off" << "Last" << "BD" << "HDMI 1" << "HDMI 2" << "HDMI 3" << "HDMI 4" << "HDMI 5" << "HDMI 6" << "HDMI 7" << "HDMI 8" << "HDMI 9" << "HDMI 10";
+    mstr << HDMIPassThroughResponse::GetFunctionNamesList();
     ui->standbyPassThroughComboBox->addItems(mstr);
 
+    QStringList responseList;
+    responseList << PowerResponse().getResponseID();
+    responseList << HDMIPassThroughResponse().getResponseID();
+    responseList << HDMIControlResponse().getResponseID();
+    responseList << HDMIControlModeResponse().getResponseID();
+    responseList << HDMIControlARCResponse().getResponseID();
+    MsgDistributor::AddResponseListener(this, responseList);
+
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
-    connect(&Comm, SIGNAL(Connected()), this, SLOT(CommConnected()));
+    connect(&m_Comm, SIGNAL(Connected()), this, SLOT(CommConnected()));
 }
 
 HdmiControlDialog::~HdmiControlDialog()
@@ -81,36 +87,44 @@ void HdmiControlDialog::ShowHdmiControlDialog()
     SendCmd("?STU");
 }
 
-void HdmiControlDialog::DataReceived(QString data)
+void HdmiControlDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    int n = 0;
-    if (data.startsWith("STQ"))
+    // Power
+    PowerResponse* power = dynamic_cast<PowerResponse*>(response);
+    if (power != NULL && power->GetZone() == PowerResponse::ZoneMain)
     {
-        sscanf(data.toLatin1(), "STQ%d", &n);
-        ui->hdmiControlCheckBox->setChecked(n != 0);
+        m_PowerOn = power->IsPoweredOn();
+        return;
     }
-    else if (data.startsWith("PWR"))
+    // HDMI pass through
+    HDMIPassThroughResponse* pass_through = dynamic_cast<HDMIPassThroughResponse*>(response);
+    if (pass_through != NULL)
     {
-        int n = 0;
-        sscanf(data.toLatin1(), "PWR%d", &n);
-        m_PowerOn = (n == 0);
-    }
-    else if (data.startsWith("STR"))
-    {
-        sscanf(data.toLatin1(), "STR%d", &n);
-        ui->hdmiControlModeCheckBox->setChecked(n != 0);
-    }
-    else if (data.startsWith("STT"))
-    {
-        sscanf(data.toLatin1(), "STT%d", &n);
-        ui->arcCheckBox->setChecked(n != 0);
-    }
-    else if (data.startsWith("STU"))
-    {
-        sscanf(data.toLatin1(), "STU%d", &n);
-        m_LastEnabled = (n == 1);
+        int n = pass_through->GetPassThroughFunction();
         if (n >= 0 && n < ui->standbyPassThroughComboBox->count())
             ui->standbyPassThroughComboBox->setCurrentIndex(n);
+        return;
+    }
+    // HDMI Control
+    HDMIControlResponse* control = dynamic_cast<HDMIControlResponse*>(response);
+    if (control != NULL)
+    {
+        ui->hdmiControlCheckBox->setChecked(control->IsHDMIControlOn());
+        return;
+    }
+    // HDMI Control Mode
+    HDMIControlModeResponse* control_mode = dynamic_cast<HDMIControlModeResponse*>(response);
+    if (control_mode != NULL)
+    {
+        ui->hdmiControlModeCheckBox->setChecked(control_mode->IsHDMIControlModeOn());
+        return;
+    }
+    // ARC
+    HDMIControlARCResponse* control_arc = dynamic_cast<HDMIControlARCResponse*>(response);
+    if (control_arc != NULL)
+    {
+        ui->arcCheckBox->setChecked(control_arc->IsHDMIControlARCOn());
+        return;
     }
 }
 
@@ -148,7 +162,3 @@ void HdmiControlDialog::on_standbyPassThroughComboBox_currentIndexChanged(int n)
     SendCmd(QString("%1STU").arg(n, 2, 10, QChar('0')));
 }
 
-bool HdmiControlDialog::IsLastEnabled()
-{
-    return m_LastEnabled;
-}

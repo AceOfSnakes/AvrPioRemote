@@ -90,13 +90,16 @@ MCACCEQDialog::MCACCEQDialog(QWidget *parent, QSettings& settings, ReceiverInter
     }
 
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect(&m_Comm,SIGNAL(MCACC(int)),this,SLOT(MCACC(int)));
     connect(&m_Comm,SIGNAL(MCACCEQ(int, QString, int, int)),this,SLOT(MCACCEQData(int, QString, int, int)));
 
     for (int i = 0; i < (int)m_Slider.size(); i++)
     {
         connect(m_Slider[i],SIGNAL(sliderReleased()),this,SLOT(SliderValueChanged()));
     }
+
+    QStringList responseList;
+    responseList << MCACCNumberResponse().getResponseID();
+    MsgDistributor::AddResponseListener(this, responseList);
 }
 
 MCACCEQDialog::~MCACCEQDialog()
@@ -139,23 +142,30 @@ void MCACCEQDialog::ShowMCACCEQDialog()
 
 }
 
-void MCACCEQDialog::MCACC(int mcacc)
+void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    if (!isVisible())
-        return;
-    if (m_CurrentMcacc == mcacc)
-        return;
-    m_CurrentMcacc = mcacc;
-    ui->MCACCcomboBox->setEnabled(true);
-    ui->MCACCcomboBox->setCurrentIndex(mcacc - 1);
-
-    EnableSlider(false);
-
-    for (int i = 0; i < m_Speakers.size(); i++)
+    // mcacc number
+    MCACCNumberResponse* mcacc = dynamic_cast<MCACCNumberResponse*>(response);
+    if (mcacc != NULL)
     {
-        RefreshSpeakerEq(eqchannels[i]);
+        int no = mcacc->GetMCACCNumber();
+        if (!isVisible())
+            return;
+        if (m_CurrentMcacc == no)
+            return;
+        m_CurrentMcacc = no;
+        ui->MCACCcomboBox->setEnabled(true);
+        ui->MCACCcomboBox->setCurrentIndex(no - 1);
+
+        EnableSlider(false);
+
+        for (int i = 0; i < m_Speakers.size(); i++)
+        {
+            RefreshSpeakerEq(eqchannels[i]);
+        }
+        m_Speakers[0]->setChecked(true);
+        return;
     }
-    m_Speakers[0]->setChecked(true);
 }
 
 void MCACCEQDialog::RefreshSpeakerEq(QString speaker)

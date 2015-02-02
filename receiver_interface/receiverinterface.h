@@ -22,6 +22,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <string>
 #include "logger.h"
+#include "msgdistributor.h"
 
 using namespace std;
 
@@ -39,7 +40,6 @@ private:
     bool            m_Connected;
 
     void InterpretString(const QString& data);
-    QString DecodeHexString(const QString& hex);
 
 private slots:
     void ReadString();
@@ -58,29 +58,17 @@ signals:
     void Connected();
     void Disconnected();
     void DataReceived(QString);
-    void DisplayData(int dispNo, QString data);
-    void PowerData(bool powerOn);
-    void VolumeData(double dB);
     void MuteData(bool muted);
-    void ErrorData(int type);
     void AudioStatusData(QString codec, QString samplingRate);
-    void InputFunctionData(int no, QString name);
-    void PhaseData(int phase);
-    void InputNameData(QString name);
     void Listenextended(QString id, QString name);
     void ListeningModeData(QString name);
-    void HiBitData(bool set);
-    void PqlsData(bool set);
     void NetData(QString data);
-    void DFiltData(bool set);
     void SpeakerData(QString name);
     void usbData (QString name);
     void ReceiverType (QString no, QString name);
     void ReceiverNetworkName (QString name);
-    void ZonePower (int zone, bool on);
     void ZoneInput (int zone, int input);
     void ZoneVolume (int zone, int volume, QString asString);
-    void ZoneMute (int zone, bool muted);
     void MCACC (int mcacc);
     void MCACCEQ (int mcacc, QString speaker, int eqidx, int value);
 };

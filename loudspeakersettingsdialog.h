@@ -22,7 +22,7 @@
 #include <QSettings>
 #include <QComboBox>
 #include <QByteArray>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QLabel>
 #include <QMoveEvent>
 #include <QCheckBox>
@@ -31,13 +31,16 @@ namespace Ui {
 class LoudspeakerSettingsDialog;
 }
 
-class LoudspeakerSettingsDialog : public QDialog
+class LoudspeakerSettingsDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit LoudspeakerSettingsDialog(QWidget *parent, QSettings& settings,ReceiverInterface& Comm);
     ~LoudspeakerSettingsDialog();
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
+
     int mVal; // Wert der aktuellen Konfig
     int mLSpaar[7]; //Wert des aktuellen LS- 0=small, 1=large,2=NO
     int mchannels[12]; //Wert des aktuellen Channels DB-Preset
@@ -59,8 +62,6 @@ public slots:
 //    void SpeakerReceived(QString data);
     void ShowLoudspeakerSettingsDialog();
     void Speakerinfo(QString data);
-    void MCACC(int mcacc);
-    void error(int);
 
 signals:
     void SendCmd(QString data);

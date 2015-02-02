@@ -22,21 +22,23 @@
 #include <vector>
 #include <QSettings>
 #include "actionwithparameter.h"
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QMoveEvent>
 
 namespace Ui {
 class TunerDialog;
 }
 
-class TunerDialog : public QDialog
+class TunerDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit TunerDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& settings);
     ~TunerDialog();
-    
+    // ResponseListener interface
+    void ResponseReceived(ReceivedObjectBase *);
+
 private:
     QSettings&                  m_Settings;
     Ui::TunerDialog *           ui;
@@ -65,8 +67,6 @@ public slots:
     void SelectClassButton(int idx);
     void SelectPresetButton(int idx);
     void PresetSelected(QString Param);
-    void DisplayData(int no, QString str);
-    void InputChanged(int no, QString name);
 signals:
     void SendCmd(QString);
 private slots:

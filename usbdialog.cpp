@@ -50,7 +50,6 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
 
     connect((&m_Comm), SIGNAL(usbData(QString)), this, SLOT(usbrecData(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect((&m_Comm), SIGNAL(DisplayData(int, QString)),this,SLOT(randrepeattest(int,QString)));
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
     connect((&m_PlayTimeTimer), SIGNAL(timeout()), this, SLOT(RefreshPlayTime()));
@@ -77,6 +76,8 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
     // now playing
     QIcon icon5(QString::fromUtf8(":/new/prefix1/images/Gnome-video-x-generic.png"));
     m_Icons.insert(5, icon5);
+
+    MsgDistributor::AddResponseListener(this, QStringList() << DisplayDataResponse().getResponseID());
 }
 
 
@@ -121,6 +122,22 @@ void usbDialog::ShowusbDialog(bool autoShow)
      }
 }
 
+
+void usbDialog::ResponseReceived(ReceivedObjectBase *response)
+{
+    DisplayDataResponse* display = dynamic_cast<DisplayDataResponse*>(response);
+    if (display != NULL)
+    {
+        QString str, str1;
+        str = display->getDisplayLine().trimmed();
+        str1 = str.mid(0,6);
+        if(str1 == "Repeat")
+            ui->brepeat->setText(str);
+        else if(str1 == "Random")
+            ui->brandom->setText(str);
+        return;
+    }
+}
 
 
 
@@ -432,15 +449,4 @@ void usbDialog::on_brandom_clicked()
 void usbDialog::on_brepeat_clicked()
 {
     emit SendCmd("07IP"); // repeat weiterschalten
-}
-
-void usbDialog::randrepeattest(int/* no*/, QString name)
-{
-    QString str,str1;
-    str=name.trimmed();
-    str1=str.mid(0,6);
-    if(str1=="Repeat")
-        ui->brepeat->setText(str);
-    else if(str1=="Random")
-        ui->brandom->setText(str);
 }

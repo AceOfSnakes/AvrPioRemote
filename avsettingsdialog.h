@@ -2,7 +2,7 @@
 #define AVSETTINGSDIALOG_H
 
 #include <QDialog>
-#include "receiverinterface.h"
+#include "receiver_interface/receiverinterface.h"
 #include <QSettings>
 #include <QTimer>
 
@@ -10,14 +10,15 @@ namespace Ui {
 class AVSettingsDialog;
 }
 
-class AVSettingsDialog : public QDialog
+class AVSettingsDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit AVSettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
     ~AVSettingsDialog();
-    
+    void ResponseReceived(ReceivedObjectBase *);
+
 private:
     Ui::AVSettingsDialog *ui;
     QSettings&              m_Settings;
@@ -32,12 +33,11 @@ private:
     void Refresh();
     void SendCmd(QString cmd);
     void EnableAVControls(bool enable);
+    void InputChanged(int, QString);
 
 public slots:
     void ShowAVSettingsDialog();
     void NewDataReceived(QString data);
-    void InputFunctionData(int, QString);
-    void ErrorData(int type);
     void CmdRepeatTimeout();
 
 signals:

@@ -521,7 +521,7 @@ SURR</string>
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="DFiltButton">
+  <widget class="QPushButton" name="SRetrButton">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -915,7 +915,7 @@ SURR</string>
   <zorder>Num3Button</zorder>
   <zorder>Num2Button</zorder>
   <zorder>ShowAllListeningModesButton</zorder>
-  <zorder>DFiltButton</zorder>
+  <zorder>SRetrButton</zorder>
   <zorder>PhaseButton</zorder>
   <zorder>PqlsButton</zorder>
   <zorder>HiBitButton</zorder>
