@@ -53,7 +53,6 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings
     }
 
     // communication
-    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 
     // slider
@@ -126,6 +125,14 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings
     connect(ui->saveEmphasisCheckBox, SIGNAL(toggled(bool)), this, SLOT(onSaveCheckBoxToggled(bool)));
     connect(ui->saveToneCheckBox, SIGNAL(toggled(bool)), this, SLOT(onSaveCheckBoxToggled(bool)));
     connect(ui->saveXCurveCheckBox, SIGNAL(toggled(bool)), this, SLOT(onSaveCheckBoxToggled(bool)));
+
+    QStringList responseList;
+    responseList << EQResponse().getResponseID();
+    responseList << ToneResponse().getResponseID();
+    responseList << BassResponse().getResponseID();
+    responseList << TrebleResponse().getResponseID();
+    responseList << XCurveResponse().getResponseID();
+    MsgDistributor::AddResponseListener(this, responseList);
 }
 
 
@@ -335,20 +342,15 @@ void EQDialog::SelectPreset(int preset)
                 SetEqSlider(50, m_EQSliders[i], m_EQLabels[i]);
             }
         }
-        // set tone sliders to flat
-        SetToneSlider(6, ui->eqba, ui->wertbass); // Bass
-        SetToneSlider(6, ui->eqtr, ui->werttreble); // Treble
+        //SetToneSlider(6, ui->eqba, ui->wertbass); // Bass
+        //SetToneSlider(6, ui->eqtr, ui->werttreble); // Treble
         m_EmphasisDialog->SetCenter(50);
         m_EmphasisDialog->SetBass(50);
-        //SetEmphasisSlider(50, ui->eqEmphasisBass, ui->wertEmphasisBass);
-        //SetEmphasisSlider(50, ui->eqEmphasisCenter, ui->wertEmphasisCenter);
         // select the FLAT button
         ui->eqFlatPushButton->setChecked(false);
     }
     m_Timer.start();
 }
-
-
 
 void EQDialog::ShowEQDialog()
 {
@@ -374,65 +376,30 @@ void EQDialog::ShowEQDialog()
     SendCmd("?ILV");
 }
 
-
-void EQDialog::DataReceived(QString data)
+void EQDialog::ResponseReceived(ReceivedObjectBase *response)
 {
     if (!isVisible())
     {
         return;
     }
-    int value;
-    QString str;
-    if (data.startsWith("ATB"))
+
+    // EQ
+    EQResponse* eq = dynamic_cast<EQResponse*>(response);
+    if (eq != NULL)
     {
-        for (int i = 0; i < m_EQSliders.count(); i++)
+        const QVector<int>& eqData = eq->GetEQData();
+        for (int i = 0; i < m_EQSliders.count() && i < eqData.count(); i++)
         {
-            value = data.mid(5 + i * 2, 2).toInt();
-            SetEqSlider(value, m_EQSliders[i], m_EQLabels[i]);
+            SetEqSlider(eqData[i], m_EQSliders[i], m_EQLabels[i]);
         }
+        return;
     }
-    else if (data.startsWith("BA") || data.startsWith("TR"))
+
+    // Tone on/off
+    ToneResponse* tone = dynamic_cast<ToneResponse*>(response);
+    if (tone != NULL)
     {
-        str = data.mid(2,2);
-        value = str.toInt();
-        if (m_ToneON)
-        {
-            if (data.startsWith("BA"))
-            {
-                SetToneSlider(value, ui->eqba, ui->wertbass);
-            }
-            else
-            {
-                SetToneSlider(value, ui->eqtr, ui->werttreble);
-            }
-        }
-        else
-        {
-            ui->eqba->setValue(6);
-            ui->wertbass->setText("odB");
-
-            ui->eqtr->setValue(6);
-            ui->werttreble->setText("odB");
-        }
-    }
-    else if (data.startsWith("TO"))
-    {
-        value = data.mid(2,1).toInt();
-        if (value == 0)
-        {
-            m_ToneON = false;
-            ui->bypass->setText("Tone Off");
-            ui->bypass->setChecked(false);
-            ui->eqtr->setDisabled(true);
-            ui->eqba->setDisabled(true);
-
-            ui->eqba->setValue(6);
-            ui->wertbass->setText("odB");
-
-            ui->eqtr->setValue(6);
-            ui->werttreble->setText("odB");
-        }
-        else
+        if (tone->IsToneOn())
         {
             m_ToneON = true;
             ui->bypass->setText("Tone On");
@@ -442,20 +409,62 @@ void EQDialog::DataReceived(QString data)
             SendCmd("?BA");
             SendCmd("?TR");
         }
-    }
-    else if (data.startsWith("SST"))
-    {
-        value = data.mid(3,1).toInt();
-        SetXCurveSlider(value, ui->XCurveSlider, ui->XCurveLabel);
-    }
-    else if (data.startsWith("ILV"))
-    {
-        //qDebug() << "inp = " << data;
-        m_EmphasisDialog->DataReceived(data);
-        SetEmphasisSlider(m_EmphasisDialog->GetBass(), ui->eqEmphasisBass, ui->wertEmphasisBass);
-        SetEmphasisSlider(m_EmphasisDialog->GetCenter(), ui->eqEmphasisCenter, ui->wertEmphasisCenter);
+        else
+        {
+            m_ToneON = false;
+            ui->bypass->setText("Tone Off");
+            ui->bypass->setChecked(false);
+            ui->eqtr->setDisabled(true);
+            ui->eqba->setDisabled(true);
+
+            ui->eqba->setValue(6);
+            ui->wertbass->setText((tr("OFF")));
+
+            ui->eqtr->setValue(6);
+            ui->werttreble->setText((tr("OFF")));
+        }
+        return;
     }
 
+    // BASS
+    BassResponse* bass = dynamic_cast<BassResponse*>(response);
+    if (bass != NULL)
+    {
+        if (m_ToneON)
+        {
+            SetToneSlider(bass->GetValue(), ui->eqba, ui->wertbass);
+        }
+        else
+        {
+            ui->eqba->setValue(6);
+            ui->wertbass->setText((tr("OFF")));
+        }
+        return;
+    }
+
+    // TREBLE
+    TrebleResponse* treble = dynamic_cast<TrebleResponse*>(response);
+    if (treble != NULL)
+    {
+        if (m_ToneON)
+        {
+            SetToneSlider(treble->GetValue(), ui->eqtr, ui->werttreble);
+        }
+        else
+        {
+            ui->eqtr->setValue(6);
+            ui->werttreble->setText((tr("OFF")));
+        }
+        return;
+    }
+
+    // X-Curve
+    XCurveResponse* xcurve = dynamic_cast<XCurveResponse*>(response);
+    if (xcurve != NULL)
+    {
+        SetXCurveSlider(xcurve->GetValue(), ui->XCurveSlider, ui->XCurveLabel);
+        return;
+    }
 }
 
 void EQDialog::Timeout()
@@ -549,7 +558,6 @@ void EQDialog::on_eqba_sliderReleased()
     QString str;
     int i = ui->eqba->value();
     str = QString("%1BA").arg(i, 2, 10, QChar('0'));
-    qDebug() <<"bass" <<str;
     SendCmd(str);
 }
 
@@ -559,7 +567,6 @@ void EQDialog::on_eqtr_sliderReleased()
     QString str;
     int i = ui->eqtr->value();
     str = QString("%1TR").arg(i, 2, 10, QChar('0'));
-    qDebug() <<"treble" <<str;
     SendCmd(str);
 }
 

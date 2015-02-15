@@ -1,14 +1,13 @@
-#ifndef VOLUMERESPONSE_H
-#define VOLUMERESPONSE_H
+#ifndef XCURVERESPONSE_H
+#define XCURVERESPONSE_H
 
 #include "receivedobjectbase.h"
-#include "zonenumberbase.h"
 
-class VolumeResponse : public ReceivedObjectBase, public ZoneNumberBase
+class XCurveResponse : public ReceivedObjectBase
 {
 public:
-    VolumeResponse();
-    ~VolumeResponse();
+    XCurveResponse();
+    ~XCurveResponse();
     virtual QString getResponseID();
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
@@ -17,7 +16,7 @@ public:
     QString GetAsString();
 
 private:
-    int     m_Volume;
+    int m_Value;
 };
 
-#endif // VOLUMERESPONSE_H
+#endif // XCURVERESPONSE_H

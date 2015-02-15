@@ -2,8 +2,9 @@
 #define POWERRESPONSE_H
 
 #include "receivedobjectbase.h"
+#include "zonenumberbase.h"
 
-class PowerResponse : public ReceivedObjectBase
+class PowerResponse : public ReceivedObjectBase, public ZoneNumberBase
 {
 public:
     PowerResponse();
@@ -12,11 +13,9 @@ public:
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
     bool IsPoweredOn();
-    Zone GetZone();
 
 private:
     bool    m_PoweredOn;
-    Zone    m_Zone;
 };
 
 #endif // POWERRESPONSE_H

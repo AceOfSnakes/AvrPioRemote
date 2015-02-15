@@ -1,8 +1,7 @@
 #include "volumeresponse.h"
 
 VolumeResponse::VolumeResponse() :
-    m_Volume(0),
-    m_Zone(ZoneMain)
+    m_Volume(0)
 {
 
 }
@@ -42,7 +41,7 @@ bool VolumeResponse::parseString(QString str)
     return false;
 }
 
-float VolumeResponse::GetdBVolume()
+float VolumeResponse::GetdBValue()
 {
     float volume_dB = 0;
 
@@ -61,15 +60,10 @@ float VolumeResponse::GetdBVolume()
     return volume_dB;
 }
 
-VolumeResponse::Zone VolumeResponse::GetZone()
-{
-    return m_Zone;
-}
-
-QString VolumeResponse::GetVolumeString()
+QString VolumeResponse::GetAsString()
 {
     QString str;
-    float dBValue = GetdBVolume();
+    float dBValue = GetdBValue();
 
     switch(m_Zone)
     {
@@ -94,3 +88,7 @@ QString VolumeResponse::GetVolumeString()
     return str;
 }
 
+int VolumeResponse::GetValue()
+{
+    return m_Volume;
+}

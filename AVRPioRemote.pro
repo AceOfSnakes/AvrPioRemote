@@ -67,7 +67,14 @@ SOURCES += main.cpp \
     receiver_interface/response/phasecontrolresponse.cpp \
     receiver_interface/response/hibitresponse.cpp \
     receiver_interface/response/pqlscontrolresponse.cpp \
-    receiver_interface/response/soundretrieverresponse.cpp
+    receiver_interface/response/soundretrieverresponse.cpp \
+    receiver_interface/response/eqresponse.cpp \
+    receiver_interface/response/zonenumberbase.cpp \
+    receiver_interface/response/toneresponse.cpp \
+    receiver_interface/response/bassresponse.cpp \
+    receiver_interface/response/trebleresponse.cpp \
+    receiver_interface/response/xcurveresponse.cpp \
+    receiver_interface/response/emphasisresponse.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -116,7 +123,14 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/phasecontrolresponse.h \
     receiver_interface/response/hibitresponse.h \
     receiver_interface/response/pqlscontrolresponse.h \
-    receiver_interface/response/soundretrieverresponse.h
+    receiver_interface/response/soundretrieverresponse.h \
+    receiver_interface/response/eqresponse.h \
+    receiver_interface/response/zonenumberbase.h \
+    receiver_interface/response/toneresponse.h \
+    receiver_interface/response/bassresponse.h \
+    receiver_interface/response/trebleresponse.h \
+    receiver_interface/response/xcurveresponse.h \
+    receiver_interface/response/emphasisresponse.h
  
 
 

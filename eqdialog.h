@@ -32,14 +32,15 @@ class EQDialog;
 }
 
 
-class EQDialog : public QDialog
+class EQDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
     
 public:
     explicit EQDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& settings);
     ~EQDialog();
-    
+    void ResponseReceived(ReceivedObjectBase *);
+
 private:
     Ui::EQDialog *ui;
     ReceiverInterface&  m_Comm;
@@ -69,7 +70,6 @@ private:
 
 public slots:
     void ShowEQDialog();
-    void DataReceived(QString data);
 signals:
     void SendCmd(QString);
 private slots:

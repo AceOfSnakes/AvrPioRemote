@@ -1,14 +1,14 @@
-#ifndef VOLUMERESPONSE_H
-#define VOLUMERESPONSE_H
+#ifndef BASSRESPONSE_H
+#define BASSRESPONSE_H
 
 #include "receivedobjectbase.h"
 #include "zonenumberbase.h"
 
-class VolumeResponse : public ReceivedObjectBase, public ZoneNumberBase
+class BassResponse : public ReceivedObjectBase, public ZoneNumberBase
 {
 public:
-    VolumeResponse();
-    ~VolumeResponse();
+    BassResponse();
+    ~BassResponse();
     virtual QString getResponseID();
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
@@ -17,7 +17,7 @@ public:
     QString GetAsString();
 
 private:
-    int     m_Volume;
+    int     m_Value;
 };
 
-#endif // VOLUMERESPONSE_H
+#endif // BASSRESPONSE_H

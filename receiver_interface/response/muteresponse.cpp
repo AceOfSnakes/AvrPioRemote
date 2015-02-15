@@ -1,8 +1,7 @@
 #include "muteresponse.h"
 
 MuteResponse::MuteResponse() :
-    m_Muted(false),
-    m_Zone(ZoneMain)
+    m_Muted(false)
 {
 
 }
@@ -49,9 +48,4 @@ bool MuteResponse::parseString(QString str)
 bool MuteResponse::IsMuted()
 {
     return m_Muted;
-}
-
-MuteResponse::Zone MuteResponse::GetZone()
-{
-    return m_Zone;
 }

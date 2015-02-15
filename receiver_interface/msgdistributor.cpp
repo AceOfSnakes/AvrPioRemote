@@ -78,6 +78,11 @@ void MsgDistributor::_init()
     _addResponse(new HiBitResponse());
     _addResponse(new PQLSControlResponse());
     _addResponse(new SoundRetrieverResponse());
+    _addResponse(new EQResponse());
+    _addResponse(new ToneResponse());
+    _addResponse(new BassResponse());
+    _addResponse(new XCurveResponse());
+    _addResponse(new EmphasisResponse());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)

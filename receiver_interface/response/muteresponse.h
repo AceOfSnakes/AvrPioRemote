@@ -2,8 +2,9 @@
 #define MUTERESPONSE_H
 
 #include "receivedobjectbase.h"
+#include "zonenumberbase.h"
 
-class MuteResponse : public ReceivedObjectBase
+class MuteResponse : public ReceivedObjectBase, public ZoneNumberBase
 {
 public:
     MuteResponse();
@@ -12,11 +13,9 @@ public:
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
     bool IsMuted();
-    Zone GetZone();
 
 private:
     bool    m_Muted;
-    Zone    m_Zone;
 };
 
 #endif // MUTERESPONSE_H

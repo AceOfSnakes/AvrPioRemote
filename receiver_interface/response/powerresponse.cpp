@@ -1,8 +1,7 @@
 #include "powerresponse.h"
 
 PowerResponse::PowerResponse() :
-    m_PoweredOn(false),
-    m_Zone(ZoneMain)
+    m_PoweredOn(false)
 {
 
 }
@@ -55,9 +54,4 @@ bool PowerResponse::parseString(QString str)
 bool PowerResponse::IsPoweredOn()
 {
     return m_PoweredOn;
-}
-
-PowerResponse::Zone PowerResponse::GetZone()
-{
-    return m_Zone;
 }

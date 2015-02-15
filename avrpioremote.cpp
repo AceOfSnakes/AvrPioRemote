@@ -471,7 +471,7 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
     {
         if (volume->GetZone() == VolumeResponse::ZoneMain)
         {
-            ui->VolumeLineEdit->setText(volume->GetVolumeString());
+            ui->VolumeLineEdit->setText(volume->GetAsString());
         }
         return;
     }

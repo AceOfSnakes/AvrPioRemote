@@ -21,6 +21,12 @@
 #include "response/hibitresponse.h"
 #include "response/pqlscontrolresponse.h"
 #include "response/soundretrieverresponse.h"
+#include "response/eqresponse.h"
+#include "response/toneresponse.h"
+#include "response/bassresponse.h"
+#include "response/trebleresponse.h"
+#include "response/xcurveresponse.h"
+#include "response/emphasisresponse.h"
 
 class MsgDistributor
 {

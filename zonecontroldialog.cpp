@@ -211,11 +211,11 @@ void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
     {
         if (volume->GetZone() == VolumeResponse::Zone2)
         {
-            ui->Z2VolumeLineEdit->setText(volume->GetVolumeString());
+            ui->Z2VolumeLineEdit->setText(volume->GetAsString());
         }
         else if (volume->GetZone() == VolumeResponse::Zone3)
         {
-            ui->Z3VolumeLineEdit->setText(volume->GetVolumeString());
+            ui->Z3VolumeLineEdit->setText(volume->GetAsString());
         }
         return;
     }

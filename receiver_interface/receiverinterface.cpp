@@ -121,6 +121,7 @@ void ReceiverInterface::ReadString()
 //                str.remove(QChar('\r'));
 //                str.remove(QChar('\n'));
                 InterpretString(str);
+                MsgDistributor::NotifyListener(str);
                 emit DataReceived(str);
             }
             m_ReceivedString = "";
@@ -129,11 +130,6 @@ void ReceiverInterface::ReadString()
     }
     if (lineStartPos < count)
         m_ReceivedString.append((const char*)&data[lineStartPos]);
-
-//    tmp[count] = 0;
-//    QString info = tmp.c_str();
-//    if (tmp.length() > 1 && tmp[tmp.length() - 2] == '\r')
-//        tmp[tmp.length() - 2] = 0;
 }
 
 
@@ -182,7 +178,6 @@ bool ReceiverInterface::SendCmd(const QString& cmd)
 
 void ReceiverInterface::InterpretString(const QString& data)
 {
-    MsgDistributor::NotifyListener(data);
     if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("SPK"))
     {
         emit SpeakerData(data);
@@ -295,38 +290,6 @@ void ReceiverInterface::InterpretString(const QString& data)
         if (text == "")
             text = "---";
         emit ListeningModeData(text);
-    }
-    else if (data.startsWith("BA"))
-    {
-        double vol = data.mid(2, 2).toDouble();
-        QString str;
-        if (vol < 0)
-            str = "---.---";
-        else
-        {
-            double dB = 6.0 - vol * 1.0;
-            if (dB <= 0.0)
-                str = QString("%1dB").arg(dB, 4, 'f', 1);
-            else
-                str = QString("+%1dB").arg(dB, 4, 'f', 1);
-        }
-        //ui->lineEditBass->setText(str);
-    }
-    else if (data.startsWith("TR"))
-    {
-        double vol = data.mid(2, 2).toDouble();
-        QString str;
-        if (vol < 0)
-            str = "---.---";
-        else
-        {
-            double dB = 6.0 - vol * 1.0;
-            if (dB <= 0.0)
-                str = QString("%1dB").arg(dB, 4, 'f', 1);
-            else
-                str = QString("+%1dB").arg(dB, 4, 'f', 1);
-        }
-        //ui->lineEditTreble->setText(str);
     }
     else if (data.startsWith("GBH") ||
              data.startsWith("GCH") ||

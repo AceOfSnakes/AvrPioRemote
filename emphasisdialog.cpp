@@ -14,6 +14,10 @@ EmphasisDialog::EmphasisDialog(QWidget *parent, QSettings &settings) :
 
     connect(ui->bassCh1ComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(BassCh1ComboBoxIndexChanged(int)));
     connect(ui->bassCh2ComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(BassCh2ComboBoxIndexChanged(int)));
+
+    QStringList responseList;
+    responseList << EmphasisResponse().getResponseID();
+    MsgDistributor::AddResponseListener(this, responseList);
 }
 
 EmphasisDialog::~EmphasisDialog()
@@ -118,23 +122,32 @@ void EmphasisDialog::CreateEmphasisSlider(int count)
     ui->bassCh2ComboBox->blockSignals(false);
 }
 
-void EmphasisDialog::DataReceived(QString data)
+void EmphasisDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    //qDebug() << "inp = " << data;
     // 5050745050505050505050505050505050506868ILV // LX88 20Ch
     // 5050385050505050505050505050505050ILV // SC2022 17Ch
-    int count = (data.length() - 3) / 2;
 
-    if (m_EmphasisSliders.count() != count)
+    // Emphasis
+    EmphasisResponse* em = dynamic_cast<EmphasisResponse*>(response);
+    if (em != NULL)
     {
-        CreateEmphasisSlider(count);
-    }
-    for (int i = 0; i < count && i < m_EmphasisSliders.count(); i++)
-    {
-        int n = data.mid(3 + i * 2, 2).toInt();
-        m_EmphasisSliders[i]->blockSignals(true);
-        m_EmphasisSliders[i]->SetValue(n);
-        m_EmphasisSliders[i]->blockSignals(false);
+        const QVector<int>& emphasisData = em->GetEmphasisData();
+        int count = emphasisData.count();
+        if (m_EmphasisSliders.count() != count)
+        {
+            CreateEmphasisSlider(count);
+        }
+        for (int i = 0; i < count && i < m_EmphasisSliders.count(); i++)
+        {
+            m_EmphasisSliders[i]->blockSignals(true);
+            m_EmphasisSliders[i]->SetValue(emphasisData[i]);
+            m_EmphasisSliders[i]->blockSignals(false);
+            if (i == 2)
+                emit CenterChanged(m_EmphasisSliders[i]->GetValue());
+            else if (i == m_BassCh1 || i == m_BassCh2)
+                emit BassChanged(m_EmphasisSliders[i]->GetValue());
+        }
+        return;
     }
 }
 
@@ -262,6 +275,8 @@ void EmphasisDialog::on_resetPushButton_clicked()
 
 void EmphasisDialog::SetChannelString(QString str)
 {
-    DataReceived("ILV" + str);
+    EmphasisResponse emph;
+    emph.parseString("ILV" + str);
+    ResponseReceived(&emph);
     OnSliderReleased();
 }

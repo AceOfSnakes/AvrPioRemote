@@ -1,14 +1,14 @@
-#ifndef VOLUMERESPONSE_H
-#define VOLUMERESPONSE_H
+#ifndef TREBLERESPONSE_H
+#define TREBLERESPONSE_H
 
 #include "receivedobjectbase.h"
 #include "zonenumberbase.h"
 
-class VolumeResponse : public ReceivedObjectBase, public ZoneNumberBase
+class TrebleResponse : public ReceivedObjectBase, public ZoneNumberBase
 {
 public:
-    VolumeResponse();
-    ~VolumeResponse();
+    TrebleResponse();
+    ~TrebleResponse();
     virtual QString getResponseID();
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
@@ -17,7 +17,7 @@ public:
     QString GetAsString();
 
 private:
-    int     m_Volume;
+    int     m_Value;
 };
 
-#endif // VOLUMERESPONSE_H
+#endif // TREBLERESPONSE_H

@@ -6,18 +6,20 @@
 #include <QComboBox>
 #include <QSettings>
 #include "labeledslider.h"
+#include "receiver_interface/receiverinterface.h"
 
 namespace Ui {
 class EmphasisDialog;
 }
 
-class EmphasisDialog : public QDialog
+class EmphasisDialog : public QDialog, public ResponseListener
 {
     Q_OBJECT
 
 public:
     explicit EmphasisDialog(QWidget *parent, QSettings& settings);
     ~EmphasisDialog();
+    void ResponseReceived(ReceivedObjectBase *);
 
     void SetBass(int n);
     void SetCenter(int n);
@@ -41,7 +43,6 @@ private:
     void CreateEmphasisSlider(int count);
 
 public slots:
-    void DataReceived(QString data);
     void OnSliderReleased();
     void BassCh1ComboBoxIndexChanged(int);
     void BassCh2ComboBoxIndexChanged(int);

@@ -13,12 +13,6 @@ public:
     virtual QString getResponseID() = 0;
     virtual QStringList getMsgIDs() = 0;
     virtual bool parseString(QString str) = 0;
-    enum Zone {
-        ZoneMain,
-        Zone2,
-        Zone3,
-        Zone4
-    };
 
 protected:
     QString DecodeHexString(const QString& hex);
