@@ -41,7 +41,7 @@ class AutoSearchDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AutoSearchDialog(QWidget *parent = 0);
+    explicit AutoSearchDialog(QWidget *parent = 0, bool receiver = true);
     ~AutoSearchDialog();
 
     int                     m_Result;
@@ -55,11 +55,12 @@ protected:
     QVector<RemoteDevice*>  m_RemoteDevices;
     QVector<QUdpSocket*>    m_MulticatsSockets;
     QHostAddress            m_GroupAddress;
+    bool                    m_FindReceivers;
 
     void SendMsg();
 
 private slots:
-    void NewDevice(QString name, QString url);
+    void NewDevice(QString name, QString ip, QString location);
     void ReadString();
     void TcpError(QAbstractSocket::SocketError socketError);
     void TcpConnected();

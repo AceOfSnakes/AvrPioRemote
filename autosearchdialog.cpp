@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QRegExp>
 #include <QtNetwork>
+#include <QtXml>
 
 RemoteDevice::RemoteDevice()
 {
@@ -33,11 +34,12 @@ RemoteDevice::~RemoteDevice()
 }
 
 
-AutoSearchDialog::AutoSearchDialog(QWidget *parent) :
+AutoSearchDialog::AutoSearchDialog(QWidget *parent, bool receiver) :
     QDialog(parent),
     m_Result(0),
     m_SelectedPort(0),
     m_GroupAddress("239.255.255.250"),
+    m_FindReceivers(receiver),
     ui(new Ui::AutoSearchDialog)
 {
     ui->setupUi(this);
@@ -100,25 +102,101 @@ void AutoSearchDialog::changeEvent(QEvent *e)
     }
 }
 
-void AutoSearchDialog::NewDevice(QString name, QString url)
+void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
 {
 
     //emit UpdateLabel("Device " + name + " " + url);
-    QString tmp = url;
-//    if (tmp.startsWith("http://"))
-//        tmp = tmp.mid(7);
-//    int n = tmp.indexOf(":");
-//    if (n != -1)
-//        tmp = tmp.mid(0, n);
 
-    Logger::Log(name + " " + url + " " + tmp);
-    RemoteDevice* device = new RemoteDevice();
-    connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
-    connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-    connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
-    connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-    device->Connect(tmp, 23);
-    m_RemoteDevices.append(device);
+    Logger::Log("Found UPnP device: " + name + " " + ip + " " + location);
+    qDebug () << ("Found UPnP device: " + name + " " + ip + " " + location);
+
+    QEventLoop eventLoop;
+
+    // "quit()" the event-loop, when the network request "finished()"
+    QNetworkAccessManager mgr;
+    QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
+
+    // the HTTP request
+    QNetworkRequest req(QUrl(QString(location.toLatin1())));
+    QNetworkReply *reply = mgr.get(req);
+    eventLoop.exec(); // blocks stack until "finished()" has been called
+
+    QString manufacturer;
+    QString friendlyName;
+    QString modelName;
+    if (reply->error() == QNetworkReply::NoError) {
+        //success
+        //Get your xml into xmlText(you can use QString instead og QByteArray)
+        QString data = reply->readAll();
+        QDomDocument document;
+        document.setContent(data);
+        //QDomElement root = document.firstChildElement();
+        QDomNodeList nodes = document.childNodes();
+        for (int i = 0; i < nodes.count(); i++) {
+            //qDebug() << node.nodeName() << node.nodeValue();
+            if (nodes.at(i).nodeName() == "root") {
+                QDomNodeList nodes1 = nodes.at(i).childNodes();
+                for (int j = 0; j < nodes1.count(); j++) {
+                    if (nodes1.at(j).nodeName() == "device") {
+                        QDomNodeList nodes2 = nodes1.at(j).childNodes();
+                        for (int k = 0; k < nodes2.count(); k++) {
+                            QString name = nodes2.at(k).nodeName();
+                            QDomNodeList nodes3 = nodes2.at(k).childNodes();
+                            QString text;
+                            for (int m = 0; m < nodes3.count(); m++) {
+                                if (nodes3.at(m).isText())
+                                    text += nodes3.at(m).nodeValue();
+                            }
+                            if (name == "manufacturer")
+                            {
+                                manufacturer = text;
+                                //qDebug() << elementName << manufacturer;
+                            }
+                            else if (name == "friendlyName")
+                            {
+                                friendlyName = text;
+                                //qDebug() << elementName << friendlyName;
+                            }
+                            else if (name == "modelName")
+                            {
+                                modelName = text;
+                                //qDebug() << elementName << modelName;
+                            }
+                            //qDebug() << name << text;
+                        }
+                    }
+                }
+            }
+        }
+
+        qDebug() << "Success" << manufacturer << friendlyName << modelName;
+        delete reply;
+    }
+    else {
+        //failure
+        qDebug() << "Failure" <<reply->errorString();
+        delete reply;
+    }
+    eventLoop.quit();
+
+    if (m_FindReceivers) {
+        RemoteDevice* device = new RemoteDevice();
+        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
+        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
+        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
+        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+        device->Connect(ip, 23);
+        m_RemoteDevices.append(device);
+    } else {
+        ui->listWidget->addItem(QString("%1: (%2 %3)").arg(ip).arg(friendlyName).arg(manufacturer));
+        if (ui->listWidget->count() == 1) {
+            ui->listWidget->setCurrentRow(0);
+            m_SelectedAddress = ip;
+            m_SelectedPort = 8102;
+        }
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, ip);
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, 8102);
+    }
 }
 
 void AutoSearchDialog::TcpConnected()
@@ -326,8 +404,19 @@ void AutoSearchDialog::ProcessPendingDatagrams()
             socket->readDatagram(datagram.data(), datagram.size(), &remoteAddr);
             QString data = QString(datagram);
             if (data.contains("200 OK", Qt::CaseInsensitive) && data.contains("rootdevice", Qt::CaseInsensitive)) {
-                //qDebug() << remoteAddr.toString();
-                NewDevice("", remoteAddr.toString());
+                //qDebug() << remoteAddr.toString() << data;
+                QStringList ll = data.split(QRegExp("[\n\r]"), QString::SkipEmptyParts);
+                QString location;
+                foreach (QString s, ll)
+                {
+                    //qDebug() << s;
+                    if (s.startsWith("LOCATION: "))
+                    {
+                        location = s.mid(10);
+                        break;
+                    }
+                }
+                NewDevice("", remoteAddr.toString(), location);
             }
         }
     }

@@ -150,6 +150,15 @@ void SettingsDialog::SetIpAddress(QString ip1, QString ip2, QString ip3, QString
     ui->lineEditIPPort->setText(port);
 }
 
+void SettingsDialog::SetIpAddressBD(QString ip1, QString ip2, QString ip3, QString ip4, QString port)
+{
+    ui->lineEditIP1_BD->setText(ip1);
+    ui->lineEditIP2_BD->setText(ip2);
+    ui->lineEditIP3_BD->setText(ip3);
+    ui->lineEditIP4_BD->setText(ip4);
+    ui->lineEditIPPort_BD->setText(port);
+}
+
 void SettingsDialog::EnableIPInput(bool enable)
 {
     ui->lineEditIP1->setEnabled(enable);
@@ -383,6 +392,33 @@ void SettingsDialog::on_pushButtonAuto_clicked()
         if (l.size() == 4)
         {
             SetIpAddress(l[0], l[1], l[2], l[3], QString("%1").arg(port));
+        }
+
+    }
+    delete m_AutoSearchDialog;
+    m_AutoSearchDialog = NULL;
+}
+
+void SettingsDialog::on_pushButtonAuto_BD_clicked()
+{
+    do
+    {
+        delete m_AutoSearchDialog;
+        m_AutoSearchDialog = new AutoSearchDialog(this, false);
+        m_AutoSearchDialog->exec();
+    } while(m_AutoSearchDialog->m_Result == 2);
+    if (m_AutoSearchDialog->m_Result == 1)
+    {
+        //QString ip = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->ip;
+        QString ip = m_AutoSearchDialog->m_SelectedAddress;
+        //int port = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->port;
+        int port = m_AutoSearchDialog->m_SelectedPort;
+        qDebug() << QString("Found: %1:%2").arg(ip).arg(port);
+        QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
+        qDebug() << l;
+        if (l.size() == 4)
+        {
+            SetIpAddressBD(l[0], l[1], l[2], l[3], QString("%1").arg(port));
         }
 
     }

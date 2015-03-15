@@ -40,6 +40,7 @@ public:
     void SetLanguage();
     void GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString &port);
     void SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port);
+    void SetIpAddressBD(QString ip1, QString ip2, QString ip3, QString ip4, QString port);
 
 public slots:
     void ShowSettingsDialog();
@@ -76,6 +77,7 @@ private slots:
     void on_LanguageRussianRadioButton_clicked(bool checked);
     void on_RestoreMCACCEQWindowCheckBox_clicked(bool checked);
     void on_pushButtonAuto_clicked();
+    void on_pushButtonAuto_BD_clicked();
 
 signals:
     void onConnect();
