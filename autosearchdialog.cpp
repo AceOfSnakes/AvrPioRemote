@@ -188,7 +188,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         device->Connect(ip, 23);
         m_RemoteDevices.append(device);
     } else {
-        ui->listWidget->addItem(QString("%1: (%2 %3)").arg(ip).arg(friendlyName).arg(manufacturer));
+        ui->listWidget->addItem(QString("%1: (<%2>-<%3>-<%4>)").arg(ip).arg(friendlyName).arg(modelName).arg(manufacturer));
         if (ui->listWidget->count() == 1) {
             ui->listWidget->setCurrentRow(0);
             m_SelectedAddress = ip;
