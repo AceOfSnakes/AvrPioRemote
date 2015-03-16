@@ -124,6 +124,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     QString manufacturer;
     QString friendlyName;
     QString modelName;
+    QString remoteSupported("0");
     if (reply->error() == QNetworkReply::NoError) {
         //success
         //Get your xml into xmlText(you can use QString instead og QByteArray)
@@ -147,7 +148,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
                                 if (nodes3.at(m).isText())
                                     text += nodes3.at(m).nodeValue();
                             }
-                            if (name == "manufacturer")
+                            if (name == "manufacturer" || name == "manufacture")
                             {
                                 manufacturer = text;
                                 //qDebug() << elementName << manufacturer;
@@ -161,6 +162,8 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
                             {
                                 modelName = text;
                                 //qDebug() << elementName << modelName;
+                            } else if(name.endsWith("X_ipRemoteReady")) {
+                                remoteSupported = text;
                             }
                             //qDebug() << name << text;
                         }
@@ -178,7 +181,9 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         delete reply;
     }
     eventLoop.quit();
-
+    if(remoteSupported.toInt() != 1) {
+        return;
+    }
     if (m_FindReceivers) {
         RemoteDevice* device = new RemoteDevice();
         connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
@@ -403,6 +408,8 @@ void AutoSearchDialog::ProcessPendingDatagrams()
             datagram.resize(socket->pendingDatagramSize());
             socket->readDatagram(datagram.data(), datagram.size(), &remoteAddr);
             QString data = QString(datagram);
+            //qDebug() << data;
+
             if (data.contains("200 OK", Qt::CaseInsensitive) && data.contains("rootdevice", Qt::CaseInsensitive)) {
                 //qDebug() << remoteAddr.toString() << data;
                 QStringList ll = data.split(QRegExp("[\n\r]"), QString::SkipEmptyParts);
@@ -410,7 +417,7 @@ void AutoSearchDialog::ProcessPendingDatagrams()
                 foreach (QString s, ll)
                 {
                     //qDebug() << s;
-                    if (s.startsWith("LOCATION: "))
+                    if (s.startsWith("LOCATION: ", Qt::CaseInsensitive))
                     {
                         location = s.mid(10);
                         break;
