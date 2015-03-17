@@ -125,6 +125,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     QString friendlyName;
     QString modelName;
     QString remoteSupported("0");
+    QString remotePort("8102");
     if (reply->error() == QNetworkReply::NoError) {
         //success
         //Get your xml into xmlText(you can use QString instead og QByteArray)
@@ -164,6 +165,8 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
                                 //qDebug() << elementName << modelName;
                             } else if(name.endsWith("X_ipRemoteReady")) {
                                 remoteSupported = text;
+                            } else if(name.endsWith("X_ipRemoteTcpPort")) {
+                                remotePort = text;
                             }
                             //qDebug() << name << text;
                         }
@@ -181,9 +184,6 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         delete reply;
     }
     eventLoop.quit();
-    if(remoteSupported.toInt() != 1) {
-        return;
-    }
     if (m_FindReceivers) {
         RemoteDevice* device = new RemoteDevice();
         connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
@@ -192,15 +192,15 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
         device->Connect(ip, 23);
         m_RemoteDevices.append(device);
-    } else {
-        ui->listWidget->addItem(QString("%1: (<%2>-<%3>-<%4>)").arg(ip).arg(friendlyName).arg(modelName).arg(manufacturer));
+    } else if(remoteSupported.toInt() == 1) {
+        ui->listWidget->addItem(QString("%1: (%2:%03)").arg(modelName).arg(ip).arg(remotePort));
         if (ui->listWidget->count() == 1) {
             ui->listWidget->setCurrentRow(0);
             m_SelectedAddress = ip;
-            m_SelectedPort = 8102;
+            m_SelectedPort = remotePort.toInt();
         }
         ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, ip);
-        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, 8102);
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, remotePort.toInt());
     }
 }
 
