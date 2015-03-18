@@ -24,6 +24,7 @@
 #include <QIntValidator>
 #include "receiver_interface/receiverinterface.h"
 #include "autosearchdialog.h"
+#include "playerinterface.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -34,22 +35,27 @@ class SettingsDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm);
+    explicit SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm, PlayerInterface &CommBD);
     ~SettingsDialog();
 
     void SetLanguage();
     void GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString &port);
     void SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port);
+    void GetIpAddressBD(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString &port);
     void SetIpAddressBD(QString ip1, QString ip2, QString ip3, QString ip4, QString port);
 
 public slots:
     void ShowSettingsDialog();
     void EnableIPInput(bool enable);
+    void EnableIPInputBD(bool enable);
 
 private slots:
     void CommError(QString socketError);
     void CommConnected();
     void CommDisconnected();
+    void CommErrorBD(QString socketError);
+    void CommConnectedBD();
+    void CommDisconnectedBD();
     void on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state);
     void on_LanguageAutoRadioButton_clicked(bool checked);
     void on_LanguageEnglishRadioButton_clicked(bool checked);
@@ -79,8 +85,11 @@ private slots:
     void on_pushButtonAuto_clicked();
     void on_pushButtonAuto_BD_clicked();
 
+    void on_pushButtonConnect_BD_clicked();
+
 signals:
     void onConnect();
+    void onConnectBD();
 
 private:
     QSettings&          m_Settings;
@@ -88,6 +97,7 @@ private:
     QIntValidator       m_IpValidator;
     QIntValidator       m_IpPortValidator;
     ReceiverInterface&  m_Comm;
+    PlayerInterface&    m_CommBD;
     Ui::SettingsDialog *ui;
     AutoSearchDialog*   m_AutoSearchDialog;
 

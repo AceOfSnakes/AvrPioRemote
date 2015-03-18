@@ -20,12 +20,13 @@
 #include <QDebug>
 #include <QMessageBox>
 
-SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface &Comm) :
+SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface &Comm, PlayerInterface &CommBD) :
     QDialog(parent),
     m_Settings(settings),
     m_IpValidator(0, 255, this),
     m_IpPortValidator(0, 35535, this),
     m_Comm(Comm),
+    m_CommBD(CommBD),
     ui(new Ui::SettingsDialog),
     m_AutoSearchDialog(NULL)
 {
@@ -86,17 +87,34 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->lineEditIP3->setValidator(&m_IpValidator);
     ui->lineEditIP4->setValidator(&m_IpValidator);
     ui->lineEditIPPort->setValidator(&m_IpPortValidator);
+    // configure player ip adress edit input
+    ui->lineEditIP1_BD->setValidator(&m_IpValidator);
+    ui->lineEditIP2_BD->setValidator(&m_IpValidator);
+    ui->lineEditIP3_BD->setValidator(&m_IpValidator);
+    ui->lineEditIP4_BD->setValidator(&m_IpValidator);
+    ui->lineEditIPPort_BD->setValidator(&m_IpPortValidator);
     // get the saved ip address data
     ui->lineEditIP1->setText(m_Settings.value("IP/1", "192").toString());
     ui->lineEditIP2->setText(m_Settings.value("IP/2", "168").toString());
     ui->lineEditIP3->setText(m_Settings.value("IP/3", "1").toString());
     ui->lineEditIP4->setText(m_Settings.value("IP/4", "1").toString());
     ui->lineEditIPPort->setText(m_Settings.value("IP/PORT", "8102").toString());
+    // get the saved player ip address data
+    ui->lineEditIP1_BD->setText(m_Settings.value("Player_IP/1", "192").toString());
+    ui->lineEditIP2_BD->setText(m_Settings.value("Player_IP/2", "168").toString());
+    ui->lineEditIP3_BD->setText(m_Settings.value("Player_IP/3", "1").toString());
+    ui->lineEditIP4_BD->setText(m_Settings.value("Player_IP/4", "1").toString());
+    ui->lineEditIPPort_BD->setText(m_Settings.value("Player_IP/PORT", "8102").toString());
 
     connect((&m_Comm), SIGNAL(Connected()), this, SLOT(CommConnected()));
     connect((&m_Comm), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_Comm), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((this), SIGNAL(onConnect()), parent,  SLOT(onConnect()));
+
+    connect((&m_CommBD), SIGNAL(Connected()), this, SLOT(CommConnectedBD()));
+    connect((&m_CommBD), SIGNAL(Disconnected()), this, SLOT(CommDisconnectedBD()));
+    connect((&m_CommBD), SIGNAL(CommError(QString)), this,  SLOT(CommErrorBD(QString)));
+    connect((this), SIGNAL(onConnectBD()), parent,  SLOT(onConnectBD()));
 }
 
 SettingsDialog::~SettingsDialog()
@@ -141,6 +159,15 @@ void SettingsDialog::GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QStr
     port = ui->lineEditIPPort->text().trimmed();
 }
 
+void SettingsDialog::GetIpAddressBD(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString& port)
+{
+    ip1 = ui->lineEditIP1_BD->text().trimmed();
+    ip2 = ui->lineEditIP2_BD->text().trimmed();
+    ip3 = ui->lineEditIP3_BD->text().trimmed();
+    ip4 = ui->lineEditIP4_BD->text().trimmed();
+    port = ui->lineEditIPPort_BD->text().trimmed();
+}
+
 void SettingsDialog::SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port)
 {
     ui->lineEditIP1->setText(ip1);
@@ -167,6 +194,14 @@ void SettingsDialog::EnableIPInput(bool enable)
     ui->lineEditIP4->setEnabled(enable);
     ui->lineEditIPPort->setEnabled(enable);
 }
+void SettingsDialog::EnableIPInputBD(bool enable)
+{
+    ui->lineEditIP1_BD->setEnabled(enable);
+    ui->lineEditIP2_BD->setEnabled(enable);
+    ui->lineEditIP3_BD->setEnabled(enable);
+    ui->lineEditIP4_BD->setEnabled(enable);
+    ui->lineEditIPPort_BD->setEnabled(enable);
+}
 
 void SettingsDialog::CommError(QString/* socketError*/)
 {
@@ -177,6 +212,7 @@ void SettingsDialog::CommError(QString/* socketError*/)
 
 void SettingsDialog::CommConnected()
 {
+     qDebug()<<"CommConnected()";
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonAuto->setEnabled(false);
     ui->pushButtonConnect->setText(tr("Disconnect"));
@@ -189,7 +225,28 @@ void SettingsDialog::CommDisconnected()
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonAuto->setEnabled(true);
 }
+void SettingsDialog::CommErrorBD(QString/* socketError*/)
+{
+    ui->pushButtonConnect_BD->setEnabled(true);
+    ui->pushButtonAuto_BD->setEnabled(true);
+    ui->pushButtonConnect_BD->setText(tr("Connect"));
+}
 
+void SettingsDialog::CommConnectedBD()
+{
+    qDebug()<<"CommConnectedBD()";
+    ui->pushButtonConnect_BD->setEnabled(true);
+    ui->pushButtonAuto_BD->setEnabled(false);
+    ui->pushButtonConnect_BD->setText(tr("Disconnect"));
+    ui->pushButtonConnect_BD->setChecked(true);
+}
+
+void SettingsDialog::CommDisconnectedBD()
+{
+    ui->pushButtonConnect_BD->setText(tr("Connect"));
+    ui->pushButtonConnect_BD->setEnabled(true);
+    ui->pushButtonAuto_BD->setEnabled(true);
+}
 void SettingsDialog::on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state)
 {
     m_Settings.setValue("TunerCompatibilityMode", (Qt::Checked == state));
@@ -424,4 +481,16 @@ void SettingsDialog::on_pushButtonAuto_BD_clicked()
     }
     delete m_AutoSearchDialog;
     m_AutoSearchDialog = NULL;
+}
+
+void SettingsDialog::on_pushButtonConnect_BD_clicked()
+{
+    bool checked = !ui->pushButtonConnect_BD->isChecked();
+    ui->pushButtonConnect_BD->setChecked(checked);
+    if (!checked)
+    {
+        ui->pushButtonConnect_BD->setEnabled(false);
+        ui->pushButtonAuto_BD->setEnabled(true);
+    }
+    emit onConnectBD();
 }

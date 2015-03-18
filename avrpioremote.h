@@ -109,6 +109,7 @@ private:
     void SelectInputButton(int idx, int zone = 1);
     void ClearScreen();
     void ConnectReceiver();
+    void ConnectPlayer();
     QPushButton* FindInputButton(int idx);
 
     void closeEvent(QCloseEvent *event);
@@ -129,6 +130,7 @@ public slots:
     void ReceiverType (QString no, QString name);
     void ReceiverNetworkName (QString name);
     void onConnect();
+    void onConnectBD();
 private slots:
     void CommError(QString socketError);
     void CommConnected();

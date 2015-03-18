@@ -149,8 +149,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
 
-        // create BluRay dialog
-    m_BluRayDialog = new BluRayDialog(this, m_Settings, m_PlayerInterface);
     
     // create usb dialog
     m_usbDialog = new usbDialog(this, m_Settings, m_ReceiverInterface);
@@ -165,7 +163,9 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_TestDialog = new TestDialog(this, m_ReceiverInterface, m_Settings);
 
     // create Settings dialog
-    m_SettingsDialog = new SettingsDialog(this, m_Settings, m_ReceiverInterface);
+    m_SettingsDialog = new SettingsDialog(this, m_Settings, m_ReceiverInterface, m_PlayerInterface);
+    // create BluRay dialog
+    m_BluRayDialog = new BluRayDialog(this, m_Settings, m_PlayerInterface, m_SettingsDialog);
 
     // create EQ dialog
     m_EQDialog = new EQDialog(this, m_ReceiverInterface, m_Settings);
@@ -400,6 +400,11 @@ void AVRPioRemote::ConnectReceiver()
         m_ReceiverInterface.ConnectToReceiver(m_IpAddress, m_IpPort);
     }
 
+}
+void AVRPioRemote::ConnectPlayer()
+{
+    m_BluRayDialog->show();
+    m_BluRayDialog->onConnect();
 }
 
 //void AVRPioRemote::onConnectWorkerFinished()
@@ -706,9 +711,14 @@ void AVRPioRemote::ClearScreen()
     ui->InputNameLineEdit->setText("");
 }
 
+void AVRPioRemote::onConnectBD()
+{
+        ConnectPlayer();
+}
 
 void AVRPioRemote::onConnect()
 {
+        qDebug()<<"Connect to receiver";
     if (!m_ReceiverInterface.IsConnected())
     {
         // connect

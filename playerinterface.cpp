@@ -66,6 +66,7 @@ void PlayerInterface::Disconnect()
 
 void PlayerInterface::TcpConnected()
 {
+      qDebug()<<"PlayerInterface::TcpConnected()";
     m_Connected = true;
     emit Connected();
 }

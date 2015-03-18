@@ -22,6 +22,7 @@
 #include <QSettings>
 #include <QListWidgetItem>
 #include "playerinterface.h"
+#include "settingsdialog.h"
 #include <QMoveEvent>
 #include <QIcon>
 #include <QMap>
@@ -36,17 +37,17 @@ class BluRayDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit BluRayDialog(QWidget *parent, QSettings& settings, PlayerInterface& Comm);
+    explicit BluRayDialog(QWidget *parent, QSettings& settings, PlayerInterface& Comm, SettingsDialog * settingsDialog);
     ~BluRayDialog();
-    
 private:
     QSettings&          m_Settings;
+    SettingsDialog*     m_SettingsDialog;
     Ui::BluRayDialog *ui;
     PlayerInterface&  m_Comm;
     bool                m_PositionSet;
 
     
-    PlayerInterface m_PlayerInterface;
+//    PlayerInterface m_PlayerInterface;
     int             m_PlayerIpPort;
     QString         m_PlayerIpAddress;
     QIntValidator   m_PlayerIpValidator;
@@ -54,21 +55,20 @@ private:
  //   QSettings       m_Settings;
     
     bool            m_PlayerOnline;
-    void ConnectPlayer();
+
     
 
     void moveEvent(QMoveEvent*event);
-
+    void ConnectPlayer();
 public slots:
     void ManualShowBluRayDialog();
     void ShowBluRayDialog(bool autoShow);
     void EnableControls(bool enable);
     void EnableIPInput(bool enable);
-    
+    void onConnect();
 private slots:
     void CommConnected();
     void CommDisconnected();
-    void onConnect();
     bool SendCmd(const QString& cmd);
     void on_pushButtonConnect_clicked();
     void on_BdPowerButton_clicked();
