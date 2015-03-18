@@ -785,16 +785,17 @@ void AVRPioRemote::on_MoreButton_clicked()
     QAction* pAction;
     QMenu MyMenu(this);
     //MyMenu.addActions(this->actions());
+
+    pAction = new QAction(tr("BluRay"), this);
+    MyMenu.addAction(pAction);
+    connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ManualShowBluRayDialog()));
+
     if (m_ReceiverOnline == true)
     {
         pAction = new QAction(tr("Internet Radio"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ManualShowNetDialog()));
 
-        pAction = new QAction(tr("BluRay"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ManualShowBluRayDialog()));
-	
         pAction = new QAction(tr("Tuner"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ManualShowTunerDialog()));
