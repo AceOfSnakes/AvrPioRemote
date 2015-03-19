@@ -404,6 +404,8 @@ void AVRPioRemote::ConnectReceiver()
 void AVRPioRemote::ConnectPlayer()
 {
     m_BluRayDialog->show();
+    ui->StatusLineEdit->setText(tr("Connecting..."));
+    m_StatusLineTimer.start();
     m_BluRayDialog->onConnect();
 }
 

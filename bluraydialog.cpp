@@ -26,7 +26,7 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     QDialog(parent),
     m_Settings(settings),
     ui(new Ui::BluRayDialog),
-    m_Comm(Comm),
+    m_PlayerInterface(Comm),
     m_SettingsDialog(settingsDialog),
     m_PositionSet(false)
 //   m_PlayerIpValidator(0, 255, this),
@@ -48,8 +48,9 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
    
     //connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(const QString&)));
     // player interface
-    connect((&m_Comm), SIGNAL(Connected()), this, SLOT(CommConnected()));
-    connect((&m_Comm), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
+    connect((&m_PlayerInterface), SIGNAL(Connected()), this, SLOT(CommConnected()));
+    connect((&m_PlayerInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
+    connect((&m_PlayerInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     
     
     // configure ip adress edit iput
@@ -80,7 +81,6 @@ void BluRayDialog::moveEvent(QMoveEvent* event)
     QDialog::moveEvent(event);
 }
 
-
 void BluRayDialog::ConnectPlayer()
 {
     ui->pushButtonConnect->setEnabled(false);
@@ -90,9 +90,9 @@ void BluRayDialog::ConnectPlayer()
  //   ui->StatusLineEdit->setText(tr("Connecting..."));
  //   m_StatusLineTimer.start();
 
-    if (!m_Comm.IsConnected())
+    if (!m_PlayerInterface.IsConnected())
     {
-        m_Comm.ConnectToPlayer(m_PlayerIpAddress, m_PlayerIpPort);
+        m_PlayerInterface.ConnectToPlayer(m_PlayerIpAddress, m_PlayerIpPort);
     }
 
 }
@@ -150,12 +150,23 @@ void BluRayDialog::CommDisconnected()
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
     EnableControls(false);
+    m_PlayerOnline = false;
  //   ClearScreen();
 }
-
+void BluRayDialog::CommError(QString socketError)
+{
+    Logger::Log("tcp error");
+    m_SettingsDialog->EnableIPInputBD(true);
+    EnableIPInput(true);
+    ui->pushButtonConnect->setText(tr("Connect"));
+    ui->pushButtonConnect->setEnabled(true);
+    ui->pushButtonConnect->setChecked(false);
+    EnableControls(false);
+    m_PlayerOnline = false;
+}
 bool BluRayDialog::SendCmd(const QString& cmd)
 {
-    m_Comm.SendCmd(cmd);
+    m_PlayerInterface.SendCmd(cmd);
     return true;
 }
 
@@ -227,7 +238,7 @@ void BluRayDialog::EnableIPInput(bool enable)
 
 void BluRayDialog::onConnect()
 {
-    if (!m_Comm.IsConnected())
+    if (!m_PlayerInterface.IsConnected())
     {
         // connect
         // read settings from the line edits
@@ -282,7 +293,7 @@ void BluRayDialog::onConnect()
         // disconnect
         EnableControls(false);
         ui->BdPowerButton->setEnabled(false);
-        m_Comm.Disconnect();
+        m_PlayerInterface.Disconnect();
         m_PlayerOnline = false;
     }
 }

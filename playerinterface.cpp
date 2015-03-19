@@ -74,6 +74,7 @@ void PlayerInterface::TcpConnected()
 
 void PlayerInterface::TcpDisconnected()
 {
+    qDebug()<<"PlayerInterface::TcpDisconnected()";
     m_Connected = false;
     emit Disconnected();
 }
@@ -163,6 +164,7 @@ void PlayerInterface::TcpError(QAbstractSocket::SocketError socketError)
         str = QString("The following error occurred: %1.").arg(m_Socket.errorString());
         //Log(tr("The following error occurred: %1.").arg(m_Socket.errorString()), QColor(255, 0, 0));
     }
+     qDebug()<<"PlayerInterface::TcpError";
     emit CommError(str);
 //    if (m_StartConnection)
 //    {

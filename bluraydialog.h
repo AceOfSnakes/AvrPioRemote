@@ -42,8 +42,8 @@ public:
 private:
     QSettings&          m_Settings;
     SettingsDialog*     m_SettingsDialog;
-    Ui::BluRayDialog *ui;
-    PlayerInterface&  m_Comm;
+    Ui::BluRayDialog*   ui;
+    PlayerInterface&    m_PlayerInterface;
     bool                m_PositionSet;
 
     
@@ -69,6 +69,7 @@ public slots:
 private slots:
     void CommConnected();
     void CommDisconnected();
+    void CommError(QString socketError);
     bool SendCmd(const QString& cmd);
     void on_pushButtonConnect_clicked();
     void on_BdPowerButton_clicked();
