@@ -146,7 +146,7 @@ void BluRayDialog::CommDisconnected()
  //   Logger::Log("disconnected");
     qDebug()<<"player disconnected";
     EnableIPInput(true);
-    ui->pushButtonConnect->setText(tr("Connect"));
+    ui->pushButtonConnect->setText(tr("Connect to player"));
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
     EnableControls(false);
@@ -158,7 +158,7 @@ void BluRayDialog::CommError(QString socketError)
     Logger::Log("tcp error");
     m_SettingsDialog->EnableIPInputBD(true);
     EnableIPInput(true);
-    ui->pushButtonConnect->setText(tr("Connect"));
+    ui->pushButtonConnect->setText(tr("Connect to player"));
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
     EnableControls(false);

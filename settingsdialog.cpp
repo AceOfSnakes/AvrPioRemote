@@ -229,7 +229,7 @@ void SettingsDialog::CommErrorBD(QString/* socketError*/)
 {
     ui->pushButtonConnect_BD->setEnabled(true);
     ui->pushButtonAuto_BD->setEnabled(true);
-    ui->pushButtonConnect_BD->setText(tr("Connect"));
+    ui->pushButtonConnect_BD->setText(tr("Connect to Player"));
 }
 
 void SettingsDialog::CommConnectedBD()
@@ -243,7 +243,7 @@ void SettingsDialog::CommConnectedBD()
 
 void SettingsDialog::CommDisconnectedBD()
 {
-    ui->pushButtonConnect_BD->setText(tr("Connect"));
+    ui->pushButtonConnect_BD->setText(tr("Connect to Player"));
     ui->pushButtonConnect_BD->setEnabled(true);
     ui->pushButtonAuto_BD->setEnabled(true);
 }

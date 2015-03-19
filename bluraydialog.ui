@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>639</width>
+    <width>681</width>
     <height>410</height>
    </rect>
   </property>
@@ -61,7 +61,7 @@
           <widget class="QPushButton" name="pushButtonConnect">
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>120</width>
              <height>31</height>
             </size>
            </property>
@@ -72,7 +72,7 @@
             </size>
            </property>
            <property name="text">
-            <string>CONNECT</string>
+            <string>Connect To Player</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -324,7 +324,16 @@
              <property name="spacing">
               <number>0</number>
              </property>
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <item>
@@ -354,7 +363,16 @@
              <property name="spacing">
               <number>0</number>
              </property>
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <item>

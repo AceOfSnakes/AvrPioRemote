@@ -321,7 +321,7 @@
                <widget class="QPushButton" name="pushButtonConnect">
                 <property name="minimumSize">
                  <size>
-                  <width>100</width>
+                  <width>130</width>
                   <height>0</height>
                  </size>
                 </property>
@@ -333,7 +333,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Connect</string>
+                 <string>Connect to Receiver</string>
                 </property>
                 <property name="checkable">
                  <bool>true</bool>
@@ -684,7 +684,7 @@
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>100</width>
+                  <width>120</width>
                   <height>0</height>
                  </size>
                 </property>
@@ -696,7 +696,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Connect</string>
+                 <string>Connect to Player</string>
                 </property>
                 <property name="checkable">
                  <bool>true</bool>
