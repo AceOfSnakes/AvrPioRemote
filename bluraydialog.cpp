@@ -83,13 +83,12 @@ void BluRayDialog::moveEvent(QMoveEvent* event)
 
 void BluRayDialog::ConnectPlayer()
 {
-    ui->pushButtonConnect->setEnabled(false);
-    EnableIPInput(false);
-    EnableControls(true);
 
  //   ui->StatusLineEdit->setText(tr("Connecting..."));
  //   m_StatusLineTimer.start();
-
+    ui->pushButtonConnect->setEnabled(false);
+    m_SettingsDialog->EnableIPInputBD(false);
+    EnableIPInput(false);
     if (!m_PlayerInterface.IsConnected())
     {
         m_PlayerInterface.ConnectToPlayer(m_PlayerIpAddress, m_PlayerIpPort);
@@ -139,6 +138,9 @@ void BluRayDialog::CommConnected()
  //   SendCmd("?RGD"); // Receiver-Kennung
  //   SendCmd("?SSO"); // Receiver friendly name (network)
  //   RequestStatus();
+
+    EnableControls(true);
+
 }
 
 void BluRayDialog::CommDisconnected()

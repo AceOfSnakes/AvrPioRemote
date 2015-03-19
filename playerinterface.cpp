@@ -40,7 +40,6 @@ string trim(const string &t, const string &ws)
 PlayerInterface::PlayerInterface()
 {
     m_Connected = false;
-
     // socket
     connect((&m_Socket), SIGNAL(connected()), this, SLOT(TcpConnected()));
     connect((&m_Socket), SIGNAL(disconnected()), this, SLOT(TcpDisconnected()));
@@ -52,6 +51,7 @@ PlayerInterface::PlayerInterface()
 
 void PlayerInterface::ConnectToPlayer(const QString& PlayerIpAddress, const int PlayerIpPort)
 {
+
     m_Socket.connectToHost(PlayerIpAddress, PlayerIpPort);
 }
 
