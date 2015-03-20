@@ -720,7 +720,7 @@ void AVRPioRemote::onConnectBD()
 
 void AVRPioRemote::onConnect()
 {
-        qDebug()<<"Connect to receiver";
+    qDebug()<<"Connect to receiver";
     if (!m_ReceiverInterface.IsConnected())
     {
         // connect
@@ -756,7 +756,7 @@ void AVRPioRemote::onConnect()
             m_IpPort = ip_port.toInt();
         }
         // save the ip address and port permanently
-        m_SettingsDialog->GetIpAddress(ip1, ip2, ip3, ip4, ip_port);
+        m_SettingsDialog->SetIpAddress(ip1, ip2, ip3, ip4, ip_port);
         m_Settings.setValue("IP/1", ip1);
         m_Settings.setValue("IP/2", ip2);
         m_Settings.setValue("IP/3", ip3);

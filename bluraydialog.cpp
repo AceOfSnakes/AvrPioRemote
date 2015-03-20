@@ -52,7 +52,7 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     connect((&m_PlayerInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_PlayerInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     
-    
+/*
     // configure ip adress edit iput
     ui->BDlineEditIP1->setValidator(&m_PlayerIpValidator);
     ui->BDlineEditIP2->setValidator(&m_PlayerIpValidator);
@@ -65,7 +65,7 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     ui->BDlineEditIP3->setText(m_Settings.value("Player_IP/3", "1").toString());
     ui->BDlineEditIP4->setText(m_Settings.value("Player_IP/4", "1").toString());
     ui->BDlineEditIPPort->setText(m_Settings.value("Player_IP/PORT", "8102").toString());
-       
+*/
 }
 
 
@@ -88,7 +88,7 @@ void BluRayDialog::ConnectPlayer()
  //   m_StatusLineTimer.start();
     ui->pushButtonConnect->setEnabled(false);
     m_SettingsDialog->EnableIPInputBD(false);
-    EnableIPInput(false);
+//    EnableIPInput(false);
     if (!m_PlayerInterface.IsConnected())
     {
         m_PlayerInterface.ConnectToPlayer(m_PlayerIpAddress, m_PlayerIpPort);
@@ -147,8 +147,8 @@ void BluRayDialog::CommDisconnected()
 {
  //   Logger::Log("disconnected");
     qDebug()<<"player disconnected";
-    EnableIPInput(true);
-    ui->pushButtonConnect->setText(tr("Connect to player"));
+    //EnableIPInput(true);
+    ui->pushButtonConnect->setText(tr("Connect to Player"));
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
     EnableControls(false);
@@ -159,8 +159,8 @@ void BluRayDialog::CommError(QString socketError)
 {
     Logger::Log("tcp error");
     m_SettingsDialog->EnableIPInputBD(true);
-    EnableIPInput(true);
-    ui->pushButtonConnect->setText(tr("Connect to player"));
+//    EnableIPInput(true);
+    ui->pushButtonConnect->setText(tr("Connect to Player"));
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
     EnableControls(false);
@@ -228,7 +228,7 @@ void BluRayDialog::EnableControls(bool enable)
 
     m_SettingsDialog->EnableIPInputBD(!enable);
 }
-
+/*
 void BluRayDialog::EnableIPInput(bool enable)
 {
     ui->BDlineEditIP1->setEnabled(enable);
@@ -237,7 +237,7 @@ void BluRayDialog::EnableIPInput(bool enable)
     ui->BDlineEditIP4->setEnabled(enable);
     ui->BDlineEditIPPort->setEnabled(enable);
 }
-
+*/
 void BluRayDialog::onConnect()
 {
     if (!m_PlayerInterface.IsConnected())
@@ -246,43 +246,36 @@ void BluRayDialog::onConnect()
         // read settings from the line edits
         QString ip1, ip2, ip3, ip4, ip_port;
         // first the 4 ip address blocks
-        ip1 = ui->BDlineEditIP1->text().trimmed();
+        m_SettingsDialog->GetIpAddressBD(ip1, ip2, ip3, ip4, ip_port);
         if (ip1 == "")
         {
             ip1 = "192"; // set default
-            ui->BDlineEditIP1->setText(ip1);
         }
-        ip2 = ui->BDlineEditIP2->text().trimmed();
         if (ip2 == "")
         {
             ip2 = "168"; // set default
-            ui->BDlineEditIP2->setText(ip2);
         }
-        ip3 = ui->BDlineEditIP3->text().trimmed();
         if (ip3 == "")
         {
             ip3 = "1"; // set default
-            ui->BDlineEditIP3->setText(ip3);
         }
-        ip4 = ui->BDlineEditIP4->text().trimmed();
         if (ip4 == "")
         {
             ip4 = "192"; // set default
-            ui->BDlineEditIP4->setText(ip4);
         }
         m_PlayerIpAddress = ip1 + "." + ip2 + "." + ip3 + "." + ip4;
         // and then th ip port
-        ip_port = ui->BDlineEditIPPort->text().trimmed();
         if (ip_port == "")
         {
             ip_port = "8102"; // set default
-            ui->BDlineEditIPPort->setText(ip_port);
+            m_PlayerIpPort = 8102;
         }
         else
         {
             m_PlayerIpPort = ip_port.toInt();
         }
         // save the ip address and port permanently
+        m_SettingsDialog->SetIpAddressBD(ip1, ip2, ip3, ip4, ip_port);
         m_Settings.setValue("Player_IP/1", ip1);
         m_Settings.setValue("Player_IP/2", ip2);
         m_Settings.setValue("Player_IP/3", ip3);

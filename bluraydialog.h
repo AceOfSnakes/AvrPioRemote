@@ -50,8 +50,8 @@ private:
 //    PlayerInterface m_PlayerInterface;
     int             m_PlayerIpPort;
     QString         m_PlayerIpAddress;
-    QIntValidator   m_PlayerIpValidator;
-    QIntValidator   m_PlayerIpPortValidator;
+//    QIntValidator   m_PlayerIpValidator;
+//    QIntValidator   m_PlayerIpPortValidator;
  //   QSettings       m_Settings;
     
     bool            m_PlayerOnline;
@@ -64,7 +64,7 @@ public slots:
     void ManualShowBluRayDialog();
     void ShowBluRayDialog(bool autoShow);
     void EnableControls(bool enable);
-    void EnableIPInput(bool enable);
+  //  void EnableIPInput(bool enable);
     void onConnect();
 private slots:
     void CommConnected();
