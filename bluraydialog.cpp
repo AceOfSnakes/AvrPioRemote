@@ -147,7 +147,7 @@ void BluRayDialog::CommError(QString socketError)
     ui->pushButtonConnect->setText(tr("Connect to Player"));
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonConnect->setChecked(false);
-    m_SettingsDialog->EnableIPInputBD(false);
+    m_SettingsDialog->EnableIPInputBD(true);
     EnableControls(false);
     m_PlayerOnline = false;
 }
