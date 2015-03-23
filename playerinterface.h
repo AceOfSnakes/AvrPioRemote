@@ -38,14 +38,15 @@ private:
     string          m_ReceivedString;
     bool            m_Connected;
 
-//    void InterpretString(const QString& data);
+    void InterpretString(const QString& data);
 //    QString DecodeHexString(const QString& hex);
 
 private slots:
-//    void ReadString();
+
     void TcpError(QAbstractSocket::SocketError socketError);
     void TcpConnected();
     void TcpDisconnected();
+        void ReadString();
 public slots:
     void ConnectToPlayer(const QString &PlayerIpAddress, const int PlayerIpPort);
     void Disconnect();
@@ -53,6 +54,7 @@ public slots:
     bool SendCmd(const QString& cmd);
 
 signals:
+    void PlayerOffline(bool);
     bool CmdToBeSend(const QString& cmd); // for logging
     void CommError(QString error);
     void Connected();

@@ -404,7 +404,7 @@ void AVRPioRemote::ConnectReceiver()
 void AVRPioRemote::ConnectPlayer()
 {
     m_BluRayDialog->show();
-    ui->StatusLineEdit->setText(tr("Connecting..."));
+    ui->StatusLineEdit->setText(tr("Connecting player..."));
     m_StatusLineTimer.start();
     m_BluRayDialog->onConnect();
 }
@@ -442,7 +442,7 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
         return;
     }
     PowerResponse* power = dynamic_cast<PowerResponse*>(response);
-    if (power != NULL)
+      if (power != NULL)
     {
         if (power->GetZone() == PowerResponse::ZoneMain)
         {

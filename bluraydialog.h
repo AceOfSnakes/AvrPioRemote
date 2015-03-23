@@ -39,13 +39,16 @@ class BluRayDialog : public QDialog
 public:
     explicit BluRayDialog(QWidget *parent, QSettings& settings, PlayerInterface& Comm, SettingsDialog * settingsDialog);
     ~BluRayDialog();
+    void ResponseReceived(ReceivedObjectBase *);
 private:
     QSettings&          m_Settings;
     SettingsDialog*     m_SettingsDialog;
     Ui::BluRayDialog*   ui;
     PlayerInterface&    m_PlayerInterface;
     bool                m_PositionSet;
-
+    bool                m_offline;
+    QIcon           m_PowerButtonOnIcon;
+    QIcon           m_PowerButtonOffIcon;
     
 //    PlayerInterface m_PlayerInterface;
     int             m_PlayerIpPort;
@@ -66,6 +69,7 @@ public slots:
     void EnableControls(bool enable);
   //  void EnableIPInput(bool enable);
     void onConnect();
+    void PlayerOffline(bool);
 private slots:
     void CommConnected();
     void CommDisconnected();
