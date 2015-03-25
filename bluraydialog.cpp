@@ -54,6 +54,7 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     connect((&m_PlayerInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_PlayerInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((&m_PlayerInterface), SIGNAL(PlayerOffline(bool)), this,  SLOT(PlayerOffline(bool)));
+    CheckOnline();
     /*
     QStringList responseList;
     responseList << PowerResponse().getResponseID();
@@ -126,9 +127,8 @@ void BluRayDialog::CommConnected()
     ui->pushButtonConnect->setChecked(true);
     ui->BdPowerButton->setEnabled(true);
     m_PlayerOnline = true;
-    m_offline = false;
     EnableControls(true);
-    SendCmd("?P"); // Player Active Mode Request
+    CheckOnline();
 }
 void BluRayDialog::CommDisconnected()
 {
@@ -153,7 +153,9 @@ void BluRayDialog::CommError(QString socketError)
 }
 bool BluRayDialog::SendCmd(const QString& cmd)
 {
-    return m_PlayerInterface.SendCmd(cmd);
+    bool ret = m_PlayerInterface.SendCmd(cmd);
+   // m_PlayerInterface.SendCmd("?P");
+    return ret;
 }
 
 void BluRayDialog::EnableControls(bool enable)
@@ -264,16 +266,20 @@ void BluRayDialog::onConnect()
         m_PlayerInterface.Disconnect();
         m_PlayerOnline = false;
     }
-    SendCmd("?P");
+    CheckOnline();
 }
 
+void BluRayDialog::CheckOnline() {
+    m_offline=true;
+    PlayerOffline(true);
+    SendCmd("?P");
+}
 
 
 void BluRayDialog::on_pushButtonConnect_clicked()
 {
     ui->pushButtonConnect->setChecked(!ui->pushButtonConnect->isChecked());
     onConnect();
-
 }
 
 
@@ -282,18 +288,16 @@ void BluRayDialog::on_BdPowerButton_clicked()
     if (m_offline)
     {
         SendCmd("PN");
-        SendCmd("PN");
-        PlayerOffline(false);
+ //       SendCmd("PN");
+    CheckOnline();
     }
     else
     {
         SendCmd("PF");
-        SendCmd("PF");
+  //      SendCmd("PF");
         PlayerOffline(true);
     }
-//    SendCmd("?P");
 }
-
 void BluRayDialog::on_BdContinuedButton_clicked()
 {
     emit SendCmd("/A181AFAA/RU");

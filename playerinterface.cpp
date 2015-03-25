@@ -152,45 +152,29 @@ void PlayerInterface::TcpError(QAbstractSocket::SocketError socketError)
 }
 
 
-/*
-QString PlayerInterface::DecodeHexString(const QString& hex)
-{
-    QString str = "";
-    for (int i = 0; i < (int)hex.length(); i+=2)
-    {
-        int c = hex.mid(i, 2).toInt(NULL, 16);
-        if (c == 5)
-            str += "[)";
-        else if (c == 6)
-            str += "(]";
-        else if (c == 9)
-            str += "<|";
-        else if (c == 10)
-            str += "|>";
-        else
-            str += (QChar)c;
-    }
-    return str;
-}
-*/
 
 bool PlayerInterface::SendCmd(const QString& cmd)
 {
 //    Log("--> " + cmd, QColor(0, 200, 0));
+    bool ret;
     CmdToBeSend(cmd);
     Logger::Log("--> " + cmd);
     qDebug()<<"--> " << cmd;
     QString tmp = cmd + "\r";
-    return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
+    ret = m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
+    return ret;
 }
 
 
 
 void PlayerInterface::InterpretString(const QString& data)
 {
-   if (data.startsWith("E04")) {
-       emit PlayerOffline(true);
-   } else if (data.startsWith("P01")) {
+    qDebug()<<"<--"<<data;
+    if (data.startsWith("?")||data=="I") {
+        qDebug()<<"-->"<<"?P";
+        SendCmd("?P");
+    }
+   if (data.startsWith("P0")) {
        emit PlayerOffline(false);
    }
 }
