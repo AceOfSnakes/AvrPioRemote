@@ -114,7 +114,7 @@ void PlayerInterface::ReadString()
 //                str.remove(QChar('\n'));
                 InterpretString(str);
                 //emit DataReceived(str);
-                qDebug()<<str;
+                //qDebug()<<str;
             }
             m_ReceivedString = "";
         }
@@ -158,8 +158,8 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 //    Log("--> " + cmd, QColor(0, 200, 0));
     bool ret;
     CmdToBeSend(cmd);
-    Logger::Log("--> " + cmd);
-    qDebug()<<"--> " << cmd;
+    //Logger::Log("--> " + cmd);
+    //qDebug()<<"--> " << cmd;
     QString tmp = cmd + "\r";
     ret = m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
     return ret;
@@ -169,13 +169,15 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 
 void PlayerInterface::InterpretString(const QString& data)
 {
-    qDebug()<<"<--"<<data;
-    if (data.startsWith("?")||data=="I") {
-        qDebug()<<"-->"<<"?P";
-        SendCmd("?P");
-    }
+    //qDebug()<<"<--"<<data;
+//    if (data.startsWith("?")||data=="I"||data=="S?") {
+//        qDebug()<<"-->"<<"?P";
+//        SendCmd("?P");
+//    }
    if (data.startsWith("P0")) {
        emit PlayerOffline(false);
+   } else if(data.startsWith("E04")) {
+       emit PlayerOffline(true);
    }
 }
 

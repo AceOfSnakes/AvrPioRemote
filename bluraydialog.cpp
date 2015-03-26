@@ -22,6 +22,7 @@
 #include <qtextcodec.h>
 #include <QDateTime>
 #include <QThread>
+#include <QTimer>
 
 BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface &Comm, SettingsDialog *settingsDialog) :
     QDialog(parent),
@@ -55,6 +56,9 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     connect((&m_PlayerInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((&m_PlayerInterface), SIGNAL(PlayerOffline(bool)), this,  SLOT(PlayerOffline(bool)));
     CheckOnline();
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(CheckOnlineInternal()));
+    timer->start(3000); //time specified in ms
     /*
     QStringList responseList;
     responseList << PowerResponse().getResponseID();
@@ -86,7 +90,7 @@ void BluRayDialog::ConnectPlayer()
 }
 
 void BluRayDialog::PlayerOffline(bool offline) {
-    qDebug()<<"Player offline "<<offline;
+//    qDebug()<<"Player offline "<<offline;
     ui->BdPowerButton->setIcon((!offline) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
     ui->BdPowerButton->setText((offline) ? tr("ON") : tr("OFF"));
     EnableControls(!offline);
@@ -268,11 +272,15 @@ void BluRayDialog::onConnect()
     }
     CheckOnline();
 }
+void BluRayDialog::CheckOnlineInternal() {
+    if(m_PlayerOnline) {
+        SendCmd("?P");
+    }
+}
 
 void BluRayDialog::CheckOnline() {
     m_offline=true;
     PlayerOffline(true);
-    SendCmd("?P");
 }
 
 
@@ -288,13 +296,11 @@ void BluRayDialog::on_BdPowerButton_clicked()
     if (m_offline)
     {
         SendCmd("PN");
- //       SendCmd("PN");
-    CheckOnline();
+        CheckOnline();
     }
     else
     {
         SendCmd("PF");
-  //      SendCmd("PF");
         PlayerOffline(true);
     }
 }

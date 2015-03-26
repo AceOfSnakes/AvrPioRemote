@@ -72,6 +72,7 @@ public slots:
     void PlayerOffline(bool);
 private slots:
     void CheckOnline();
+    void CheckOnlineInternal();
     void CommConnected();
     void CommDisconnected();
     void CommError(QString socketError);
