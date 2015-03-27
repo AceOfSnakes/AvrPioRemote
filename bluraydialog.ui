@@ -780,7 +780,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>CD/DVD</string>
+                  <string>CD/SACD</string>
                  </property>
                  <property name="checkable">
                   <bool>false</bool>
