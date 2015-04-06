@@ -95,7 +95,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     /* 02 */ m_InputButtons.append(ui->InputTunerButton); //"TUNER",
     /* 03 */ m_InputButtons.append(NULL); //"CD-R/TAPE",
     /* 04 */ m_InputButtons.append(ui->InputDvdButton); //"DVD",
-    /* 05 */ m_InputButtons.append(ui->InputSatButton); //"TV/SAT",
+    /* 05 */ m_InputButtons.append(ui->InputTvButton); //"TV/SAT",
     /* 06 */ m_InputButtons.append(ui->InputSatButton); //"SAT/CBL",
     /* 07 */ m_InputButtons.append(NULL); //"",
     /* 08 */ m_InputButtons.append(NULL); //"",
