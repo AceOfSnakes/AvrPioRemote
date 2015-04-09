@@ -180,8 +180,8 @@ void TestDialog::on_SendButton_clicked()
         if(ui->historyComboBox->findText(str)<0) {
           ui->historyComboBox->insertItem(0,str);
           ui->historyComboBox->setCurrentIndex(0);
-          if(ui->historyComboBox->size()>20) {
-              ui->historyComboBox->removeItem(ui->historyComboBox->size()-1);
+          if(ui->historyComboBox->count()>20) {
+              ui->historyComboBox->removeItem(ui->historyComboBox->count()-1);
           }
         }
         emit SendCmd(str);
