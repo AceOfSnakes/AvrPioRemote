@@ -33,8 +33,8 @@ class TestDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit TestDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& Settings, QString &device);
-    explicit TestDialog(QWidget *parent, PlayerInterface& Comm, QSettings& Settings, QString &device);
+    explicit TestDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& Settings, const QString &device);
+    explicit TestDialog(QWidget *parent, PlayerInterface& Comm, QSettings& Settings, const QString &device);
     ~TestDialog();
     
 private slots:
