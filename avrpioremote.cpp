@@ -160,12 +160,15 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_TunerDialog = new TunerDialog(this, m_ReceiverInterface, m_Settings);
 
     // create Test dialog
-    m_TestDialog = new TestDialog(this, m_ReceiverInterface, m_Settings);
+    m_TestDialog = new TestDialog(this, m_ReceiverInterface, m_Settings, tr("Receiver"));
 
     // create Settings dialog
     m_SettingsDialog = new SettingsDialog(this, m_Settings, m_ReceiverInterface, m_PlayerInterface);
     // create BluRay dialog
     m_BluRayDialog = new BluRayDialog(this, m_Settings, m_PlayerInterface, m_SettingsDialog);
+
+    // create Test dialog
+    m_PlayerTestDialog = new TestDialog(this, m_PlayerInterface, m_Settings, tr("Player"));
 
     // create EQ dialog
     m_EQDialog = new EQDialog(this, m_ReceiverInterface, m_Settings);
@@ -214,6 +217,7 @@ AVRPioRemote::~AVRPioRemote()
     delete m_LoudspeakerSettingsDialog;
     delete m_TunerDialog;
     delete m_TestDialog;
+    delete m_PlayerTestDialog;
     delete m_SettingsDialog;
     delete m_EQDialog;
     delete m_Listendiag;
@@ -788,10 +792,6 @@ void AVRPioRemote::on_MoreButton_clicked()
     QMenu MyMenu(this);
     //MyMenu.addActions(this->actions());
 
-    pAction = new QAction(tr("BluRay"), this);
-    MyMenu.addAction(pAction);
-    connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ManualShowBluRayDialog()));
-
     if (m_ReceiverOnline == true)
     {
         pAction = new QAction(tr("Internet Radio"), this);
@@ -843,20 +843,36 @@ void AVRPioRemote::on_MoreButton_clicked()
 //        pAction = new QAction("LS Settings", this);
 //        pAction = new QAction("Show Zone 2", this);
 //        pAction = new QAction("Input Wizard", this);
-    }
 
-    pAction = new QAction(tr("-"), this);
-    pAction->setSeparator(true);
-    MyMenu.addAction(pAction);
+        pAction = new QAction(tr("-"), this);
+        pAction->setSeparator(true);
+        MyMenu.addAction(pAction);
+    }
 
     pAction = new QAction(tr("Test"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_TestDialog, SLOT(ShowTestDialog()));
 
+
     pAction = new QAction(tr("Settings"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_SettingsDialog, SLOT(ShowSettingsDialog()));
 
+    pAction = new QAction(tr("-"), this);
+    pAction->setSeparator(true);
+    MyMenu.addAction(pAction);
+
+    pAction = new QAction(tr("BluRay"), this);
+    MyMenu.addAction(pAction);
+    connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ManualShowBluRayDialog()));
+
+    pAction = new QAction(tr("BluRay Test"), this);
+    MyMenu.addAction(pAction);
+    connect(pAction, SIGNAL(triggered()), m_PlayerTestDialog, SLOT(ShowTestDialog()));
+
+    pAction = new QAction(tr("Information"), this);
+    pAction->setSeparator(true);
+    MyMenu.addAction(pAction);
     pAction = new QAction(tr("About AVRPioRemote"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), this, SLOT(ShowAboutDialog()));

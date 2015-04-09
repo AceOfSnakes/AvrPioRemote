@@ -88,9 +88,14 @@ void BluRayDialog::ConnectPlayer()
         m_PlayerInterface.ConnectToPlayer(m_PlayerIpAddress, m_PlayerIpPort);
     }
 }
-
+void BluRayDialog::PlayerType (QString/* no*/, QString name) {
+    if(m_Settings.value("ShowPlayerNameInTitle", true).toBool())
+    {
+        this->setWindowTitle(name);
+    }
+}
 void BluRayDialog::PlayerOffline(bool offline) {
-//    qDebug()<<"Player offline "<<offline;
+    //    qDebug()<<"Player offline "<<offline;
     ui->BdPowerButton->setIcon((!offline) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
     ui->BdPowerButton->setText((offline) ? tr("ON") : tr("OFF"));
     EnableControls(!offline);
@@ -158,7 +163,8 @@ void BluRayDialog::CommError(QString socketError)
 bool BluRayDialog::SendCmd(const QString& cmd)
 {
     bool ret = m_PlayerInterface.SendCmd(cmd);
-   // m_PlayerInterface.SendCmd("?P");
+    // m_PlayerInterface.SendCmd("?P");
+    // qDebug()<<cmd;
     return ret;
 }
 
@@ -275,6 +281,7 @@ void BluRayDialog::onConnect()
 void BluRayDialog::CheckOnlineInternal() {
     if(m_PlayerOnline) {
         SendCmd("?P");
+//        SendCmd("?");
     }
 }
 

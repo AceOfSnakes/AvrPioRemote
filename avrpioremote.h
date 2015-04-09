@@ -79,6 +79,7 @@ private:
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
     TunerDialog*                m_TunerDialog;
     TestDialog*                 m_TestDialog;
+    TestDialog*                 m_PlayerTestDialog;
     SettingsDialog*             m_SettingsDialog;
     EQDialog*                   m_EQDialog;
     ListeningModeDialog*        m_Listendiag;

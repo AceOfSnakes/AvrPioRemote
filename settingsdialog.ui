@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -394,6 +394,16 @@
         <widget class="QCheckBox" name="RestoreBlueRayWindowCheckBox">
          <property name="text">
           <string>Remember last window position</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ShowPlayerNameInTitle">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Show Player name in window title</string>
          </property>
         </widget>
        </item>

@@ -78,7 +78,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->RestoreMCACCEQWindowCheckBox->setChecked(m_Settings.value("SaveMCACCEQWindowGeometry", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
-
+    ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
     ui->ShowDefaultInputNameCheckBox->setChecked(m_Settings.value("ShowDefaultInputName", false).toBool());
 
     // configure ip adress edit input
@@ -140,12 +140,12 @@ void SettingsDialog::ShowSettingsDialog()
 {
     if (!this->isVisible())
     {
-//        QWidget* Parent = dynamic_cast<QWidget*>(parent());
-//        int x = this->pos().x() + this->width() + 20;
-//        QPoint pos;
-//        pos.setX(x);
-//        pos.setY(this->pos().y());
-//        m_SettingsDialog->move(pos);
+        //        QWidget* Parent = dynamic_cast<QWidget*>(parent());
+        //        int x = this->pos().x() + this->width() + 20;
+        //        QPoint pos;
+        //        pos.setX(x);
+        //        pos.setY(this->pos().y());
+        //        m_SettingsDialog->move(pos);
         this->show();
     }
 }
@@ -212,7 +212,7 @@ void SettingsDialog::CommError(QString/* socketError*/)
 
 void SettingsDialog::CommConnected()
 {
-     qDebug()<<"CommConnected()";
+    qDebug()<<"CommConnected()";
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonAuto->setEnabled(false);
     ui->pushButtonConnect->setText(tr("Disconnect"));
@@ -493,4 +493,9 @@ void SettingsDialog::on_pushButtonConnect_BD_clicked()
         ui->pushButtonAuto_BD->setEnabled(true);
     }
     emit onConnectBD();
+}
+
+void SettingsDialog::on_ShowPlayerNameInTitle_clicked()
+{
+    m_Settings.setValue("ShowPlayerNameInTitle", ui->ShowReceiverNameInTitleCheckBox->isChecked());
 }

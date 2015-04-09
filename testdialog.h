@@ -20,6 +20,7 @@
 
 #include <QDialog>
 #include "receiver_interface/receiverinterface.h"
+#include "playerinterface.h"
 #include <QMoveEvent>
 #include <QSettings>
 
@@ -32,7 +33,8 @@ class TestDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit TestDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& Settings);
+    explicit TestDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& Settings, QString &device);
+    explicit TestDialog(QWidget *parent, PlayerInterface& Comm, QSettings& Settings, QString &device);
     ~TestDialog();
     
 private slots:
@@ -43,14 +45,18 @@ private slots:
     void on_FilterLineEdit_textChanged(const QString &arg1);
     void on_checkBox_clicked();
 
+    void on_historyComboBox_activated(const QString &arg1);
+
 public slots:
     void ShowTestDialog();
     void NewDataReceived(QString data);
     void LogSendCmd(QString data);
 
 private:
+    QString                    device;
     Ui::TestDialog             *ui;
-    ReceiverInterface&          m_Comm;
+    ReceiverInterface*          m_Comm;
+    PlayerInterface*            m_PlayerComm;
     QSettings&                  m_Settings;
     bool                        m_PositionSet;
     bool                        m_LogEnabled;

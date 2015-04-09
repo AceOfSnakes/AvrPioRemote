@@ -87,6 +87,8 @@ private slots:
 
     void on_pushButtonConnect_BD_clicked();
 
+    void on_ShowPlayerNameInTitle_clicked();
+
 signals:
     void onConnect();
     void onConnectBD();

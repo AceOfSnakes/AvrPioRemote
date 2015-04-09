@@ -22,10 +22,12 @@
 #include <QTextStream>
 
 
-TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Settings) :
+TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Settings, QString & dev) :
     QDialog(parent),
     ui(new Ui::TestDialog),
-    m_Comm(Comm),
+    m_Comm(&Comm),
+    device(QString("Receiver")),
+    m_PlayerComm(0),
     m_Settings(Settings),
     m_PositionSet(false),
     m_LogEnabled(false),
@@ -33,19 +35,45 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
 {
     ui->setupUi(this);
 
+    this->setWindowTitle(device.append(" Test"));
     // restore the position of the window
-    if (m_Settings.value("SaveTestWindowGeometry", false).toBool())
+    if (m_Settings.value(QString("SaveTestWindowGeometry"), false).toBool())
     {
-        m_PositionSet = restoreGeometry(m_Settings.value("TestWindowGeometry").toByteArray());
+        m_PositionSet = restoreGeometry(m_Settings.value(QString("TestWindowGeometry").append(device)).toByteArray());
     }
 
-    m_LogEnabled = m_Settings.value("StartLoggingInTestWindow", false).toBool();
+    m_LogEnabled = m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool();
 
-    connect((&m_Comm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
-    connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect((&m_Comm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
+    connect((m_Comm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
+    connect((this),    SIGNAL(SendCmd(QString)), m_Comm, SLOT(SendCmd(QString)));
+    connect((m_Comm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
 }
 
+TestDialog::TestDialog(QWidget *parent, PlayerInterface &Comm, QSettings &Settings, QString & dev) :
+    QDialog(parent),
+    device(QString("Player")),
+    ui(new Ui::TestDialog),
+    m_PlayerComm(&Comm),
+    m_Comm(0),
+    m_Settings(Settings),
+    m_PositionSet(false),
+    m_LogEnabled(false),
+    m_InvertFilter(false)
+{
+    ui->setupUi(this);
+    this->setWindowTitle(device.append(" Test"));
+    // restore the position of the window
+    if (m_Settings.value(QString("SaveTestWindowGeometry"), false).toBool())
+    {
+        m_PositionSet = restoreGeometry(m_Settings.value(QString("TestWindowGeometry").append(device)).toByteArray());
+    }
+
+    m_LogEnabled = m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool();
+
+    connect((m_PlayerComm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
+    connect((this),    SIGNAL(SendCmd(QString)), m_PlayerComm, SLOT(SendCmd(QString)));
+    connect((m_PlayerComm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
+}
 
 TestDialog::~TestDialog()
 {
@@ -55,7 +83,7 @@ TestDialog::~TestDialog()
 
 void TestDialog::moveEvent(QMoveEvent* event)
 {
-    m_Settings.setValue("TestWindowGeometry", saveGeometry());
+    m_Settings.setValue(QString("TestWindowGeometry").append(device), saveGeometry());
     QDialog::moveEvent(event);
 }
 
@@ -64,7 +92,7 @@ void TestDialog::ShowTestDialog()
 {
     if (!this->isVisible())
     {
-        if (!m_PositionSet || !m_Settings.value("SaveTestWindowGeometry", false).toBool())
+        if (!m_PositionSet || !m_Settings.value(QString("SaveTestWindowGeometry"), false).toBool())
         {
             QWidget* Parent = dynamic_cast<QWidget*>(parent());
             int x = Parent->pos().x() - 20 - this->width();
@@ -126,6 +154,7 @@ void TestDialog::LogSendCmd(QString data)
         else if (!m_InvertFilter && !found)
             AddToList("--> " + data);
     }
+
 }
 
 
@@ -148,6 +177,10 @@ void TestDialog::on_SendButton_clicked()
     QString str = ui->lineEdit->text().trimmed();
     if (str != "")
     {
+        if(ui->historyComboBox->findText(str)<0) {
+          ui->historyComboBox->insertItem(0,str);
+          ui->historyComboBox->setCurrentIndex(0);
+        }
         emit SendCmd(str);
     }
 }
@@ -197,4 +230,10 @@ void TestDialog::on_FilterLineEdit_textChanged(const QString &arg1)
 void TestDialog::on_checkBox_clicked()
 {
     m_InvertFilter = ui->checkBox->isChecked();
+}
+
+void TestDialog::on_historyComboBox_activated(const QString &arg1)
+{
+    ui->lineEdit->setText(arg1);
+    on_SendButton_clicked();
 }

@@ -181,7 +181,9 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     else {
         //failure
         qDebug() << "Failure" <<reply->errorString();
-        delete reply;
+        delete reply;\
+        eventLoop.quit();
+        return;
     }
     eventLoop.quit();
     if (m_FindReceivers) {
@@ -192,15 +194,24 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
         device->Connect(ip, 23);
         m_RemoteDevices.append(device);
+
     } else if(remoteSupported.toInt() == 1) {
-        ui->listWidget->addItem(QString("%1: (%2:%03)").arg(modelName).arg(ip).arg(remotePort));
-        if (ui->listWidget->count() == 1) {
-            ui->listWidget->setCurrentRow(0);
-            m_SelectedAddress = ip;
-            m_SelectedPort = remotePort.toInt();
+        QString name=QString("%1: (%2:%03)").arg(modelName).arg(ip).arg(remotePort);
+        QList<QListWidgetItem*> find = ui->listWidget->findItems(name,Qt::MatchContains| Qt::MatchRecursive);
+
+//        ui->listWidget->findItems()
+        if(find.size()==0) {
+            ui->listWidget->addItem(name);
+            if (ui->listWidget->count() == 1) {
+                ui->listWidget->setCurrentRow(0);
+                m_SelectedAddress = ip;
+                m_SelectedPort = remotePort.toInt();
+            }
+            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, ip);
+            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, remotePort.toInt());
+        } else {
+            qDebug()<<name<<"already in list";
         }
-        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, ip);
-        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, remotePort.toInt());
     }
 }
 
@@ -215,24 +226,24 @@ void AutoSearchDialog::TcpConnected()
 void AutoSearchDialog::TcpDisconnected()
 {
     Logger::Log("TcpDisconnected");
-//    QObject* sender = QObject::sender();
-//    RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
-//    int port = device->port;
-//    QString ip = device->ip;
-//    int idx = m_RemoteDevices.indexOf(device);
-//    if (idx != -1)
-//        m_RemoteDevices.remove(idx);
-//    delete device;
-//    if (port == 23)
-//    {
-//        device = new RemoteDevice();
-//        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
-//        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-//        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
-//        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-//        device->Connect(ip, 8102);
-//        m_RemoteDevices.append(device);
-//    }
+    //    QObject* sender = QObject::sender();
+    //    RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
+    //    int port = device->port;
+    //    QString ip = device->ip;
+    //    int idx = m_RemoteDevices.indexOf(device);
+    //    if (idx != -1)
+    //        m_RemoteDevices.remove(idx);
+    //    delete device;
+    //    if (port == 23)
+    //    {
+    //        device = new RemoteDevice();
+    //        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
+    //        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
+    //        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
+    //        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+    //        device->Connect(ip, 8102);
+    //        m_RemoteDevices.append(device);
+    //    }
 }
 
 void AutoSearchDialog::ReadString()
@@ -318,9 +329,9 @@ void AutoSearchDialog::TcpError(QAbstractSocket::SocketError socketError)
         break;
     case QAbstractSocket::ConnectionRefusedError:
         str = QString("Host refused connection: %1").arg(device->socket->errorString());
-//        Log(tr("The connection was refused by the peer. "
-//               "Make sure the receiver is on "
-//               "and check ip address and port."), QColor(255, 0, 0));
+        //        Log(tr("The connection was refused by the peer. "
+        //               "Make sure the receiver is on "
+        //               "and check ip address and port."), QColor(255, 0, 0));
         break;
     default:
         str = QString("The following error occurred: %1.").arg(device->socket->errorString());
@@ -345,11 +356,11 @@ void AutoSearchDialog::TcpError(QAbstractSocket::SocketError socketError)
         device->Connect(ip, 8102);
         m_RemoteDevices.append(device);
     }
-//    if (m_StartConnection)
-//    {
-//        Xsleep::msleep(10000);
-//        ConnectTCP();
-//    }
+    //    if (m_StartConnection)
+    //    {
+    //        Xsleep::msleep(10000);
+    //        ConnectTCP();
+    //    }
 }
 
 void AutoSearchDialog::on_CancelButton_clicked()

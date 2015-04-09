@@ -113,8 +113,8 @@ void PlayerInterface::ReadString()
 //                str.remove(QChar('\r'));
 //                str.remove(QChar('\n'));
                 InterpretString(str);
-                //emit DataReceived(str);
-                //qDebug()<<str;
+                emit DataReceived(str);
+               // qDebug()<<str;
             }
             m_ReceivedString = "";
         }
@@ -158,8 +158,8 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 //    Log("--> " + cmd, QColor(0, 200, 0));
     bool ret;
     CmdToBeSend(cmd);
-    //Logger::Log("--> " + cmd);
-    //qDebug()<<"--> " << cmd;
+//    Logger::Log("--> " + cmd);
+//    qDebug()<<"--> " << cmd;
     QString tmp = cmd + "\r";
     ret = m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
     return ret;

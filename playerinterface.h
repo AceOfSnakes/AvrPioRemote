@@ -59,7 +59,7 @@ signals:
     void CommError(QString error);
     void Connected();
     void Disconnected();
-   // void DataReceived(QString);
+    void DataReceived(QString);
   //  void AudioStatusData(QString codec, QString samplingRate);
   //  void InputChanged(int no, QString name);
   //  void Listenextended(QString id, QString name);
