@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>516</width>
-    <height>504</height>
+    <height>612</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,31 @@
       </layout>
      </item>
      <item>
-      <widget class="QComboBox" name="historyComboBox"/>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QComboBox" name="historyComboBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxSendImmediate">
+         <property name="text">
+          <string>Send Immediate</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QListWidget" name="listWidget">
@@ -77,13 +101,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="LogCommunicationCheckBox">
-         <property name="text">
-          <string>Log communication</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QFrame" name="frame_2">
          <property name="minimumSize">
           <size>
@@ -96,6 +113,13 @@
          </property>
          <property name="frameShadow">
           <enum>QFrame::Sunken</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="LogCommunicationCheckBox">
+         <property name="text">
+          <string>Log communication</string>
          </property>
         </widget>
        </item>
@@ -147,6 +171,7 @@
          <property name="frameShadow">
           <enum>QFrame::Sunken</enum>
          </property>
+         <zorder>gridLayoutWidget</zorder>
         </widget>
        </item>
        <item>
@@ -167,6 +192,50 @@
         </widget>
        </item>
       </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0">
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="saveTestHistoryCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Save test history</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="saveFilterCheckBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Save communication filter</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="StartLoggingInTestWindowCheckBox">
+       <property name="text">
+        <string>Start logging in Test window (slow)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="RestoreTestWindowCheckBox">
+       <property name="text">
+        <string>Restore window position on start</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

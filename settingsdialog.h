@@ -68,11 +68,11 @@ private slots:
     void on_RestoreTunerWindowCheckBox_clicked();
     void on_RestoreNetRadioWindowCheckBox_clicked();
     void on_RestoreSpeakerSettingsWindowCheckBox_clicked();
-    void on_RestoreTestWindowCheckBox_clicked();
+//    void on_RestoreTestWindowCheckBox_clicked();
     void on_RestoreLMSettingsWindowCheckBox_clicked();
     void on_RestoreUSBWindowCheckBox_clicked();
     void on_ShowUSBCheckBox_clicked();
-    void on_StartLoggingInTestWindowCheckBox_clicked();
+//    void on_StartLoggingInTestWindowCheckBox_clicked();
     void on_ShowReceiverNameInTitleCheckBox_clicked();
     void on_ShowDefaultInputNameCheckBox_clicked();
     void on_RestoreZoneControlWindowCheckBox_clicked();

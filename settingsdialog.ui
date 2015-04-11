@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -808,13 +808,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="StartLoggingInTestWindowCheckBox">
-         <property name="text">
-          <string>Start logging in Test window (slow)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -885,27 +878,20 @@
              </widget>
             </item>
             <item row="5" column="0">
-             <widget class="QCheckBox" name="RestoreTestWindowCheckBox">
-              <property name="text">
-               <string>Test window</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
              <widget class="QCheckBox" name="RestoreLMSettingsWindowCheckBox">
               <property name="text">
                <string>Listening mode</string>
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
+            <item row="6" column="0">
              <widget class="QCheckBox" name="RestoreUSBWindowCheckBox">
               <property name="text">
                <string>iPod/USB</string>
               </property>
              </widget>
             </item>
-            <item row="8" column="0">
+            <item row="7" column="0">
              <widget class="QCheckBox" name="RestoreZoneControlWindowCheckBox">
               <property name="text">
                <string>Zone Control</string>

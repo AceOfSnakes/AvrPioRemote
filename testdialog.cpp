@@ -35,15 +35,25 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
 {
     ui->setupUi(this);
 
-    this->setWindowTitle(device.append(" Test"));
+    this->setWindowTitle(device.append(" test"));
     // restore the position of the window
-    if (m_Settings.value(QString("SaveTestWindowGeometry"), false).toBool())
+    if (m_Settings.value(QString("SaveTestWindowGeometry").append(device), false).toBool())
     {
         m_PositionSet = restoreGeometry(m_Settings.value(QString("TestWindowGeometry").append(device)).toByteArray());
     }
 
-    m_LogEnabled = m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool();
+    ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value(QString("SaveTestWindowGeometry").append(device), false).toBool());
+    ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
+    ui->LogCommunicationCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
+    ui->saveFilterCheckBox->setChecked(m_Settings.value(QString("SaveFilter").append(device), false).toBool());
+    if(ui->saveFilterCheckBox->isChecked()) {
+        ui->FilterLineEdit->setText(
+                m_Settings.value(QString("Filter").append(device),"").toString());
 
+    }else {
+        ui->FilterLineEdit->setText("");
+    }
+    m_LogEnabled=ui->LogCommunicationCheckBox->isChecked();
     connect((m_Comm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), m_Comm, SLOT(SendCmd(QString)));
     connect((m_Comm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
@@ -61,15 +71,26 @@ TestDialog::TestDialog(QWidget *parent, PlayerInterface &Comm, QSettings &Settin
     m_InvertFilter(false)
 {
     ui->setupUi(this);
-    this->setWindowTitle(device.append(" Test"));
+    this->setWindowTitle(device.append(" test"));
     // restore the position of the window
-    if (m_Settings.value(QString("SaveTestWindowGeometry"), false).toBool())
+    if (m_Settings.value(QString("SaveTestWindowGeometry").append(device), false).toBool())
     {
         m_PositionSet = restoreGeometry(m_Settings.value(QString("TestWindowGeometry").append(device)).toByteArray());
     }
 
     m_LogEnabled = m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool();
+    ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value(QString("SaveTestWindowGeometry").append(device), false).toBool());
+    ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
+    ui->LogCommunicationCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
+    ui->saveFilterCheckBox->setChecked(m_Settings.value(QString("SaveFilter").append(device), false).toBool());
+    if(ui->saveFilterCheckBox->isChecked()) {
+        ui->FilterLineEdit->setText(
+                m_Settings.value(QString("Filter").append(device),"").toString());
 
+    } else {
+        ui->FilterLineEdit->setText("");
+    }
+    m_LogEnabled=ui->LogCommunicationCheckBox->isChecked();
     connect((m_PlayerComm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), m_PlayerComm, SLOT(SendCmd(QString)));
     connect((m_PlayerComm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
@@ -92,7 +113,7 @@ void TestDialog::ShowTestDialog()
 {
     if (!this->isVisible())
     {
-        if (!m_PositionSet || !m_Settings.value(QString("SaveTestWindowGeometry"), false).toBool())
+        if (!m_PositionSet || !m_Settings.value(QString("SaveTestWindowGeometry").append(device), false).toBool())
         {
             QWidget* Parent = dynamic_cast<QWidget*>(parent());
             int x = Parent->pos().x() - 20 - this->width();
@@ -184,6 +205,11 @@ void TestDialog::on_SendButton_clicked()
               ui->historyComboBox->removeItem(ui->historyComboBox->count()-1);
           }
         }
+
+        if( ui->saveTestHistoryCheckBox->isChecked()) {
+
+        }
+
         emit SendCmd(str);
     }
 }
@@ -227,6 +253,12 @@ void TestDialog::on_FilterLineEdit_textChanged(const QString &arg1)
         return;
     }
     m_FilterStrings = str.split(QRegExp("\\s+"));
+    if(ui->saveFilterCheckBox->isChecked()) {
+        m_Settings.setValue(QString("Filter").append(device),arg1);
+    } else {
+        m_Settings.setValue(QString("Filter").append(device),"");
+    }
+
 }
 
 
@@ -238,5 +270,24 @@ void TestDialog::on_checkBox_clicked()
 void TestDialog::on_historyComboBox_activated(const QString &arg1)
 {
     ui->lineEdit->setText(arg1);
-    on_SendButton_clicked();
+    if(ui->checkBoxSendImmediate->isChecked()) {
+        on_SendButton_clicked();
+    }
+    //ui->lineEdit->ac
+    //m_Settings.setValue(QString("StartLoggingInTestWindow"))
+}
+
+void TestDialog::on_StartLoggingInTestWindowCheckBox_clicked()
+{
+       m_Settings.setValue(QString("StartLoggingInTestWindow").append(device), ui->StartLoggingInTestWindowCheckBox->isChecked());
+}
+
+void TestDialog::on_RestoreTestWindowCheckBox_clicked()
+{
+    m_Settings.setValue(QString("SaveTestWindowGeometry").append(device), ui->RestoreTestWindowCheckBox->isChecked());
+}
+
+void TestDialog::on_saveFilterCheckBox_clicked()
+{
+    m_Settings.setValue(QString("SaveFilter").append(device), ui->saveFilterCheckBox->isChecked());
 }

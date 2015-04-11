@@ -78,7 +78,6 @@ void PlayerInterface::ReadString()
 {
     // read all available data
     int count = m_Socket.bytesAvailable();
-//    qDebug()<< "bytes "<<count;
     std::vector<char> data;
     data.resize(count + 1);
     m_Socket.read(&data[0], count);
@@ -102,19 +101,9 @@ void PlayerInterface::ReadString()
             if (m_ReceivedString != "")
             {
                 QString str;
-                //QTextCodec::setCodecForCStrings();
                 str = str.fromUtf8(m_ReceivedString.c_str());
-
-//                QByteArray encodedString = m_ReceivedString.c_str();
-//                QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
-//                str = codec->toUnicode(encodedString);
-                //str = str.fromStdString(m_ReceivedString);
-//                str = str.trimmed();
-//                str.remove(QChar('\r'));
-//                str.remove(QChar('\n'));
                 InterpretString(str);
                 emit DataReceived(str);
-               // qDebug()<<str;
             }
             m_ReceivedString = "";
         }
@@ -122,11 +111,6 @@ void PlayerInterface::ReadString()
     }
     if (lineStartPos < count)
         m_ReceivedString.append((const char*)&data[lineStartPos]);
-
-//    tmp[count] = 0;
-//    QString info = tmp.c_str();
-//    if (tmp.length() > 1 && tmp[tmp.length() - 2] == '\r')
-//        tmp[tmp.length() - 2] = 0;
 }
 
 
@@ -155,25 +139,15 @@ void PlayerInterface::TcpError(QAbstractSocket::SocketError socketError)
 
 bool PlayerInterface::SendCmd(const QString& cmd)
 {
-//    Log("--> " + cmd, QColor(0, 200, 0));
-    bool ret;
     CmdToBeSend(cmd);
-//    Logger::Log("--> " + cmd);
-//    qDebug()<<"--> " << cmd;
     QString tmp = cmd + "\r";
-    ret = m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
-    return ret;
+    return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
 }
 
 
 
 void PlayerInterface::InterpretString(const QString& data)
 {
-    //qDebug()<<"<--"<<data;
-//    if (data.startsWith("?")||data=="I"||data=="S?") {
-//        qDebug()<<"-->"<<"?P";
-//        SendCmd("?P");
-//    }
    if (data.startsWith("P0")) {
        emit PlayerOffline(false);
    } else if(data.startsWith("E04")) {

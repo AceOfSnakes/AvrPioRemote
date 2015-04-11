@@ -62,14 +62,14 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
     ui->ShowBlueRayWindowCheckBox->setChecked(m_Settings.value("AutoShowBlueRay", false).toBool());
 
-    ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value("StartLoggingInTestWindow", false).toBool());
+    //ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value("StartLoggingInTestWindow", false).toBool());
 
     ui->RestoreMainWindowCheckBox->setChecked(m_Settings.value("SaveMainWindowGeometry", true).toBool());
     ui->RestoreEQWindowCheckBox->setChecked(m_Settings.value("SaveEQWindowGeometry", false).toBool());
     ui->RestoreTunerWindowCheckBox->setChecked(m_Settings.value("SaveTunerWindowGeometry", false).toBool());
     ui->RestoreNetRadioWindowCheckBox->setChecked(m_Settings.value("SaveNetRadioWindowGeometry", false).toBool());
     ui->RestoreSpeakerSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLSSettingsWindowGeometry", false).toBool());
-    ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value("SaveTestWindowGeometry", false).toBool());
+    //ui->RestoreTestWindowCheckBox->setChecked(m_Settings.value("SaveTestWindowGeometry", false).toBool());
     ui->RestoreLMSettingsWindowCheckBox->setChecked(m_Settings.value("SaveLMSettingsWindowGeometry", false).toBool());
     ui->RestoreUSBWindowCheckBox->setChecked(m_Settings.value("SaveUsbWindowGeometry", false).toBool());
     ui->RestoreZoneControlWindowCheckBox->setChecked(m_Settings.value("SaveZoneControlWindowGeometry", false).toBool());
@@ -347,12 +347,12 @@ void SettingsDialog::on_RestoreSpeakerSettingsWindowCheckBox_clicked()
 {
     m_Settings.setValue("SaveLSSettingsWindowGeometry", ui->RestoreSpeakerSettingsWindowCheckBox->isChecked());
 }
-
+/*
 void SettingsDialog::on_RestoreTestWindowCheckBox_clicked()
 {
     m_Settings.setValue("SaveTestWindowGeometry", ui->RestoreTestWindowCheckBox->isChecked());
 }
-
+*/
 void SettingsDialog::on_RestoreLMSettingsWindowCheckBox_clicked()
 {
     m_Settings.setValue("SaveLMSettingsWindowGeometry", ui->RestoreLMSettingsWindowCheckBox->isChecked());
@@ -367,12 +367,12 @@ void SettingsDialog::on_ShowUSBCheckBox_clicked()
 {
     m_Settings.setValue("AutoShowUSB", ui->ShowUSBCheckBox->isChecked());
 }
-
+/*
 void SettingsDialog::on_StartLoggingInTestWindowCheckBox_clicked()
 {
     m_Settings.setValue("StartLoggingInTestWindow", ui->StartLoggingInTestWindowCheckBox->isChecked());
 }
-
+*/
 void SettingsDialog::on_ShowReceiverNameInTitleCheckBox_clicked()
 {
     m_Settings.setValue("ShowReceiverNameInTitle", ui->ShowReceiverNameInTitleCheckBox->isChecked());

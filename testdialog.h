@@ -47,6 +47,12 @@ private slots:
 
     void on_historyComboBox_activated(const QString &arg1);
 
+    void on_StartLoggingInTestWindowCheckBox_clicked();
+
+    void on_RestoreTestWindowCheckBox_clicked();
+
+    void on_saveFilterCheckBox_clicked();
+
 public slots:
     void ShowTestDialog();
     void NewDataReceived(QString data);
