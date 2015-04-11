@@ -170,6 +170,7 @@ private slots:
     void on_ShowAllListeningModesButton_clicked();
     void on_InputVideoButton_clicked();
     void on_ATBEQModesButton_clicked();
+    void on_InfoButton_clicked();
 
     void on_ZoneControlButton_clicked();
 

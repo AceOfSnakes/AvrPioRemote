@@ -35,5 +35,6 @@
         <file>images/arrow-up-double.png</file>
         <file>images/edit-add.png</file>
         <file>images/edit-remove-3.png</file>
+        <file>images/document-properties.png</file>
     </qresource>
 </RCC>

@@ -68,8 +68,8 @@ QString GetLoudspeakerName(const LOUDSPEAKERNAME Ls);
 QString GetEQFrequencyIdentifier(const EQ_FREQUENCY freq);
 QString FindValueByKey(const STRING_PAIR pairs[], const QString& key);
 
-extern const char* AST1[];
-extern const char* AST3[];
+extern const STRING_PAIR AST1[];
+extern const STRING_PAIR AST3[];
 extern const STRING_PAIR VIDEO_INPUT[];
 extern const char* VIDEO_INPUT_TERMINAL[];
 extern const char* VIDEO_INPUT_RESOLUTION[];

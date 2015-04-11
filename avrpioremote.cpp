@@ -704,6 +704,7 @@ void AVRPioRemote::EnableControls(bool enable)
     ui->VolumeUpButton->setEnabled(enable);
     ui->ShowAllListeningModesButton->setEnabled(enable);
     ui->ATBEQModesButton->setEnabled(enable);
+    ui->InfoButton->setEnabled(enable);
 }
 
 
@@ -1129,5 +1130,9 @@ void AVRPioRemote::ReceiverNetworkName (QString/* name*/)
 void AVRPioRemote::on_ZoneControlButton_clicked()
 {
     m_ZoneControlDialog->ShowZoneControlDialog();
+}
+
+void AVRPioRemote::on_InfoButton_clicked()
+{
 }
 
