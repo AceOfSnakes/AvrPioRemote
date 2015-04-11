@@ -77,7 +77,10 @@ SOURCES += main.cpp \
     receiver_interface/response/bassresponse.cpp \
     receiver_interface/response/trebleresponse.cpp \
     receiver_interface/response/xcurveresponse.cpp \
-    receiver_interface/response/emphasisresponse.cpp
+    receiver_interface/response/emphasisresponse.cpp \
+    infodialog.cpp \
+    graphiclswidget.cpp \
+    receiver_interface/response/audiostatusdataresponse.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -133,7 +136,10 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/bassresponse.h \
     receiver_interface/response/trebleresponse.h \
     receiver_interface/response/xcurveresponse.h \
-    receiver_interface/response/emphasisresponse.h
+    receiver_interface/response/emphasisresponse.h \
+    infodialog.h \
+    graphiclswidget.h \
+    receiver_interface/response/audiostatusdataresponse.h
  
 
 
@@ -156,7 +162,8 @@ FORMS    += avrpioremote.ui \
     wiringdialog.ui \
     emphasisdialog.ui \
     labeledslider.ui \
-    hdmicontroldialog.ui
+    hdmicontroldialog.ui \
+    infodialog.ui
 
 
 OTHER_FILES += \

@@ -42,6 +42,7 @@
 #include "autosearchdialog.h"
 #include "wiringdialog.h"
 #include "hdmicontroldialog.h"
+#include "infodialog.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -90,6 +91,7 @@ private:
     AutoSearchDialog*           m_AutoSearchDialog;
     WiringDialog*               m_WiringDialog;
     HdmiControlDialog*          m_HdmiControlDialog;
+    InfoDialog*                 m_InfoDialog;
 
     //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;

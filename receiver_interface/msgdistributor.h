@@ -27,6 +27,7 @@
 #include "response/trebleresponse.h"
 #include "response/xcurveresponse.h"
 #include "response/emphasisresponse.h"
+#include "response/audiostatusdataresponse.h"
 
 class MsgDistributor
 {

@@ -187,6 +187,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_HdmiControlDialog = new HdmiControlDialog(this, m_Settings, m_ReceiverInterface);
 
+    m_InfoDialog = new InfoDialog(this, m_Settings, m_ReceiverInterface);
+
     // disable controls
     EnableControls(false);
     ui->PowerButton->setEnabled(false);
@@ -1134,5 +1136,6 @@ void AVRPioRemote::on_ZoneControlButton_clicked()
 
 void AVRPioRemote::on_InfoButton_clicked()
 {
+    m_InfoDialog->ShowInfoDialog();
 }
 

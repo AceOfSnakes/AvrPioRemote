@@ -83,6 +83,7 @@ void MsgDistributor::_init()
     _addResponse(new BassResponse());
     _addResponse(new XCurveResponse());
     _addResponse(new EmphasisResponse());
+    _addResponse(new AudioStatusDataResponse());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)
