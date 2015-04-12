@@ -32,6 +32,8 @@ InfoDialog::InfoDialog(QWidget *parent, QSettings &settings, ReceiverInterface &
         m_PositionSet = restoreGeometry(m_Settings.value("InfoWindowGeometry").toByteArray());
     }
 
+    connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
+
     QStringList responseList;
     responseList << AudioStatusDataResponse().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
@@ -82,6 +84,7 @@ void InfoDialog::ShowInfoDialog()
             this->move(pos);
         }
         this->show();
+        SendCmd("?AST");
     }
 }
 

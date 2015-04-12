@@ -38,6 +38,7 @@ public slots:
     void ShowInfoDialog();
 
 signals:
+    void SendCmd(QString);
 //    void SendNewData(QString);
 };
 

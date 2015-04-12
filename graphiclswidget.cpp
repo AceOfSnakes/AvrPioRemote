@@ -103,7 +103,7 @@ void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString 
         painter.setBrush(Qt::NoBrush);
 
     painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
-    painter.drawText(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
+    painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
 }
 
 void GraphicLSWidget::NewData(QString str)

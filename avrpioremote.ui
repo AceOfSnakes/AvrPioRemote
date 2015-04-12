@@ -839,7 +839,7 @@ SURR</string>
   <widget class="QToolButton" name="PowerButton">
    <property name="geometry">
     <rect>
-     <x>6</x>
+     <x>5</x>
      <y>106</y>
      <width>48</width>
      <height>42</height>
@@ -893,7 +893,7 @@ SURR</string>
   <widget class="QToolButton" name="InfoButton">
    <property name="geometry">
     <rect>
-     <x>185</x>
+     <x>182</x>
      <y>74</y>
      <width>31</width>
      <height>31</height>

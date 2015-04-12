@@ -16,16 +16,29 @@ QString ReceivedObjectBase::DecodeHexString(const QString& hex)
     for (int i = 0; i < (int)hex.length(); i+=2)
     {
         int c = hex.mid(i, 2).toInt(NULL, 16);
-        if (c == 5)
+        switch(c) {
+        case 5:
             str += "[)";
-        else if (c == 6)
+            break;
+        case 6:
             str += "(]";
-        else if (c == 9)
+            break;
+        case 7:
+            str += "I";
+            break;
+        case 8:
+            str += "][";
+            break;
+        case 9:
             str += "<|";
-        else if (c == 10)
+            break;
+        case 10:
             str += "|>";
-        else
+            break;
+        default:
             str += (QChar)c;
+            break;
+        }
     }
     return str;
 }
