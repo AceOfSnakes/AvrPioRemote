@@ -79,6 +79,12 @@ void BluRayDialog::moveEvent(QMoveEvent* event)
     QDialog::moveEvent(event);
 }
 
+void BluRayDialog::resizeEvent(QResizeEvent *event)
+{
+    m_Settings.setValue("BlueRayWindowGeometry", saveGeometry());
+    QDialog::resizeEvent(event);
+}
+
 void BluRayDialog::ConnectPlayer()
 {
     ui->pushButtonConnect->setEnabled(false);

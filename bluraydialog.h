@@ -62,6 +62,8 @@ private:
     
 
     void moveEvent(QMoveEvent*event);
+    virtual void resizeEvent(QResizeEvent *event);
+
     void ConnectPlayer();
 public slots:
     void ManualShowBluRayDialog();

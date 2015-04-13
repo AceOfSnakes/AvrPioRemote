@@ -223,7 +223,6 @@ void TestDialog::on_SendButton_clicked()
         if( ui->saveTestHistoryCheckBox->isChecked()) {
             QStringList history;
             for(int i=0; i<ui->historyComboBox->count();i++) {
-                qDebug()<<ui->historyComboBox->itemText(i);
                 history.append(ui->historyComboBox->itemText(i));
             }
             m_Settings.setValue(QString("history").append(device), history );
