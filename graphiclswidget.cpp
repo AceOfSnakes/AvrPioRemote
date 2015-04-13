@@ -6,23 +6,33 @@ GraphicLSWidget::GraphicLSWidget(QWidget *parent, bool input)
     : QWidget(parent),
       m_Input(input),
       m_BoxWidth(30),
-      m_BoxHeight(22)
+      m_BoxHeight(22),
+      m_IsBig(true)
 {
-
+    m_CurrentData = "00000000000000000000";
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
     resize(10 + m_BoxWidth * 5, 10 + m_BoxHeight * 6);
 }
 
-QSize GraphicLSWidget::sizeHint() const
+void GraphicLSWidget::makeSmall()
 {
-    return QSize(10 + m_BoxWidth * 5, 10 + m_BoxHeight * 6);
+    m_BoxWidth = 8,
+    m_BoxHeight = 6,
+    m_IsBig = false;
+    setStyleSheet("border: 1px solid red");
+    resize(6 + m_BoxWidth * 5, 6 + m_BoxHeight * 6);
 }
 
-QSize GraphicLSWidget::minimumSizeHint() const
-{
-    return QSize(10 + m_BoxWidth * 5, 10 + m_BoxHeight * 6);
-}
+//QSize GraphicLSWidget::sizeHint() const
+//{
+//    return QSize(10 + m_BoxWidth * 5, 10 + m_BoxHeight * 6);
+//}
+
+//QSize GraphicLSWidget::minimumSizeHint() const
+//{
+//    return QSize(10 + m_BoxWidth * 5, 10 + m_BoxHeight * 6);
+//}
 
 void GraphicLSWidget::paintEvent(QPaintEvent * /* event */)
 {
@@ -30,7 +40,6 @@ void GraphicLSWidget::paintEvent(QPaintEvent * /* event */)
         if (m_CurrentData.length() >= 16) {
             QPainter painter(this);
             //painter.setRenderHint(QPainter::Antialiasing, true);
-            painter.setPen(palette().dark().color());
 
             drawBox(painter, 1, 1, m_CurrentData[0] != '0', "L");
             drawBox(painter, 2, 1, m_CurrentData[1] != '0', "C");
@@ -59,7 +68,6 @@ void GraphicLSWidget::paintEvent(QPaintEvent * /* event */)
         if (m_CurrentData.length() >= 13) {
             QPainter painter(this);
             //painter.setRenderHint(QPainter::Antialiasing, true);
-            painter.setPen(palette().dark().color());
 
             drawBox(painter, 1, 1, m_CurrentData[0] != '0', "L");
             drawBox(painter, 2, 1, m_CurrentData[1] != '0', "C");
@@ -97,13 +105,29 @@ void GraphicLSWidget::paintEvent(QPaintEvent * /* event */)
 
 void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString str)
 {
-    if (on)
-        painter.setBrush(QBrush(Qt::green)); //style=Qt::ConicalGradientPattern, Qt::TexturePattern, Qt::RadialGradientPattern, Qt::LinearGradientPattern
-    else
+    if (m_IsBig) {
+        if (on)
+            painter.setBrush(QBrush(Qt::green)); //style=Qt::ConicalGradientPattern, Qt::TexturePattern, Qt::RadialGradientPattern, Qt::LinearGradientPattern
+        else
+            painter.setBrush(Qt::NoBrush);
+        painter.setPen(palette().dark().color());
+        painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
+        painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
+    } else {
+        if (on) {
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(QColor(0, 170, 255))); //style=Qt::ConicalGradientPattern, Qt::TexturePattern, Qt::RadialGradientPattern, Qt::LinearGradientPattern
+            painter.drawRect(3 + x * m_BoxWidth, 3 + y * m_BoxHeight, m_BoxWidth - 1, m_BoxHeight - 1);
+        }
+        else {
+            painter.setBrush(Qt::NoBrush);
+            painter.setPen(palette().dark().color());
+            painter.drawRect(3 + x * m_BoxWidth, 3 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
+        }
+        painter.setPen(QColor(220, 220, 220));
         painter.setBrush(Qt::NoBrush);
-
-    painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
-    painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
+        painter.drawRect(0, 0, size().width() - 1, size().height() - 1);
+    }
 }
 
 void GraphicLSWidget::NewData(QString str)

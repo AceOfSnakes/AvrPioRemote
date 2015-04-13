@@ -43,6 +43,7 @@
 #include "wiringdialog.h"
 #include "hdmicontroldialog.h"
 #include "infodialog.h"
+#include "graphiclswidget.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -92,6 +93,8 @@ private:
     WiringDialog*               m_WiringDialog;
     HdmiControlDialog*          m_HdmiControlDialog;
     InfoDialog*                 m_InfoDialog;
+    GraphicLSWidget*            m_InputLSConfiguration;
+    GraphicLSWidget*            m_OutputLSConfiguration;
 
     //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;

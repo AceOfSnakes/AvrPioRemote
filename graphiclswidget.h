@@ -10,17 +10,19 @@ class GraphicLSWidget  : public QWidget {
 public:
     GraphicLSWidget(QWidget *parent, bool input);
 
-    QSize minimumSizeHint() const;
-    QSize sizeHint() const;
+    void makeSmall();
+//    QSize minimumSizeHint() const;
+//    QSize sizeHint() const;
 
 protected:
     void paintEvent(QPaintEvent *event);
     void drawBox(QPainter& painter, int x, int y, bool on, QString str);
 
     bool        m_Input;
-    const int   m_BoxWidth;
-    const int   m_BoxHeight;
+    int         m_BoxWidth;
+    int         m_BoxHeight;
     QString     m_CurrentData;
+    bool        m_IsBig;
 
 public slots:
     void NewData(QString str);

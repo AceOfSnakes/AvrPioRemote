@@ -21,6 +21,7 @@
 #include <qtextcodec.h>
 #include "actionwithparameter.h"
 #include <QWidget>
+#include <QSizePolicy>
 
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QDialog(parent),
@@ -189,6 +190,13 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_InfoDialog = new InfoDialog(this, m_Settings, m_ReceiverInterface);
 
+    m_InputLSConfiguration = new GraphicLSWidget(this, true);
+    m_InputLSConfiguration->makeSmall();
+    m_InputLSConfiguration->move(11, 50);
+    m_OutputLSConfiguration = new GraphicLSWidget(this, false);
+    m_OutputLSConfiguration->makeSmall();
+    m_OutputLSConfiguration->move(164, 50);
+
     // disable controls
     EnableControls(false);
     ui->PowerButton->setEnabled(false);
@@ -207,6 +215,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     responseList << HiBitResponse().getResponseID();
     responseList << PQLSControlResponse().getResponseID();
     responseList << SoundRetrieverResponse().getResponseID();
+    responseList << AudioStatusDataResponse().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -558,6 +567,15 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
     if (sretr != NULL)
     {
         ui->SRetrButton->setChecked(sretr->IsSoundRetrieverOn());
+        return;
+    }
+    // AST
+    AudioStatusDataResponse* ast = dynamic_cast<AudioStatusDataResponse*>(response);
+    if (ast != NULL)
+    {
+        //qDebug() << "AST";
+        m_InputLSConfiguration->NewData(ast->iChFormat);
+        m_OutputLSConfiguration->NewData(ast->oChFormat);
         return;
     }
 

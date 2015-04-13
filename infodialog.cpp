@@ -84,8 +84,10 @@ void InfoDialog::ShowInfoDialog()
             this->move(pos);
         }
         this->show();
-        SendCmd("?AST");
+    } else {
+        this->hide();
     }
+    SendCmd("?AST");
 }
 
 void InfoDialog::ResponseReceived(ReceivedObjectBase *response)
