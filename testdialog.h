@@ -36,7 +36,8 @@ public:
     explicit TestDialog(QWidget *parent, ReceiverInterface& Comm, QSettings& Settings, const QString &device);
     explicit TestDialog(QWidget *parent, PlayerInterface& Comm, QSettings& Settings, const QString &device);
     ~TestDialog();
-    
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
 private slots:
     void on_ClearButton_clicked();
     void on_SendButton_clicked();
@@ -52,6 +53,8 @@ private slots:
     void on_RestoreTestWindowCheckBox_clicked();
 
     void on_saveFilterCheckBox_clicked();
+
+    void on_saveTestHistoryCheckBox_clicked();
 
 public slots:
     void ShowTestDialog();

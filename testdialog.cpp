@@ -46,12 +46,17 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
     ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
     ui->LogCommunicationCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
     ui->saveFilterCheckBox->setChecked(m_Settings.value(QString("SaveFilter").append(device), false).toBool());
+    ui->saveTestHistoryCheckBox->setChecked(m_Settings.value(QString("SaveHistory").append(device), false).toBool());
     if(ui->saveFilterCheckBox->isChecked()) {
         ui->FilterLineEdit->setText(
-                m_Settings.value(QString("Filter").append(device),"").toString());
+                    m_Settings.value(QString("Filter").append(device),"").toString());
 
     }else {
         ui->FilterLineEdit->setText("");
+    }
+    if(ui->saveTestHistoryCheckBox->isChecked()) {
+        QStringList history = m_Settings.value(QString("history").append(device)).toStringList();
+        ui->historyComboBox->addItems(history);
     }
     m_LogEnabled=ui->LogCommunicationCheckBox->isChecked();
     connect((m_Comm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
@@ -83,12 +88,17 @@ TestDialog::TestDialog(QWidget *parent, PlayerInterface &Comm, QSettings &Settin
     ui->StartLoggingInTestWindowCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
     ui->LogCommunicationCheckBox->setChecked(m_Settings.value(QString("StartLoggingInTestWindow").append(device), false).toBool());
     ui->saveFilterCheckBox->setChecked(m_Settings.value(QString("SaveFilter").append(device), false).toBool());
+    ui->saveTestHistoryCheckBox->setChecked(m_Settings.value(QString("SaveHistory").append(device), false).toBool());
     if(ui->saveFilterCheckBox->isChecked()) {
         ui->FilterLineEdit->setText(
-                m_Settings.value(QString("Filter").append(device),"").toString());
+                    m_Settings.value(QString("Filter").append(device),"").toString());
 
     } else {
         ui->FilterLineEdit->setText("");
+    }
+    if(ui->saveTestHistoryCheckBox->isChecked()) {
+        QStringList history = m_Settings.value(QString("history").append(device)).toStringList();
+        ui->historyComboBox->addItems(history);
     }
     m_LogEnabled=ui->LogCommunicationCheckBox->isChecked();
     connect((m_PlayerComm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
@@ -101,6 +111,10 @@ TestDialog::~TestDialog()
     delete ui;
 }
 
+void TestDialog::resizeEvent(QResizeEvent *event){
+    m_Settings.setValue(QString("TestWindowGeometry").append(device), saveGeometry());
+    QDialog::resizeEvent(event);
+}
 
 void TestDialog::moveEvent(QMoveEvent* event)
 {
@@ -199,15 +213,20 @@ void TestDialog::on_SendButton_clicked()
     if (str != "")
     {
         if(ui->historyComboBox->findText(str)<0) {
-          ui->historyComboBox->insertItem(0,str);
-          ui->historyComboBox->setCurrentIndex(0);
-          if(ui->historyComboBox->count()>20) {
-              ui->historyComboBox->removeItem(ui->historyComboBox->count()-1);
-          }
+            ui->historyComboBox->insertItem(0,str);
+            ui->historyComboBox->setCurrentIndex(0);
+            if(ui->historyComboBox->count()>20) {
+                ui->historyComboBox->removeItem(ui->historyComboBox->count()-1);
+            }
         }
 
         if( ui->saveTestHistoryCheckBox->isChecked()) {
-
+            QStringList history;
+            for(int i=0; i<ui->historyComboBox->count();i++) {
+                qDebug()<<ui->historyComboBox->itemText(i);
+                history.append(ui->historyComboBox->itemText(i));
+            }
+            m_Settings.setValue(QString("history").append(device), history );
         }
 
         emit SendCmd(str);
@@ -273,13 +292,11 @@ void TestDialog::on_historyComboBox_activated(const QString &arg1)
     if(ui->checkBoxSendImmediate->isChecked()) {
         on_SendButton_clicked();
     }
-    //ui->lineEdit->ac
-    //m_Settings.setValue(QString("StartLoggingInTestWindow"))
 }
 
 void TestDialog::on_StartLoggingInTestWindowCheckBox_clicked()
 {
-       m_Settings.setValue(QString("StartLoggingInTestWindow").append(device), ui->StartLoggingInTestWindowCheckBox->isChecked());
+    m_Settings.setValue(QString("StartLoggingInTestWindow").append(device), ui->StartLoggingInTestWindowCheckBox->isChecked());
 }
 
 void TestDialog::on_RestoreTestWindowCheckBox_clicked()
@@ -290,4 +307,9 @@ void TestDialog::on_RestoreTestWindowCheckBox_clicked()
 void TestDialog::on_saveFilterCheckBox_clicked()
 {
     m_Settings.setValue(QString("SaveFilter").append(device), ui->saveFilterCheckBox->isChecked());
+}
+
+void TestDialog::on_saveTestHistoryCheckBox_clicked()
+{
+    m_Settings.setValue(QString("SaveHistory").append(device), ui->saveTestHistoryCheckBox->isChecked());
 }

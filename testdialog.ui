@@ -54,7 +54,7 @@
        <item>
         <widget class="QCheckBox" name="checkBoxSendImmediate">
          <property name="text">
-          <string>Send Immediate</string>
+          <string>Send immediate</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -171,7 +171,6 @@
          <property name="frameShadow">
           <enum>QFrame::Sunken</enum>
          </property>
-         <zorder>gridLayoutWidget</zorder>
         </widget>
        </item>
        <item>
@@ -196,14 +195,24 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0" columnstretch="0,0">
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="3" column="0">
+     <property name="horizontalSpacing">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="RestoreTestWindowCheckBox">
+       <property name="text">
+        <string>Restore window position on start</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
       <widget class="QCheckBox" name="saveTestHistoryCheckBox">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Save test history</string>
@@ -213,27 +222,20 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QCheckBox" name="saveFilterCheckBox">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="text">
-        <string>Save communication filter</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
+     <item row="0" column="1">
       <widget class="QCheckBox" name="StartLoggingInTestWindowCheckBox">
        <property name="text">
         <string>Start logging in Test window (slow)</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QCheckBox" name="RestoreTestWindowCheckBox">
+     <item row="1" column="1">
+      <widget class="QCheckBox" name="saveFilterCheckBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="text">
-        <string>Restore window position on start</string>
+        <string>Save communication filter</string>
        </property>
       </widget>
      </item>

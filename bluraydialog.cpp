@@ -96,7 +96,7 @@ void BluRayDialog::PlayerType (QString/* no*/, QString name) {
 }
 void BluRayDialog::PlayerOffline(bool offline) {
     //    qDebug()<<"Player offline "<<offline;
-    ui->BdPowerButton->setIcon((!offline) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
+    ui->BdPowerButton->setIcon((offline) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
     ui->BdPowerButton->setText((offline) ? tr("ON") : tr("OFF"));
     EnableControls(!offline);
     m_offline = offline;
