@@ -153,5 +153,8 @@ void PlayerInterface::InterpretString(const QString& data)
    } else if(data.startsWith("E04")) {
        emit PlayerOffline(true);
    }
+   else if (data.startsWith("BDP")) {
+       emit PlayerType(data);
+   }
 }
 

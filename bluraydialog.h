@@ -72,7 +72,7 @@ public slots:
   //  void EnableIPInput(bool enable);
     void onConnect();
     void PlayerOffline(bool);
-    void PlayerType (QString no, QString name);
+    void PlayerType (QString name);
 private slots:
     void CheckOnline();
     void CheckOnlineInternal();

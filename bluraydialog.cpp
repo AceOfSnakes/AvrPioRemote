@@ -55,10 +55,13 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     connect((&m_PlayerInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_PlayerInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((&m_PlayerInterface), SIGNAL(PlayerOffline(bool)), this,  SLOT(PlayerOffline(bool)));
+    connect((&m_PlayerInterface), SIGNAL(PlayerType(QString)), this,  SLOT(PlayerType(QString)));
     CheckOnline();
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(CheckOnlineInternal()));
-    timer->start(3000); //time specified in ms
+    timer->start(3000);
+    this->setWindowTitle(tr("Blu-Ray player"));
+    //time specified in ms
     /*
     QStringList responseList;
     responseList << PowerResponse().getResponseID();
@@ -94,7 +97,7 @@ void BluRayDialog::ConnectPlayer()
         m_PlayerInterface.ConnectToPlayer(m_PlayerIpAddress, m_PlayerIpPort);
     }
 }
-void BluRayDialog::PlayerType (QString/* no*/, QString name) {
+void BluRayDialog::PlayerType (QString name) {
     if(m_Settings.value("ShowPlayerNameInTitle", true).toBool())
     {
         this->setWindowTitle(name);
@@ -104,6 +107,10 @@ void BluRayDialog::PlayerOffline(bool offline) {
     //    qDebug()<<"Player offline "<<offline;
     ui->BdPowerButton->setIcon((offline) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
     ui->BdPowerButton->setText((offline) ? tr("ON") : tr("OFF"));
+    if(offline) {
+        this->setWindowTitle(tr("Blu-Ray player"));
+    }
+
     EnableControls(!offline);
     m_offline = offline;
 }
@@ -287,6 +294,7 @@ void BluRayDialog::onConnect()
 void BluRayDialog::CheckOnlineInternal() {
     if(m_PlayerOnline) {
         SendCmd("?P");
+        SendCmd("?L");
 //        SendCmd("?");
     }
 }

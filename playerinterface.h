@@ -60,6 +60,7 @@ signals:
     void Connected();
     void Disconnected();
     void DataReceived(QString);
+    void PlayerType (QString name);
   //  void AudioStatusData(QString codec, QString samplingRate);
   //  void InputChanged(int no, QString name);
   //  void Listenextended(QString id, QString name);
