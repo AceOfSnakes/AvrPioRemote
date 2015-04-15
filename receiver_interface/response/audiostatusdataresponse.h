@@ -19,6 +19,8 @@ public:
     QString pqls;
     QString phaseControl;
     QString phaseControlReversePhase;
+    QString codec, samplingRate;
+
 };
 
 #endif // AUDIOSTATUSDATA_H

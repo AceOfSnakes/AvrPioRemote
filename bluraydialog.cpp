@@ -27,9 +27,9 @@
 BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface &Comm, SettingsDialog *settingsDialog) :
     QDialog(parent),
     m_Settings(settings),
+    m_SettingsDialog(settingsDialog),
     ui(new Ui::BluRayDialog),
     m_PlayerInterface(Comm),
-    m_SettingsDialog(settingsDialog),
     m_PositionSet(false)
   //   m_PlayerIpValidator(0, 255, this),
   //   m_PlayerIpPortValidator(0, 35535, this),
@@ -162,7 +162,7 @@ void BluRayDialog::CommDisconnected()
     ui->BdPowerButton->setEnabled(false);
     m_PlayerOnline = false;
 }
-void BluRayDialog::CommError(QString socketError)
+void BluRayDialog::CommError(QString/* socketError*/)
 {
     Logger::Log("tcp error");
     m_SettingsDialog->EnableIPInputBD(true);

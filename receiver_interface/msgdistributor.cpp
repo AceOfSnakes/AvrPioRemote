@@ -84,6 +84,7 @@ void MsgDistributor::_init()
     _addResponse(new XCurveResponse());
     _addResponse(new EmphasisResponse());
     _addResponse(new AudioStatusDataResponse());
+    _addResponse(new VideoStatusDataResponse());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)

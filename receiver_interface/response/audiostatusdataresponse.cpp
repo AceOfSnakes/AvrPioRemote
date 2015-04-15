@@ -29,7 +29,6 @@ bool AudioStatusDataResponse::parseString(QString str)
         QString ast = str.mid(3);
         if (ast.length() >= 33)
         {
-            QString codec, samplingRate;
             //int n = 0;
 
             // codec
@@ -75,9 +74,6 @@ bool AudioStatusDataResponse::parseString(QString str)
                 // output channel
                 oChFormat = ast.mid(20, 13);
             }
-//            qDebug() << "Input  channel format" << iChFormat;
-//            qDebug() << "Output channel format" << oChFormat;
-            //emit AudioStatusData(codec, samplingRate);
             return true;
         }
     }

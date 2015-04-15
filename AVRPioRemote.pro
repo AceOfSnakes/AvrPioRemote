@@ -80,7 +80,8 @@ SOURCES += main.cpp \
     receiver_interface/response/emphasisresponse.cpp \
     infodialog.cpp \
     graphiclswidget.cpp \
-    receiver_interface/response/audiostatusdataresponse.cpp
+    receiver_interface/response/audiostatusdataresponse.cpp \
+    receiver_interface/response/videostatusdataresponse.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -139,7 +140,8 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/emphasisresponse.h \
     infodialog.h \
     graphiclswidget.h \
-    receiver_interface/response/audiostatusdataresponse.h
+    receiver_interface/response/audiostatusdataresponse.h \
+    receiver_interface/response/videostatusdataresponse.h
  
 
 

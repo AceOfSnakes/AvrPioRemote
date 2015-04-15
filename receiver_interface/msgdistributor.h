@@ -28,6 +28,7 @@
 #include "response/xcurveresponse.h"
 #include "response/emphasisresponse.h"
 #include "response/audiostatusdataresponse.h"
+#include "response/videostatusdataresponse.h"
 
 class MsgDistributor
 {

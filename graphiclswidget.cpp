@@ -117,12 +117,18 @@ void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString 
         if (on) {
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(QColor(0, 170, 255))); //style=Qt::ConicalGradientPattern, Qt::TexturePattern, Qt::RadialGradientPattern, Qt::LinearGradientPattern
-            painter.drawRect(3 + x * m_BoxWidth, 3 + y * m_BoxHeight, m_BoxWidth - 1, m_BoxHeight - 1);
+            if (m_Input)
+                painter.drawRect(3 + x * m_BoxWidth, 3 + y * m_BoxHeight, m_BoxWidth - 1, m_BoxHeight - 1);
+            else
+                painter.drawRect(3 + x * m_BoxWidth, 6 + y * m_BoxHeight, m_BoxWidth - 1, m_BoxHeight - 1);
         }
         else {
             painter.setBrush(Qt::NoBrush);
             painter.setPen(palette().dark().color());
-            painter.drawRect(3 + x * m_BoxWidth, 3 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
+            if (m_Input)
+                painter.drawRect(3 + x * m_BoxWidth, 3 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
+            else
+                painter.drawRect(3 + x * m_BoxWidth, 6 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
         }
         painter.setPen(QColor(220, 220, 220));
         painter.setBrush(Qt::NoBrush);

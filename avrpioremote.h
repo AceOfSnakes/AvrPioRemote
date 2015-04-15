@@ -130,7 +130,6 @@ public slots:
     void RequestStatus(bool input = true);
     bool SendCmd(const QString& cmd);
     void NewDataReceived(QString data);
-    void AudioStatusData(QString codec, QString samplingRate);
     void ZoneInput (int zone, int input);
     void ListeningModeData(QString name);
     void ReceiverType (QString no, QString name);

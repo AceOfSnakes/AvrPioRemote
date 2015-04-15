@@ -22,11 +22,11 @@
 #include <QTextStream>
 
 
-TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Settings, const QString &dev) :
+TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Settings, const QString &/*dev*/) :
     QDialog(parent),
+    device(QString("Receiver")),
     ui(new Ui::TestDialog),
     m_Comm(&Comm),
-    device(QString("Receiver")),
     m_PlayerComm(0),
     m_Settings(Settings),
     m_PositionSet(false),
@@ -64,7 +64,7 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
     connect((m_Comm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
 }
 
-TestDialog::TestDialog(QWidget *parent, PlayerInterface &Comm, QSettings &Settings, const QString &dev) :
+TestDialog::TestDialog(QWidget *parent, PlayerInterface &Comm, QSettings &Settings, const QString &/*dev*/) :
     QDialog(parent),
     device(QString("Player")),
     ui(new Ui::TestDialog),

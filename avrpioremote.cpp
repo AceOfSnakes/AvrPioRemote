@@ -84,7 +84,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((&m_ReceiverInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_ReceiverInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((&m_ReceiverInterface), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
-    connect((&m_ReceiverInterface), SIGNAL(AudioStatusData(QString, QString)), this,  SLOT(AudioStatusData(QString, QString)));
     connect((&m_ReceiverInterface), SIGNAL(ListeningModeData(QString)), this,  SLOT(ListeningModeData(QString)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverType(QString,QString)), this,  SLOT(ReceiverType(QString,QString)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverNetworkName(QString)), this,  SLOT(ReceiverNetworkName(QString)));
@@ -573,20 +572,15 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
     AudioStatusDataResponse* ast = dynamic_cast<AudioStatusDataResponse*>(response);
     if (ast != NULL)
     {
-        //qDebug() << "AST";
+        ui->AudioCodecLineEdit->setText(ast->codec);
+        ui->AudioSampleRateLineEdit->setText(ast->samplingRate);
+
         m_InputLSConfiguration->NewData(ast->iChFormat);
         m_OutputLSConfiguration->NewData(ast->oChFormat);
         return;
     }
 
 }
-
-void AVRPioRemote::AudioStatusData(QString codec, QString samplingRate)
-{
-    ui->AudioCodecLineEdit->setText(codec);
-    ui->AudioSampleRateLineEdit->setText(samplingRate);
-}
-
 
 void AVRPioRemote::InputChanged(int no, QString name)
 {

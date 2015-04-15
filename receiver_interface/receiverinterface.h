@@ -59,7 +59,6 @@ signals:
     void Disconnected();
     void DataReceived(QString);
     void MuteData(bool muted);
-    void AudioStatusData(QString codec, QString samplingRate);
     void Listenextended(QString id, QString name);
     void ListeningModeData(QString name);
     void NetData(QString data);

@@ -62,7 +62,7 @@ public slots:
     void LogSendCmd(QString data);
 
 private:
-    QString                    device;
+    QString                     device;
     Ui::TestDialog             *ui;
     ReceiverInterface*          m_Comm;
     PlayerInterface*            m_PlayerComm;

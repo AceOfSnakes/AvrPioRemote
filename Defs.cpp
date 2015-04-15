@@ -63,27 +63,27 @@ const STRING_PAIR AST1[] = {
     {"13", "WMA9 Pro"},
     {"14", "DSD->PCM"},
     {"15", "HDMI THROUGH"},
-    {"16", "DOLBY DIGITAL PLUS"},
+    {"16", "DD PLUS"},
     {"17", "DOLBY TrueHD"},
     {"18", "DTS EXPRESS"},
-    {"19", "DTS-HD Master Audio"},
-    {"20", "DTS-HD High Resolution"},
-    {"21", "DTS-HD High Resolution"},
-    {"22", "DTS-HD High Resolution"},
-    {"23", "DTS-HD High Resolution"},
-    {"24", "DTS-HD High Resolution"},
-    {"25", "DTS-HD High Resolution"},
-    {"26", "DTS-HD High Resolution"},
-    {"27", "DTS-HD Master Audio"},
-    {"28", "DSD (HDMI or File via DSD DIRECT route)"},
+    {"19", "DTS-HD MA"},
+    {"20", "DTS-HD HiRes"},
+    {"21", "DTS-HD HiRes"},
+    {"22", "DTS-HD HiRes"},
+    {"23", "DTS-HD HiRes"},
+    {"24", "DTS-HD HiRes"},
+    {"25", "DTS-HD HiRes"},
+    {"26", "DTS-HD HiRes"},
+    {"27", "DTS-HD MA"},
+    {"28", "DSD"},// (HDMI or File via DSD DIRECT route)"},
     {"64", "MP3"},
     {"65", "WAV"},
     {"66", "WMA"},
     {"67", "MPEG4-AAC"},
     {"68", "FLAC"},
-    {"69", "ALAC(Apple Lossless)"},
+    {"69", "ALAC"},//(Apple Lossless)"},
     {"70", "AIFF"},
-    {"71", "DSD (USB-DAC)"},
+    {"71", "DSD"},// (USB-DAC)"},
 
 };
 
@@ -100,104 +100,6 @@ const STRING_PAIR AST3[] = {
     {"33", "5.6MHz"},
 };
 
-const STRING_PAIR VIDEO_INPUT[] = {
-    {"00", "PHONO"},
-    {"01", "CD"},
-    {"02", "TUNER"},
-    {"03", "CD-R / TAPE"},
-    {"04", "DVD"},
-    {"05", "TV / SAT"},
-    {"06", "SAT/CBL"},
-    {"10", "VIDEO 1"},//(VIDEO)",
-    {"12", "MULTI CH IN"},
-    {"13", "USB DAC"},
-    {"14", "VIDEO 2"},
-    {"15", "DVR / BDR"},
-    {"17", "iPod / USB"},
-    {"18", "XM RADIO"},
-    {"19", "HDMI 1"},
-    {"20", "HDMI 2"},
-    {"21", "HDMI 3"},
-    {"22", "HDMI 4"},
-    {"23", "HDMI 5"},
-    {"24", "HDMI 6"},
-    {"25", "BD"},
-    {"26", "HMG (Internet Radio)"}, //HOME MEDIA GALLERY
-    {"27", "SIRIUS"},
-    {"31", "HDMI (cyclic)"},
-    {"33", "ADAPTER PORT"},
-    {"34", "HDMI 7"},
-    {"38", "INTERNET RADIO"},
-    {"40", "SiriusXM"},
-    {"41", "PANDORA"},
-    {"44", "MEDIA SERVER"},
-    {"45", "FAVORITES"},
-    {"48", "MHL"},
-    {"", ""}
-};
-
-
-const char* VIDEO_INPUT_TERMINAL[] = {
-    /* 00 */ "---",
-    /* 01 */ "VIDEO",
-    /* 02 */ "S-VIDEO",
-    /* 03 */ "COMPONENT",
-    /* 04 */ "HDMI",
-    /* 05 */ "Self OSD/JPEG",
-};
-
-const char* VIDEO_INPUT_RESOLUTION[] = {
-    /* 00 */ "---",
-    /* 01 */ "480/60i",
-    /* 02 */ "576/50i",
-    /* 03 */ "480/60p",
-    /* 04 */ "576/50p",
-    /* 05 */ "720/60p",
-    /* 06 */ "720/50p",
-    /* 07 */ "1080/60i",
-    /* 08 */ "1080/50i",
-    /* 09 */ "1080/60p",
-    /* 10 */ "1080/50p",
-    /* 11 */ "1080/24p",
-    /* 12 */ "4Kx2K/24Hz",
-    /* 13 */ "4Kx2K/25Hz",
-    /* 14 */ "4Kx2K/30Hz",
-    /* 15 */ "4Kx2K/24Hz(SMPTE)",
-
-};
-
-const char* VIDEO_INPUT_ASPECT[] = {
-    /* 00 */ "---",
-    /* 01 */ "4:3",
-    /* 02 */ "16:9",
-    /* 03 */ "14:9",
-};
-
-const char* VIDEO_INPUT_COLOR_FORMAT[] = {
-    /* 00 */ "---",
-    /* 01 */ "RGB Limit",
-    /* 02 */ "RGB Full",
-    /* 03 */ "YcbCr444",
-    /* 04 */ "YcbCr422",
-};
-
-const char* VIDEO_INPUT_BITS[] = {
-    /* 00 */ "---",
-    /* 01 */ "24bit (8bit*3)",
-    /* 02 */ "30bit (10bit*3)",
-    /* 03 */ "36bit (12bit*3)",
-    /* 04 */ "48bit (16bit*3)",
-};
-
-const char* VIDEO_INPUT_COLOR_SPACE[] = {
-    /* 00 */ "---",
-    /* 01 */ "Standard",
-    /* 02 */ "xvYCC601",
-    /* 03 */ "xvYCC709",
-    /* 04 */ "sYCC",
-    /* 05 */ "AdobeYCC601",
-    /* 06 */ "AdobeRGB",
-};
 
 const STRING_PAIR LISTENING_MODE[]  = {
     {"0001", "STEREO (cyclic)"},

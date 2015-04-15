@@ -36,6 +36,7 @@ InfoDialog::InfoDialog(QWidget *parent, QSettings &settings, ReceiverInterface &
 
     QStringList responseList;
     responseList << AudioStatusDataResponse().getResponseID();
+    responseList << VideoStatusDataResponse().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -88,6 +89,7 @@ void InfoDialog::ShowInfoDialog()
         this->hide();
     }
     SendCmd("?AST");
+    SendCmd("?VST");
 }
 
 void InfoDialog::ResponseReceived(ReceivedObjectBase *response)
@@ -99,6 +101,13 @@ void InfoDialog::ResponseReceived(ReceivedObjectBase *response)
         //qDebug() << "AST";
         inputLSConfiguration->NewData(ast->iChFormat);
         outputLSConfiguration->NewData(ast->oChFormat);
+        return;
+    }
+    // VST
+    VideoStatusDataResponse* vst = dynamic_cast<VideoStatusDataResponse*>(response);
+    if (vst != NULL)
+    {
+        qDebug() << vst->getSummary();
         return;
     }
 }
