@@ -47,7 +47,7 @@ bool AudioStatusDataResponse::parseString(QString str)
                 // output channel
                 oChFormat = ast.mid(25, 18);
                 // output sample rate
-                oSamleRate = ast.mid(43, 2);
+                oSampleRate = ast.mid(43, 2);
                 // output bit depth
                 oBitDepth = ast.mid(45, 2);
                 // 47-50 reserved
@@ -78,4 +78,38 @@ bool AudioStatusDataResponse::parseString(QString str)
         }
     }
     return false;
+}
+
+QString AudioStatusDataResponse::getSummary()
+{
+    QString summary;
+
+    summary += "Codec: " + codec + "\n";
+    summary += "Sample rate: " + samplingRate + "\n";
+    //if (!iChFormat.isEmpty())
+    //    summary += "Input channel format: " + iChFormat + "\n";
+    //if (!oChFormat.isEmpty())
+    //    summary += "Output channel format: " + oChFormat + "\n";
+    if (!oSampleRate.isEmpty())
+        summary += "Output sample rate: " + oSampleRate + "\n";
+    if (!oBitDepth.isEmpty())
+        summary += "Output bit depth: " + oBitDepth + "\n";
+
+    if (pqls == "0")
+        summary += "PQLS: OFF\n";
+    else if (pqls == "1")
+        summary += "PQLS: 2ch\n";
+    else if (pqls == "2")
+        summary += "PQLS: Multi ch\n";
+    else if (pqls == "3")
+        summary += "PQLS: Bitstream\n";
+
+    if (!phaseControl.isEmpty())
+        summary += "Auto Phase Control Plus: " + phaseControl + " ms\n";
+    if (phaseControlReversePhase == "0")
+        summary += "Auto Phase Control Plus (No reverse phase)\n";
+    else if (phaseControlReversePhase == "1")
+        summary += "Auto Phase Control Plus (Reverse phase)\n";
+
+    return summary;
 }

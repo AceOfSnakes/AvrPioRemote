@@ -17,12 +17,12 @@ InfoDialog::InfoDialog(QWidget *parent, QSettings &settings, ReceiverInterface &
     outputLSConfiguration = new GraphicLSWidget(this, false);
 
     int w = inputLSConfiguration->width();
-    int h = inputLSConfiguration->height();
+    int h = height();// inputLSConfiguration->height();
 
     inputLSConfiguration->move(10, 30);
     outputLSConfiguration->move(20 + w, 30);
 
-    resize(inputLSConfiguration->width() * 2 + 30, h + 40);
+    resize(inputLSConfiguration->width() * 2 + 30, h/* + 40*/);
     ui->InputCaptionLabel->setGeometry(10, 10, w, 20);
     ui->OutputCaptionLabel->setGeometry(20 + w, 10, w, 20);
 
@@ -98,16 +98,18 @@ void InfoDialog::ResponseReceived(ReceivedObjectBase *response)
     AudioStatusDataResponse* ast = dynamic_cast<AudioStatusDataResponse*>(response);
     if (ast != NULL)
     {
-        //qDebug() << "AST";
         inputLSConfiguration->NewData(ast->iChFormat);
         outputLSConfiguration->NewData(ast->oChFormat);
+        m_AudioInfo = ast->getSummary();
+        ui->infoText->setText("AUDIO:\n" + m_AudioInfo + "\nVIDEO:\n" + m_VideoInfo + "\n");
         return;
     }
     // VST
     VideoStatusDataResponse* vst = dynamic_cast<VideoStatusDataResponse*>(response);
     if (vst != NULL)
     {
-        qDebug() << vst->getSummary();
+        m_VideoInfo = vst->getSummary();
+        ui->infoText->setText("AUDIO:\n" + m_AudioInfo + "\nVIDEO:\n" + m_VideoInfo + "\n");
         return;
     }
 }

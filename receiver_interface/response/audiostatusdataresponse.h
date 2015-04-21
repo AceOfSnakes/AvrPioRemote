@@ -14,12 +14,14 @@ public:
 
     QString iChFormat;
     QString oChFormat;
-    QString oSamleRate;
+    QString oSampleRate;
     QString oBitDepth;
     QString pqls;
     QString phaseControl;
     QString phaseControlReversePhase;
     QString codec, samplingRate;
+
+    QString getSummary();
 
 };
 

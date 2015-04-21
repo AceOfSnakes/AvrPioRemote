@@ -13,6 +13,10 @@ GraphicLSWidget::GraphicLSWidget(QWidget *parent, bool input)
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
     resize(10 + m_BoxWidth * 5, 10 + m_BoxHeight * 6);
+    if (input)
+        setToolTip(tr("Input LS configuration"));
+    else
+        setToolTip(tr("Output LS configuration"));
 }
 
 void GraphicLSWidget::makeSmall()

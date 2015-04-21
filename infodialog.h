@@ -28,6 +28,8 @@ private:
     QSettings&                  m_Settings;
     ReceiverInterface&          m_Comm;
     bool                        m_PositionSet;
+    QString                     m_AudioInfo;
+    QString                     m_VideoInfo;
 
 protected:
     void changeEvent(QEvent *e);
