@@ -56,7 +56,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     {
         ui->LanguageEnglishRadioButton->setChecked(true);
     }
-
+    ui->ShowPlayerNameInTitle->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
