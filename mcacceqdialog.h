@@ -31,6 +31,7 @@ private:
     int                     m_SelectedChannel;
 
     QVector< QVector<int> > m_EQData;
+    QVector<double>         m_Distance;
     QVector<QRadioButton*>  m_Speakers;
     QVector<QSlider*>       m_Slider;
     QVector<QLabel*>        m_Labels;
@@ -38,11 +39,10 @@ private:
     void moveEvent(QMoveEvent*event);
     void RefreshSpeakerEq(QString speaker);
     void EnableSlider(bool enabled);
-    QString GetDBString(int dB);
+    void SendDistance();
 
 public slots:
     void ShowMCACCEQDialog();
-    void MCACCEQData(int mcacc, QString speaker, int eqidx, int value);
     void SliderValueChanged();
     void SpeakerClicked();
 
@@ -52,6 +52,9 @@ private slots:
     void on_MCACCcomboBox_activated(int index);
     void on_SaveToFilePushButton_clicked();
     void on_RestoreFromFilePushButton_clicked();
+    void on_ImmediatelyCheckBox_stateChanged(int state);
+    void on_DistanceSpinBox_valueChanged(double);
+    void on_SetDistancePushButton_clicked();
 };
 
 #endif // MCACCEQDIALOG_H

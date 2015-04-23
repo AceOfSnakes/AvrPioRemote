@@ -250,9 +250,5 @@ void ReceiverInterface::InterpretString(const QString& data)
         sscanf(data.toLatin1(), "ZEA%d", &n);
         emit ZoneInput(4, n);
     }
-    else if (data.startsWith("SUW"))
-    {
-        emit MCACCEQ(data.mid(3, 2).toInt(), data.mid(5, 3), data.mid(8, 2).toInt(), data.mid(10, 2).toInt());
-    }
 }
 

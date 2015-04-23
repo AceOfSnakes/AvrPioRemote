@@ -68,8 +68,6 @@ signals:
     void ReceiverNetworkName (QString name);
     void ZoneInput (int zone, int input);
     void ZoneVolume (int zone, int volume, QString asString);
-    void MCACC (int mcacc);
-    void MCACCEQ (int mcacc, QString speaker, int eqidx, int value);
 };
 
 #endif // RECEIVERINTERFACE_H

@@ -90,15 +90,19 @@ MCACCEQDialog::MCACCEQDialog(QWidget *parent, QSettings& settings, ReceiverInter
     }
 
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect(&m_Comm,SIGNAL(MCACCEQ(int, QString, int, int)),this,SLOT(MCACCEQData(int, QString, int, int)));
 
     for (int i = 0; i < (int)m_Slider.size(); i++)
     {
         connect(m_Slider[i],SIGNAL(sliderReleased()),this,SLOT(SliderValueChanged()));
     }
 
+    m_Distance.resize(m_Speakers.size());
+    ui->DistanceSpinBox->setValue(0);
+
     QStringList responseList;
     responseList << MCACCNumberResponse().getResponseID();
+    responseList << MCACCEQResponse().getResponseID();
+    responseList << SpeakerDistanceResponse().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -126,7 +130,7 @@ void MCACCEQDialog::ShowMCACCEQDialog()
             pos.setX(x);
             pos.setY(Parent->pos().y());
             this->move(pos);
-            qDebug() << "SET POSITION";
+            //qDebug() << "SET POSITION";
         }
         this->show();
         emit SendCmd("?MC"); // MCACC MEMORY SET
@@ -144,13 +148,13 @@ void MCACCEQDialog::ShowMCACCEQDialog()
 
 void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
 {
+    if (!isVisible())
+        return;
     // mcacc number
     MCACCNumberResponse* mcacc = dynamic_cast<MCACCNumberResponse*>(response);
     if (mcacc != NULL)
     {
         int no = mcacc->GetMCACCNumber();
-        if (!isVisible())
-            return;
         if (m_CurrentMcacc == no)
             return;
         m_CurrentMcacc = no;
@@ -158,12 +162,72 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
         ui->MCACCcomboBox->setCurrentIndex(no - 1);
 
         EnableSlider(false);
+        ui->DistanceSpinBox->setEnabled(false);
+        ui->ImmediatelyCheckBox->setEnabled(false);
 
         for (int i = 0; i < m_Speakers.size(); i++)
         {
             RefreshSpeakerEq(eqchannels[i]);
+            SendCmd("?SSS" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + eqchannels[i]);
         }
         m_Speakers[0]->setChecked(true);
+
+        return;
+    }
+    MCACCEQResponse* mcacceq = dynamic_cast<MCACCEQResponse*>(response);
+    if (mcacceq != NULL)
+    {
+        if (mcacceq->GetMCACCNo() != m_CurrentMcacc)
+            return;
+        int idx = -1;
+        int value = mcacceq->GetEQValue();
+        int eqidx = mcacceq->GetEqNo();
+        for (int i = 0; i < m_Speakers.size(); i++)
+        {
+            if (mcacceq->GetSpeakerId() == eqchannels[i])
+            {
+                idx = i;
+                break;
+            }
+        }
+        if (idx == -1)
+            return;
+        m_Speakers[idx]->setEnabled(true);
+        m_EQData[idx][eqidx] = value;
+        if (m_Speakers[idx]->isChecked())
+        {
+            m_Slider[eqidx]->setValue(value);
+            m_Slider[eqidx]->setEnabled(true);
+            m_Labels[eqidx]->setText(mcacceq->GetDBValueString());
+        }
+
+        return;
+    }
+    SpeakerDistanceResponse* distance = dynamic_cast<SpeakerDistanceResponse*>(response);
+    if (distance != NULL)
+    {
+        if (distance->GetMCACCNo() != m_CurrentMcacc)
+            return;
+        if (distance->getRawUnits() == SpeakerDistanceResponse::METER) {
+            int idx = -1;
+            for (int i = 0; i < m_Speakers.size(); i++)
+            {
+                if (distance->GetSpeakerId() == eqchannels[i])
+                {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx == -1)
+                return;
+            m_Distance[idx] = distance->GetValue();
+            if (m_Speakers[idx]->isChecked())
+            {
+                ui->DistanceSpinBox->setEnabled(true);
+                ui->DistanceSpinBox->setValue(distance->GetValue());
+                ui->ImmediatelyCheckBox->setEnabled(true);
+            }
+        }
         return;
     }
 }
@@ -171,7 +235,7 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
 void MCACCEQDialog::RefreshSpeakerEq(QString speaker)
 {
     for (int i = 0; i < m_Slider.size(); i++)
-        emit SendCmd("?SUW00" + speaker + "0" + QString("%1").arg(i));
+        emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + "0" + QString("%1").arg(i));
 }
 
 void MCACCEQDialog::EnableSlider(bool enabled)
@@ -179,47 +243,6 @@ void MCACCEQDialog::EnableSlider(bool enabled)
     for (int i = 0; i < (int)m_Slider.size(); i++)
     {
         m_Slider[i]->setEnabled(enabled);
-    }
-}
-
-QString MCACCEQDialog::GetDBString(int dB)
-{
-    QString str;
-    double eqValue = ((double)dB - 50.0) / 2.0;
-
-    if (eqValue == 0.0)//eqValue > -0.1 && eqValue <= 0.1)
-    {
-        str = "0.0";
-    }
-    else if (eqValue < 0.0)
-        str = QString("%1").arg(eqValue, 3, 'f', 1);
-    else
-        str = QString("+%1").arg(eqValue, 3, 'f', 1);
-   return str;
-}
-
-void MCACCEQDialog::MCACCEQData(int /*mcacc*/, QString speaker, int eqidx, int value)
-{
-    if (!isVisible())
-        return;
-    int idx = -1;
-    for (int i = 0; i < m_Speakers.size(); i++)
-    {
-        if (speaker == eqchannels[i])
-        {
-            idx = i;
-            break;
-        }
-    }
-    if (idx == -1)
-        return;
-    m_Speakers[idx]->setEnabled(true);
-    m_EQData[idx][eqidx] = value;
-    if (m_Speakers[idx]->isChecked())
-    {
-        m_Slider[eqidx]->setValue(value);
-        m_Slider[eqidx]->setEnabled(true);
-        m_Labels[eqidx]->setText(GetDBString(value));
     }
 }
 
@@ -238,8 +261,11 @@ void MCACCEQDialog::SpeakerClicked()
             for (int j = 0; j < (int)m_Slider.size(); j++)
             {
                 m_Slider[j]->setValue(m_EQData[i][j]);
-                m_Labels[j]->setText(GetDBString(m_EQData[i][j]));
+                m_Labels[j]->setText(MCACCEQResponse::GetDBValueString(m_EQData[i][j]));
             }
+            ui->DistanceSpinBox->setEnabled(true);
+            ui->DistanceSpinBox->setValue(m_Distance[i]);
+            ui->ImmediatelyCheckBox->setEnabled(true);
             break;
         }
     }
@@ -257,7 +283,7 @@ void MCACCEQDialog::SliderValueChanged()
         if (id == tempid)
         {
             m_EQData[m_SelectedChannel][i] = m_Slider[i]->value();
-            m_Labels[i]->setText(GetDBString(m_EQData[m_SelectedChannel][i]));
+            m_Labels[i]->setText(MCACCEQResponse::GetDBValueString(m_EQData[m_SelectedChannel][i]));
             QString cmd = QString("00%1%2%3SUW").arg(eqchannels[m_SelectedChannel]).arg(i, 2, 10, QChar('0')).arg(m_EQData[m_SelectedChannel][i]);
             SendCmd(cmd);
             j=m_SelectedChannel;
@@ -338,4 +364,32 @@ void MCACCEQDialog::on_RestoreFromFilePushButton_clicked()
         }
         //QThread::usleep(200);
     }
+}
+
+void MCACCEQDialog::on_ImmediatelyCheckBox_stateChanged(int state)
+{
+    if (state == Qt::Unchecked) {
+        ui->SetDistancePushButton->setEnabled(true);
+    } else {
+        ui->SetDistancePushButton->setEnabled(false);
+    }
+}
+
+void MCACCEQDialog::on_DistanceSpinBox_valueChanged(double /*value*/)
+{
+    if (ui->ImmediatelyCheckBox->checkState() == Qt::Checked) {
+        SendDistance();
+    }
+}
+
+void MCACCEQDialog::on_SetDistancePushButton_clicked()
+{
+    SendDistance();
+}
+
+void MCACCEQDialog::SendDistance()
+{
+    int distance = (int)(ui->DistanceSpinBox->value() * 100.0 + 0.5);
+    QString cmd = QString("00%1%2%3SSS").arg(eqchannels[m_SelectedChannel]).arg("1").arg(distance, 6, 10, QChar('0'));
+    SendCmd(cmd);
 }

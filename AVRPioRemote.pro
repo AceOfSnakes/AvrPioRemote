@@ -81,7 +81,9 @@ SOURCES += main.cpp \
     infodialog.cpp \
     graphiclswidget.cpp \
     receiver_interface/response/audiostatusdataresponse.cpp \
-    receiver_interface/response/videostatusdataresponse.cpp
+    receiver_interface/response/videostatusdataresponse.cpp \
+    receiver_interface/response/mcacceqresponse.cpp \
+    receiver_interface/response/speakerdistanceresponse.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -141,7 +143,9 @@ HEADERS  += avrpioremote.h \
     infodialog.h \
     graphiclswidget.h \
     receiver_interface/response/audiostatusdataresponse.h \
-    receiver_interface/response/videostatusdataresponse.h
+    receiver_interface/response/videostatusdataresponse.h \
+    receiver_interface/response/mcacceqresponse.h \
+    receiver_interface/response/speakerdistanceresponse.h
  
 
 

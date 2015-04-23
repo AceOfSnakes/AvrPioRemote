@@ -86,6 +86,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider63Hz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -257,6 +260,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider125Hz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -285,6 +291,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider250Hz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -313,6 +322,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider500Hz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -341,6 +353,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider1kHz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -369,6 +384,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider2kHz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -397,6 +415,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider4kHz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -425,6 +446,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider8kHz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -453,6 +477,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="Slider16kHz">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -780,6 +807,91 @@
    <property name="text">
     <string>pairwise setting</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>270</y>
+     <width>321</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string>Distance:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDoubleSpinBox" name="DistanceSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::UpDownArrows</enum>
+      </property>
+      <property name="specialValueText">
+       <string notr="true"/>
+      </property>
+      <property name="showGroupSeparator" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="prefix">
+       <string/>
+      </property>
+      <property name="suffix">
+       <string>m</string>
+      </property>
+      <property name="minimum">
+       <double>-999.990000000000009</double>
+      </property>
+      <property name="maximum">
+       <double>999.990000000000009</double>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="SetDistancePushButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>40</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>set</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="ImmediatelyCheckBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Immediately</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

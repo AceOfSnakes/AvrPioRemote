@@ -29,6 +29,8 @@
 #include "response/emphasisresponse.h"
 #include "response/audiostatusdataresponse.h"
 #include "response/videostatusdataresponse.h"
+#include "response/mcacceqresponse.h"
+#include "response/speakerdistanceresponse.h"
 
 class MsgDistributor
 {
