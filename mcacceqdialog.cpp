@@ -337,6 +337,10 @@ void MCACCEQDialog::on_SaveToFilePushButton_clicked()
         for( int j = 0; j < (int)m_EQData[i].size(); j++)
             settings.setValue(QString("CHANNEL%1_EQ%2").arg(i).arg(j), m_EQData[i][j]);
     }
+    for(int i = 0; i < m_Distance.size(); i++)
+    {
+        settings.setValue(QString("DISTANCE%1").arg(i), m_Distance[i]);
+    }
 }
 
 void MCACCEQDialog::on_RestoreFromFilePushButton_clicked()
@@ -363,6 +367,13 @@ void MCACCEQDialog::on_RestoreFromFilePushButton_clicked()
             SendCmd(cmd);
         }
         //QThread::usleep(200);
+    }
+    for(int i = 0; i < m_Distance.size(); i++)
+    {
+        m_Distance[i] = settings.value(QString("DISTANCE%1").arg(i), 0.0).toDouble();
+        int distance = (int)(m_Distance[i] * 100.0 + 0.5);
+        QString cmd = QString("00%1%2%3SSS").arg(eqchannels[i]).arg("1").arg(distance, 6, 10, QChar('0'));
+        SendCmd(cmd);
     }
 }
 
