@@ -31,6 +31,7 @@
 #include "response/videostatusdataresponse.h"
 #include "response/mcacceqresponse.h"
 #include "response/speakerdistanceresponse.h"
+#include "response/speakersettingresponse.h"
 
 class MsgDistributor
 {

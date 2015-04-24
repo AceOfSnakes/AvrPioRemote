@@ -17,9 +17,9 @@
 */
 #include "loudspeakersettingsdialog.h"
 #include "ui_loudspeakersettingsdialog.h"
-#include "QDebug"
+#include <QDebug>
 #include "receiver_interface/receiverinterface.h"
-
+#include <QThread>
 
 
 const char* LStyp[] = {
@@ -38,20 +38,11 @@ const char* LStyp[] = {
     "5.1ch+SP-B Bi-Amp",
     "5.1ch F+Surr Bi-Amp",
     "5.1ch F+C Bi-Amp", //14
+    "5.1ch C+Surr Bi-Amp",
     };
 
 const int LSwert[] = {    //codewert des LSTyps im AVR
-    0,1,2,3,4,10,11,12,13,14,15,16,17,18,19,
-    };
-
-const char* LSpaar[] = {    //Codierung der Speaker für Modus Large/Small/NO setzen
-    "00",   //Front         // dazu korrespondiert mLSpaar mit den aktuellen Moduswerten
-    "01",   //Center
-    "02",   //FH
-    "03",   //FW
-    "04",   //surr
-    "05",   //SB
-    "06",   //SW
+    0,1,2,3,4,10,11,12,13,14,15,16,17,18,19,20,
     };
 
 const char* channels[]={
@@ -69,27 +60,13 @@ const char* channels[]={
     "RW_",
 };
 
-const char* slchannels[]={
-    "ui->sfl",
-    "ui->sfr",
-    "ui->sc",
-    "ui->ssl",
-    "ui->ssr",
-    "ui->ssbl",
-    "ui->ssbr",
-    "ui->ssw",
-    "ui->sfhl",
-    "ui->sfhr",
-    "ui->sfwl",
-    "ui->sfwr",
-};
-
 LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings &settings,ReceiverInterface &Comm ) :
     QDialog(parent),
     m_Settings(settings),
     ui(new Ui::LoudspeakerSettingsDialog),
     m_Comm(Comm),
-    m_PositionSet(false)
+    m_PositionSet(false),
+    m_refreshSpeakerSettings(false)
 {
     errflag=0;
     bool x922;
@@ -109,27 +86,6 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
     connect(&m_Comm,SIGNAL(SpeakerData(QString)),this,SLOT(Speakerinfo(QString)));
 
-    connect(ui->sfl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->sfr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->sc,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->ssl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->ssr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->ssbl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->ssbr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->ssw,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->sfhl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->sfhr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->sfwl,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-    connect(ui->sfwr,SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
-
-    connect(ui->mc1,SIGNAL(clicked()),this,SLOT(checkbox()));
-    connect(ui->mc2,SIGNAL(clicked()),this,SLOT(checkbox()));
-    connect(ui->mc3,SIGNAL(clicked()),this,SLOT(checkbox()));
-    connect(ui->mc4,SIGNAL(clicked()),this,SLOT(checkbox()));
-    connect(ui->mc5,SIGNAL(clicked()),this,SLOT(checkbox()));
-    connect(ui->mc6,SIGNAL(clicked()),this,SLOT(checkbox()));
-
-
 
     // save sliders in a list
     m_Sliders.append(ui->sfl);
@@ -144,6 +100,9 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_Sliders.append(ui->sfhr);
     m_Sliders.append(ui->sfwl);
     m_Sliders.append(ui->sfwr);
+    foreach (QSlider* slider, m_Sliders) {
+        connect(slider, SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
+    }
 
 
     // save dB value labels in a list
@@ -166,6 +125,9 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_buttons.append(ui->mc4);
     m_buttons.append(ui->mc5);
     m_buttons.append(ui->mc6);
+    foreach (QCheckBox* checkBox, m_buttons) {
+        connect(checkBox, SIGNAL(clicked()), this, SLOT(checkbox()));
+    }
 
     x922=m_Settings.value("TunerCompatibilityMode").toBool();
     if (x922)   //Im Kompatmodus nur verfügbare Typen anzeigen
@@ -177,17 +139,45 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     for (int i=0;i<12;i++)
         mchannels[i]=50;
 
-    QStringList mstr; //LS-Paare vorbelegen
-    mstr << "Front" << "Center" << "FrontHigh" << "FrontWide" << "Surround" << "Surr. Back" << "Subwoofer";
-    ui->speaker->addItems(mstr);
+    QStringList list;
+    list << "Small" << "Large";
+    ui->comboBoxFrontSeting->addItems(list);
+
+    list << "No";
+    ui->comboBoxCenterSetting->addItems(list);
+    ui->comboBoxFrontHeightSetting->addItems(list);
+    ui->comboBoxFrontWideSetting->addItems(list);
+    ui->comboBoxSurroundSetting->addItems(list);
+
+    list.clear();
+    list << "Small * 2" << "Large * 1" << "Large * 2" << "No" << "Small * 1";
+    ui->comboBoxSurroundBackSetting->addItems(list);
+
+    list.clear();
+    list << "Yes" << "Plus" << "No";
+    ui->comboBoxSubwooferSetting->addItems(list);
 
     QStringList mstr1;
     mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5" << "Memory 6";
     ui->selectmem->addItems(mstr1);
 
+    m_SpeakerSettings << ui->comboBoxFrontSeting;
+    m_SpeakerSettings << ui->comboBoxCenterSetting;
+    m_SpeakerSettings << ui->comboBoxFrontHeightSetting;
+    m_SpeakerSettings << ui->comboBoxFrontWideSetting;
+    m_SpeakerSettings << ui->comboBoxSurroundSetting;
+    m_SpeakerSettings << ui->comboBoxSurroundBackSetting;
+    m_SpeakerSettings << ui->comboBoxSubwooferSetting;
+    foreach( QComboBox* comboBox, m_SpeakerSettings)
+    {
+        connect(comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(speakerSettingsComboBoxValueChanged(int)));
+    }
+
+
     QStringList responseList;
     responseList << MCACCNumberResponse().getResponseID();
     responseList << ErrorResponse().getResponseID(); //Fehler abfangen beim setzen der LSConfig
+    responseList << SpeakerSettingResponse().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -225,7 +215,24 @@ void LoudspeakerSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
             SendCmd("?SSF");   //Wert nicht angenommen, korrigieren in DataReceived(QString data)
             errflag--;
         }
-        ui->speakermode->setCurrentIndex(mLSpaar[ui->speaker->currentIndex()]);
+        return;
+    }
+    SpeakerSettingResponse* sp_setting = dynamic_cast<SpeakerSettingResponse*>(response);
+    if (sp_setting != NULL)
+    {
+        int no = sp_setting->getSpeakerNo();
+        int setting = sp_setting->getSpeakerSetting();
+
+        if (no >= 0 && no < m_SpeakerSettings.size()) {
+            m_SpeakerSettings[no]->blockSignals(true);
+            m_SpeakerSettings[no]->setCurrentIndex(setting);
+            m_SpeakerSettings[no]->blockSignals(false);
+        }
+        ui->groupBoxSpeakerSettings->setEnabled(true);
+        if (m_refreshSpeakerSettings) {
+            m_refreshSpeakerSettings = false;
+            requestSpeakerSettings();
+        }
         return;
     }
 }
@@ -241,15 +248,6 @@ void LoudspeakerSettingsDialog::Speakerinfo(QString data)
         ui->LSsystem->setCurrentIndex(sysValue);//aktuelle Konfig
         mVal=sysValue;  //in public speichern zum Vergleich beim setzen
      }
-   if (data.startsWith("SSG"))
-    {
-        sysValue=data.mid(3,2).toInt();
-        wert=data.mid(5,1).toInt();
-        mLSpaar[sysValue]=wert; //Werte der einzelnen Speaker (Large, NO etc)
-        qDebug() << "wertepaar" << sysValue <<"array" <<mLSpaar[sysValue];
-        wert=ui->speaker->currentIndex();
-        ui->speakermode->setCurrentIndex(mLSpaar[wert]);
-   }
    if (data.startsWith("CLV"))
     {
       sysValue=data.mid(6,2).toInt();
@@ -306,22 +304,13 @@ void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
         this->show();
     }
     SendCmd("?SSF");
-    for (int i=0;i<7;i++)
-    {
-        str=LSpaar[i];
-        str="?SSG"+str;
-        SendCmd(str);
-//    qDebug()<< "sending init:" << str;
-    }
-
+    requestSpeakerSettings();
 // hier aktuellen Channel Level anfordern
 
-    for (int i=0;i<12;i++)
+    for (int i = 0; i < 12; i++)
     {
-
-            str=QString("?%1CLV").arg(channels[i]);
-//            qDebug() << str <<"  CLVDaten";
-            SendCmd(str);
+        str=QString("?%1CLV").arg(channels[i]);
+        SendCmd(str);
     }
     SendCmd("?SPK");
     SendCmd("?MC");
@@ -345,70 +334,26 @@ void LoudspeakerSettingsDialog::on_SetBut_clicked()
 }
 
 
-void LoudspeakerSettingsDialog::on_SetBut2_clicked()
-{
-    QString str;
-    str=LSpaar[ui->speaker->currentIndex()];
-    str=str+QString("%1SSG").arg(ui->speakermode->currentIndex());
-//  qDebug() <<"Settings new" <<str;
-    SendCmd(str);
-}
-
-void LoudspeakerSettingsDialog::on_speaker_currentIndexChanged(int index)
-{
-    int mindex=index;
-
-    QStringList spmode;
-   for (int i=4; i<=0;i--)
-       ui->speakermode->removeItem(i);
-
-    if (mindex==6)
-        {
-
-        spmode << "Yes" << "Plus" << "No" <<"" <<"";
-        ui->speakermode->insertItems(0,spmode);
-        }
-    else if (mindex==5)
-        {
-            spmode << "Small*2" << "Large*1" << "Large*2" <<"No" <<"Small*1";
-            ui->speakermode->insertItems(0,spmode);
-        }
-
-    else if (mindex <5)
-        {
-        spmode << "Small" << "Large" << "No" <<"" << "";
-            ui->speakermode->insertItems(0,spmode);
-        }
-    else if (mindex ==0)
-        {
-        spmode << "Small" << "Large" << "" <<"" << "";
-            ui->speakermode->insertItems(0,spmode);
-        }
-    ui->speakermode->setCurrentIndex(mLSpaar[mindex]); //Modus nach Anzeige LS ändern aus Array
-    //   qDebug() << "changed" <<index;
-}
-
-
 void LoudspeakerSettingsDialog::on_savebutt_clicked()
 {   //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox,
     QString str;
     int str1;
-    str1=m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
+    str1 = m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
 
-    for (int i=0;i<12;i++)
+    for (int i = 0; i< 12; i++)
     {
-        str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
+        str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
           m_Settings.setValue(str,mchannels[i]);
     }
 
-    str=QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
-    m_Settings.setValue(str,mVal);
-    for (int i=0;i<7;i++)
+    str = QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
+    m_Settings.setValue(str, mVal);
+    for (int i = 0; i < m_SpeakerSettings.size(); i++)
     {
-          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(LSpaar[i]);
-          m_Settings.setValue(str,mLSpaar[i]);
+          str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(i, 2, 10, QChar('0'));
+          m_Settings.setValue(str, m_SpeakerSettings[i]->currentIndex());
     }
-    str=QString("mem%1-%2/LSset").arg(ui->selectmem->currentIndex()).arg(str1);
+    str = QString("mem%1-%2/LSset").arg(ui->selectmem->currentIndex()).arg(str1);
      m_Settings.setValue(str,ui->meminf->text());
 
 /*     for (int i=0;i<6;i++) //mcacc nicht speichern, da LS-Settings dort auch drin sind
@@ -428,7 +373,7 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
     int j;
     QString str;
     int str1;
-    str1=m_Settings.value("IP/4").toInt();//letztes Oktett IP anhängen, falls mehrere Reciever
+    str1 = m_Settings.value("IP/4").toInt();//letztes Oktett IP anhängen, falls mehrere Reciever
 
 /*    ui->speaker->setCurrentIndex(0);  //Speicherung entfernt, da LS-Settings auch in mcacc gespeichert werden--Konflikte
     ui->speakermode->setCurrentIndex(mLSpaar[0]);
@@ -439,34 +384,33 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
 */
 //    str1=m_Settings.value("IP/4").toInt();//letztes Oktett IP anhängen, falls mehrere Reciever
 
-    for (int i=0;i<12;i++)
+    for (int i = 0; i < 12; i++)
     {
-          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
-          j=m_Settings.value(str).toInt();
-          if (j!=0)
+          str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
+          j = m_Settings.value(str).toInt();
+          if (j != 0)
           {
-              mchannels[i]=j;
-              str= (QString("%1%2CLV").arg(channels[i]).arg(j));
+              mchannels[i] = j;
+              str = (QString("%1%2CLV").arg(channels[i]).arg(j));
               //qDebug() <<str;
               SendCmd(str);
           }
           setslider();
     }
-    str=QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
-    mVal=m_Settings.value(str).toInt();
+    str = QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
+    mVal = m_Settings.value(str).toInt();
     str = QString("%1SSF").arg(mVal);
-    if (str.size()<5)
-        str="0"+str;
+    if (str.size() < 5)
+        str = "0" + str;
     SendCmd(str);
 
-    for (int i=0;i<7;i++)
+    for (int i = 0; i < m_SpeakerSettings.size(); i++)
     {
-          str=QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(LSpaar[i]);
-          mLSpaar[i]=m_Settings.value(str).toInt();
-          str=LSpaar[i];
-          str=str+QString("%1SSG").arg(mLSpaar[i]);
-//          qDebug() << str;
-          SendCmd(str);
+          str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(i, 2, 10, QChar('0'));
+          int idx = m_Settings.value(str).toInt();
+          m_SpeakerSettings[i]->setCurrentIndex(idx);
+//          str = QString("%1%2SSG").arg(i, 2, 10, QChar('0')).arg(idx);
+//          SendCmd(str);
     }
 
  }
@@ -475,18 +419,14 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
 
 void LoudspeakerSettingsDialog::ValueChanged()
 {
-    int i,j;
-    QString str;
-    QObject* sender =QObject::sender();
-    str="ui->"+sender->objectName();
-    for (j=0;j<m_Sliders.count();j++)
+    QSlider* sender = dynamic_cast<QSlider*>(QObject::sender());
+    if (sender == NULL)
+        return;
+    for (int i = 0; i < m_Sliders.count(); i++)
     {
-        if (str==slchannels[j])
+        if (sender == m_Sliders[i])
         {
-            i=m_Sliders[j]->value();
-            str= (QString("%1%2CLV").arg(channels[j]).arg(i));
-            //qDebug() <<str;
-            SendCmd(str);
+            SendCmd(QString("%1%2CLV").arg(channels[i]).arg(m_Sliders[i]->value()));
         }
     }
     setslider();
@@ -571,4 +511,30 @@ void LoudspeakerSettingsDialog::on_spab_clicked()
 void LoudspeakerSettingsDialog::on_spoff_clicked()
 {
         SendCmd("0SPK");
+}
+
+void LoudspeakerSettingsDialog::speakerSettingsComboBoxValueChanged(int index)
+{
+    QComboBox* sender = dynamic_cast<QComboBox*>(QObject::sender());
+    if (sender == NULL)
+        return;
+
+    for(int i = 0; i < m_SpeakerSettings.size(); i++)
+    {
+        if (sender == m_SpeakerSettings[i]) {
+            m_refreshSpeakerSettings = true;
+            SendCmd(QString("%1%2SSG").arg(i, 2, 10, QChar('0')).arg(index));
+            //QThread::currentThread()->msleep(500);
+            //requestSpeakerSettings();
+            break;
+        }
+    }
+}
+
+void LoudspeakerSettingsDialog::requestSpeakerSettings()
+{
+    for (int i = 0; i < m_SpeakerSettings.size(); i++)
+    {
+        SendCmd(QString("?SSG%1").arg(i, 2, 10, QChar('0')));
+    }
 }

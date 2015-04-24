@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QMoveEvent>
 #include <QCheckBox>
+#include <QVector>
 
 namespace Ui {
 class LoudspeakerSettingsDialog;
@@ -42,7 +43,6 @@ public:
     void ResponseReceived(ReceivedObjectBase *);
 
     int mVal; // Wert der aktuellen Konfig
-    int mLSpaar[7]; //Wert des aktuellen LS- 0=small, 1=large,2=NO
     int mchannels[12]; //Wert des aktuellen Channels DB-Preset
     int errflag; //errorflag für SSF Befehl setzen
 
@@ -55,7 +55,11 @@ private:
     QList<QLabel*>      m_Labels;
     bool                m_PositionSet;
 
+    QVector<QComboBox*> m_SpeakerSettings;
+    bool                m_refreshSpeakerSettings;
+
     void moveEvent(QMoveEvent*event);
+    void requestSpeakerSettings();
 
 public slots:
 
@@ -68,8 +72,6 @@ signals:
 
 private slots:
     void on_SetBut_clicked();
-    void on_SetBut2_clicked();
-    void on_speaker_currentIndexChanged(int index);
     void on_savebutt_clicked();
     void on_restbutt_clicked();
     void ValueChanged();
@@ -81,6 +83,7 @@ private slots:
     void on_spb_clicked();
     void on_spab_clicked();
     void on_spoff_clicked();
+    void speakerSettingsComboBoxValueChanged(int index);
 };
 
 extern const char* LStyp[]; //Lautsprecherkonfig (SB/FH, Zone2 etc)

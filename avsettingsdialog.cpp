@@ -193,7 +193,7 @@ void AVSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
     {
         //QString no = data.mid(2);
         //int idx = ui->MemSetNoComboBox->findData(no);
-        qDebug() << "mcacc idx:" << mcacc->GetMCACCNumber();
+        //qDebug() << "mcacc idx:" << mcacc->GetMCACCNumber();
         ui->MemSetNoComboBox->setCurrentIndex(mcacc->GetMCACCNumber() - 1);
         return;
     }

@@ -87,6 +87,7 @@ void MsgDistributor::_init()
     _addResponse(new VideoStatusDataResponse());
     _addResponse(new MCACCEQResponse());
     _addResponse(new SpeakerDistanceResponse());
+    _addResponse(new SpeakerSettingResponse());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)
