@@ -1,4 +1,5 @@
 #include "xoverresponse_ssq.h"
+#include <cstdio>
 
 XOverResponse_SSQ::XOverResponse_SSQ() :
     m_Frequency(Frequency_50Hz)

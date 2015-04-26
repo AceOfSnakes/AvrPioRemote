@@ -273,7 +273,6 @@ void AVRPioRemote::StatusLineTimeout()
 
 void AVRPioRemote::RefreshTimeout()
 {
-    qDebug() << "Refresh";
     SendCmd("?AST");
     SendCmd("?VST");
 }
