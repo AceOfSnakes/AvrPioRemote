@@ -131,9 +131,9 @@ AVSettingsDialog::AVSettingsDialog(QWidget *parent, QSettings& settings, Receive
     m_CmdRepeatTimer.setInterval(1000);
 
     QStringList responseList;
-    responseList << InputFunctionResponse().getResponseID();
-    responseList << MCACCNumberResponse().getResponseID();
-    responseList << ErrorResponse().getResponseID();
+    responseList << InputFunctionResponse_FN().getResponseID();
+    responseList << MCACCNumberResponse_MC().getResponseID();
+    responseList << ErrorResponse_B_E().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -179,7 +179,7 @@ void AVSettingsDialog::EnableAVControls(bool enable)
 void AVSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
 {
     // input
-    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    InputFunctionResponse_FN* inputFunction = dynamic_cast<InputFunctionResponse_FN*>(response);
     if (inputFunction != NULL)
     {
         if (!this->isVisible())
@@ -188,7 +188,7 @@ void AVSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
         return;
     }
     // mcacc memory number
-    MCACCNumberResponse* mcacc = dynamic_cast<MCACCNumberResponse*>(response);
+    MCACCNumberResponse_MC* mcacc = dynamic_cast<MCACCNumberResponse_MC*>(response);
     if (mcacc != NULL)
     {
         //QString no = data.mid(2);
@@ -197,10 +197,10 @@ void AVSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
         ui->MemSetNoComboBox->setCurrentIndex(mcacc->GetMCACCNumber() - 1);
         return;
     }
-    ErrorResponse* error = dynamic_cast<ErrorResponse*>(response);
+    ErrorResponse_B_E* error = dynamic_cast<ErrorResponse_B_E*>(response);
     if (error != NULL)
     {
-        if (error->GetError() == ErrorResponse::ErrorDoesntWorkNow || error->GetError() == ErrorResponse::ErrorBusy)
+        if (error->GetError() == ErrorResponse_B_E::ErrorDoesntWorkNow || error->GetError() == ErrorResponse_B_E::ErrorBusy)
         {
             m_CmdRepeatTimer.start();
         }

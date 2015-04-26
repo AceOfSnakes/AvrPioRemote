@@ -123,7 +123,7 @@ void WiringDialog::ShowWiringDialog()
 
 void WiringDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    InputNameResponse* inputname = dynamic_cast<InputNameResponse*>(response);
+    InputNameResponse_RGB* inputname = dynamic_cast<InputNameResponse_RGB*>(response);
     if (inputname != NULL)
     {
         if (m_CurrentAction == ACTION_GET_NAME)

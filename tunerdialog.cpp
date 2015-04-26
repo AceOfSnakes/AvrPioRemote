@@ -46,7 +46,7 @@ TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &se
     connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 
-    MsgDistributor::AddResponseListener(this, QStringList() << InputFunctionResponse().getResponseID() << DisplayDataResponse().getResponseID());
+    MsgDistributor::AddResponseListener(this, QStringList() << InputFunctionResponse_FN().getResponseID() << DisplayDataResponse_FL().getResponseID());
 
     m_ClassButtons.push_back(ui->ClassAButton);
     m_ClassButtons.push_back(ui->ClassBButton);
@@ -144,7 +144,7 @@ void TunerDialog::ShowTunerDialog(bool autoShow)
 
 void TunerDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    DisplayDataResponse* display = dynamic_cast<DisplayDataResponse*>(response);
+    DisplayDataResponse_FL* display = dynamic_cast<DisplayDataResponse_FL*>(response);
     if (display != NULL)
     {
         if (m_TunerInputSelected && display->getDisplayType() == 2)
@@ -154,7 +154,7 @@ void TunerDialog::ResponseReceived(ReceivedObjectBase *response)
         }
         return;
     }
-    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    InputFunctionResponse_FN* inputFunction = dynamic_cast<InputFunctionResponse_FN*>(response);
     if (inputFunction != NULL)
     {
         int no = inputFunction->getNumber();

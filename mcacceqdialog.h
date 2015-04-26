@@ -35,11 +35,13 @@ private:
     QVector<QRadioButton*>  m_Speakers;
     QVector<QSlider*>       m_Slider;
     QVector<QLabel*>        m_Labels;
+    QVector<QRadioButton*>  m_MCACCButtons;
 
     void moveEvent(QMoveEvent*event);
     void RefreshSpeakerEq(QString speaker);
     void EnableSlider(bool enabled);
     void SendDistance();
+    void DisableControls();
 
 public slots:
     void ShowMCACCEQDialog();
@@ -49,7 +51,7 @@ public slots:
 signals:
     void SendCmd(QString data);
 private slots:
-    void on_MCACCcomboBox_activated(int index);
+    void MCACC_selected();
     void on_SaveToFilePushButton_clicked();
     void on_RestoreFromFilePushButton_clicked();
     void on_ImmediatelyCheckBox_stateChanged(int state);

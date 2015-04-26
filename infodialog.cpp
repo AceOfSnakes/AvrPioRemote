@@ -35,8 +35,8 @@ InfoDialog::InfoDialog(QWidget *parent, QSettings &settings, ReceiverInterface &
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 
     QStringList responseList;
-    responseList << AudioStatusDataResponse().getResponseID();
-    responseList << VideoStatusDataResponse().getResponseID();
+    responseList << AudioStatusDataResponse_AST().getResponseID();
+    responseList << VideoStatusDataResponse_VST().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -95,7 +95,7 @@ void InfoDialog::ShowInfoDialog()
 void InfoDialog::ResponseReceived(ReceivedObjectBase *response)
 {
     // AST
-    AudioStatusDataResponse* ast = dynamic_cast<AudioStatusDataResponse*>(response);
+    AudioStatusDataResponse_AST* ast = dynamic_cast<AudioStatusDataResponse_AST*>(response);
     if (ast != NULL)
     {
         inputLSConfiguration->NewData(ast->iChFormat);
@@ -105,7 +105,7 @@ void InfoDialog::ResponseReceived(ReceivedObjectBase *response)
         return;
     }
     // VST
-    VideoStatusDataResponse* vst = dynamic_cast<VideoStatusDataResponse*>(response);
+    VideoStatusDataResponse_VST* vst = dynamic_cast<VideoStatusDataResponse_VST*>(response);
     if (vst != NULL)
     {
         m_VideoInfo = vst->getSummary();

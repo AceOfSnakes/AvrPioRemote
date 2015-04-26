@@ -78,10 +78,10 @@ ZoneControlDialog::ZoneControlDialog(QWidget *parent, QSettings &settings, Recei
     connect(&m_Comm,SIGNAL(ZoneInput(int, int)),this,SLOT(ZoneInput(int, int)));
 
     QStringList responseList;
-    responseList << DisplayDataResponse().getResponseID();
-    responseList << PowerResponse().getResponseID();
-    responseList << MuteResponse().getResponseID();
-    responseList << VolumeResponse().getResponseID();
+    responseList << DisplayDataResponse_FL().getResponseID();
+    responseList << PowerResponse_PWR_APR_BPR_ZEP().getResponseID();
+    responseList << MuteResponse_MUT_Z2MUT_Z3MUT().getResponseID();
+    responseList << VolumeResponse_VOL_ZV_YV().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -137,7 +137,7 @@ void ZoneControlDialog::ShowZoneControlDialog()
 void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
 {
     // display data
-    DisplayDataResponse* display = dynamic_cast<DisplayDataResponse*>(response);
+    DisplayDataResponse_FL* display = dynamic_cast<DisplayDataResponse_FL*>(response);
     if (display != NULL)
     {
         if (display->getDisplayType() == 2)
@@ -165,11 +165,11 @@ void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
         return;
     }
     // zone power
-    PowerResponse* power = dynamic_cast<PowerResponse*>(response);
+    PowerResponse_PWR_APR_BPR_ZEP* power = dynamic_cast<PowerResponse_PWR_APR_BPR_ZEP*>(response);
     if (power != NULL)
     {
         bool on = power->IsPoweredOn();
-        if (power->GetZone() == PowerResponse::Zone2)
+        if (power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::Zone2)
         {
             ui->Z2PowerButton->setChecked(on);
             ui->Z2InputComboBox->setEnabled(on);
@@ -177,7 +177,7 @@ void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
             ui->Z2VolumeDownButton->setEnabled(on);
             ui->Z2MuteButton->setEnabled(on);
         }
-        else if (power->GetZone() == PowerResponse::Zone3)
+        else if (power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::Zone3)
         {
             ui->Z3PowerButton->setChecked(on);
             if (!ui->Z3GroupBox->isEnabled())
@@ -190,15 +190,15 @@ void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
         return;
     }
     // zone mute
-    MuteResponse* mute = dynamic_cast<MuteResponse*>(response);
+    MuteResponse_MUT_Z2MUT_Z3MUT* mute = dynamic_cast<MuteResponse_MUT_Z2MUT_Z3MUT*>(response);
     if (mute != NULL)
     {
-        if (mute->GetZone() == MuteResponse::Zone2)
+        if (mute->GetZone() == MuteResponse_MUT_Z2MUT_Z3MUT::Zone2)
         {
             ui->Z2MuteButton->setChecked(mute->IsMuted());
             qDebug() << "mute z2" << mute->IsMuted();
         }
-        else if (mute->GetZone() == MuteResponse::Zone3)
+        else if (mute->GetZone() == MuteResponse_MUT_Z2MUT_Z3MUT::Zone3)
         {
             ui->Z3MuteButton->setChecked(mute->IsMuted());
             qDebug() << "mute z3" << mute->IsMuted();
@@ -206,14 +206,14 @@ void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
         return;
     }
     // zone volume
-    VolumeResponse* volume = dynamic_cast<VolumeResponse*>(response);
+    VolumeResponse_VOL_ZV_YV* volume = dynamic_cast<VolumeResponse_VOL_ZV_YV*>(response);
     if (volume != NULL)
     {
-        if (volume->GetZone() == VolumeResponse::Zone2)
+        if (volume->GetZone() == VolumeResponse_VOL_ZV_YV::Zone2)
         {
             ui->Z2VolumeLineEdit->setText(volume->GetAsString());
         }
-        else if (volume->GetZone() == VolumeResponse::Zone3)
+        else if (volume->GetZone() == VolumeResponse_VOL_ZV_YV::Zone3)
         {
             ui->Z3VolumeLineEdit->setText(volume->GetAsString());
         }

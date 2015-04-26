@@ -27,7 +27,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AVRPioRemote),
     m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
-    m_StatusLineTimer(this)
+    m_StatusLineTimer(this),
+    m_RefreshTimer(this)
 {
     m_IpPort = 8102;
     m_ReceiverOnline = false;
@@ -146,6 +147,10 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_StatusLineTimer.setSingleShot(true);
     m_StatusLineTimer.setInterval(10000);
 
+    connect((&m_RefreshTimer), SIGNAL(timeout()), this, SLOT(RefreshTimeout()));
+    m_RefreshTimer.setSingleShot(false);
+    m_RefreshTimer.setInterval(10000);
+
     // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
 
@@ -202,19 +207,19 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     ui->ZoneControlButton->setEnabled(false);
 
     QStringList responseList;
-    responseList << InputFunctionResponse().getResponseID();
-    responseList << PowerResponse().getResponseID();
-    responseList << DisplayDataResponse().getResponseID();
-    responseList << HDMIPassThroughResponse().getResponseID();
-    responseList << VolumeResponse().getResponseID();
-    responseList << MuteResponse().getResponseID();
-    responseList << InputNameResponse().getResponseID();
-    responseList << ErrorResponse().getResponseID();
-    responseList << PhaseControlResponse().getResponseID();
-    responseList << HiBitResponse().getResponseID();
-    responseList << PQLSControlResponse().getResponseID();
-    responseList << SoundRetrieverResponse().getResponseID();
-    responseList << AudioStatusDataResponse().getResponseID();
+    responseList << InputFunctionResponse_FN().getResponseID();
+    responseList << PowerResponse_PWR_APR_BPR_ZEP().getResponseID();
+    responseList << DisplayDataResponse_FL().getResponseID();
+    responseList << HDMIPassThroughResponse_STU().getResponseID();
+    responseList << VolumeResponse_VOL_ZV_YV().getResponseID();
+    responseList << MuteResponse_MUT_Z2MUT_Z3MUT().getResponseID();
+    responseList << InputNameResponse_RGB().getResponseID();
+    responseList << ErrorResponse_B_E().getResponseID();
+    responseList << PhaseControlResponse_IS().getResponseID();
+    responseList << HiBitResponse_ATI().getResponseID();
+    responseList << PQLSControlResponse_PQ().getResponseID();
+    responseList << SoundRetrieverResponse_ATA().getResponseID();
+    responseList << AudioStatusDataResponse_AST().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -264,6 +269,13 @@ void AVRPioRemote::changeEvent(QEvent *e)
 void AVRPioRemote::StatusLineTimeout()
 {
     ui->StatusLineEdit->clear();
+}
+
+void AVRPioRemote::RefreshTimeout()
+{
+    qDebug() << "Refresh";
+    SendCmd("?AST");
+    SendCmd("?VST");
 }
 
 
@@ -443,67 +455,75 @@ void AVRPioRemote::NewDataReceived(QString data)
 
 void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
 {
-    DisplayDataResponse* display = dynamic_cast<DisplayDataResponse*>(response);
+    DisplayDataResponse_FL* display = dynamic_cast<DisplayDataResponse_FL*>(response);
     if (display != NULL)
     {
         ui->ScreenLineEdit1->setText(display->getDisplayLine());
         return;
     }
-    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    InputFunctionResponse_FN* inputFunction = dynamic_cast<InputFunctionResponse_FN*>(response);
     if (inputFunction != NULL)
     {
         InputChanged(inputFunction->getNumber(), inputFunction->getName());
         return;
     }
-    PowerResponse* power = dynamic_cast<PowerResponse*>(response);
-      if (power != NULL)
+    PowerResponse_PWR_APR_BPR_ZEP* power = dynamic_cast<PowerResponse_PWR_APR_BPR_ZEP*>(response);
+    if (power != NULL)
     {
-        if (power->GetZone() == PowerResponse::ZoneMain)
+        if (power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::ZoneMain)
         {
+            //RequestStatus(true);
+            SendCmd("?F");
             m_PowerOn = power->IsPoweredOn();
             ui->PowerButton->setIcon((m_PowerOn) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
             ui->PowerButton->setText((!m_PowerOn) ? tr("ON") : tr("OFF"));
             EnableControls(m_PowerOn);
             m_ReceiverOnline = m_PowerOn;
+            if (m_PowerOn)
+                m_RefreshTimer.start();
+            else
+                m_RefreshTimer.stop();
         }
-        else if (power->GetZone() == PowerResponse::Zone2)
+        else if (power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::Zone2)
         {
+            RequestStatus(false);
             m_Zone2PowerOn = power->IsPoweredOn();
             if (!m_Zone2PowerOn)
                 m_SelectedInputZ2 = NULL;
         }
-        else if (power->GetZone() == PowerResponse::Zone3)
+        else if (power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::Zone3)
         {
+            RequestStatus(false);
             m_Zone3PowerOn = power->IsPoweredOn();
             if (!m_Zone3PowerOn)
                 m_SelectedInputZ3 = NULL;
         }
         return;
     }
-    HDMIPassThroughResponse* pass_through = dynamic_cast<HDMIPassThroughResponse*>(response);
+    HDMIPassThroughResponse_STU* pass_through = dynamic_cast<HDMIPassThroughResponse_STU*>(response);
     if (pass_through != NULL)
     {
-        m_PassThroughLast = (pass_through->GetPassThroughFunction() == HDMIPassThroughResponse::PassThroughLast);
+        m_PassThroughLast = (pass_through->GetPassThroughFunction() == HDMIPassThroughResponse_STU::PassThroughLast);
         EnableControls(m_PowerOn);
         return;
     }
-    VolumeResponse* volume = dynamic_cast<VolumeResponse*>(response);
+    VolumeResponse_VOL_ZV_YV* volume = dynamic_cast<VolumeResponse_VOL_ZV_YV*>(response);
     if (volume != NULL)
     {
-        if (volume->GetZone() == VolumeResponse::ZoneMain)
+        if (volume->GetZone() == VolumeResponse_VOL_ZV_YV::ZoneMain)
         {
             ui->VolumeLineEdit->setText(volume->GetAsString());
         }
         return;
     }
-    MuteResponse* mute = dynamic_cast<MuteResponse*>(response);
+    MuteResponse_MUT_Z2MUT_Z3MUT* mute = dynamic_cast<MuteResponse_MUT_Z2MUT_Z3MUT*>(response);
     if (mute != NULL)
     {
-        if (mute->GetZone() == MuteResponse::ZoneMain)
+        if (mute->GetZone() == MuteResponse_MUT_Z2MUT_Z3MUT::ZoneMain)
             ui->VolumeMuteButton->setChecked(mute->IsMuted());
         return;
     }
-    InputNameResponse* inputname = dynamic_cast<InputNameResponse*>(response);
+    InputNameResponse_RGB* inputname = dynamic_cast<InputNameResponse_RGB*>(response);
     if (inputname != NULL)
     {
         if (!m_Settings.value("ShowDefaultInputName", false).toBool())
@@ -511,28 +531,28 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
         else
             ui->InputNameLineEdit->setToolTip(inputname->GetInputName());
     }
-    ErrorResponse* error = dynamic_cast<ErrorResponse*>(response);
+    ErrorResponse_B_E* error = dynamic_cast<ErrorResponse_B_E*>(response);
     if (error != NULL)
     {
         switch(error->GetError())
         {
-        case ErrorResponse::ErrorDoesntWorkNow:
+        case ErrorResponse_B_E::ErrorDoesntWorkNow:
             Logger::Log("This doesn't work now");
             ui->StatusLineEdit->setText(tr("This doesn't work now"));
             break;
-        case ErrorResponse::ErrorNotSupported:
+        case ErrorResponse_B_E::ErrorNotSupported:
             Logger::Log("This doesn't work with this receiver");
             ui->StatusLineEdit->setText(tr("This doesn't work with this receiver"));
             break;
-        case ErrorResponse::ErrorCommand:
+        case ErrorResponse_B_E::ErrorCommand:
             Logger::Log("Command error");
             ui->StatusLineEdit->setText(tr("Command error"));
             break;
-        case ErrorResponse::ErrorParameter:
+        case ErrorResponse_B_E::ErrorParameter:
             Logger::Log("Parameter error");
             ui->StatusLineEdit->setText(tr("Parameter error"));
             break;
-        case ErrorResponse::ErrorBusy:
+        case ErrorResponse_B_E::ErrorBusy:
             Logger::Log("Receiver busy");
             ui->StatusLineEdit->setText(tr("Receiver busy"));
             break;
@@ -544,32 +564,32 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
         m_StatusLineTimer.start();
         return;
     }
-    PhaseControlResponse* phase = dynamic_cast<PhaseControlResponse*>(response);
+    PhaseControlResponse_IS* phase = dynamic_cast<PhaseControlResponse_IS*>(response);
     if (phase != NULL)
     {
         ui->PhaseButton->setChecked(phase->IsPhaseControlOn());
         return;
     }
-    HiBitResponse* hibit = dynamic_cast<HiBitResponse*>(response);
+    HiBitResponse_ATI* hibit = dynamic_cast<HiBitResponse_ATI*>(response);
     if (hibit != NULL)
     {
         ui->HiBitButton->setChecked(hibit->IsHiBitOn());
         return;
     }
-    PQLSControlResponse* pqls = dynamic_cast<PQLSControlResponse*>(response);
+    PQLSControlResponse_PQ* pqls = dynamic_cast<PQLSControlResponse_PQ*>(response);
     if (pqls != NULL)
     {
         ui->PqlsButton->setChecked(pqls->IsPQLSControlOn());
         return;
     }
-    SoundRetrieverResponse* sretr = dynamic_cast<SoundRetrieverResponse*>(response);
+    SoundRetrieverResponse_ATA* sretr = dynamic_cast<SoundRetrieverResponse_ATA*>(response);
     if (sretr != NULL)
     {
         ui->SRetrButton->setChecked(sretr->IsSoundRetrieverOn());
         return;
     }
     // AST
-    AudioStatusDataResponse* ast = dynamic_cast<AudioStatusDataResponse*>(response);
+    AudioStatusDataResponse_AST* ast = dynamic_cast<AudioStatusDataResponse_AST*>(response);
     if (ast != NULL)
     {
         ui->AudioCodecLineEdit->setText(ast->codec);
@@ -577,6 +597,13 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
 
         m_InputLSConfiguration->NewData(ast->iChFormat);
         m_OutputLSConfiguration->NewData(ast->oChFormat);
+        return;
+    }
+    // AUB
+    Response_AUB* aub = dynamic_cast<Response_AUB*>(response);
+    if (aub != NULL)
+    {
+        ui->HiBitButton->setChecked(aub->GetHiBit());
         return;
     }
 
@@ -609,7 +636,6 @@ void AVRPioRemote::ListeningModeData(QString name)
 
 void AVRPioRemote::RequestStatus(bool input)
 {
-    SendCmd("?P"); // power
     if (m_ReceiverOnline)
     {
         SendCmd("?V"); // volume
@@ -628,6 +654,7 @@ void AVRPioRemote::RequestStatus(bool input)
         SendCmd("?ATI"); // Hi-Bit
         SendCmd("?ATA"); // Hi-Bit
         SendCmd("?PQ"); // PQLS
+        SendCmd("?AUB"); // new data (only HiBit flag known)
     }
     //sendCmd("?RGB**"); // request input name information
 }
@@ -643,6 +670,7 @@ void AVRPioRemote::CommError(QString socketError)
     ClearScreen();
     ui->StatusLineEdit->setText(socketError);
     m_StatusLineTimer.start();
+    m_RefreshTimer.stop();
     ui->ZoneControlButton->setEnabled(false);
 }
 
@@ -660,8 +688,9 @@ void AVRPioRemote::CommConnected()
     m_ReceiverOnline = true;
     SendCmd("?RGD"); // Receiver-Kennung
     SendCmd("?SSO"); // Receiver friendly name (network)
-    SendCmd("?STU"); // PassThrough
-    RequestStatus();
+    //SendCmd("?STU"); // PassThrough
+    SendCmd("?P"); // power
+    SendCmd("?F"); // power
 }
 
 void AVRPioRemote::CommDisconnected()
@@ -675,6 +704,7 @@ void AVRPioRemote::CommDisconnected()
     EnableControls(false);
     ClearScreen();
     ui->ZoneControlButton->setEnabled(false);
+    m_RefreshTimer.stop();
 }
 
 bool AVRPioRemote::SendCmd(const QString& cmd)

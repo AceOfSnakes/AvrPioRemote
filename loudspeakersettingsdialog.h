@@ -27,6 +27,7 @@
 #include <QMoveEvent>
 #include <QCheckBox>
 #include <QVector>
+#include <QRadioButton>
 
 namespace Ui {
 class LoudspeakerSettingsDialog;
@@ -49,23 +50,27 @@ public:
 private:
     QSettings& m_Settings;
     Ui::LoudspeakerSettingsDialog *ui;
-    QList<QCheckBox*>   m_buttons;
-    ReceiverInterface&  m_Comm;
-    QList<QSlider*>     m_Sliders;
-    QList<QLabel*>      m_Labels;
-    bool                m_PositionSet;
+    QList<QCheckBox*>       m_MCACCButtons;
+    ReceiverInterface&      m_Comm;
+    QList<QSlider*>         m_Sliders;
+    QList<QLabel*>          m_Labels;
+    bool                    m_PositionSet;
 
-    QVector<QComboBox*> m_SpeakerSettings;
-    bool                m_refreshSpeakerSettings;
+    QVector<QComboBox*>     m_SpeakerSettings;
+    bool                    m_RefreshSpeakerSettings;
+    QVector<QRadioButton*>  m_XOverButtons;
 
     void moveEvent(QMoveEvent*event);
     void requestSpeakerSettings();
+    void enableSlider(bool);
+    void enableSpeakerSettings(bool);
+    void disableControls();
+    void requestData();
 
 public slots:
 
 //    void SpeakerReceived(QString data);
     void ShowLoudspeakerSettingsDialog();
-    void Speakerinfo(QString data);
 
 signals:
     void SendCmd(QString data);
@@ -76,6 +81,7 @@ private slots:
     void on_restbutt_clicked();
     void ValueChanged();
     void setslider();
+    void setslider(int idx, int value);
     void on_selectmem_currentIndexChanged(int index);
     void clear_toggles();
     void checkbox();
@@ -84,12 +90,9 @@ private slots:
     void on_spab_clicked();
     void on_spoff_clicked();
     void speakerSettingsComboBoxValueChanged(int index);
+    void on_radioButtonSurOnSide_clicked();
+    void on_radioButtonSurBehind_clicked();
+    void XOver_selected();
 };
-
-extern const char* LStyp[]; //Lautsprecherkonfig (SB/FH, Zone2 etc)
-extern const int LSwert[];  //Wert für Konfig im AVR, beide gesetzt im .cpp
-extern const char* LSpaar[];    //Lautsprechercode für small/large
-extern const char* channels[];
-extern const char* slchannels[];
 
 #endif // LOUDSPEAKERSETTINGSDIALOG_H

@@ -77,7 +77,7 @@ usbDialog::usbDialog(QWidget *parent, QSettings &settings, ReceiverInterface &Co
     QIcon icon5(QString::fromUtf8(":/new/prefix1/images/Gnome-video-x-generic.png"));
     m_Icons.insert(5, icon5);
 
-    MsgDistributor::AddResponseListener(this, QStringList() << DisplayDataResponse().getResponseID());
+    MsgDistributor::AddResponseListener(this, QStringList() << DisplayDataResponse_FL().getResponseID());
 }
 
 
@@ -125,7 +125,7 @@ void usbDialog::ShowusbDialog(bool autoShow)
 
 void usbDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    DisplayDataResponse* display = dynamic_cast<DisplayDataResponse*>(response);
+    DisplayDataResponse_FL* display = dynamic_cast<DisplayDataResponse_FL*>(response);
     if (display != NULL)
     {
         QString str, str1;

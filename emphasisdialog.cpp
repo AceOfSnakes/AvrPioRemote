@@ -16,7 +16,7 @@ EmphasisDialog::EmphasisDialog(QWidget *parent, QSettings &settings) :
     connect(ui->bassCh2ComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(BassCh2ComboBoxIndexChanged(int)));
 
     QStringList responseList;
-    responseList << EmphasisResponse().getResponseID();
+    responseList << EmphasisResponse_ILV().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -128,7 +128,7 @@ void EmphasisDialog::ResponseReceived(ReceivedObjectBase *response)
     // 5050385050505050505050505050505050ILV // SC2022 17Ch
 
     // Emphasis
-    EmphasisResponse* em = dynamic_cast<EmphasisResponse*>(response);
+    EmphasisResponse_ILV* em = dynamic_cast<EmphasisResponse_ILV*>(response);
     if (em != NULL)
     {
         const QVector<int>& emphasisData = em->GetEmphasisData();
@@ -275,7 +275,7 @@ void EmphasisDialog::on_resetPushButton_clicked()
 
 void EmphasisDialog::SetChannelString(QString str)
 {
-    EmphasisResponse emph;
+    EmphasisResponse_ILV emph;
     emph.parseString("ILV" + str);
     ResponseReceived(&emph);
     OnSliderReleased();

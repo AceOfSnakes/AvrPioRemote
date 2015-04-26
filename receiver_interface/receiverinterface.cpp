@@ -178,11 +178,7 @@ bool ReceiverInterface::SendCmd(const QString& cmd)
 
 void ReceiverInterface::InterpretString(const QString& data)
 {
-    if (data.startsWith("SS") || data.startsWith("CLV") || data.startsWith("SPK"))
-    {
-        emit SpeakerData(data);
-    }
-    else if (data.startsWith("SR"))
+    if (data.startsWith("SR"))
     {
         QString text = FindValueByKey(LISTENING_MODE, data.mid(2, 4));
         if (text == "")

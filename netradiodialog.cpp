@@ -54,7 +54,7 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
     connect((&m_Comm), SIGNAL(NetData(QString)), this, SLOT(NetData(QString)));
     connect((this),    SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 
-    MsgDistributor::AddResponseListener(this, QStringList() << InputFunctionResponse().getResponseID());
+    MsgDistributor::AddResponseListener(this, QStringList() << InputFunctionResponse_FN().getResponseID());
 
     connect((&m_Timer), SIGNAL(timeout()), this, SLOT(Timeout()));
     connect((&m_PlayTimeTimer), SIGNAL(timeout()), this, SLOT(RefreshPlayTime()));
@@ -124,7 +124,7 @@ void NetRadioDialog::ShowNetDialog(bool autoShow)
 
 void NetRadioDialog::ResponseReceived(ReceivedObjectBase *response)
 {
-    InputFunctionResponse* inputFunction = dynamic_cast<InputFunctionResponse*>(response);
+    InputFunctionResponse_FN* inputFunction = dynamic_cast<InputFunctionResponse_FN*>(response);
     if (inputFunction != NULL)
     {
         int no = inputFunction->getNumber();

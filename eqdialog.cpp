@@ -127,11 +127,11 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings
     connect(ui->saveXCurveCheckBox, SIGNAL(toggled(bool)), this, SLOT(onSaveCheckBoxToggled(bool)));
 
     QStringList responseList;
-    responseList << EQResponse().getResponseID();
-    responseList << ToneResponse().getResponseID();
-    responseList << BassResponse().getResponseID();
-    responseList << TrebleResponse().getResponseID();
-    responseList << XCurveResponse().getResponseID();
+    responseList << EQResponse_ATB().getResponseID();
+    responseList << ToneResponse_TO_ZGA().getResponseID();
+    responseList << BassResponse_BA_ZGB().getResponseID();
+    responseList << TR_ZGG_TrebleResponse().getResponseID();
+    responseList << XCurveResponse_SST().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -384,7 +384,7 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
     }
 
     // EQ
-    EQResponse* eq = dynamic_cast<EQResponse*>(response);
+    EQResponse_ATB* eq = dynamic_cast<EQResponse_ATB*>(response);
     if (eq != NULL)
     {
         const QVector<int>& eqData = eq->GetEQData();
@@ -396,7 +396,7 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
     }
 
     // Tone on/off
-    ToneResponse* tone = dynamic_cast<ToneResponse*>(response);
+    ToneResponse_TO_ZGA* tone = dynamic_cast<ToneResponse_TO_ZGA*>(response);
     if (tone != NULL)
     {
         if (tone->IsToneOn())
@@ -427,7 +427,7 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
     }
 
     // BASS
-    BassResponse* bass = dynamic_cast<BassResponse*>(response);
+    BassResponse_BA_ZGB* bass = dynamic_cast<BassResponse_BA_ZGB*>(response);
     if (bass != NULL)
     {
         if (m_ToneON)
@@ -443,7 +443,7 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
     }
 
     // TREBLE
-    TrebleResponse* treble = dynamic_cast<TrebleResponse*>(response);
+    TR_ZGG_TrebleResponse* treble = dynamic_cast<TR_ZGG_TrebleResponse*>(response);
     if (treble != NULL)
     {
         if (m_ToneON)
@@ -459,7 +459,7 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
     }
 
     // X-Curve
-    XCurveResponse* xcurve = dynamic_cast<XCurveResponse*>(response);
+    XCurveResponse_SST* xcurve = dynamic_cast<XCurveResponse_SST*>(response);
     if (xcurve != NULL)
     {
         SetXCurveSlider(xcurve->GetValue(), ui->XCurveSlider, ui->XCurveLabel);

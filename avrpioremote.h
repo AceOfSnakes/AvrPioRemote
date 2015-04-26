@@ -100,6 +100,7 @@ private:
     bool            m_ReceiverOnline;
     QTranslator     m_Translater;
     QTimer          m_StatusLineTimer;
+    QTimer          m_RefreshTimer;
     QPushButton*    m_SelectedInput;
     QPushButton*    m_SelectedInputZ2;
     QPushButton*    m_SelectedInputZ3;
@@ -145,6 +146,7 @@ private slots:
     void on_MoreButton_clicked();
     void on_VolumeUpButton_clicked();
     void StatusLineTimeout();
+    void RefreshTimeout();
     void on_pushButtonConnect_clicked();
     //void ConnectWorkerErrorString(QString);
     //void onConnectWorkerFinished();

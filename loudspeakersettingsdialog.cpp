@@ -66,14 +66,14 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     ui(new Ui::LoudspeakerSettingsDialog),
     m_Comm(Comm),
     m_PositionSet(false),
-    m_refreshSpeakerSettings(false)
+    m_RefreshSpeakerSettings(false)
 {
     errflag=0;
     bool x922;
     int lsanz=14;
 
     ui->setupUi(this);
-    this->setFixedSize(this->size());
+    //this->setFixedSize(this->size());
 
     // restore the position of the window
     if (m_Settings.value("SaveLSSettingsWindowGeometry", false).toBool())
@@ -84,8 +84,6 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     // communication
 //    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(SpeakerReceived(QString)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
-    connect(&m_Comm,SIGNAL(SpeakerData(QString)),this,SLOT(Speakerinfo(QString)));
-
 
     // save sliders in a list
     m_Sliders.append(ui->sfl);
@@ -104,7 +102,6 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
         connect(slider, SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
     }
 
-
     // save dB value labels in a list
     m_Labels.append(ui->lfl);
     m_Labels.append(ui->lfr);
@@ -119,13 +116,13 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_Labels.append(ui->lfwl);
     m_Labels.append(ui->lfwr);
 
-    m_buttons.append(ui->mc1);
-    m_buttons.append(ui->mc2);
-    m_buttons.append(ui->mc3);
-    m_buttons.append(ui->mc4);
-    m_buttons.append(ui->mc5);
-    m_buttons.append(ui->mc6);
-    foreach (QCheckBox* checkBox, m_buttons) {
+    m_MCACCButtons.append(ui->mc1);
+    m_MCACCButtons.append(ui->mc2);
+    m_MCACCButtons.append(ui->mc3);
+    m_MCACCButtons.append(ui->mc4);
+    m_MCACCButtons.append(ui->mc5);
+    m_MCACCButtons.append(ui->mc6);
+    foreach (QCheckBox* checkBox, m_MCACCButtons) {
         connect(checkBox, SIGNAL(clicked()), this, SLOT(checkbox()));
     }
 
@@ -173,11 +170,26 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
         connect(comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(speakerSettingsComboBoxValueChanged(int)));
     }
 
+    m_XOverButtons << ui->radioButtonXOver50Hz;
+    m_XOverButtons << ui->radioButtonXOver80Hz;
+    m_XOverButtons << ui->radioButtonXOver100Hz;
+    m_XOverButtons << ui->radioButtonXOver150Hz;
+    m_XOverButtons << ui->radioButtonXOver200Hz;
+    foreach( QRadioButton* radio, m_XOverButtons)
+    {
+        connect(radio, SIGNAL(clicked()) ,this, SLOT(XOver_selected()));
+    }
+
 
     QStringList responseList;
-    responseList << MCACCNumberResponse().getResponseID();
-    responseList << ErrorResponse().getResponseID(); //Fehler abfangen beim setzen der LSConfig
-    responseList << SpeakerSettingResponse().getResponseID();
+    responseList << MCACCNumberResponse_MC().getResponseID();
+    responseList << ErrorResponse_B_E().getResponseID(); //Fehler abfangen beim setzen der LSConfig
+    responseList << SpeakerSettingResponse_SSG().getResponseID();
+    responseList << SurroundPositionResponse_SSP().getResponseID();
+    responseList << SpeakerSystemRequest_SSF().getResponseID();
+    responseList << ChannelLevelResponse_CLV().getResponseID();
+    responseList << SpeakerControlRequest_SPK().getResponseID();
+    responseList << XOverResponse_SSQ().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 
@@ -199,14 +211,17 @@ void LoudspeakerSettingsDialog::moveEvent(QMoveEvent* event)
 void LoudspeakerSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
 {
     // mcacc number
-    MCACCNumberResponse* mcacc = dynamic_cast<MCACCNumberResponse*>(response);
+    MCACCNumberResponse_MC* mcacc = dynamic_cast<MCACCNumberResponse_MC*>(response);
     if (mcacc != NULL)
     {
         clear_toggles();
-        m_buttons[mcacc->GetMCACCNumber() - 1]->setChecked(true);
+        m_MCACCButtons[mcacc->GetMCACCNumber() - 1]->setChecked(true);
+        disableControls();
+        ui->groupBoxMcacc->setEnabled(true);
+        requestData();
         return;
     }
-    ErrorResponse* error = dynamic_cast<ErrorResponse*>(response);
+    ErrorResponse_B_E* error = dynamic_cast<ErrorResponse_B_E*>(response);
     if (error != NULL)
     {
         // da keine weitere Unterscheidung hier möglich, generell setzen
@@ -217,81 +232,103 @@ void LoudspeakerSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
         }
         return;
     }
-    SpeakerSettingResponse* sp_setting = dynamic_cast<SpeakerSettingResponse*>(response);
+    SpeakerSettingResponse_SSG* sp_setting = dynamic_cast<SpeakerSettingResponse_SSG*>(response);
     if (sp_setting != NULL)
     {
         int no = sp_setting->getSpeakerNo();
         int setting = sp_setting->getSpeakerSetting();
 
         if (no >= 0 && no < m_SpeakerSettings.size()) {
+            m_SpeakerSettings[no]->setEnabled(true);
             m_SpeakerSettings[no]->blockSignals(true);
             m_SpeakerSettings[no]->setCurrentIndex(setting);
             m_SpeakerSettings[no]->blockSignals(false);
         }
-        ui->groupBoxSpeakerSettings->setEnabled(true);
-        if (m_refreshSpeakerSettings) {
-            m_refreshSpeakerSettings = false;
+        //ui->groupBoxSpeakerSettings->setEnabled(true);
+        if (m_RefreshSpeakerSettings) {
+            m_RefreshSpeakerSettings = false;
             requestSpeakerSettings();
+        }
+        return;
+    }
+    SurroundPositionResponse_SSP* position = dynamic_cast<SurroundPositionResponse_SSP*>(response);
+    if (position != NULL)
+    {
+        ui->groupBoxSurroundPosition->setEnabled(true);
+        if (position->IsOnSide()) {
+            ui->radioButtonSurOnSide->blockSignals(true);
+            ui->radioButtonSurOnSide->setChecked(true);
+            ui->radioButtonSurOnSide->blockSignals(false);
+        } else {
+            ui->radioButtonSurBehind->blockSignals(true);
+            ui->radioButtonSurBehind->setChecked(true);
+            ui->radioButtonSurBehind->blockSignals(false);
+        }
+        return;
+    }
+    SpeakerSystemRequest_SSF* system = dynamic_cast<SpeakerSystemRequest_SSF*>(response);
+    if (system != NULL)
+    {
+        ui->groupBoxSpeakerConfiguration->setEnabled(true);
+        ui->LSsystem->setCurrentIndex(system->GetSpeakerSystem());//aktuelle Konfig
+        mVal = system->GetSpeakerSystem();  //in public speichern zum Vergleich beim setzen
+        return;
+    }
+    ChannelLevelResponse_CLV* level = dynamic_cast<ChannelLevelResponse_CLV*>(response);
+    if (level != NULL)
+    {
+        for (int i = 0; i < m_Sliders.size(); i++)
+        {
+            if(level->GetSpeaker() == channels[i]) {
+                mchannels[i] = level->GetLevel();
+                setslider(i, mchannels[i]);
+                m_Sliders[i]->setEnabled(true);
+            }
+        }
+        return;
+    }
+    SpeakerControlRequest_SPK* control = dynamic_cast<SpeakerControlRequest_SPK*>(response);
+    if (control != NULL)
+    {
+        ui->groupBoxSpeakerControl->setEnabled(true);
+        ui->spa->setChecked(false);
+        ui->spb->setChecked(false);
+        ui->spab->setChecked(false);
+        ui->spoff->setChecked(false);
+        switch (control->GetSpeakerSetup()) {
+        case 0:
+            ui->spoff->setChecked(true);
+            break;
+        case 1:
+            ui->spa->setChecked(true);
+            break;
+        case 2:
+            ui->spb->setChecked(true);
+            break;
+        case 3:
+            ui->spab->setChecked(true);
+            break;
+        default:
+            break;
+        }
+    }
+    XOverResponse_SSQ* xover = dynamic_cast<XOverResponse_SSQ*>(response);
+    if (xover != NULL)
+    {
+        if (xover->GetFrequency() >= 0 && xover->GetFrequency() < m_XOverButtons.size())
+        {
+            m_XOverButtons[xover->GetFrequency()]->setChecked(true);
+            ui->groupBoxXOver->setEnabled(true);
         }
         return;
     }
 }
 
-void LoudspeakerSettingsDialog::Speakerinfo(QString data)
-{
-    QString str;
-    int wert=0;
-    int sysValue = 0;
-   if (data.startsWith("SSF"))
-    {
-        sysValue=data.mid(3,2).toInt();
-        ui->LSsystem->setCurrentIndex(sysValue);//aktuelle Konfig
-        mVal=sysValue;  //in public speichern zum Vergleich beim setzen
-     }
-   if (data.startsWith("CLV"))
-    {
-      sysValue=data.mid(6,2).toInt();
-      str=data.mid(3,3);
-      for (int i=0;i<12;i++)
-      {
-          if(str==channels[i])
-              mchannels[i]=sysValue;
-//          qDebug() <<"arraywert mchannels: " << channels[i] << mchannels[i];
-      }
-      setslider();
-   }
-//  qDebug() << "speakerdaten:" <<data  <<sysValue <<wert;
-   if (data.startsWith("SPK"))
-     {
-       wert=data.mid(3,1).toInt();
-       ui->spa->setChecked(false);
-       ui->spb->setChecked(false);
-       ui->spab->setChecked(false);
-       ui->spoff->setChecked(false);
-       if (wert==1)
-           ui->spa->setChecked(true);
-       else if (wert==2)
-          ui->spb->setChecked(true);
-       else if (wert==3)
-          ui->spab->setChecked(true);
-       else if (wert==0)
-          ui->spoff->setChecked(true);
-     }
-}
-
-
-
-/*void LoudspeakerSettingsDialog::SpeakerReceived(QString data)
-{
-//    qDebug() << "Aus speakerreceived: " <<data;
-}*/
-
-
 void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
 {
-    QString str;
     if (!isVisible())
     {
+        disableControls();
         if (!m_PositionSet || !m_Settings.value("SaveLSSettingsWindowGeometry", false).toBool())
         {
             QWidget* Parent = dynamic_cast<QWidget*>(parent());
@@ -303,16 +340,6 @@ void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
         }
         this->show();
     }
-    SendCmd("?SSF");
-    requestSpeakerSettings();
-// hier aktuellen Channel Level anfordern
-
-    for (int i = 0; i < 12; i++)
-    {
-        str=QString("?%1CLV").arg(channels[i]);
-        SendCmd(str);
-    }
-    SendCmd("?SPK");
     SendCmd("?MC");
 }
 
@@ -433,26 +460,31 @@ void LoudspeakerSettingsDialog::ValueChanged()
 }
 
 
-void LoudspeakerSettingsDialog::setslider()
+void LoudspeakerSettingsDialog::setslider(int idx, int value)
 {
     QString str;
     double j;
+    if (idx < 0 || idx >= 12)
+        return;
+    if (value <= 25 && value >= 75)
+        value = 50;
+    m_Sliders[idx]->blockSignals(true);
+    m_Sliders[idx]->setValue(value);
+    m_Sliders[idx]->setSliderPosition(value);
+    m_Sliders[idx]->blockSignals(false);
+    j = (double) value;
+    j = j / 2 - 25;
+    str = QString("%1").arg(j, 0, 'f', 1);
+    m_Labels[idx]->setText(str);
+}
+
+void LoudspeakerSettingsDialog::setslider()
+{
     for (int i = 0; i < m_Sliders.count(); i++)
     {
-       if (mchannels[i]>25 && mchannels[i]<75)
-        {
-        m_Sliders[i]->setValue(mchannels[i]);
-        m_Sliders[i]->setSliderPosition(mchannels[i]);
-        }
-        else
-        {
-            mchannels[i]=50;
-        }
-        j= (double) mchannels[i];
-        j=j/2-25;
-        str=QString("%1").arg(j,0,'f',1);
-//        qDebug() <<str;
-        m_Labels[i]->setText(str);
+        if (mchannels[i] <= 25 && mchannels[i] >= 75)
+            mchannels[i] = 50;
+        setslider(i, mchannels[i]);
     }
 }
 
@@ -476,21 +508,21 @@ void LoudspeakerSettingsDialog::checkbox()
     str="ui->"+sender->objectName();
     i=str.mid(6,1).toInt()-1;
 //      qDebug()  << "buttonchecked="  <<str <<"I=" <<i << m_buttons[i]->isChecked();
-    if (m_buttons[i]->isChecked())
+    if (m_MCACCButtons[i]->isChecked())
         {
             clear_toggles();
             str=QString("%1MC").arg(i+1);
             SendCmd(str);
             ShowLoudspeakerSettingsDialog();
         }
-        m_buttons[i]->setChecked(true);
+        m_MCACCButtons[i]->setChecked(true);
 }
 
 
 void LoudspeakerSettingsDialog::clear_toggles()
 {
     for (int i=0;i<6;i++)
-    m_buttons[i]->setChecked(false);
+    m_MCACCButtons[i]->setChecked(false);
 }
 
 void LoudspeakerSettingsDialog::on_spa_clicked()
@@ -522,7 +554,7 @@ void LoudspeakerSettingsDialog::speakerSettingsComboBoxValueChanged(int index)
     for(int i = 0; i < m_SpeakerSettings.size(); i++)
     {
         if (sender == m_SpeakerSettings[i]) {
-            m_refreshSpeakerSettings = true;
+            m_RefreshSpeakerSettings = true;
             SendCmd(QString("%1%2SSG").arg(i, 2, 10, QChar('0')).arg(index));
             //QThread::currentThread()->msleep(500);
             //requestSpeakerSettings();
@@ -536,5 +568,70 @@ void LoudspeakerSettingsDialog::requestSpeakerSettings()
     for (int i = 0; i < m_SpeakerSettings.size(); i++)
     {
         SendCmd(QString("?SSG%1").arg(i, 2, 10, QChar('0')));
+    }
+}
+
+void LoudspeakerSettingsDialog::on_radioButtonSurOnSide_clicked()
+{
+    SendCmd("0SSP");
+}
+
+void LoudspeakerSettingsDialog::on_radioButtonSurBehind_clicked()
+{
+    SendCmd("1SSP");
+}
+
+void LoudspeakerSettingsDialog::enableSlider(bool enabled)
+{
+    foreach (QSlider* slider, m_Sliders) {
+        slider->setEnabled(enabled);
+    }
+}
+
+void LoudspeakerSettingsDialog::enableSpeakerSettings(bool enabled)
+{
+    foreach (QComboBox* combo, m_SpeakerSettings) {
+        combo->setEnabled(enabled);
+    }
+}
+
+void LoudspeakerSettingsDialog::disableControls()
+{
+    enableSlider(false);
+    enableSpeakerSettings(false);
+    ui->groupBoxXOver->setEnabled(false);
+    ui->groupBoxMcacc->setEnabled(false);
+    ui->groupBoxSpeakerControl->setEnabled(false);
+    ui->groupBoxSurroundPosition->setEnabled(false);
+    ui->groupBoxSpeakerConfiguration->setEnabled(false);
+}
+
+void LoudspeakerSettingsDialog::requestData()
+{
+    SendCmd("?SSF");
+    requestSpeakerSettings();
+// hier aktuellen Channel Level anfordern
+
+    for (int i = 0; i < 12; i++)
+    {
+        SendCmd(QString("?%1CLV").arg(channels[i]));
+    }
+    SendCmd("?SPK");
+    SendCmd("?SSP");
+    SendCmd("?SSQ");
+}
+
+void LoudspeakerSettingsDialog::XOver_selected()
+{
+    QRadioButton* sender = dynamic_cast<QRadioButton*>(QObject::sender());
+    if (sender == NULL)
+        return;
+    for (int i = 0; i < m_XOverButtons.size(); i++)
+    {
+        if (sender == m_XOverButtons[i])
+        {
+            SendCmd(QString("%1SSQ").arg(i));
+            break;
+        }
     }
 }

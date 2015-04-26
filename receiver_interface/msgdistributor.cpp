@@ -62,32 +62,38 @@ MsgDistributor::~MsgDistributor()
 
 void MsgDistributor::_init()
 {
-    _addResponse(new InputFunctionResponse());
-    _addResponse(new PowerResponse());
-    _addResponse(new DisplayDataResponse());
-    _addResponse(new MCACCNumberResponse());
-    _addResponse(new HDMIPassThroughResponse());
-    _addResponse(new HDMIControlResponse());
-    _addResponse(new HDMIControlModeResponse());
-    _addResponse(new HDMIControlARCResponse());
-    _addResponse(new VolumeResponse());
-    _addResponse(new MuteResponse());
-    _addResponse(new InputNameResponse());
-    _addResponse(new ErrorResponse());
-    _addResponse(new PhaseControlResponse());
-    _addResponse(new HiBitResponse());
-    _addResponse(new PQLSControlResponse());
-    _addResponse(new SoundRetrieverResponse());
-    _addResponse(new EQResponse());
-    _addResponse(new ToneResponse());
-    _addResponse(new BassResponse());
-    _addResponse(new XCurveResponse());
-    _addResponse(new EmphasisResponse());
-    _addResponse(new AudioStatusDataResponse());
-    _addResponse(new VideoStatusDataResponse());
-    _addResponse(new MCACCEQResponse());
-    _addResponse(new SpeakerDistanceResponse());
-    _addResponse(new SpeakerSettingResponse());
+    _addResponse(new InputFunctionResponse_FN());
+    _addResponse(new PowerResponse_PWR_APR_BPR_ZEP());
+    _addResponse(new DisplayDataResponse_FL());
+    _addResponse(new MCACCNumberResponse_MC());
+    _addResponse(new HDMIPassThroughResponse_STU());
+    _addResponse(new HDMIControlResponse_SRQ());
+    _addResponse(new HDMIControlModeResponse_STR());
+    _addResponse(new HDMIControlARCResponse_STT());
+    _addResponse(new VolumeResponse_VOL_ZV_YV());
+    _addResponse(new MuteResponse_MUT_Z2MUT_Z3MUT());
+    _addResponse(new InputNameResponse_RGB());
+    _addResponse(new ErrorResponse_B_E());
+    _addResponse(new PhaseControlResponse_IS());
+    _addResponse(new HiBitResponse_ATI());
+    _addResponse(new PQLSControlResponse_PQ());
+    _addResponse(new SoundRetrieverResponse_ATA());
+    _addResponse(new EQResponse_ATB());
+    _addResponse(new ToneResponse_TO_ZGA());
+    _addResponse(new BassResponse_BA_ZGB());
+    _addResponse(new XCurveResponse_SST());
+    _addResponse(new EmphasisResponse_ILV());
+    _addResponse(new AudioStatusDataResponse_AST());
+    _addResponse(new VideoStatusDataResponse_VST());
+    _addResponse(new MCACCEQResponse_SUW());
+    _addResponse(new SpeakerDistanceResponse_SSS());
+    _addResponse(new SpeakerSettingResponse_SSG());
+    _addResponse(new SurroundPositionResponse_SSP());
+    _addResponse(new SpeakerSystemRequest_SSF());
+    _addResponse(new ChannelLevelResponse_CLV());
+    _addResponse(new SpeakerControlRequest_SPK());
+    _addResponse(new XOverResponse_SSQ());
+    _addResponse(new Response_AUB());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)
@@ -124,11 +130,20 @@ void MsgDistributor::_notifyListener(const QString& str)
 QString MsgDistributor::_getIdFromString(const QString &str)
 {
     QString id;
-    foreach(QChar c, str)
+    if (str.startsWith("Z2MUT"))
+        id = "Z2MUT";
+    else if (str.startsWith("Z3MUT"))
+        id = "Z3MUT";
+    else if (str.startsWith("CLV"))
+        id = "CLV";
+    else
     {
-        if (!c.isLetter())
-            break;
-        id+=c;
+        foreach(QChar c, str)
+        {
+            if (!c.isLetter())
+                break;
+            id+=c;
+        }
     }
     return id;
 }
@@ -137,12 +152,7 @@ QVector<ReceivedObjectBase*> MsgDistributor::_getResponseObjects(const QString &
 {
     QVector<ReceivedObjectBase*> v;
     QString id;
-    if (str.startsWith("Z2MUT"))
-        id = "Z2MUT";
-    else if (str.startsWith("Z3MUT"))
-        id = "Z3MUT";
-    else
-        id = _getIdFromString(str);
+    id = _getIdFromString(str);
     QList<ReceivedObjectBase*> responseList = m_Responses.values(id);
     foreach (ReceivedObjectBase* response, responseList)
     {

@@ -4,300 +4,326 @@
 <context>
     <name>AVRPioRemote</name>
     <message>
-        <location filename="avrpioremote.cpp" line="451"/>
+        <location filename="avrpioremote.cpp" line="465"/>
         <source>ON</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="29"/>
+        <location filename="avrpioremote.ui" line="356"/>
         <source>EQ, LS-Einstellungen, Eingangseditor usw.</source>
         <translation>EQ, Speaker settings, input editor etc.</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="32"/>
+        <location filename="avrpioremote.ui" line="359"/>
         <source>MORE!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="51"/>
+        <location filename="avrpioremote.ui" line="586"/>
         <source>BD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="70"/>
+        <location filename="avrpioremote.ui" line="419"/>
         <source>DVD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="89"/>
+        <location filename="avrpioremote.ui" line="400"/>
         <source>DVR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="108"/>
+        <location filename="avrpioremote.ui" line="733"/>
         <source>HDMI</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="127"/>
+        <location filename="avrpioremote.ui" line="457"/>
         <source>TV</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="146"/>
+        <location filename="avrpioremote.ui" line="804"/>
         <source>CD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="165"/>
+        <location filename="avrpioremote.ui" line="567"/>
         <source>NET</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="184"/>
+        <location filename="avrpioremote.ui" line="903"/>
         <source>ADPT</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="203"/>
+        <location filename="avrpioremote.ui" line="839"/>
         <source>iP/USB</source>
         <oldsource>iPod</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="222"/>
+        <location filename="avrpioremote.ui" line="669"/>
         <source>SAT</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="241"/>
+        <location filename="avrpioremote.ui" line="438"/>
         <source>VIDEO</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="260"/>
+        <location filename="avrpioremote.ui" line="752"/>
         <source>TUNER</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="279"/>
+        <location filename="avrpioremote.ui" line="517"/>
         <source>&lt;-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="295"/>
+        <location filename="avrpioremote.ui" line="605"/>
         <source>-&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="316"/>
+        <location filename="avrpioremote.ui" line="318"/>
         <source>VOLUME</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="332"/>
+        <location filename="avrpioremote.ui" line="647"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="378"/>
-        <location filename="avrpioremote.cpp" line="848"/>
+        <location filename="avrpioremote.ui" line="688"/>
+        <location filename="avrpioremote.cpp" line="862"/>
+        <location filename="avrpioremote.cpp" line="876"/>
         <source>-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="438"/>
+        <location filename="avrpioremote.ui" line="481"/>
         <source>AUTO/ALC/
 DIRECT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="482"/>
+        <location filename="avrpioremote.ui" line="863"/>
         <source>STANDARD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="534"/>
+        <location filename="avrpioremote.ui" line="498"/>
         <source>S.Retr</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="553"/>
+        <location filename="avrpioremote.ui" line="922"/>
         <source>PHASE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="572"/>
+        <location filename="avrpioremote.ui" line="334"/>
         <source>PQLS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="591"/>
+        <location filename="avrpioremote.ui" line="166"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.ui" line="258"/>
         <source>Hi-Bit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="617"/>
-        <location filename="avrpioremote.cpp" line="624"/>
-        <location filename="avrpioremote.cpp" line="654"/>
+        <location filename="avrpioremote.ui" line="628"/>
+        <location filename="avrpioremote.cpp" line="642"/>
+        <location filename="avrpioremote.cpp" line="672"/>
         <source>Connect</source>
         <translation>Connect to Receiver</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="833"/>
+        <location filename="avrpioremote.ui" line="717"/>
         <source>Zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="710"/>
+        <location filename="avrpioremote.ui" line="100"/>
         <source>INPUT NAME</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="400"/>
+        <location filename="avrpioremote.ui" line="771"/>
         <source>Mute</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="460"/>
+        <location filename="avrpioremote.ui" line="383"/>
         <source>ADV
 SURR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="505"/>
+        <location filename="avrpioremote.ui" line="284"/>
         <source>Choose the listening mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="783"/>
+        <location filename="avrpioremote.ui" line="540"/>
         <source>EQ</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="395"/>
+        <location filename="avrpioremote.cpp" line="409"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="451"/>
+        <location filename="avrpioremote.cpp" line="465"/>
         <source>OFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="507"/>
+        <location filename="avrpioremote.cpp" line="521"/>
         <source>This doesn&apos;t work now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="511"/>
+        <location filename="avrpioremote.cpp" line="525"/>
         <source>This doesn&apos;t work with this receiver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="515"/>
+        <location filename="avrpioremote.cpp" line="529"/>
         <source>Command error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="519"/>
+        <location filename="avrpioremote.cpp" line="533"/>
         <source>Parameter error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="523"/>
+        <location filename="avrpioremote.cpp" line="537"/>
         <source>Receiver busy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="527"/>
+        <location filename="avrpioremote.cpp" line="541"/>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="636"/>
+        <location filename="avrpioremote.cpp" line="654"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="639"/>
+        <location filename="avrpioremote.cpp" line="657"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="797"/>
+        <location filename="avrpioremote.cpp" line="812"/>
         <source>Internet Radio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="791"/>
+        <location filename="avrpioremote.cpp" line="880"/>
         <source>BluRay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="407"/>
+        <location filename="avrpioremote.cpp" line="421"/>
         <source>Connecting player...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="801"/>
+        <location filename="avrpioremote.cpp" line="163"/>
+        <source>Receiver</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="171"/>
+        <source>Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="816"/>
         <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="805"/>
+        <location filename="avrpioremote.cpp" line="820"/>
         <source>IPod / USB</source>
         <oldsource>IPod/USB</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="809"/>
+        <location filename="avrpioremote.cpp" line="824"/>
         <source>Equalizer / Tone</source>
         <oldsource>Equalizer/Tone</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="813"/>
+        <location filename="avrpioremote.cpp" line="828"/>
         <source>Speaker Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="817"/>
+        <location filename="avrpioremote.cpp" line="832"/>
         <source>ListenMode Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="821"/>
+        <location filename="avrpioremote.cpp" line="836"/>
         <source>Audio / Video Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="825"/>
+        <location filename="avrpioremote.cpp" line="840"/>
         <source>MCACC Equalizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="829"/>
+        <location filename="avrpioremote.cpp" line="844"/>
         <source>HDMI Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="837"/>
+        <location filename="avrpioremote.cpp" line="852"/>
         <source>Refresh status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="852"/>
+        <location filename="avrpioremote.cpp" line="867"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="856"/>
+        <location filename="avrpioremote.cpp" line="872"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="860"/>
+        <location filename="avrpioremote.cpp" line="884"/>
+        <source>BluRay Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="888"/>
+        <source>Information</source>
+        <translation type="unfinished">A/V Informtion</translation>
+    </message>
+    <message>
+        <location filename="avrpioremote.cpp" line="891"/>
         <source>About AVRPioRemote</source>
         <translation type="unfinished"></translation>
     </message>
@@ -582,8 +608,8 @@ SURR</source>
     </message>
     <message>
         <location filename="aboutdialog.ui" line="43"/>
-        <source>Version 0.1.23</source>
-        <oldsource>Version 0.1.22</oldsource>
+        <source>Version 0.1.25</source>
+        <oldsource>Version 0.1.23</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -650,18 +676,24 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bluraydialog.cpp" line="91"/>
+        <location filename="bluraydialog.cpp" line="63"/>
+        <location filename="bluraydialog.cpp" line="111"/>
+        <source>Blu-Ray player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bluraydialog.cpp" line="109"/>
         <source>ON</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bluraydialog.cpp" line="91"/>
+        <location filename="bluraydialog.cpp" line="109"/>
         <source>OFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bluraydialog.cpp" line="135"/>
-        <location filename="bluraydialog.cpp" line="147"/>
+        <location filename="bluraydialog.cpp" line="157"/>
+        <location filename="bluraydialog.cpp" line="169"/>
         <source>Connect to Player</source>
         <translation type="unfinished"></translation>
     </message>
@@ -783,7 +815,8 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
     </message>
     <message>
         <location filename="bluraydialog.ui" line="783"/>
-        <source>CD/DVD</source>
+        <source>CD/SACD</source>
+        <oldsource>CD/DVD</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -947,7 +980,7 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bluraydialog.cpp" line="126"/>
+        <location filename="bluraydialog.cpp" line="148"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1213,6 +1246,19 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>GraphicLSWidget</name>
+    <message>
+        <location filename="graphiclswidget.cpp" line="17"/>
+        <source>Input LS configuration</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="graphiclswidget.cpp" line="19"/>
+        <source>Output LS configuration</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>HdmiControlDialog</name>
     <message>
         <location filename="hdmicontroldialog.ui" line="14"/>
@@ -1241,9 +1287,27 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>InputFunctionResponse</name>
+    <name>InfoDialog</name>
     <message>
-        <location filename="receiver_interface/response/inputfunctionresponse.cpp" line="91"/>
+        <location filename="infodialog.ui" line="14"/>
+        <source>Information</source>
+        <translation>A/V Informtion</translation>
+    </message>
+    <message>
+        <location filename="infodialog.ui" line="26"/>
+        <source>Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="infodialog.ui" line="42"/>
+        <source>Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InputFunctionResponse_FN</name>
+    <message>
+        <location filename="receiver_interface/response/inputfunctionresponse_fn.cpp" line="92"/>
         <source>unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1282,99 +1346,195 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="26"/>
-        <source>Set Config</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="loudspeakersettingsdialog.ui" line="52"/>
-        <source>Speaker-Config</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="loudspeakersettingsdialog.ui" line="94"/>
-        <source>Speaker</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="loudspeakersettingsdialog.ui" line="107"/>
-        <source>Speaker-Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="loudspeakersettingsdialog.ui" line="120"/>
-        <source>Set Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="loudspeakersettingsdialog.ui" line="146"/>
+        <location filename="loudspeakersettingsdialog.ui" line="1005"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="159"/>
+        <location filename="loudspeakersettingsdialog.ui" line="1018"/>
         <source>Restore</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="472"/>
+        <location filename="loudspeakersettingsdialog.ui" line="942"/>
         <source>to/from file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="485"/>
+        <location filename="loudspeakersettingsdialog.ui" line="272"/>
         <source>Front L/R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="498"/>
+        <location filename="loudspeakersettingsdialog.ui" line="53"/>
+        <location filename="loudspeakersettingsdialog.ui" line="315"/>
         <source>Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="511"/>
+        <location filename="loudspeakersettingsdialog.ui" line="396"/>
         <source>Surr. L/R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="524"/>
+        <location filename="loudspeakersettingsdialog.ui" line="520"/>
         <source>Sub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="781"/>
+        <location filename="loudspeakersettingsdialog.ui" line="477"/>
         <source>SurrBack L/R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="794"/>
+        <location filename="loudspeakersettingsdialog.ui" line="823"/>
+        <source>Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="829"/>
+        <source>Surround:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="836"/>
+        <source>On the side</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="843"/>
+        <source>Behind</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="934"/>
+        <source>Save and restore</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="962"/>
+        <source>User comment:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="1073"/>
+        <source>MCACC memory cell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="1114"/>
         <source>MCACC6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="807"/>
+        <location filename="loudspeakersettingsdialog.ui" line="1079"/>
         <source>MCACC1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="820"/>
+        <location filename="loudspeakersettingsdialog.ui" line="1107"/>
         <source>MCACC5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="833"/>
+        <location filename="loudspeakersettingsdialog.ui" line="1100"/>
         <source>MCACC4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="846"/>
+        <location filename="loudspeakersettingsdialog.ui" line="1093"/>
         <source>MCACC3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="859"/>
+        <location filename="loudspeakersettingsdialog.ui" line="1086"/>
         <source>MCACC2</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="25"/>
+        <source>Speaker settings</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="33"/>
+        <source>Front</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="70"/>
+        <source>Front Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="87"/>
+        <source>Front Wide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="104"/>
+        <source>Surround</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="121"/>
+        <source>Surround Back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="138"/>
+        <source>Subwoofer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="160"/>
+        <source>Channel levels</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="701"/>
+        <source>Speaker configuration</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="741"/>
+        <source>Set</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="779"/>
+        <source>X-Over</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="785"/>
+        <source>50 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="792"/>
+        <source>80 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="799"/>
+        <source>100 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="806"/>
+        <source>150 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="813"/>
+        <source>200 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="loudspeakersettingsdialog.ui" line="866"/>
+        <source>Speaker control</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="loudspeakersettingsdialog.ui" line="872"/>
@@ -1382,65 +1542,59 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="885"/>
+        <location filename="loudspeakersettingsdialog.ui" line="879"/>
         <source>SP B/FH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="898"/>
+        <location filename="loudspeakersettingsdialog.ui" line="886"/>
         <source>SP A+B/FH/SB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="911"/>
+        <location filename="loudspeakersettingsdialog.ui" line="893"/>
         <source>SP OFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="537"/>
+        <location filename="loudspeakersettingsdialog.ui" line="601"/>
         <source>FH L/R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="550"/>
+        <location filename="loudspeakersettingsdialog.ui" line="682"/>
         <source>FW L/R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="563"/>
+        <location filename="loudspeakersettingsdialog.ui" line="178"/>
         <source>0dB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="576"/>
+        <location filename="loudspeakersettingsdialog.ui" line="168"/>
         <source>12dB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="589"/>
+        <location filename="loudspeakersettingsdialog.ui" line="188"/>
         <source>-12dB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loudspeakersettingsdialog.ui" line="602"/>
-        <location filename="loudspeakersettingsdialog.ui" line="615"/>
-        <location filename="loudspeakersettingsdialog.ui" line="628"/>
-        <location filename="loudspeakersettingsdialog.ui" line="641"/>
-        <location filename="loudspeakersettingsdialog.ui" line="654"/>
-        <location filename="loudspeakersettingsdialog.ui" line="667"/>
-        <location filename="loudspeakersettingsdialog.ui" line="680"/>
-        <location filename="loudspeakersettingsdialog.ui" line="693"/>
-        <location filename="loudspeakersettingsdialog.ui" line="706"/>
-        <location filename="loudspeakersettingsdialog.ui" line="719"/>
-        <location filename="loudspeakersettingsdialog.ui" line="732"/>
-        <location filename="loudspeakersettingsdialog.ui" line="745"/>
+        <location filename="loudspeakersettingsdialog.ui" line="212"/>
+        <location filename="loudspeakersettingsdialog.ui" line="242"/>
+        <location filename="loudspeakersettingsdialog.ui" line="289"/>
+        <location filename="loudspeakersettingsdialog.ui" line="336"/>
+        <location filename="loudspeakersettingsdialog.ui" line="366"/>
+        <location filename="loudspeakersettingsdialog.ui" line="417"/>
+        <location filename="loudspeakersettingsdialog.ui" line="447"/>
+        <location filename="loudspeakersettingsdialog.ui" line="494"/>
+        <location filename="loudspeakersettingsdialog.ui" line="541"/>
+        <location filename="loudspeakersettingsdialog.ui" line="571"/>
+        <location filename="loudspeakersettingsdialog.ui" line="622"/>
+        <location filename="loudspeakersettingsdialog.ui" line="652"/>
         <source>0.0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="loudspeakersettingsdialog.ui" line="758"/>
-        <source>mem info:</source>
-        <oldsource>mem info</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1452,164 +1606,224 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="69"/>
-        <location filename="mcacceqdialog.cpp" line="298"/>
+        <location filename="mcacceqdialog.ui" line="28"/>
+        <source>MCACC 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="35"/>
+        <source>MCACC 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="42"/>
+        <source>MCACC 3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="49"/>
+        <source>MCACC 4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="56"/>
+        <source>MCACC 5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="63"/>
+        <source>MCACC 6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="101"/>
+        <location filename="mcacceqdialog.cpp" line="365"/>
         <source>Save to file</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="85"/>
-        <location filename="mcacceqdialog.cpp" line="320"/>
+        <location filename="mcacceqdialog.ui" line="123"/>
+        <location filename="mcacceqdialog.cpp" line="399"/>
         <source>Restore from file</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="126"/>
+        <location filename="mcacceqdialog.ui" line="134"/>
+        <source>Speaker</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="140"/>
         <source>Front Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="139"/>
+        <location filename="mcacceqdialog.ui" line="147"/>
         <source>Front Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="152"/>
+        <location filename="mcacceqdialog.ui" line="154"/>
         <source>Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="165"/>
+        <location filename="mcacceqdialog.ui" line="161"/>
         <source>Surround Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="178"/>
+        <location filename="mcacceqdialog.ui" line="168"/>
         <source>Surround Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="191"/>
+        <location filename="mcacceqdialog.ui" line="175"/>
         <source>Surround Back Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="204"/>
+        <location filename="mcacceqdialog.ui" line="182"/>
         <source>Surround Back Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="217"/>
+        <location filename="mcacceqdialog.ui" line="189"/>
         <source>Front Height Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="230"/>
+        <location filename="mcacceqdialog.ui" line="196"/>
         <source>Front Height Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="243"/>
+        <location filename="mcacceqdialog.ui" line="203"/>
         <source>Front Wide Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="256"/>
+        <location filename="mcacceqdialog.ui" line="210"/>
         <source>Front Wide Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="493"/>
+        <location filename="mcacceqdialog.ui" line="242"/>
+        <source>EQ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="345"/>
         <source>63 Hz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="509"/>
+        <location filename="mcacceqdialog.ui" line="442"/>
         <source>125 Hz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="525"/>
+        <location filename="mcacceqdialog.ui" line="539"/>
         <source>250 Hz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="541"/>
+        <location filename="mcacceqdialog.ui" line="636"/>
         <source>500 Hz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="557"/>
+        <location filename="mcacceqdialog.ui" line="733"/>
         <source>1 kHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="573"/>
+        <location filename="mcacceqdialog.ui" line="830"/>
         <source>2 kHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="589"/>
+        <location filename="mcacceqdialog.ui" line="927"/>
         <source>4 kHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="605"/>
+        <location filename="mcacceqdialog.ui" line="1024"/>
         <source>8 kHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="621"/>
+        <location filename="mcacceqdialog.ui" line="1121"/>
         <source>16 kHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="637"/>
-        <location filename="mcacceqdialog.ui" line="653"/>
-        <location filename="mcacceqdialog.ui" line="669"/>
-        <location filename="mcacceqdialog.ui" line="685"/>
-        <location filename="mcacceqdialog.ui" line="701"/>
-        <location filename="mcacceqdialog.ui" line="717"/>
-        <location filename="mcacceqdialog.ui" line="733"/>
-        <location filename="mcacceqdialog.ui" line="749"/>
-        <location filename="mcacceqdialog.ui" line="765"/>
+        <location filename="mcacceqdialog.ui" line="1136"/>
+        <source>Distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="1160"/>
+        <source>m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="1191"/>
+        <source>set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="1201"/>
+        <source>Immediately</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mcacceqdialog.ui" line="265"/>
+        <location filename="mcacceqdialog.ui" line="365"/>
+        <location filename="mcacceqdialog.ui" line="462"/>
+        <location filename="mcacceqdialog.ui" line="559"/>
+        <location filename="mcacceqdialog.ui" line="656"/>
+        <location filename="mcacceqdialog.ui" line="753"/>
+        <location filename="mcacceqdialog.ui" line="850"/>
+        <location filename="mcacceqdialog.ui" line="947"/>
+        <location filename="mcacceqdialog.ui" line="1044"/>
         <source>0 dB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.ui" line="781"/>
+        <location filename="mcacceqdialog.ui" line="230"/>
         <source>pairwise setting</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="297"/>
+        <location filename="mcacceqdialog.cpp" line="364"/>
         <source>Beware: only the current MCACC memory (No %1) will be saved!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="300"/>
-        <location filename="mcacceqdialog.cpp" line="324"/>
+        <location filename="mcacceqdialog.cpp" line="367"/>
+        <location filename="mcacceqdialog.cpp" line="403"/>
         <source>Restore from...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="301"/>
-        <location filename="mcacceqdialog.cpp" line="325"/>
+        <location filename="mcacceqdialog.cpp" line="368"/>
+        <location filename="mcacceqdialog.cpp" line="404"/>
         <source>Settings file (*.ini)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="319"/>
+        <location filename="mcacceqdialog.cpp" line="398"/>
         <source>Beware: the current MCACC memory (No %1) will be overwritten!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="320"/>
+        <location filename="mcacceqdialog.cpp" line="399"/>
         <source>Continue</source>
         <translation type="unfinished">Continue</translation>
     </message>
     <message>
-        <location filename="mcacceqdialog.cpp" line="320"/>
+        <location filename="mcacceqdialog.cpp" line="399"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1750,24 +1964,24 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="772"/>
+        <location filename="settingsdialog.ui" line="782"/>
         <source>German</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="752"/>
+        <location filename="settingsdialog.ui" line="762"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="765"/>
+        <location filename="settingsdialog.ui" line="775"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="300"/>
-        <location filename="settingsdialog.ui" line="660"/>
-        <location filename="settingsdialog.ui" line="758"/>
+        <location filename="settingsdialog.ui" line="670"/>
+        <location filename="settingsdialog.ui" line="768"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1777,28 +1991,23 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="789"/>
+        <location filename="settingsdialog.ui" line="799"/>
         <source>Show Receiver name in window title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="901"/>
+        <location filename="settingsdialog.ui" line="897"/>
         <source>Zone Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="908"/>
+        <location filename="settingsdialog.ui" line="904"/>
         <source>MCACC Equalizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="947"/>
+        <location filename="settingsdialog.ui" line="943"/>
         <source>Show iPod/USB window automatically</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="803"/>
-        <source>Start logging in Test window (slow)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1813,13 +2022,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="settingsdialog.ui" line="60"/>
-        <location filename="settingsdialog.ui" line="420"/>
+        <location filename="settingsdialog.ui" line="430"/>
         <source>IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="91"/>
-        <location filename="settingsdialog.ui" line="451"/>
+        <location filename="settingsdialog.ui" line="461"/>
         <source>192</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1827,35 +2036,35 @@ p, li { white-space: pre-wrap; }
         <location filename="settingsdialog.ui" line="103"/>
         <location filename="settingsdialog.ui" line="151"/>
         <location filename="settingsdialog.ui" line="199"/>
-        <location filename="settingsdialog.ui" line="463"/>
-        <location filename="settingsdialog.ui" line="511"/>
-        <location filename="settingsdialog.ui" line="559"/>
+        <location filename="settingsdialog.ui" line="473"/>
+        <location filename="settingsdialog.ui" line="521"/>
+        <location filename="settingsdialog.ui" line="569"/>
         <source>.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="139"/>
-        <location filename="settingsdialog.ui" line="499"/>
+        <location filename="settingsdialog.ui" line="509"/>
         <source>168</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="187"/>
         <location filename="settingsdialog.ui" line="235"/>
-        <location filename="settingsdialog.ui" line="547"/>
-        <location filename="settingsdialog.ui" line="595"/>
+        <location filename="settingsdialog.ui" line="557"/>
+        <location filename="settingsdialog.ui" line="605"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="247"/>
-        <location filename="settingsdialog.ui" line="607"/>
+        <location filename="settingsdialog.ui" line="617"/>
         <source>:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="283"/>
-        <location filename="settingsdialog.ui" line="643"/>
+        <location filename="settingsdialog.ui" line="653"/>
         <source>8102</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1881,94 +2090,94 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="699"/>
+        <location filename="settingsdialog.ui" line="406"/>
+        <source>Show Player name in window title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="709"/>
         <location filename="settingsdialog.cpp" line="232"/>
         <location filename="settingsdialog.cpp" line="246"/>
         <source>Connect to Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="746"/>
+        <location filename="settingsdialog.ui" line="756"/>
         <source>Common</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="779"/>
+        <location filename="settingsdialog.ui" line="789"/>
         <source>Русский</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="824"/>
+        <location filename="settingsdialog.ui" line="827"/>
         <source>Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="830"/>
+        <location filename="settingsdialog.ui" line="833"/>
         <source>Restore window position on start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="838"/>
+        <location filename="settingsdialog.ui" line="841"/>
         <source>Main Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="845"/>
+        <location filename="settingsdialog.ui" line="848"/>
         <source>Audio/Video Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="852"/>
+        <location filename="settingsdialog.ui" line="855"/>
         <source>Equalizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="859"/>
+        <location filename="settingsdialog.ui" line="862"/>
         <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="866"/>
+        <location filename="settingsdialog.ui" line="869"/>
         <source>NetRadio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="873"/>
+        <location filename="settingsdialog.ui" line="876"/>
         <source>Speaker settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="880"/>
-        <source>Test window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="887"/>
+        <location filename="settingsdialog.ui" line="883"/>
         <source>Listening mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="894"/>
+        <location filename="settingsdialog.ui" line="890"/>
         <source>iPod/USB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="796"/>
+        <location filename="settingsdialog.ui" line="806"/>
         <source>Show default name of the input line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="990"/>
+        <location filename="settingsdialog.ui" line="986"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="933"/>
+        <location filename="settingsdialog.ui" line="929"/>
         <source>Show Tuner window automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="940"/>
+        <location filename="settingsdialog.ui" line="936"/>
         <source>Show NetRadio window automatically</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1987,33 +2196,58 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="79"/>
+        <location filename="testdialog.ui" line="57"/>
+        <source>Send immediate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="testdialog.ui" line="122"/>
         <source>Log communication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="102"/>
+        <location filename="testdialog.ui" line="129"/>
         <source>Auto scrolling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="129"/>
+        <location filename="testdialog.ui" line="156"/>
         <source>Invert Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="152"/>
-        <location filename="testdialog.ui" line="162"/>
+        <location filename="testdialog.ui" line="179"/>
+        <location filename="testdialog.ui" line="189"/>
         <source>A list of strings separated by space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="155"/>
+        <location filename="testdialog.ui" line="182"/>
         <source>Don&apos;t show if starts with:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="65"/>
+        <location filename="testdialog.ui" line="208"/>
+        <source>Restore window position on start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="testdialog.ui" line="218"/>
+        <source>Save test history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="testdialog.ui" line="228"/>
+        <source>Start logging in Test window (slow)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="testdialog.ui" line="238"/>
+        <source>Save communication filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="testdialog.ui" line="92"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2023,17 +2257,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.ui" line="72"/>
+        <location filename="testdialog.ui" line="99"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.cpp" line="158"/>
+        <location filename="testdialog.cpp" line="238"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="testdialog.cpp" line="159"/>
+        <location filename="testdialog.cpp" line="239"/>
         <source>Log file (*.txt)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2241,9 +2475,9 @@ CUT</source>
     </message>
 </context>
 <context>
-    <name>XCurveResponse</name>
+    <name>XCurveResponse_SST</name>
     <message>
-        <location filename="receiver_interface/response/xcurveresponse.cpp" line="50"/>
+        <location filename="receiver_interface/response/xcurveresponse_sst.cpp" line="51"/>
         <source>OFF</source>
         <translation type="unfinished"></translation>
     </message>

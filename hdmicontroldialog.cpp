@@ -19,15 +19,17 @@ HdmiControlDialog::HdmiControlDialog(QWidget *parent, QSettings& settings, Recei
     }
 
     QStringList mstr;
-    mstr << HDMIPassThroughResponse::GetFunctionNamesList();
+    mstr << HDMIPassThroughResponse_STU::GetFunctionNamesList();
+    ui->standbyPassThroughComboBox->blockSignals(true);
     ui->standbyPassThroughComboBox->addItems(mstr);
+    ui->standbyPassThroughComboBox->blockSignals(false);
 
     QStringList responseList;
-    responseList << PowerResponse().getResponseID();
-    responseList << HDMIPassThroughResponse().getResponseID();
-    responseList << HDMIControlResponse().getResponseID();
-    responseList << HDMIControlModeResponse().getResponseID();
-    responseList << HDMIControlARCResponse().getResponseID();
+    responseList << PowerResponse_PWR_APR_BPR_ZEP().getResponseID();
+    responseList << HDMIPassThroughResponse_STU().getResponseID();
+    responseList << HDMIControlResponse_SRQ().getResponseID();
+    responseList << HDMIControlModeResponse_STR().getResponseID();
+    responseList << HDMIControlARCResponse_STT().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
@@ -90,37 +92,41 @@ void HdmiControlDialog::ShowHdmiControlDialog()
 void HdmiControlDialog::ResponseReceived(ReceivedObjectBase *response)
 {
     // Power
-    PowerResponse* power = dynamic_cast<PowerResponse*>(response);
-    if (power != NULL && power->GetZone() == PowerResponse::ZoneMain)
+    PowerResponse_PWR_APR_BPR_ZEP* power = dynamic_cast<PowerResponse_PWR_APR_BPR_ZEP*>(response);
+    if (power != NULL && power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::ZoneMain)
     {
         m_PowerOn = power->IsPoweredOn();
         return;
     }
     // HDMI pass through
-    HDMIPassThroughResponse* pass_through = dynamic_cast<HDMIPassThroughResponse*>(response);
+    HDMIPassThroughResponse_STU* pass_through = dynamic_cast<HDMIPassThroughResponse_STU*>(response);
     if (pass_through != NULL)
     {
         int n = pass_through->GetPassThroughFunction();
         if (n >= 0 && n < ui->standbyPassThroughComboBox->count())
+        {
+            ui->standbyPassThroughComboBox->blockSignals(true);
             ui->standbyPassThroughComboBox->setCurrentIndex(n);
+            ui->standbyPassThroughComboBox->blockSignals(false);
+        }
         return;
     }
     // HDMI Control
-    HDMIControlResponse* control = dynamic_cast<HDMIControlResponse*>(response);
+    HDMIControlResponse_SRQ* control = dynamic_cast<HDMIControlResponse_SRQ*>(response);
     if (control != NULL)
     {
         ui->hdmiControlCheckBox->setChecked(control->IsHDMIControlOn());
         return;
     }
     // HDMI Control Mode
-    HDMIControlModeResponse* control_mode = dynamic_cast<HDMIControlModeResponse*>(response);
+    HDMIControlModeResponse_STR* control_mode = dynamic_cast<HDMIControlModeResponse_STR*>(response);
     if (control_mode != NULL)
     {
         ui->hdmiControlModeCheckBox->setChecked(control_mode->IsHDMIControlModeOn());
         return;
     }
     // ARC
-    HDMIControlARCResponse* control_arc = dynamic_cast<HDMIControlARCResponse*>(response);
+    HDMIControlARCResponse_STT* control_arc = dynamic_cast<HDMIControlARCResponse_STT*>(response);
     if (control_arc != NULL)
     {
         ui->arcCheckBox->setChecked(control_arc->IsHDMIControlARCOn());
