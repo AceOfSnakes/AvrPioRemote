@@ -1,4 +1,5 @@
 #include "inputfunctionresponse.h"
+#include <cstdio>
 
 QMap<int, QString> InputFunctionResponse::_initMap()
 {

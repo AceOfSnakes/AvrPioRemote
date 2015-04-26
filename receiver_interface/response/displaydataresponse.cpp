@@ -1,4 +1,5 @@
 #include "displaydataresponse.h"
+#include <cstdio>
 
 DisplayDataResponse::DisplayDataResponse()
 {

@@ -1,4 +1,5 @@
 #include "muteresponse.h"
+#include <cstdio>
 
 MuteResponse::MuteResponse() :
     m_Muted(false)

@@ -1,4 +1,5 @@
 #include "phasecontrolresponse.h"
+#include <cstdio>
 
 PhaseControlResponse::PhaseControlResponse() :
     m_PhaseControlOn(false)

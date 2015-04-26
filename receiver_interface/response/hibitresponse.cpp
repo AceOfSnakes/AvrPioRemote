@@ -1,4 +1,5 @@
 #include "hibitresponse.h"
+#include <cstdio>
 
 HiBitResponse::HiBitResponse() :
     m_HiBitOn(false)

@@ -1,4 +1,5 @@
 #include "toneresponse.h"
+#include <cstdio>
 
 ToneResponse::ToneResponse() :
     m_ToneOn(false)

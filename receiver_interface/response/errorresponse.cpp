@@ -1,4 +1,5 @@
 #include "errorresponse.h"
+#include <cstdio>
 
 ErrorResponse::ErrorResponse() :
     m_ErrorType(ErrorUnknown)

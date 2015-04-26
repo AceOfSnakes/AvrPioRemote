@@ -1,4 +1,5 @@
 #include "powerresponse.h"
+#include <cstdio>
 
 PowerResponse::PowerResponse() :
     m_PoweredOn(false)

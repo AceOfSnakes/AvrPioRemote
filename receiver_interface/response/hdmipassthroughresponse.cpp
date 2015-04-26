@@ -1,5 +1,5 @@
 #include "hdmipassthroughresponse.h"
-
+#include <cstdio>
 
 QMap<HDMIPassThroughResponse::PassThroughFunction, QString> HDMIPassThroughResponse::m_NameList = _initNameList();
 

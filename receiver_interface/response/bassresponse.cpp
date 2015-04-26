@@ -1,4 +1,5 @@
 #include "bassresponse.h"
+#include <cstdio>
 
 BassResponse::BassResponse() :
     m_Value(0)

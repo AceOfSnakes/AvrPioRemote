@@ -1,4 +1,5 @@
 #include "pqlscontrolresponse.h"
+#include <cstdio>
 
 PQLSControlResponse::PQLSControlResponse() :
     m_PQLSControlOn(false)

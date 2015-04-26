@@ -1,4 +1,5 @@
 #include "xcurveresponse.h"
+#include <cstdio>
 
 XCurveResponse::XCurveResponse()
 {

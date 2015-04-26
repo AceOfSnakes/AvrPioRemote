@@ -1,4 +1,5 @@
 #include "trebleresponse.h"
+#include <cstdio>
 
 TrebleResponse::TrebleResponse() :
     m_Value(0)

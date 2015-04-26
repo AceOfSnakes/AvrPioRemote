@@ -1,4 +1,5 @@
 #include "hdmicontrolarcresponse.h"
+#include <cstdio>
 
 HDMIControlARCResponse::HDMIControlARCResponse()
 {

@@ -1,4 +1,5 @@
 #include "soundretrieverresponse.h"
+#include <cstdio>
 
 SoundRetrieverResponse::SoundRetrieverResponse() :
     m_SoundRetrieverOn(false)

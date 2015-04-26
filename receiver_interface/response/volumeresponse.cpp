@@ -1,4 +1,5 @@
 #include "volumeresponse.h"
+#include <cstdio>
 
 VolumeResponse::VolumeResponse() :
     m_Volume(0)
