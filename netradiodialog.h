@@ -61,8 +61,13 @@ private:
     QTimer              m_PlayTimeTimer;
     QString             m_PlayFormat;
     QString             m_PlayBitrate;
+    bool                m_NewDataFormat;
+    QString             m_BitsPerSample;
 
     void moveEvent(QMoveEvent*event);
+    void handleTime(QString str);
+    void showAudioInfoLine();
+
 
 public slots:
     void NetData(QString data);

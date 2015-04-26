@@ -40,6 +40,7 @@ NetRadioDialog::NetRadioDialog(QWidget *parent, QSettings &settings, ReceiverInt
     m_PlayTime = 0;
     m_PlayFormat = "-";
     m_PlayBitrate = "-";
+    m_NewDataFormat = false;
 
     ui->setupUi(this);
 
@@ -347,42 +348,33 @@ TIS-620 -- Thai*/
                 ui->AlbumLabel->setText(DisplayLine);
                 break;
             case 23: // Time
-            {
-                uint64_t hour = 0;
-                uint64_t min = 0;
-                uint64_t sec = 0;
-                QStringList list = DisplayLine.split(":", QString::SkipEmptyParts);
-                if (list.count() > 2)
-                {
-                    hour = list[0].toInt();
-                    min = list[1].toInt();
-                    sec = list[2].toInt();
-                }
-                else
-                if (list.count() > 1)
-                {
-                    min = list[0].toInt();
-                    sec = list[1].toInt();
-                }
-                m_PlayTime = QDateTime::currentMSecsSinceEpoch() / 1000ULL - (hour * 3600ULL + min * 60ULL + sec);
-                //ui->TimeLabel->setText(DisplayLine);
-                m_PlayTimeTimer.start(); // resync
-                break;
-            }
+                handleTime(DisplayLine);
             case 24: // Genre
                 ui->GenreLabel->setText(DisplayLine);
                 break;
             case 26: // Format
                 m_PlayFormat = DisplayLine;
-                ui->FormatLabel->setText(m_PlayFormat + " " + m_PlayBitrate);
+                showAudioInfoLine();
                 break;
             case 27: // Bitrate
-            {
-                int bitrate = DisplayLine.toInt() / 1000;
-                m_PlayBitrate = QString("%1kBit/s").arg(bitrate);
-                ui->FormatLabel->setText(m_PlayFormat + " " + m_PlayBitrate);
+                if (m_NewDataFormat) {
+                    m_BitsPerSample = DisplayLine;
+                } else {
+                    int bitrate = DisplayLine.toInt() / 1000;
+                    m_PlayBitrate = QString("%1kBit/s").arg(bitrate);
+                }
+                showAudioInfoLine();
                 break;
-            }
+            case 29: // new format Bitrate
+                if (m_NewDataFormat) {
+                    m_PlayBitrate = DisplayLine;
+                    showAudioInfoLine();
+                }
+                break;
+            case 34:
+                m_NewDataFormat = true;
+                handleTime(DisplayLine);
+                break;
             }
         }
 //        qDebug() << "LineNumber " << LineNumber << " FocusInformation " << FocusInformation
@@ -398,6 +390,37 @@ TIS-620 -- Thai*/
         //qDebug() << "SourceInformation " << SourceInformation;
     }
 }
+
+void NetRadioDialog::showAudioInfoLine()
+{
+    if (m_BitsPerSample == "")
+        ui->FormatLabel->setText(m_PlayFormat + " " + m_PlayBitrate);
+    else
+        ui->FormatLabel->setText(m_PlayFormat + " " + m_BitsPerSample + "/" + m_PlayBitrate);
+}
+
+void NetRadioDialog::handleTime(QString str)
+{
+    uint64_t hour = 0;
+    uint64_t min = 0;
+    uint64_t sec = 0;
+    QStringList list = str.split(":", QString::SkipEmptyParts);
+    if (list.count() > 2)
+    {
+        hour = list[0].toInt();
+        min = list[1].toInt();
+        sec = list[2].toInt();
+    }
+    else if (list.count() > 1)
+    {
+        min = list[0].toInt();
+        sec = list[1].toInt();
+    }
+    m_PlayTime = QDateTime::currentMSecsSinceEpoch() / 1000ULL - (hour * 3600ULL + min * 60ULL + sec);
+    //ui->TimeLabel->setText(DisplayLine);
+    m_PlayTimeTimer.start(); // resync
+}
+
 
 void NetRadioDialog::on_CursorUpButton_clicked()
 {
