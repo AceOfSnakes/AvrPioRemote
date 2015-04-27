@@ -3,11 +3,11 @@
 
 #include "receivedobjectbase.h"
 
-class SpeakerControlRequest_SPK : public ReceivedObjectBase
+class SpeakerControlResponse_SPK : public ReceivedObjectBase
 {
 public:
-    SpeakerControlRequest_SPK();
-    ~SpeakerControlRequest_SPK();
+    SpeakerControlResponse_SPK();
+    ~SpeakerControlResponse_SPK();
     virtual QString getResponseID();
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);

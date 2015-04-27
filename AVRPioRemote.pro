@@ -74,7 +74,6 @@ SOURCES += main.cpp \
     receiver_interface/response/pqlscontrolresponse_pq.cpp \
     receiver_interface/response/powerresponse_pwr_apr_bpr_zep.cpp \
     receiver_interface/response/inputnameresponse_rgb.cpp \
-    receiver_interface/response/speakercontrolrequest_spk.cpp \
     receiver_interface/response/speakersystemrequest_ssf.cpp \
     receiver_interface/response/speakersettingresponse_ssg.cpp \
     receiver_interface/response/surroundpositionresponse_ssp.cpp \
@@ -90,7 +89,8 @@ SOURCES += main.cpp \
     receiver_interface/response/volumeresponse_vol_zv_yv.cpp \
     receiver_interface/response/videostatusdataresponse_vst.cpp \
     receiver_interface/response/xoverresponse_ssq.cpp \
-    receiver_interface/response/response_aub.cpp
+    receiver_interface/response/response_aub.cpp \
+    receiver_interface/response/speakercontrolresponse_spk.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -143,7 +143,6 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/pqlscontrolresponse_pq.h \
     receiver_interface/response/powerresponse_pwr_apr_bpr_zep.h \
     receiver_interface/response/inputnameresponse_rgb.h \
-    receiver_interface/response/speakercontrolrequest_spk.h \
     receiver_interface/response/speakersystemrequest_ssf.h \
     receiver_interface/response/speakersettingresponse_ssg.h \
     receiver_interface/response/surroundpositionresponse_ssp.h \
@@ -159,7 +158,8 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/volumeresponse_vol_zv_yv.h \
     receiver_interface/response/videostatusdataresponse_vst.h \
     receiver_interface/response/xoverresponse_ssq.h \
-    receiver_interface/response/response_aub.h
+    receiver_interface/response/response_aub.h \
+    receiver_interface/response/speakercontrolresponse_spk.h
  
 
 

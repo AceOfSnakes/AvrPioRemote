@@ -1,28 +1,28 @@
 #include "trebleresponse_tr_zgg.h"
 #include <cstdio>
 
-TR_ZGG_TrebleResponse::TR_ZGG_TrebleResponse() :
+TrebleResponse_TR_ZGG::TrebleResponse_TR_ZGG() :
     m_Value(0)
 {
 
 }
 
-TR_ZGG_TrebleResponse::~TR_ZGG_TrebleResponse()
+TrebleResponse_TR_ZGG::~TrebleResponse_TR_ZGG()
 {
 
 }
 
-QStringList TR_ZGG_TrebleResponse::getMsgIDs()
+QStringList TrebleResponse_TR_ZGG::getMsgIDs()
 {
     return QStringList() << "TR" << "ZGC";
 }
 
-QString TR_ZGG_TrebleResponse::getResponseID()
+QString TrebleResponse_TR_ZGG::getResponseID()
 {
     return "TrebleResponse";
 }
 
-bool TR_ZGG_TrebleResponse::parseString(QString str)
+bool TrebleResponse_TR_ZGG::parseString(QString str)
 {
     if (sscanf(str.toLatin1(), "TR%d", &m_Value) == 1)
     {
@@ -37,7 +37,7 @@ bool TR_ZGG_TrebleResponse::parseString(QString str)
     return false;
 }
 
-float TR_ZGG_TrebleResponse::GetdBValue()
+float TrebleResponse_TR_ZGG::GetdBValue()
 {
     float volume_dB = 0;
 
@@ -56,7 +56,7 @@ float TR_ZGG_TrebleResponse::GetdBValue()
     return volume_dB;
 }
 
-QString TR_ZGG_TrebleResponse::GetAsString()
+QString TrebleResponse_TR_ZGG::GetAsString()
 {
     QString str;
     float dBValue = GetdBValue();
@@ -66,7 +66,7 @@ QString TR_ZGG_TrebleResponse::GetAsString()
     return str;
 }
 
-int TR_ZGG_TrebleResponse::GetValue()
+int TrebleResponse_TR_ZGG::GetValue()
 {
     return m_Value;
 }

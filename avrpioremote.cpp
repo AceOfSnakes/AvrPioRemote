@@ -225,6 +225,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     responseList << PQLSControlResponse_PQ().getResponseID();
     responseList << SoundRetrieverResponse_ATA().getResponseID();
     responseList << AudioStatusDataResponse_AST().getResponseID();
+    responseList << Response_AUB().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
 

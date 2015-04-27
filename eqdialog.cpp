@@ -130,7 +130,7 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings
     responseList << EQResponse_ATB().getResponseID();
     responseList << ToneResponse_TO_ZGA().getResponseID();
     responseList << BassResponse_BA_ZGB().getResponseID();
-    responseList << TR_ZGG_TrebleResponse().getResponseID();
+    responseList << TrebleResponse_TR_ZGG().getResponseID();
     responseList << XCurveResponse_SST().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
@@ -443,7 +443,7 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
     }
 
     // TREBLE
-    TR_ZGG_TrebleResponse* treble = dynamic_cast<TR_ZGG_TrebleResponse*>(response);
+    TrebleResponse_TR_ZGG* treble = dynamic_cast<TrebleResponse_TR_ZGG*>(response);
     if (treble != NULL)
     {
         if (m_ToneON)

@@ -81,6 +81,7 @@ void MsgDistributor::_init()
     _addResponse(new EQResponse_ATB());
     _addResponse(new ToneResponse_TO_ZGA());
     _addResponse(new BassResponse_BA_ZGB());
+    _addResponse(new TrebleResponse_TR_ZGG());
     _addResponse(new XCurveResponse_SST());
     _addResponse(new EmphasisResponse_ILV());
     _addResponse(new AudioStatusDataResponse_AST());
@@ -91,7 +92,7 @@ void MsgDistributor::_init()
     _addResponse(new SurroundPositionResponse_SSP());
     _addResponse(new SpeakerSystemRequest_SSF());
     _addResponse(new ChannelLevelResponse_CLV());
-    _addResponse(new SpeakerControlRequest_SPK());
+    _addResponse(new SpeakerControlResponse_SPK());
     _addResponse(new XOverResponse_SSQ());
     _addResponse(new Response_AUB());
 }

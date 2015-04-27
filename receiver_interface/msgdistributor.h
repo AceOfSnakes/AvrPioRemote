@@ -35,7 +35,7 @@
 #include "response/surroundpositionresponse_ssp.h"
 #include "response/speakersystemrequest_ssf.h"
 #include "response/channellevelresponse_clv.h"
-#include "response/speakercontrolrequest_spk.h"
+#include "response/speakercontrolresponse_spk.h"
 #include "response/xoverresponse_ssq.h"
 #include "response/response_aub.h"
 

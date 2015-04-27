@@ -4,11 +4,11 @@
 #include "receivedobjectbase.h"
 #include "zonenumberbase.h"
 
-class TR_ZGG_TrebleResponse : public ReceivedObjectBase, public ZoneNumberBase
+class TrebleResponse_TR_ZGG : public ReceivedObjectBase, public ZoneNumberBase
 {
 public:
-    TR_ZGG_TrebleResponse();
-    ~TR_ZGG_TrebleResponse();
+    TrebleResponse_TR_ZGG();
+    ~TrebleResponse_TR_ZGG();
     virtual QString getResponseID();
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);

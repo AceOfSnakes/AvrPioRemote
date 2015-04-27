@@ -194,14 +194,18 @@ void NetRadioDialog::RefreshPlayTime()
         tmp = tmp - hour * 3600;
         uint64_t min = tmp / 60;
         uint64_t sec = tmp % 60;
+        QString timeString;
         if (hour > 0)
         {
-            ui->TimeLabel->setText(QString("%1:%2:%3").arg(hour, 2, 10, QChar('0')).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')));
+            timeString = QString("%1:%2:%3").arg(hour, 2, 10, QChar('0')).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0'));
         }
         else
         {
-            ui->TimeLabel->setText(QString("%1:%2").arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')));
+            timeString = QString("%1:%2").arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0'));
         }
+        if (m_TotalTime != "" && m_TotalTime != "0:00")
+            timeString += " (" + m_TotalTime + ")";
+        ui->TimeLabel->setText(timeString);
     }
     else
     {
@@ -373,7 +377,8 @@ TIS-620 -- Thai*/
                 break;
             case 34:
                 m_NewDataFormat = true;
-                handleTime(DisplayLine);
+                //handleTime(DisplayLine);
+                m_TotalTime = DisplayLine;
                 break;
             }
         }

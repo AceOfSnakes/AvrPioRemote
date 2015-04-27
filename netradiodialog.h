@@ -63,6 +63,7 @@ private:
     QString             m_PlayBitrate;
     bool                m_NewDataFormat;
     QString             m_BitsPerSample;
+    QString             m_TotalTime;
 
     void moveEvent(QMoveEvent*event);
     void handleTime(QString str);

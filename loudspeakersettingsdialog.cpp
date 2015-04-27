@@ -188,7 +188,7 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     responseList << SurroundPositionResponse_SSP().getResponseID();
     responseList << SpeakerSystemRequest_SSF().getResponseID();
     responseList << ChannelLevelResponse_CLV().getResponseID();
-    responseList << SpeakerControlRequest_SPK().getResponseID();
+    responseList << SpeakerControlResponse_SPK().getResponseID();
     responseList << XOverResponse_SSQ().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 }
@@ -287,7 +287,7 @@ void LoudspeakerSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
         }
         return;
     }
-    SpeakerControlRequest_SPK* control = dynamic_cast<SpeakerControlRequest_SPK*>(response);
+    SpeakerControlResponse_SPK* control = dynamic_cast<SpeakerControlResponse_SPK*>(response);
     if (control != NULL)
     {
         ui->groupBoxSpeakerControl->setEnabled(true);
