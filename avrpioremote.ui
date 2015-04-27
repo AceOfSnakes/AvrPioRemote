@@ -10,6 +10,12 @@
     <height>530</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string notr="true">AVRPioRemote</string>
   </property>
@@ -24,8 +30,15 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>7</pointsize>
+     <family>MS Shell Dlg 2</family>
+     <pointsize>8</pointsize>
+     <weight>9</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="frame">
     <bool>true</bool>
@@ -928,6 +941,7 @@ DIRECT</string>
      <bool>false</bool>
     </property>
    </widget>
+   <zorder>InfoButton</zorder>
   </widget>
   <zorder>movingWidget</zorder>
   <zorder>AudioSampleRateLineEdit</zorder>

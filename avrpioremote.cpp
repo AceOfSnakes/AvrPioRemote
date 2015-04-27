@@ -64,12 +64,17 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
     // add minimize button to to title
-    Qt::WindowFlags flags = Qt::Window | Qt::WindowSystemMenuHint
-            | Qt::WindowMinimizeButtonHint
-            | Qt::WindowCloseButtonHint;
-    this->setWindowFlags(flags);
+    Qt::WindowFlags flags =
+    Qt::CustomizeWindowHint |
+            Qt::WindowMinimizeButtonHint
+            |Qt::WindowMaximizeButtonHint
+            | Qt::WindowCloseButtonHint
+            | Qt::MSWindowsFixedSizeDialogHint;
+//    qDebug()<<"dedede"<<flags;
+    this->setWindowFlags(flags );
     // set not resizeable
     this->setFixedSize(this->size());
+
 
     // restore the position of the window
     if (m_Settings.value("SaveMainWindowGeometry", true).toBool())
@@ -368,7 +373,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
         if (m_usbDialog->isVisible())
             m_usbDialog->hide();
     }
-   
+
     if (m_SelectedInput == ui->InputBdButton || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputBdButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputBdButton))
     {
         m_BluRayDialog->ShowBluRayDialog(true);
@@ -763,7 +768,7 @@ void AVRPioRemote::ClearScreen()
 
 void AVRPioRemote::onConnectBD()
 {
-        ConnectPlayer();
+    ConnectPlayer();
 }
 
 void AVRPioRemote::onConnect()
@@ -874,19 +879,19 @@ void AVRPioRemote::on_MoreButton_clicked()
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_HdmiControlDialog, SLOT(ShowHdmiControlDialog()));
 
-//        pAction = new QAction(tr("Wiring Wizard"), this);
-//        MyMenu.addAction(pAction);
-//        connect(pAction, SIGNAL(triggered()), m_WiringDialog, SLOT(ShowWiringDialog()));
+        //        pAction = new QAction(tr("Wiring Wizard"), this);
+        //        MyMenu.addAction(pAction);
+        //        connect(pAction, SIGNAL(triggered()), m_WiringDialog, SLOT(ShowWiringDialog()));
 
         pAction = new QAction(tr("Refresh status"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), this, SLOT(RequestStatus()));
 
-//        pAction = new QAction("More Information", this);
-//        pAction = new QAction("Equalizer", this);
-//        pAction = new QAction("LS Settings", this);
-//        pAction = new QAction("Show Zone 2", this);
-//        pAction = new QAction("Input Wizard", this);
+        //        pAction = new QAction("More Information", this);
+        //        pAction = new QAction("Equalizer", this);
+        //        pAction = new QAction("LS Settings", this);
+        //        pAction = new QAction("Show Zone 2", this);
+        //        pAction = new QAction("Input Wizard", this);
 
         pAction = new QAction(tr("-"), this);
         pAction->setSeparator(true);

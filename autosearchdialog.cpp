@@ -72,7 +72,11 @@ AutoSearchDialog::AutoSearchDialog(QWidget *parent, bool receiver) :
             m_MulticatsSockets.push_back(socket);
         }
     }
-
+    if(receiver) {
+        ui->label_2->setText(ui->label_2->text().replace(QString("%device%"),tr("receiver")));
+    } else {
+        ui->label_2->setText(ui->label_2->text().replace(QString("%device%"),tr("player")));
+    }
     SendMsg();
     //connect(m_HUpnpWrapper,SIGNAL(NewDevice(QString,QString)), this, SLOT(NewDevice(QString,QString)));
 }
@@ -195,7 +199,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         device->Connect(ip, 23);
         m_RemoteDevices.append(device);
 
-    } else if(remoteSupported.toInt() == 1) {
+    } else if(remoteSupported.toInt() == 1 && modelName.startsWith("BDP")) {
         QString name=QString("%1: (%2:%03)").arg(modelName).arg(ip).arg(remotePort);
         QList<QListWidgetItem*> find = ui->listWidget->findItems(name,Qt::MatchContains| Qt::MatchRecursive);
 

@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Please choose your receiver from the list below.
+      <string>Please choose your %device% from the list below.
 It can take some minutes, so please be patient. If after about 5 minutes your device is still not found, you have to enter the IP address manually.</string>
      </property>
      <property name="textFormat">

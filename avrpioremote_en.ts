@@ -4,326 +4,321 @@
 <context>
     <name>AVRPioRemote</name>
     <message>
-        <location filename="avrpioremote.cpp" line="465"/>
+        <location filename="avrpioremote.cpp" line="483"/>
         <source>ON</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="356"/>
+        <location filename="avrpioremote.ui" line="369"/>
         <source>EQ, LS-Einstellungen, Eingangseditor usw.</source>
         <translation>EQ, Speaker settings, input editor etc.</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="359"/>
+        <location filename="avrpioremote.ui" line="372"/>
         <source>MORE!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="586"/>
+        <location filename="avrpioremote.ui" line="599"/>
         <source>BD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="419"/>
+        <location filename="avrpioremote.ui" line="432"/>
         <source>DVD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="400"/>
+        <location filename="avrpioremote.ui" line="413"/>
         <source>DVR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="733"/>
+        <location filename="avrpioremote.ui" line="746"/>
         <source>HDMI</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="457"/>
+        <location filename="avrpioremote.ui" line="470"/>
         <source>TV</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="804"/>
+        <location filename="avrpioremote.ui" line="817"/>
         <source>CD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="567"/>
+        <location filename="avrpioremote.ui" line="580"/>
         <source>NET</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="903"/>
+        <location filename="avrpioremote.ui" line="916"/>
         <source>ADPT</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="839"/>
+        <location filename="avrpioremote.ui" line="852"/>
         <source>iP/USB</source>
         <oldsource>iPod</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="669"/>
+        <location filename="avrpioremote.ui" line="682"/>
         <source>SAT</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="438"/>
+        <location filename="avrpioremote.ui" line="451"/>
         <source>VIDEO</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="752"/>
+        <location filename="avrpioremote.ui" line="765"/>
         <source>TUNER</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="517"/>
+        <location filename="avrpioremote.ui" line="530"/>
         <source>&lt;-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="605"/>
+        <location filename="avrpioremote.ui" line="618"/>
         <source>-&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="318"/>
+        <location filename="avrpioremote.ui" line="331"/>
         <source>VOLUME</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="647"/>
+        <location filename="avrpioremote.ui" line="660"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="688"/>
-        <location filename="avrpioremote.cpp" line="862"/>
-        <location filename="avrpioremote.cpp" line="876"/>
+        <location filename="avrpioremote.ui" line="701"/>
+        <location filename="avrpioremote.cpp" line="896"/>
+        <location filename="avrpioremote.cpp" line="910"/>
         <source>-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="481"/>
+        <location filename="avrpioremote.ui" line="494"/>
         <source>AUTO/ALC/
 DIRECT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="863"/>
+        <location filename="avrpioremote.ui" line="876"/>
         <source>STANDARD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="498"/>
+        <location filename="avrpioremote.ui" line="511"/>
         <source>S.Retr</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="922"/>
+        <location filename="avrpioremote.ui" line="935"/>
         <source>PHASE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="334"/>
+        <location filename="avrpioremote.ui" line="347"/>
         <source>PQLS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="166"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="avrpioremote.ui" line="258"/>
+        <location filename="avrpioremote.ui" line="271"/>
         <source>Hi-Bit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="628"/>
-        <location filename="avrpioremote.cpp" line="642"/>
-        <location filename="avrpioremote.cpp" line="672"/>
+        <location filename="avrpioremote.ui" line="641"/>
+        <location filename="avrpioremote.cpp" line="673"/>
+        <location filename="avrpioremote.cpp" line="705"/>
         <source>Connect</source>
         <translation>Connect to Receiver</translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="717"/>
+        <location filename="avrpioremote.ui" line="730"/>
         <source>Zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="100"/>
+        <location filename="avrpioremote.ui" line="113"/>
         <source>INPUT NAME</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="771"/>
+        <location filename="avrpioremote.ui" line="784"/>
         <source>Mute</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="383"/>
+        <location filename="avrpioremote.ui" line="396"/>
         <source>ADV
 SURR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="284"/>
+        <location filename="avrpioremote.ui" line="297"/>
         <source>Choose the listening mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.ui" line="540"/>
+        <location filename="avrpioremote.ui" line="553"/>
         <source>EQ</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="409"/>
+        <location filename="avrpioremote.cpp" line="425"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="465"/>
+        <location filename="avrpioremote.cpp" line="483"/>
         <source>OFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="521"/>
+        <location filename="avrpioremote.cpp" line="545"/>
         <source>This doesn&apos;t work now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="525"/>
+        <location filename="avrpioremote.cpp" line="549"/>
         <source>This doesn&apos;t work with this receiver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="529"/>
+        <location filename="avrpioremote.cpp" line="553"/>
         <source>Command error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="533"/>
+        <location filename="avrpioremote.cpp" line="557"/>
         <source>Parameter error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="537"/>
+        <location filename="avrpioremote.cpp" line="561"/>
         <source>Receiver busy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="541"/>
+        <location filename="avrpioremote.cpp" line="565"/>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="654"/>
+        <location filename="avrpioremote.cpp" line="686"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="657"/>
+        <location filename="avrpioremote.cpp" line="689"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="812"/>
+        <location filename="avrpioremote.cpp" line="846"/>
         <source>Internet Radio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="880"/>
+        <location filename="avrpioremote.cpp" line="914"/>
         <source>BluRay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="421"/>
+        <location filename="avrpioremote.cpp" line="437"/>
         <source>Connecting player...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="163"/>
+        <location filename="avrpioremote.cpp" line="173"/>
         <source>Receiver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="171"/>
+        <location filename="avrpioremote.cpp" line="181"/>
         <source>Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="816"/>
+        <location filename="avrpioremote.cpp" line="850"/>
         <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="820"/>
+        <location filename="avrpioremote.cpp" line="854"/>
         <source>IPod / USB</source>
         <oldsource>IPod/USB</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="824"/>
+        <location filename="avrpioremote.cpp" line="858"/>
         <source>Equalizer / Tone</source>
         <oldsource>Equalizer/Tone</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="828"/>
+        <location filename="avrpioremote.cpp" line="862"/>
         <source>Speaker Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="832"/>
+        <location filename="avrpioremote.cpp" line="866"/>
         <source>ListenMode Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="836"/>
+        <location filename="avrpioremote.cpp" line="870"/>
         <source>Audio / Video Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="840"/>
+        <location filename="avrpioremote.cpp" line="874"/>
         <source>MCACC Equalizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="844"/>
+        <location filename="avrpioremote.cpp" line="878"/>
         <source>HDMI Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="852"/>
+        <location filename="avrpioremote.cpp" line="886"/>
         <source>Refresh status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="867"/>
+        <location filename="avrpioremote.cpp" line="901"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="872"/>
+        <location filename="avrpioremote.cpp" line="906"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="884"/>
+        <location filename="avrpioremote.cpp" line="918"/>
         <source>BluRay Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="888"/>
+        <location filename="avrpioremote.cpp" line="922"/>
         <source>Information</source>
         <translation type="unfinished">A/V Informtion</translation>
     </message>
     <message>
-        <location filename="avrpioremote.cpp" line="891"/>
+        <location filename="avrpioremote.cpp" line="925"/>
         <source>About AVRPioRemote</source>
         <translation type="unfinished"></translation>
     </message>
@@ -638,7 +633,7 @@ SURR</source>
     </message>
     <message>
         <location filename="autosearchdialog.ui" line="20"/>
-        <source>Please choose your receiver from the list below.
+        <source>Please choose your %device% from the list below.
 It can take some minutes, so please be patient. If after about 5 minutes your device is still not found, you have to enter the IP address manually.</source>
         <translation></translation>
     </message>
@@ -666,6 +661,16 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
         <location filename="autosearchdialog.ui" line="132"/>
         <source>Continue</source>
         <translation>Continue</translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.cpp" line="76"/>
+        <source>receiver</source>
+        <translation>receiver</translation>
+    </message>
+    <message>
+        <location filename="autosearchdialog.cpp" line="78"/>
+        <source>player</source>
+        <translation>player</translation>
     </message>
 </context>
 <context>
@@ -1832,7 +1837,7 @@ p, li { white-space: pre-wrap; }
     <name>NetRadioDialog</name>
     <message>
         <location filename="netradiodialog.ui" line="26"/>
-        <location filename="netradiodialog.cpp" line="174"/>
+        <location filename="netradiodialog.cpp" line="175"/>
         <source>NetRadio</source>
         <translation type="unfinished"></translation>
     </message>
