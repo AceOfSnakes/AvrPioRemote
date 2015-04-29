@@ -23,9 +23,9 @@ QString Response_AUB::getResponseID()
 
 bool Response_AUB::parseString(QString str)
 {
-    if (str.startsWith("AUB") && str.length() >= 8)
+    if (str.startsWith("AUB") && str.length() > 16)
     {
-        m_HiBit = (str[7] != '0');
+        m_HiBit = (str[16] == '0');
         return true;
     }
     return false;
