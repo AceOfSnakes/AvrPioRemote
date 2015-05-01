@@ -20,6 +20,7 @@ public:
     ~InfoDialog();
     // ResponseListener interface
     void ResponseReceived(ReceivedObjectBase *);
+    void Reset();
 
 private:
     Ui::InfoDialog*             ui;

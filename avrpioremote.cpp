@@ -484,10 +484,15 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
             ui->PowerButton->setText((!m_PowerOn) ? tr("ON") : tr("OFF"));
             EnableControls(m_PowerOn);
             m_ReceiverOnline = m_PowerOn;
-            if (m_PowerOn)
+            if (m_PowerOn) {
                 m_RefreshTimer.start();
-            else
+            }
+            else {
                 m_RefreshTimer.stop();
+                m_InfoDialog->Reset();
+                m_InputLSConfiguration->reset();
+                m_OutputLSConfiguration->reset();
+            }
         }
         else if (power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::Zone2)
         {
@@ -677,6 +682,9 @@ void AVRPioRemote::CommError(QString socketError)
     m_StatusLineTimer.start();
     m_RefreshTimer.stop();
     ui->ZoneControlButton->setEnabled(false);
+    m_InfoDialog->Reset();
+    m_InputLSConfiguration->reset();
+    m_OutputLSConfiguration->reset();
 }
 
 void AVRPioRemote::CommConnected()
@@ -710,6 +718,9 @@ void AVRPioRemote::CommDisconnected()
     ClearScreen();
     ui->ZoneControlButton->setEnabled(false);
     m_RefreshTimer.stop();
+    m_InfoDialog->Reset();
+    m_InputLSConfiguration->reset();
+    m_OutputLSConfiguration->reset();
 }
 
 bool AVRPioRemote::SendCmd(const QString& cmd)

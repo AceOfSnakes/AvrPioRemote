@@ -11,6 +11,7 @@ public:
     GraphicLSWidget(QWidget *parent, bool input);
 
     void makeSmall();
+    void reset();
 //    QSize minimumSizeHint() const;
 //    QSize sizeHint() const;
 

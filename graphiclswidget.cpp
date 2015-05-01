@@ -9,7 +9,7 @@ GraphicLSWidget::GraphicLSWidget(QWidget *parent, bool input)
       m_BoxHeight(22),
       m_IsBig(true)
 {
-    m_CurrentData = "00000000000000000000";
+    reset();
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
     resize(10 + m_BoxWidth * 5, 10 + m_BoxHeight * 6);
@@ -110,11 +110,14 @@ void GraphicLSWidget::paintEvent(QPaintEvent * /* event */)
 void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString str)
 {
     if (m_IsBig) {
-        if (on)
-            painter.setBrush(QBrush(Qt::green)); //style=Qt::ConicalGradientPattern, Qt::TexturePattern, Qt::RadialGradientPattern, Qt::LinearGradientPattern
-        else
+        if (on) {
+            painter.setBrush(QColor(0, 170, 255)/*QBrush(Qt::green)*/); //style=Qt::ConicalGradientPattern, Qt::TexturePattern, Qt::RadialGradientPattern, Qt::LinearGradientPattern
+            painter.setPen(palette().brightText().color());
+        }
+        else {
             painter.setBrush(Qt::NoBrush);
-        painter.setPen(palette().dark().color());
+            painter.setPen(palette().dark().color());
+        }
         painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
         painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
     } else {
@@ -143,5 +146,11 @@ void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString 
 void GraphicLSWidget::NewData(QString str)
 {
     m_CurrentData = str;
+    this->update();
+}
+
+void GraphicLSWidget::reset()
+{
+    m_CurrentData = "00000000000000000000";
     this->update();
 }

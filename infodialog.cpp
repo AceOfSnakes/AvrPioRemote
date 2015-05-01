@@ -113,3 +113,12 @@ void InfoDialog::ResponseReceived(ReceivedObjectBase *response)
         return;
     }
 }
+
+void InfoDialog::Reset()
+{
+    m_AudioInfo = "";
+    m_VideoInfo = "";
+    ui->infoText->setText("AUDIO:\n" + m_AudioInfo + "\nVIDEO:\n" + m_VideoInfo + "\n");
+    inputLSConfiguration->reset();
+    outputLSConfiguration->reset();
+}
