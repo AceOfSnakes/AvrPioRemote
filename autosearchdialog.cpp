@@ -191,6 +191,13 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     }
     eventLoop.quit();
     if (m_FindReceivers) {
+        foreach(RemoteDevice *dev ,m_RemoteDevices) {
+            qDebug()<<ip<<dev->ip;
+            if(QString::compare(ip,dev->ip)==0) {
+                qDebug()<<"already in list"<<ip;
+                return;
+            }
+        }
         RemoteDevice* device = new RemoteDevice();
         connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
         connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
