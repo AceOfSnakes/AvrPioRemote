@@ -481,7 +481,7 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
             SendCmd("?F");
             m_PowerOn = power->IsPoweredOn();
             ui->PowerButton->setIcon((m_PowerOn) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
-            ui->PowerButton->setText((!m_PowerOn) ? tr("ON") : tr("OFF"));
+            //ui->PowerButton->setText((!m_PowerOn) ? tr("ON") : tr("OFF"));
             EnableControls(m_PowerOn);
             m_ReceiverOnline = m_PowerOn;
             if (m_PowerOn) {
