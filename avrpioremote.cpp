@@ -904,10 +904,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         //        pAction = new QAction("LS Settings", this);
         //        pAction = new QAction("Show Zone 2", this);
         //        pAction = new QAction("Input Wizard", this);
-
-        pAction = new QAction(tr("-"), this);
-        pAction->setSeparator(true);
-        MyMenu.addAction(pAction);
+       MyMenu.addSeparator();
+//        pAction = new QAction(tr("-"), this);
+//        pAction->setSeparator(true);
+//        MyMenu.addAction(pAction);
     }
 
     pAction = new QAction(tr("Test"), this);
@@ -919,9 +919,10 @@ void AVRPioRemote::on_MoreButton_clicked()
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_SettingsDialog, SLOT(ShowSettingsDialog()));
 
-    pAction = new QAction(tr("-"), this);
-    pAction->setSeparator(true);
-    MyMenu.addAction(pAction);
+//    pAction = new QAction(tr("-"), this);
+//    pAction->setSeparator(true);
+//    MyMenu.addAction(pAction);
+           MyMenu.addSeparator();
 
     pAction = new QAction(tr("BluRay"), this);
     MyMenu.addAction(pAction);
@@ -930,10 +931,11 @@ void AVRPioRemote::on_MoreButton_clicked()
     pAction = new QAction(tr("BluRay Test"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_PlayerTestDialog, SLOT(ShowTestDialog()));
-
+/*
     pAction = new QAction(tr("Information"), this);
     pAction->setSeparator(true);
-    MyMenu.addAction(pAction);
+    MyMenu.addAction(pAction);*/
+    MyMenu.addSeparator();
     pAction = new QAction(tr("About AVRPioRemote"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), this, SLOT(ShowAboutDialog()));

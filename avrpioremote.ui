@@ -32,7 +32,7 @@
     <font>
      <family>MS Shell Dlg 2</family>
      <pointsize>8</pointsize>
-     <weight>9</weight>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -169,14 +169,32 @@
   <widget class="QToolButton" name="InfoButton">
    <property name="geometry">
     <rect>
-     <x>182</x>
+     <x>185</x>
      <y>100</y>
-     <width>31</width>
-     <height>31</height>
+     <width>32</width>
+     <height>32</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>36</width>
+     <height>32</height>
+    </size>
+   </property>
    <property name="text">
-    <string notr="true">...</string>
+    <string notr="true"/>
    </property>
    <property name="icon">
     <iconset resource="avrpioremote.qrc">
@@ -184,8 +202,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>26</width>
-     <height>26</height>
+     <width>24</width>
+     <height>24</height>
     </size>
    </property>
    <property name="toolButtonStyle">
@@ -205,6 +223,9 @@
     </rect>
    </property>
    <widget class="QToolButton" name="PowerButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>5</x>
@@ -241,8 +262,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>64</width>
-      <height>64</height>
+      <width>48</width>
+      <height>42</height>
      </size>
     </property>
     <property name="checkable">
@@ -941,7 +962,6 @@ DIRECT</string>
      <bool>false</bool>
     </property>
    </widget>
-   <zorder>InfoButton</zorder>
   </widget>
   <zorder>movingWidget</zorder>
   <zorder>AudioSampleRateLineEdit</zorder>
