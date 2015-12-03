@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string notr="true">AVRPioRemote</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="avrpioremote.qrc">
+    <normaloff>:/new/prefix1/pio-icon1.ico</normaloff>:/new/prefix1/pio-icon1.ico</iconset>
+  </property>
   <widget class="QLineEdit" name="InputNameLineEdit">
    <property name="geometry">
     <rect>
