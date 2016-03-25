@@ -35,6 +35,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->tabWidget->setCurrentIndex(0);
 
     ui->TunerVSX922CompatibilityModeCheckBox->setChecked(m_Settings.value("TunerCompatibilityMode", false).toBool());
+    ui->VSX5xxCompatibilityModeCheckBox->setChecked(m_Settings.value("VSX5xxCompatibilityMode", false).toBool());
 
     //this->setFixedSize(this->size());
     this->setModal(true);
@@ -250,6 +251,12 @@ void SettingsDialog::CommDisconnectedBD()
 void SettingsDialog::on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state)
 {
     m_Settings.setValue("TunerCompatibilityMode", (Qt::Checked == state));
+}
+
+
+void SettingsDialog::on_VSX5xxCompatibilityModeCheckBox_stateChanged(int state)
+{
+    m_Settings.setValue("VSX5xxCompatibilityMode", (Qt::Checked == state));
 }
 
 

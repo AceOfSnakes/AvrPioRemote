@@ -112,14 +112,17 @@ void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString 
     if (m_IsBig) {
         if (on) {
             painter.setBrush(QColor(0, 170, 255)/*QBrush(Qt::green)*/); //style=Qt::ConicalGradientPattern, Qt::TexturePattern, Qt::RadialGradientPattern, Qt::LinearGradientPattern
+            painter.setPen(QColor(0, 170, 255));
+            painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
             painter.setPen(palette().brightText().color());
+            painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
         }
         else {
             painter.setBrush(Qt::NoBrush);
             painter.setPen(palette().dark().color());
+            painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
+            painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
         }
-        painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
-        painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
     } else {
         if (on) {
             painter.setPen(Qt::NoPen);

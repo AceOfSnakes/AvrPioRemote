@@ -44,6 +44,7 @@
 #include "hdmicontroldialog.h"
 #include "infodialog.h"
 #include "graphiclswidget.h"
+#include "mcaccprogressdialog.h"
 
 namespace Ui {
 class AVRPioRemote;
@@ -95,6 +96,7 @@ private:
     InfoDialog*                 m_InfoDialog;
     GraphicLSWidget*            m_InputLSConfiguration;
     GraphicLSWidget*            m_OutputLSConfiguration;
+    MCACCProgressDialog*        m_MCACCProgressDialog;
 
     //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;

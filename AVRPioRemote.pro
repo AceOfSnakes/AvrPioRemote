@@ -90,7 +90,9 @@ SOURCES += main.cpp \
     receiver_interface/response/videostatusdataresponse_vst.cpp \
     receiver_interface/response/xoverresponse_ssq.cpp \
     receiver_interface/response/response_aub.cpp \
-    receiver_interface/response/speakercontrolresponse_spk.cpp
+    receiver_interface/response/speakercontrolresponse_spk.cpp \
+    mcaccprogressdialog.cpp \
+    receiver_interface/response/mcaccprogressresponse_ssj.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -159,7 +161,9 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/videostatusdataresponse_vst.h \
     receiver_interface/response/xoverresponse_ssq.h \
     receiver_interface/response/response_aub.h \
-    receiver_interface/response/speakercontrolresponse_spk.h
+    receiver_interface/response/speakercontrolresponse_spk.h \
+    mcaccprogressdialog.h \
+    receiver_interface/response/mcaccprogressresponse_ssj.h
  
 
 
@@ -183,7 +187,8 @@ FORMS    += avrpioremote.ui \
     emphasisdialog.ui \
     labeledslider.ui \
     hdmicontroldialog.ui \
-    infodialog.ui
+    infodialog.ui \
+    mcaccprogressdialog.ui
 
 
 OTHER_FILES += \

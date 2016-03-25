@@ -38,6 +38,7 @@
 #include "response/speakercontrolresponse_spk.h"
 #include "response/xoverresponse_ssq.h"
 #include "response/response_aub.h"
+#include "response/mcaccprogressresponse_ssj.h"
 
 class MsgDistributor
 {

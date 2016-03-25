@@ -95,6 +95,7 @@ void MsgDistributor::_init()
     _addResponse(new SpeakerControlResponse_SPK());
     _addResponse(new XOverResponse_SSQ());
     _addResponse(new Response_AUB());
+    _addResponse(new MCACCProgressResponse_SSJ());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)

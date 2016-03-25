@@ -7,6 +7,7 @@
 #include <QRadioButton>
 #include <QSlider>
 #include <QLabel>
+#include <QPair>
 
 namespace Ui {
 class MCACCEQDialog;
@@ -32,7 +33,7 @@ private:
 
     QVector< QVector<int> > m_EQData;
     QVector<double>         m_Distance;
-    QVector<QRadioButton*>  m_Speakers;
+    QVector<QPair<QString, QRadioButton*> >  m_Speakers;
     QVector<QSlider*>       m_Slider;
     QVector<QLabel*>        m_Labels;
     QVector<QRadioButton*>  m_MCACCButtons;

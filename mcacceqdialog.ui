@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>718</width>
-    <height>395</height>
+    <height>414</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -208,6 +208,13 @@
          <widget class="QRadioButton" name="RadioButtonFrontWideRightCh">
           <property name="text">
            <string>Front Wide Right</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RadioButtonSW">
+          <property name="text">
+           <string>SW</string>
           </property>
          </widget>
         </item>
@@ -1201,6 +1208,19 @@
              <string>Immediately</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_20">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>

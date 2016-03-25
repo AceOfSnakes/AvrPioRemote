@@ -512,10 +512,12 @@ void EQDialog::OnEmphasisSliderReleased()
     if (sender == ui->eqEmphasisCenter)
     {
         m_EmphasisDialog->SetCenter(ui->eqEmphasisCenter->value());
+        SetEmphasisSlider(ui->eqEmphasisCenter->value(), ui->eqEmphasisCenter, ui->wertEmphasisCenter);
     }
     else if (sender == ui->eqEmphasisBass)
     {
         m_EmphasisDialog->SetBass(ui->eqEmphasisBass->value());
+        SetEmphasisSlider(ui->eqEmphasisBass->value(), ui->eqEmphasisBass, ui->wertEmphasisBass);
     }
 }
 
@@ -602,17 +604,13 @@ void EQDialog::on_emphasisPushButton_clicked()
 
 void EQDialog::CenterChanged(int n)
 {
-    ui->eqEmphasisCenter->blockSignals(true);
-    ui->eqEmphasisCenter->setValue(n);
-    ui->eqEmphasisCenter->blockSignals(false);
+    SetEmphasisSlider(n, ui->eqEmphasisCenter, ui->wertEmphasisCenter);
 }
 
 
 void EQDialog::BassChanged(int n)
 {
-    ui->eqEmphasisBass->blockSignals(true);
-    ui->eqEmphasisBass->setValue(n);
-    ui->eqEmphasisBass->blockSignals(false);
+    SetEmphasisSlider(n, ui->eqEmphasisBass, ui->wertEmphasisBass);
 }
 
 

@@ -199,6 +199,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_InfoDialog = new InfoDialog(this, m_Settings, m_ReceiverInterface);
 
+    m_MCACCProgressDialog = new MCACCProgressDialog(this, m_Settings, m_ReceiverInterface);
+
     m_InputLSConfiguration = new GraphicLSWidget(this, true);
     m_InputLSConfiguration->makeSmall();
     m_InputLSConfiguration->move(11, 50);
@@ -247,6 +249,8 @@ AVRPioRemote::~AVRPioRemote()
     delete m_MCACCEQDialog;
     delete m_WiringDialog;
     delete m_HdmiControlDialog;
+    delete m_InfoDialog;
+    delete m_MCACCProgressDialog;
     delete ui;
 }
 
@@ -660,10 +664,12 @@ void AVRPioRemote::RequestStatus(bool input)
         SendCmd("?TR"); // request Treble
         if (input)
             SendCmd("?F"); // request input
-        SendCmd("?IS"); // phase control
-        SendCmd("?ATI"); // Hi-Bit
-        SendCmd("?ATA"); // Hi-Bit
-        SendCmd("?PQ"); // PQLS
+        if (!m_Settings.value("VSX5xxCompatibilityMode", false).toBool()) {
+            SendCmd("?IS"); // phase control
+            SendCmd("?ATI"); // Hi-Bit
+            SendCmd("?ATA"); // Hi-Bit
+            SendCmd("?PQ"); // PQLS
+        }
         SendCmd("?AUB"); // new data (only HiBit flag known)
     }
     //sendCmd("?RGB**"); // request input name information
@@ -890,6 +896,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         pAction = new QAction(tr("HDMI Control"), this);
         MyMenu.addAction(pAction);
         connect(pAction, SIGNAL(triggered()), m_HdmiControlDialog, SLOT(ShowHdmiControlDialog()));
+
+        pAction = new QAction(tr("MCACC Measuring Progress"), this);
+        MyMenu.addAction(pAction);
+        connect(pAction, SIGNAL(triggered()), m_MCACCProgressDialog, SLOT(ShowMCACCProgressDialog()));
 
         //        pAction = new QAction(tr("Wiring Wizard"), this);
         //        MyMenu.addAction(pAction);

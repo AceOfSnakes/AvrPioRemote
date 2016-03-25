@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -37,6 +37,13 @@
          </property>
          <property name="text">
           <string>VSX 922 compatible mode</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="VSX5xxCompatibilityModeCheckBox">
+         <property name="text">
+          <string>VSX 5xx-8xx compatible mode</string>
          </property>
         </widget>
        </item>

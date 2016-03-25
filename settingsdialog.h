@@ -57,6 +57,7 @@ private slots:
     void CommConnectedBD();
     void CommDisconnectedBD();
     void on_TunerVSX922CompatibilityModeCheckBox_stateChanged(int state);
+    void on_VSX5xxCompatibilityModeCheckBox_stateChanged(int state);
     void on_LanguageAutoRadioButton_clicked(bool checked);
     void on_LanguageEnglishRadioButton_clicked(bool checked);
     void on_LanguageGermanRadioButton_clicked(bool checked);
