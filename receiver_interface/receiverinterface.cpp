@@ -194,9 +194,14 @@ void ReceiverInterface::InterpretString(const QString& data)
         emit ListeningModeData(text);
     }
     else if (data.startsWith("GBH") ||
+             data.startsWith("GBP") ||
              data.startsWith("GCH") ||
+             data.startsWith("GCP") ||
              data.startsWith("GDH") ||
+             data.startsWith("GDP") ||
              data.startsWith("GEH") ||
+             data.startsWith("GEP") ||
+             data.startsWith("GHP") ||
              data.startsWith("GHH"))
     {
         emit NetData(data);

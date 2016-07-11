@@ -652,9 +652,11 @@ void AVRPioRemote::RequestStatus(bool input)
 {
     if (m_ReceiverOnline)
     {
+        bool isVSX5XX = m_Settings.value("VSX5xxCompatibilityMode", false).toBool();
         SendCmd("?V"); // volume
         SendCmd("?M"); // mute
-        SendCmd("?FL"); // request display
+        if (!isVSX5XX)
+            SendCmd("?FL"); // request display
         SendCmd("?AST"); // request audio information
         SendCmd("?VST"); // request video information
         SendCmd("?S"); // request listening mode
@@ -664,10 +666,10 @@ void AVRPioRemote::RequestStatus(bool input)
         SendCmd("?TR"); // request Treble
         if (input)
             SendCmd("?F"); // request input
-        if (!m_Settings.value("VSX5xxCompatibilityMode", false).toBool()) {
+        if (!isVSX5XX) {
             SendCmd("?IS"); // phase control
             SendCmd("?ATI"); // Hi-Bit
-            SendCmd("?ATA"); // Hi-Bit
+            SendCmd("?ATA"); // S.Retriever
             SendCmd("?PQ"); // PQLS
         }
         SendCmd("?AUB"); // new data (only HiBit flag known)
@@ -1105,7 +1107,10 @@ void AVRPioRemote::on_InputHdmiButton_clicked()
 void AVRPioRemote::on_InputNetButton_clicked()
 {
     ui->InputNetButton->setChecked(!ui->InputNetButton->isChecked());
-    SendCmd("26FN");
+    if (!m_Settings.value("VSX5xxCompatibilityMode", false).toBool())
+        SendCmd("26FN");
+    else
+        SendCmd("38FN");
 }
 
 void AVRPioRemote::on_InputTunerButton_clicked()

@@ -217,12 +217,12 @@ void NetRadioDialog::RefreshPlayTime()
 void NetRadioDialog::NetData(QString data)
 {
      //qDebug() << " >>> " << data;
-    if (data.startsWith("GBH"))
+    if (data.startsWith("GBH") || data.startsWith("GBP"))
     {
         m_VisibleListSize = data.mid(3, 2).toInt();
          qDebug() << "visible list size " << m_VisibleListSize;
     }
-    else if (data.startsWith("GCH"))
+    else if (data.startsWith("GCH") || data.startsWith("GCP"))
     {
         int ScreenType = data.mid(3, 2).toInt();
         if (ScreenType >= 2 && ScreenType <= 5)
@@ -248,7 +248,7 @@ void NetRadioDialog::NetData(QString data)
 //                 << " TopMenuKey " << topMenuKey << " ToolsKey " << toolsKey
 //                 << " ReturnKey " << returnKey << " ScreenName <" << screenName << ">";
     }
-    else if (data.startsWith("GDH"))
+    else if (data.startsWith("GDH") || data.startsWith("GDP"))
     {
         m_IndexOfLine1 = data.mid(3, 5).toInt();
         m_IndexOfLastLine = data.mid(8, 5).toInt();
@@ -257,7 +257,7 @@ void NetRadioDialog::NetData(QString data)
                  << " IndexOfLastLine " << m_IndexOfLastLine
                  << " TotalNumberOfItems " << m_TotalNumberOfItems;
     }
-    else if (data.startsWith("GEH"))
+    else if (data.startsWith("GEH") || data.startsWith("GEP"))
     {
         int LineNumber = data.mid(3, 2).toInt();
         int FocusInformation = data.mid(5, 1).toInt();
@@ -344,12 +344,14 @@ TIS-620 -- Thai*/
             {
             case 20: // Track
                 ui->TitleLabel->setText(DisplayLine);
+                ui->titleLabel->setText(tr("Title"));
                 break;
             case 21: // Artist
                 ui->ArtistLabel->setText(DisplayLine);
                 break;
             case 22: // Album
                 ui->AlbumLabel->setText(DisplayLine);
+                ui->albumLabel->setText(tr("Album"));
                 break;
             case 23: // Time
                 handleTime(DisplayLine);
@@ -375,7 +377,15 @@ TIS-620 -- Thai*/
                     showAudioInfoLine();
                 }
                 break;
-            case 34:
+            case 32: // Channel
+                ui->TitleLabel->setText(DisplayLine);
+                ui->titleLabel->setText(tr("Channel"));
+                break;
+            case 33: // Station
+                ui->AlbumLabel->setText(DisplayLine);
+                ui->albumLabel->setText(tr("Station"));
+                break;
+            case 34: // total time
                 m_NewDataFormat = true;
                 //handleTime(DisplayLine);
                 m_TotalTime = DisplayLine;
@@ -385,7 +395,7 @@ TIS-620 -- Thai*/
 //        qDebug() << "LineNumber " << LineNumber << " FocusInformation " << FocusInformation
 //                 << " LineDataType " << LineDataType << " DisplayLine <" << DisplayLine << ">";
     }
-    else if (data.startsWith("GHH"))
+    else if (data.startsWith("GHH") || data.startsWith("GHP"))
     {
         if (m_ScreenType != 1)
         {
