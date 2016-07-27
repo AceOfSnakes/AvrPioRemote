@@ -3,14 +3,20 @@
 #include "logger.h"
 #include <QHostAddress>
 #include <QThread>
+#include <QClipboard>
 #include <QRegExp>
 #include <QtNetwork>
 #include <QtXml>
+#include <QMenu>
 
-RemoteDevice::RemoteDevice()
-{
+RemoteDevice::RemoteDevice() {
     port = 0;
     socket = NULL;
+}
+
+RemoteDevice::RemoteDevice(QString &url):RemoteDevice()
+{
+    m_url = url;
 }
 
 void RemoteDevice::Connect(QString ip, int port)
@@ -34,12 +40,13 @@ RemoteDevice::~RemoteDevice()
 }
 
 
-AutoSearchDialog::AutoSearchDialog(QWidget *parent, bool receiver) :
+AutoSearchDialog::AutoSearchDialog(QSettings& settings, QWidget *parent, bool receiver) :
     QDialog(parent),
     m_Result(0),
     m_SelectedPort(0),
     m_GroupAddress("239.255.255.250"),
     m_FindReceivers(receiver),
+    m_Settings(settings),
     ui(new Ui::AutoSearchDialog)
 {
     ui->setupUi(this);
@@ -113,7 +120,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
 
     Logger::Log("Found UPnP device: " + name + " " + ip + " " + location);
     qDebug () << ("Found UPnP device: " + name + " " + ip + " " + location);
-
+    QUrl url = QUrl(location);
     QEventLoop eventLoop;
 
     // "quit()" the event-loop, when the network request "finished()"
@@ -129,7 +136,8 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     QString friendlyName;
     QString modelName;
     QString remoteSupported("0");
-    QString remotePort("8102");
+    QString remotePort(QString::number(url.port()));
+    bool filterBlueRay = m_Settings.value("FilterBlueRay", true).toBool();
     if (reply->error() == QNetworkReply::NoError) {
         //success
         //Get your xml into xmlText(you can use QString instead og QByteArray)
@@ -184,7 +192,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     }
     else {
         //failure
-        qDebug() << "Failure" <<reply->errorString();
+        qDebug() << "Failure" << reply->errorString();
         delete reply;\
         eventLoop.quit();
         return;
@@ -198,16 +206,19 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
                 return;
             }
         }
-        RemoteDevice* device = new RemoteDevice();
+        RemoteDevice* device = new RemoteDevice(location);
         connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
         connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
         connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
         connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
         device->Connect(ip, 23);
         m_RemoteDevices.append(device);
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 2, location);
 
-    } else if(remoteSupported.toInt() == 1 && modelName.startsWith("BDP")) {
-        QString name=QString("%1: (%2:%03)").arg(modelName).arg(ip).arg(remotePort);
+    } else if(!filterBlueRay || (remoteSupported.toInt() == 1 && modelName.startsWith("BDP"))) {
+        QString name=QString(filterBlueRay?
+                                 "%1 (%2:%3)":
+                                 "%4 / %5 / %1 (%2:%03)").arg(modelName).arg(ip).arg(remotePort).arg(manufacturer).arg(friendlyName);
         QList<QListWidgetItem*> find = ui->listWidget->findItems(name,Qt::MatchContains| Qt::MatchRecursive);
 
 //        ui->listWidget->findItems()
@@ -220,8 +231,9 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
             }
             ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, ip);
             ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, remotePort.toInt());
+            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 2, location);
         } else {
-            qDebug()<<name<<"already in list";
+            qDebug() << name << "already in list";
         }
     }
 }
@@ -397,6 +409,8 @@ void AutoSearchDialog::on_listWidget_clicked(const QModelIndex &index)
     //m_SelectedIndex = index.row();
     m_SelectedAddress = ui->listWidget->item(index.row())->data(Qt::UserRole).toString();
     m_SelectedPort = ui->listWidget->item(index.row())->data(Qt::UserRole + 1).toInt();
+    QString url = ui->listWidget->item(index.row())->data(Qt::UserRole + 2).toString();
+    qDebug() << "Yahoo " << m_SelectedAddress << m_SelectedPort << url;
 }
 
 void AutoSearchDialog::on_listWidget_doubleClicked(const QModelIndex &index)
@@ -465,3 +479,25 @@ void AutoSearchDialog::SendMsg()
     }
 }
 
+
+void AutoSearchDialog::on_listWidget_customContextMenuRequested(const QPoint &pos)
+{
+   if(ui->listWidget->currentItem()== NULL ) {
+       return;
+   }
+   if(ui->listWidget->currentItem() != ui->listWidget->itemAt(pos)) {
+       return;
+   }
+   QString url = ui->listWidget->itemAt(pos)->data(Qt::UserRole + 2).toString();
+   if (!url.isEmpty()) {
+       QMenu menu(ui->listWidget);
+       QAction *copyAction = menu.addAction(tr("Copy device URL to clipboard"));
+       QList<QAction*> act;
+       act.append(copyAction);
+       QAction *selectedAction = menu.exec(ui->listWidget->mapToGlobal(pos));
+       if(selectedAction == copyAction) {
+           qDebug() << "In place";
+           QApplication::clipboard()->setText(url);
+       }
+   }
+}

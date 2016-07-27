@@ -7,6 +7,7 @@
 #include <QtNetwork/QTcpSocket>
 #include "logger.h"
 #include <QUdpSocket>
+#include <QSettings>
 
 namespace Ui {
 class AutoSearchDialog;
@@ -15,8 +16,10 @@ class AutoSearchDialog;
 class RemoteDevice : public QObject
 {
     Q_OBJECT
+    QString m_url;
 public:
     RemoteDevice();
+    RemoteDevice(QString &url);
     void Connect(QString ip, int port);
     ~RemoteDevice();
 
@@ -41,10 +44,11 @@ class AutoSearchDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AutoSearchDialog(QWidget *parent = 0, bool receiver = true);
+    explicit AutoSearchDialog(QSettings& settings, QWidget *parent = 0, bool receiver = true);
     ~AutoSearchDialog();
 
     int                     m_Result;
+    QSettings               &m_Settings;
     //int                     m_SelectedIndex;
     QString                 m_SelectedAddress;
     int                     m_SelectedPort;
@@ -71,6 +75,8 @@ private slots:
     void on_repeatButton_clicked();
     void on_listWidget_clicked(const QModelIndex &index);
     void on_listWidget_doubleClicked(const QModelIndex &index);
+
+    void on_listWidget_customContextMenuRequested(const QPoint &pos);
 
 private:
     Ui::AutoSearchDialog *ui;

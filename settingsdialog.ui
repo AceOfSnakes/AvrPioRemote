@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -411,6 +411,13 @@
          </property>
          <property name="text">
           <string>Show Player name in window title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="FilterBlueRay">
+         <property name="text">
+          <string>Filter Blu-Ray on search</string>
          </property>
         </widget>
        </item>

@@ -90,6 +90,8 @@ private slots:
 
     void on_ShowPlayerNameInTitle_clicked();
 
+    void on_FilterBlueRay_clicked();
+
 signals:
     void onConnect();
     void onConnectBD();

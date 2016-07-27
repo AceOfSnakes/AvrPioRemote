@@ -58,6 +58,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
         ui->LanguageEnglishRadioButton->setChecked(true);
     }
     ui->ShowPlayerNameInTitle->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
+    ui->FilterBlueRay->setChecked(m_Settings.value("FilterBlueRay", true).toBool());
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
@@ -80,6 +81,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
+    ui->FilterBlueRay->setChecked(m_Settings.value("FilterBlueRay", true).toBool());
     ui->ShowDefaultInputNameCheckBox->setChecked(m_Settings.value("ShowDefaultInputName", false).toBool());
 
     // configure ip adress edit input
@@ -441,7 +443,7 @@ void SettingsDialog::on_pushButtonAuto_clicked()
     do
     {
         delete m_AutoSearchDialog;
-        m_AutoSearchDialog = new AutoSearchDialog(this);
+        m_AutoSearchDialog = new AutoSearchDialog(m_Settings, this);
         m_AutoSearchDialog->exec();
     } while(m_AutoSearchDialog->m_Result == 2);
     if (m_AutoSearchDialog->m_Result == 1)
@@ -468,7 +470,7 @@ void SettingsDialog::on_pushButtonAuto_BD_clicked()
     do
     {
         delete m_AutoSearchDialog;
-        m_AutoSearchDialog = new AutoSearchDialog(this, false);
+        m_AutoSearchDialog = new AutoSearchDialog(m_Settings, this, false);
         m_AutoSearchDialog->exec();
     } while(m_AutoSearchDialog->m_Result == 2);
     if (m_AutoSearchDialog->m_Result == 1)
@@ -505,4 +507,9 @@ void SettingsDialog::on_pushButtonConnect_BD_clicked()
 void SettingsDialog::on_ShowPlayerNameInTitle_clicked()
 {
     m_Settings.setValue("ShowPlayerNameInTitle", ui->ShowReceiverNameInTitleCheckBox->isChecked());
+}
+
+void SettingsDialog::on_FilterBlueRay_clicked()
+{
+    m_Settings.setValue("FilterBlueRay", ui->FilterBlueRay->isChecked());
 }
