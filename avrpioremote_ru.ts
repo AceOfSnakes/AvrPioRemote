@@ -233,7 +233,7 @@ DIRECT</source>
     </message>
     <message>
         <location filename="avrpioremote.cpp" line="914"/>
-        <source>BluRay</source>
+        <source>Blu-Ray</source>
         <translation></translation>
     </message>
     <message>
@@ -308,7 +308,7 @@ DIRECT</source>
     </message>
     <message>
         <location filename="avrpioremote.cpp" line="918"/>
-        <source>BluRay Test</source>
+        <source>Blu-Ray Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -676,7 +676,7 @@ It can take some minutes, so please be patient. If after about 5 minutes your de
     <name>BluRayDialog</name>
     <message>
         <location filename="bluraydialog.ui" line="26"/>
-        <source>Bluray</source>
+        <source>Blu-Ray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
