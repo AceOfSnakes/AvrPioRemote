@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -387,13 +387,13 @@
      </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>BlueRay</string>
+       <string>Blu-Ray</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <widget class="QCheckBox" name="ShowBlueRayWindowCheckBox">
          <property name="text">
-          <string>Show BlueRay window automatically</string>
+          <string>Show Blu-Ray window automatically</string>
          </property>
         </widget>
        </item>

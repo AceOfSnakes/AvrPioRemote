@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Bluray</string>
+   <string>Blu-Ray</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
    <item>

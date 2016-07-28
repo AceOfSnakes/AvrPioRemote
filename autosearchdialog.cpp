@@ -213,7 +213,6 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
         device->Connect(ip, 23);
         m_RemoteDevices.append(device);
-        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 2, location);
 
     } else if(!filterBlueRay || (remoteSupported.toInt() == 1 && modelName.startsWith("BDP"))) {
         QString name=QString(filterBlueRay?

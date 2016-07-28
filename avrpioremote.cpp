@@ -936,11 +936,11 @@ void AVRPioRemote::on_MoreButton_clicked()
 //    MyMenu.addAction(pAction);
            MyMenu.addSeparator();
 
-    pAction = new QAction(tr("BluRay"), this);
+    pAction = new QAction(tr("Blu-Ray"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_BluRayDialog, SLOT(ManualShowBluRayDialog()));
 
-    pAction = new QAction(tr("BluRay Test"), this);
+    pAction = new QAction(tr("Blu-Ray Test"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_PlayerTestDialog, SLOT(ShowTestDialog()));
 /*

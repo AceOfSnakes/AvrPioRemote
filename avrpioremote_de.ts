@@ -302,7 +302,7 @@ Trennen</translation>
     </message>
     <message>
         <location filename="avrpioremote.cpp" line="914"/>
-        <source>BluRay</source>
+        <source>Blu-Ray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -378,7 +378,7 @@ Trennen</translation>
     </message>
     <message>
         <location filename="avrpioremote.cpp" line="918"/>
-        <source>BluRay Test</source>
+        <source>Blu-Ray Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -755,7 +755,7 @@ Es kann mehrere Minuten dauern, bitte haben Sie geduld. Wenn Ihr Receiver nach e
     <name>BluRayDialog</name>
     <message>
         <location filename="bluraydialog.ui" line="26"/>
-        <source>Bluray</source>
+        <source>Blu-Ray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
