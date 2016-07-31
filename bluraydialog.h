@@ -73,6 +73,7 @@ public slots:
     void onConnect();
     void PlayerOffline(bool);
     void PlayerType (QString name);
+    void UpdateDisplayInfo (QString &track,QString &time);
 private slots:
     void CheckOnline();
     void CheckOnlineInternal();

@@ -18,7 +18,9 @@
 #ifndef PLAYERINTERFACE_H
 #define PLAYERINTERFACE_H
 
+
 #include <QSettings>
+#include <QRegExp>
 #include <QtNetwork/QTcpSocket>
 #include <string>
 #include "logger.h"
@@ -32,11 +34,15 @@ public:
     explicit PlayerInterface();
 
     bool IsConnected();
-
+    QSet<QString>   m_ping_commands;
 private:
     QTcpSocket      m_Socket;
     string          m_ReceivedString;
     bool            m_Connected;
+    int             m_error_count;
+    QRegExp         rx;
+
+
 
     void InterpretString(const QString& data);
 //    QString DecodeHexString(const QString& hex);
@@ -61,6 +67,7 @@ signals:
     void Disconnected();
     void DataReceived(QString);
     void PlayerType (QString name);
+    void UpdateDisplayInfo (QString &track, QString &time);
   //  void InputChanged(int no, QString name);
   //  void Listenextended(QString id, QString name);
   //  void ListeningModeData(QString name);

@@ -25,7 +25,7 @@
 
 string trim(const string &t, const string &ws);
 
-PlayerInterface::PlayerInterface()
+PlayerInterface::PlayerInterface():m_error_count(0),rx("([0-9]{3})([0-9]{3})([0-9]{2})([0-9]{2})([0-9]{2})")
 {
     m_Connected = false;
     // socket
@@ -34,6 +34,9 @@ PlayerInterface::PlayerInterface()
     connect((&m_Socket), SIGNAL(readyRead()), this, SLOT(ReadString()));
     //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
     connect((&m_Socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+    m_ping_commands.insert("?P");
+    m_ping_commands.insert("?L");
+    m_ping_commands.insert("?A");
 }
 
 
@@ -131,7 +134,7 @@ void PlayerInterface::TcpError(QAbstractSocket::SocketError socketError)
     default:
         str = QString("The following error occurred: %1.").arg(m_Socket.errorString());
     }
-     qDebug()<<"PlayerInterface::TcpError";
+     qDebug()<<"PlayerInterface::TcpError"<<socketError;
     emit CommError(str);
 }
 
@@ -144,17 +147,25 @@ bool PlayerInterface::SendCmd(const QString& cmd)
     return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
 }
 
-
-
 void PlayerInterface::InterpretString(const QString& data)
 {
+   QString tmp;
    if (data.startsWith("P0")) {
        emit PlayerOffline(false);
    } else if(data.startsWith("E04")) {
-       emit PlayerOffline(true);
-   }
-   else if (data.startsWith("BDP")) {
+       m_error_count ++;
+       qDebug() << "error_count" << m_error_count << m_ping_commands.size();
+       if(m_error_count == m_ping_commands.size()){
+           emit PlayerOffline(true);
+           qDebug() << "player offline";
+       }
+       return;
+   } else if(rx.exactMatch(data)) {
+       QString tmp;
+       emit UpdateDisplayInfo(rx.cap(1).append(":").append(rx.cap(2)),rx.cap(3).append(":").append(rx.cap(4)).append(":").append(rx.cap(5)));
+   }  else if (data.startsWith("BDP")) {
        emit PlayerType(data);
    }
+   m_error_count = 0;
 }
 
