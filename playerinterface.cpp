@@ -25,8 +25,7 @@
 
 string trim(const string &t, const string &ws);
 
-PlayerInterface::PlayerInterface():m_error_count(0),rxBD("([0-9]{3})([0-9]{3})([0-9]{2})([0-9]{2})([0-9]{2})")
-  ,rxCD("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})")
+PlayerInterface::PlayerInterface():m_error_count(0),rxBD("^([0-9]{3})?([0-9]{2,3})([0-9]{2})([0-9]{2})([0-9]{2})$")
 {
     m_Connected = false;
     // socket
@@ -150,7 +149,7 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 
 void PlayerInterface::InterpretString(const QString& data)
 {
-    QString tmp;
+    bool timeMatch = rxBD.exactMatch(data);
     if (data.startsWith("P0")) {
         emit PlayerOffline(false);
     } else if(data.startsWith("E04")) {
@@ -158,22 +157,13 @@ void PlayerInterface::InterpretString(const QString& data)
         if(m_error_count == m_ping_commands.size()) {
             emit PlayerOffline(true);
         }
-        m_error_count = m_ping_commands.size();
+        else if(m_error_count > m_ping_commands.size()) {
+            m_error_count = m_ping_commands.size();
+        }
         return;
-    } else if(rxBD.exactMatch(data)) {
-        if(rxBD.cap(2) == "000") {
-            emit UpdateDisplayInfo(QString("---:---"), QString("--:--:--"));
-        } else {
-            emit UpdateDisplayInfo(rxBD.cap(1).append(":").append(rxBD.cap(2)),rxBD.cap(3).append(":").append(rxBD.cap(4)).append(":").append(rxBD.cap(5)));
-        }
-    }
-    else if(rxCD.exactMatch(data)) {
-        if(rxBD.cap(1) == "00") {
-            emit UpdateDisplayInfo(QString("---"), QString("--:--:--"));
-        } else {
-            emit UpdateDisplayInfo(rxCD.cap(1),rxCD.cap(2).append(":").append(rxCD.cap(3)).append(":").append(rxCD.cap(4)));
-        }
-    }  else if (data.startsWith("BDP")) {
+    } else if(timeMatch) {
+        emit UpdateDisplayInfo(rxBD);
+    } else if (data.startsWith("BDP")) {
         emit PlayerType(data);
     }
     m_error_count = 0;

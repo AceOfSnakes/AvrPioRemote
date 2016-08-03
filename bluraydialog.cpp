@@ -56,7 +56,7 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     connect((&m_PlayerInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((&m_PlayerInterface), SIGNAL(PlayerOffline(bool)), this,  SLOT(PlayerOffline(bool)));
     connect((&m_PlayerInterface), SIGNAL(PlayerType(QString)), this,  SLOT(PlayerType(QString)));
-    connect((&m_PlayerInterface), SIGNAL(UpdateDisplayInfo(QString&,QString&)), this,  SLOT(UpdateDisplayInfo(QString&,QString&)));
+    connect((&m_PlayerInterface), SIGNAL(UpdateDisplayInfo(QRegExp &)), this,  SLOT(UpdateDisplayInfo(QRegExp &)));
     CheckOnline();
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(CheckOnlineInternal()));
@@ -104,7 +104,18 @@ void BluRayDialog::PlayerType (QString name) {
         this->setWindowTitle(name);
     }
 }
-void BluRayDialog::UpdateDisplayInfo (QString &track,QString &time) {
+void BluRayDialog::UpdateDisplayInfo (QRegExp &rx) {
+    QString time = QString("--:--:--");
+    QString track = QString("---:---");
+    if(!rx.cap(2).endsWith("00") && !rx.cap(2).isEmpty()) {
+        time = rx.cap(3).append(":").append(rx.cap(4)).append(":").append(rx.cap(5));
+        track.clear();
+        if(!rx.cap(1).isEmpty()) {
+            // BD
+            track.append(rx.cap(1)).append(":");
+        }
+        track.append(rx.cap(2));
+    }
     ui->BdTrackLabel->setText(track);
     ui->BdTimeLabel->setText(time);
 }
@@ -115,6 +126,7 @@ void BluRayDialog::PlayerOffline(bool offline) {
     //ui->BdPowerButton->setText((offline) ? tr("ON") : tr("OFF"));
     if(offline) {
         this->setWindowTitle(tr("Blu-Ray player"));
+        UpdateDisplayInfo(QRegExp());
     }
 
     EnableControls(!offline);
@@ -127,7 +139,7 @@ void BluRayDialog::ManualShowBluRayDialog()
 }
 
 void BluRayDialog::ShowBluRayDialog(bool autoShow)
-{   
+{
     if ((!autoShow) || (m_Settings.value("AutoShowBlueRay", false).toBool() && !isVisible()))
     {
         if (!m_PositionSet || !m_Settings.value("SaveBlueRayWindowGeometry", false).toBool())
@@ -300,7 +312,7 @@ void BluRayDialog::onConnect()
 void BluRayDialog::CheckOnlineInternal() {
     if(m_PlayerOnline) {
         foreach (QString ping_command, m_PlayerInterface.m_ping_commands) {
-           SendCmd(ping_command);
+            SendCmd(ping_command);
         }
     }
 }

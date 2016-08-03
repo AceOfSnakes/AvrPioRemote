@@ -41,12 +41,7 @@ private:
     bool            m_Connected;
     int             m_error_count;
     QRegExp         rxBD;
-    QRegExp         rxCD;
-
-
-
     void InterpretString(const QString& data);
-//    QString DecodeHexString(const QString& hex);
 
 private slots:
 
@@ -67,8 +62,8 @@ signals:
     void Connected();
     void Disconnected();
     void DataReceived(QString);
-    void PlayerType (QString name);
-    void UpdateDisplayInfo (QString &track, QString &time);
+    void PlayerType(QString name);
+    void UpdateDisplayInfo(QRegExp&);
   //  void InputChanged(int no, QString name);
   //  void Listenextended(QString id, QString name);
   //  void ListeningModeData(QString name);
