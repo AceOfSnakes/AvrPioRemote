@@ -40,7 +40,8 @@ private:
     string          m_ReceivedString;
     bool            m_Connected;
     int             m_error_count;
-    QRegExp         rx;
+    QRegExp         rxBD;
+    QRegExp         rxCD;
 
 
 
