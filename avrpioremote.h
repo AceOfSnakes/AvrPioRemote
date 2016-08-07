@@ -19,6 +19,7 @@
 #define AVRPIOREMOTE_H
 
 #include <QDialog>
+#include <QMainWindow>
 #include <QMenu>
 #include <QThread>
 #include "Defs.h"
@@ -60,7 +61,7 @@ class AVRPioRemote;
 //};
 
 
-class AVRPioRemote : public QDialog, public ResponseListener
+class AVRPioRemote : public QMainWindow, public ResponseListener
 {
     Q_OBJECT
     
@@ -123,6 +124,7 @@ private:
 
     void closeEvent(QCloseEvent *event);
     void changeEvent(QEvent *e);
+    bool eventFilter(QObject *obj, QEvent *event);
     QVector<QPushButton*> m_InputButtons;
 
 private:
@@ -139,6 +141,7 @@ public slots:
     void ReceiverNetworkName (QString name);
     void onConnect();
     void onConnectBD();
+    void quit();
 private slots:
     void CommError(QString socketError);
     void CommConnected();

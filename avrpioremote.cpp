@@ -22,9 +22,11 @@
 #include "actionwithparameter.h"
 #include <QWidget>
 #include <QSizePolicy>
+#include <QIcon>
+#include <QtSvg>
 
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
-    QDialog(parent),
+    QMainWindow(parent, Qt::FramelessWindowHint),
     ui(new Ui::AVRPioRemote),
     m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
     m_StatusLineTimer(this),
@@ -64,17 +66,53 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
     // add minimize button to to title
-    Qt::WindowFlags flags =
-    Qt::CustomizeWindowHint |
-            Qt::WindowMinimizeButtonHint
-            |Qt::WindowMaximizeButtonHint
-            | Qt::WindowCloseButtonHint
-            | Qt::MSWindowsFixedSizeDialogHint;
-//    qDebug()<<"dedede"<<flags;
-    this->setWindowFlags(flags );
-    // set not resizeable
-    this->setFixedSize(this->size());
+//    Qt::WindowFlags flags =
+//    Qt::CustomizeWindowHint |
+//            Qt::WindowMinimizeButtonHint
+//            |Qt::WindowMaximizeButtonHint
+//            | Qt::WindowCloseButtonHint
+//            | Qt::MSWindowsFixedSizeDialogHint;
+//    this->setWindowFlags(flags );
 
+//    QtSvg library
+//    plugin iconengines/libqsvgicon.dll
+//    plugin imageformats/libqsvg.dll
+//    the dependencies: QtCore, QtGui, QtXml library
+
+//    QStringList libPaths = QCoreApplication::libraryPaths();
+//    libPaths << QCoreApplication::applicationDirPath()
+//                 + "/plugins";
+//    QCoreApplication::setLibraryPaths(libPaths);
+
+    //this->statusBar()->setSizeGripEnabled(false);
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    //setWindowFlags(Qt::FramelessWindowHint);
+    //QIcon pixmap("J:\\Projekte\\blue-bkgnd.svg");
+    int padding_left = 10;
+    int padding_right = 8;
+    int padding_top = 60;
+    int padding_bottom = 20;
+    int width = size().width();
+    int height = size().height();
+    QString path = QCoreApplication::applicationDirPath() + "/theme/bkgnd.png";
+    qDebug() << path;
+    QPixmap pixmap(path);
+    //QPixmap pixmap("J:\\Projekte\\blue-bkgnd2.png");
+    pixmap = pixmap.scaled(width + padding_left + padding_right, height + padding_top + padding_bottom);
+    //qDebug() << pixmap;
+    ui->centralWidget->setPixmap(pixmap);
+    //ui->centralWidget->setPixmap(pixmap.pixmap(QSize()));
+    //qDebug() << QImageReader::supportedImageFormats();
+    //qDebug() << pixmap.availableSizes();
+
+//    qDebug()<<"dedede"<<flags;
+    // set not resizeable
+    this->setFixedSize(width + padding_left + padding_right, height + padding_top + padding_bottom);
+    ui->mainWidget->move(padding_left, padding_top);
+    QPushButton *exitButton = new QPushButton(ui->centralWidget);
+    exitButton->setText("Exit");
+    exitButton->move(width + padding_left - padding_right - exitButton->width(), 30);
+    connect(exitButton, SIGNAL(clicked()), this, SLOT(quit()));
 
     // restore the position of the window
     if (m_Settings.value("SaveMainWindowGeometry", true).toBool())
@@ -203,10 +241,10 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     m_InputLSConfiguration = new GraphicLSWidget(this, true);
     m_InputLSConfiguration->makeSmall();
-    m_InputLSConfiguration->move(11, 50);
+    m_InputLSConfiguration->move(11 + padding_left, 50 + padding_top);
     m_OutputLSConfiguration = new GraphicLSWidget(this, false);
     m_OutputLSConfiguration->makeSmall();
-    m_OutputLSConfiguration->move(164, 50);
+    m_OutputLSConfiguration->move(164 + padding_left, 50 + padding_top);
 
     // disable controls
     EnableControls(false);
@@ -260,12 +298,12 @@ void AVRPioRemote::closeEvent(QCloseEvent *event)
     m_ReceiverInterface.Disconnect();
     // save the window position
     m_Settings.setValue("MainWindowGeometry", saveGeometry());
-    QDialog::closeEvent(event);
+    QMainWindow::closeEvent(event);
 }
 
 void AVRPioRemote::changeEvent(QEvent *e)
 {
-    QDialog::changeEvent(e);
+    QMainWindow::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
@@ -275,6 +313,29 @@ void AVRPioRemote::changeEvent(QEvent *e)
     }
 }
 
+bool AVRPioRemote::eventFilter(QObject *obj, QEvent *event)
+{
+    static bool mouse_down = false;
+    static int x_rel_pos = 0;
+    static int y_rel_pos = 0;
+    QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+    if (event->type() == QEvent::MouseButtonPress) {
+        mouse_down = true;
+        x_rel_pos = mouseEvent->globalPos().x() - x();
+        y_rel_pos = mouseEvent->globalPos().y() - y();
+    } else if (event->type() == QEvent::MouseButtonRelease) {
+        mouse_down = false;
+    } else if (event->type() == QEvent::MouseMove) {
+        if (mouse_down)
+            this->move(x() - (x() - mouseEvent->globalPos().x()) - x_rel_pos, y() - (y() - mouseEvent->globalPos().y()) - y_rel_pos);
+    }
+    return false;
+}
+
+void AVRPioRemote::quit()
+{
+    this->close();
+}
 
 void AVRPioRemote::StatusLineTimeout()
 {
