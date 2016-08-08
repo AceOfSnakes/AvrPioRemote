@@ -23,7 +23,10 @@
 #include <QWidget>
 #include <QSizePolicy>
 #include <QIcon>
-#include <QtSvg>
+//#include <QtSvg>
+#ifdef Q_OS_LINUX
+#include <QtX11Extras/qx11info_x11.h>
+#endif
 
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QMainWindow(parent, Qt::FramelessWindowHint),
@@ -85,7 +88,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 //    QCoreApplication::setLibraryPaths(libPaths);
 
     //this->statusBar()->setSizeGripEnabled(false);
-    setAttribute(Qt::WA_TranslucentBackground, true);
+
+
     //setWindowFlags(Qt::FramelessWindowHint);
     //QIcon pixmap("J:\\Projekte\\blue-bkgnd.svg");
     int padding_left = 10;
@@ -97,6 +101,23 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QString path = QCoreApplication::applicationDirPath() + "/theme/bkgnd.png";
     qDebug() << path;
     QPixmap pixmap(path);
+    if(pixmap.height() > 0) {
+#ifdef Q_OS_LINUX
+        if(QX11Info::isPlatformX11() ){
+            if(QX11Info::isCompositingManagerRunning()) {
+                setAttribute(Qt::WA_TranslucentBackground);
+            }
+        }
+#else
+        {
+            setAttribute(Qt::WA_TranslucentBackground);
+        }
+#endif
+    }
+                       else {
+                       qDebug()<<pixmap.height();
+        }
+
     //QPixmap pixmap("J:\\Projekte\\blue-bkgnd2.png");
     pixmap = pixmap.scaled(width + padding_left + padding_right, height + padding_top + padding_bottom);
     //qDebug() << pixmap;
