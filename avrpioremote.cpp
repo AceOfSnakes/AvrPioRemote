@@ -23,13 +23,14 @@
 #include <QWidget>
 #include <QSizePolicy>
 #include <QIcon>
+#include "themereader.h"
 //#include <QtSvg>
 #ifdef Q_OS_LINUX
 #include <QtX11Extras/qx11info_x11.h>
 #endif
 
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
-    QMainWindow(parent, Qt::FramelessWindowHint),
+    QMainWindow(parent),
     ui(new Ui::AVRPioRemote),
     m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
     m_StatusLineTimer(this),
@@ -48,6 +49,10 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_Connected       = false;
     m_PassThroughLast = false;
 
+    padding_left = 0;
+    padding_right = 0;
+    padding_top = 0;
+    padding_bottom = 0;
 
     QString lang = m_Settings.value("Language", "auto").toString();
     if (lang == "auto")
@@ -68,6 +73,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     }
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
+    width = size().width();
+    height = size().height();
     // add minimize button to to title
 //    Qt::WindowFlags flags =
 //    Qt::CustomizeWindowHint |
@@ -77,63 +84,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 //            | Qt::MSWindowsFixedSizeDialogHint;
 //    this->setWindowFlags(flags );
 
-//    QtSvg library
-//    plugin iconengines/libqsvgicon.dll
-//    plugin imageformats/libqsvg.dll
-//    the dependencies: QtCore, QtGui, QtXml library
-
-//    QStringList libPaths = QCoreApplication::libraryPaths();
-//    libPaths << QCoreApplication::applicationDirPath()
-//                 + "/plugins";
-//    QCoreApplication::setLibraryPaths(libPaths);
-
-    //this->statusBar()->setSizeGripEnabled(false);
-
-
-    //setWindowFlags(Qt::FramelessWindowHint);
-    //QIcon pixmap("J:\\Projekte\\blue-bkgnd.svg");
-    int padding_left = 10;
-    int padding_right = 8;
-    int padding_top = 60;
-    int padding_bottom = 20;
-    int width = size().width();
-    int height = size().height();
-    QString path = QCoreApplication::applicationDirPath() + "/theme/bkgnd.png";
-    qDebug() << path;
-    QPixmap pixmap(path);
-    if(pixmap.height() > 0) {
-#ifdef Q_OS_LINUX
-        if(QX11Info::isPlatformX11() ){
-            if(QX11Info::isCompositingManagerRunning()) {
-                setAttribute(Qt::WA_TranslucentBackground);
-            }
-        }
-#else
-        {
-            setAttribute(Qt::WA_TranslucentBackground);
-        }
-#endif
-    }
-                       else {
-                       qDebug()<<pixmap.height();
-        }
-
-    //QPixmap pixmap("J:\\Projekte\\blue-bkgnd2.png");
-    pixmap = pixmap.scaled(width + padding_left + padding_right, height + padding_top + padding_bottom);
-    //qDebug() << pixmap;
-    ui->centralWidget->setPixmap(pixmap);
-    //ui->centralWidget->setPixmap(pixmap.pixmap(QSize()));
-    //qDebug() << QImageReader::supportedImageFormats();
-    //qDebug() << pixmap.availableSizes();
-
-//    qDebug()<<"dedede"<<flags;
-    // set not resizeable
-    this->setFixedSize(width + padding_left + padding_right, height + padding_top + padding_bottom);
-    ui->mainWidget->move(padding_left, padding_top);
-    QPushButton *exitButton = new QPushButton(ui->centralWidget);
-    exitButton->setText("Exit");
-    exitButton->move(width + padding_left - padding_right - exitButton->width(), 30);
-    connect(exitButton, SIGNAL(clicked()), this, SLOT(quit()));
+    SetTheme("theme/main-window.xml");
 
     // restore the position of the window
     if (m_Settings.value("SaveMainWindowGeometry", true).toBool())
@@ -351,6 +302,109 @@ bool AVRPioRemote::eventFilter(QObject *obj, QEvent *event)
             this->move(x() - (x() - mouseEvent->globalPos().x()) - x_rel_pos, y() - (y() - mouseEvent->globalPos().y()) - y_rel_pos);
     }
     return false;
+}
+
+void AVRPioRemote::SetTheme(QString theme_name) {
+    //    QtSvg library
+    //    plugin iconengines/libqsvgicon.dll
+    //    plugin imageformats/libqsvg.dll
+    //    the dependencies: QtCore, QtGui, QtXml library
+
+    //    QStringList libPaths = QCoreApplication::libraryPaths();
+    //    libPaths << QCoreApplication::applicationDirPath()
+    //                 + "/plugins";
+    //    QCoreApplication::setLibraryPaths(libPaths);
+
+        //this->statusBar()->setSizeGripEnabled(false);
+
+
+        //setWindowFlags(Qt::FramelessWindowHint);
+        //QIcon pixmap("J:\\Projekte\\blue-bkgnd.svg");
+
+    ThemeReader theme;
+    if (!theme.readTheme(theme_name)) {
+        return;
+    }
+    ThemeReader::ThemeElement window_theme = theme.getElement("window");
+    if (window_theme.name == "") {
+        return;
+    }
+
+    padding_left = window_theme.padding_left;
+    padding_right = window_theme.padding_right;
+    padding_top = window_theme.padding_top;
+    padding_bottom = window_theme.padding_bottom;
+    if (window_theme.width != 0) {
+        width = window_theme.width;
+    }
+    if (window_theme.height != 0) {
+        width = window_theme.height;
+    }
+
+    //QString path = QCoreApplication::applicationDirPath() + "/theme/bkgnd.png";
+    QPixmap pixmap(window_theme.background_image);
+    if(pixmap.height() > 0) {
+        setWindowFlags(Qt::FramelessWindowHint);
+#ifdef Q_OS_LINUX
+        if(QX11Info::isPlatformX11() ){
+            if(QX11Info::isCompositingManagerRunning()) {
+                setAttribute(Qt::WA_TranslucentBackground);
+            }
+        }
+#else
+        setAttribute(Qt::WA_TranslucentBackground);
+#endif
+        pixmap = pixmap.scaled(width + padding_left + padding_right, height + padding_top + padding_bottom);
+        ui->centralWidget->setPixmap(pixmap);
+
+        ThemeReader::ThemeElement exit_button_theme = theme.getElement("exit-button");
+        if (exit_button_theme.name != "") {
+            QPushButton *exitButton = new QPushButton(ui->centralWidget);
+            exitButton->setFixedSize(exit_button_theme.width, exit_button_theme.height);
+            exitButton->move(exit_button_theme.pos_x, exit_button_theme.pos_y);
+            if (exit_button_theme.style != "") {
+                exitButton->setStyleSheet(exit_button_theme.style);
+            }
+            connect(exitButton, SIGNAL(clicked()), this, SLOT(quit()));
+        }
+        ThemeReader::ThemeElement minimize_button_theme = theme.getElement("minimize-button");
+        if (minimize_button_theme.name != "") {
+            QPushButton *minimizeButton = new QPushButton(ui->centralWidget);
+            minimizeButton->setFixedSize(minimize_button_theme.width, minimize_button_theme.height);
+            minimizeButton->move(minimize_button_theme.pos_x, minimize_button_theme.pos_y);
+            if (minimize_button_theme.style != "") {
+                minimizeButton->setStyleSheet(minimize_button_theme.style);
+            }
+            connect(minimizeButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
+        }
+//        showMinimized();
+
+    }
+
+        //QPixmap pixmap("J:\\Projekte\\blue-bkgnd2.png");
+        //qDebug() << pixmap;
+        //ui->centralWidget->setPixmap(pixmap.pixmap(QSize()));
+        //qDebug() << QImageReader::supportedImageFormats();
+        //qDebug() << pixmap.availableSizes();
+
+    //    qDebug()<<"dedede"<<flags;
+        // set not resizeable
+        this->setFixedSize(width + padding_left + padding_right, height + padding_top + padding_bottom);
+        ui->mainWidget->move(padding_left, padding_top);
+        //exitButton->setText("Exit");
+//        exitButton->setStyleSheet(
+//                    "QPushButton {"
+//                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_normal.png) 0 0 0 0 stretch stretch;"
+//                    //"  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_normal.png)  no-repeat center center fixed;"
+//                    "  background-color:rgba(0, 0, 0, 0.0);"
+//                    "}"
+//                    "QPushButton:hover:!pressed {"
+//                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_highlight.png) 0 0 0 0 stretch stretch;"
+//                    "}"
+//                    "QPushButton:hover {"
+//                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_pressed.png) 0 0 0 0 stretch stretch;"
+//                    "}"
+//        );
 }
 
 void AVRPioRemote::quit()

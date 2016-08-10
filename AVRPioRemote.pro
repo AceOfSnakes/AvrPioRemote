@@ -95,7 +95,8 @@ SOURCES += main.cpp \
     receiver_interface/response/response_aub.cpp \
     receiver_interface/response/speakercontrolresponse_spk.cpp \
     mcaccprogressdialog.cpp \
-    receiver_interface/response/mcaccprogressresponse_ssj.cpp
+    receiver_interface/response/mcaccprogressresponse_ssj.cpp \
+    themereader.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -166,7 +167,8 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/response_aub.h \
     receiver_interface/response/speakercontrolresponse_spk.h \
     mcaccprogressdialog.h \
-    receiver_interface/response/mcaccprogressresponse_ssj.h
+    receiver_interface/response/mcaccprogressresponse_ssj.h \
+    themereader.h
  
 
 

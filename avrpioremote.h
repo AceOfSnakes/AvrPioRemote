@@ -116,6 +116,15 @@ private:
     bool            m_Connected;
     bool            m_PassThroughLast;
 
+    QVector<QPushButton*> m_InputButtons;
+
+    int padding_left;
+    int padding_right;
+    int padding_top;
+    int padding_bottom;
+    int width;
+    int height;
+
     void SelectInputButton(int idx, int zone = 1);
     void ClearScreen();
     void ConnectReceiver();
@@ -125,7 +134,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void changeEvent(QEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);
-    QVector<QPushButton*> m_InputButtons;
+    void SetTheme(QString theme_name);
 
 private:
     void InputChanged(int no, QString name);

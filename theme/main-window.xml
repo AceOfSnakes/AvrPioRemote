@@ -1,0 +1,58 @@
+<theme
+  name="Black-Default"
+  >
+  <element
+    name="window"
+    width=""
+	height=""
+	padding-left="10"
+	padding-right="8"
+	padding-top="60"
+	padding-bottom="20"
+	background-image="$DIR$/theme/main-window/bkgnd.png"
+	>
+    <style/>
+  </element>
+  <element
+    name="exit-button"
+    pos-x="198"
+	pos-y="35"
+    width="24"
+	height="24"
+	background-image=""
+	>
+	<style>
+QPushButton {
+  border-image: url($DIR$/theme/main-window/sys_exit_normal.png) 0 0 0 0 stretch stretch;
+  background-color:rgba(0, 0, 0, 0.0);
+}
+QPushButton:hover:!pressed {
+  border-image: url($DIR$/theme/main-window/sys_exit_highlight.png) 0 0 0 0 stretch stretch;
+}
+QPushButton:hover {
+  border-image: url($DIR$/theme/main-window/sys_exit_pressed.png) 0 0 0 0 stretch stretch;
+}
+    </style>
+  </element>
+  <element
+    name="minimize-button"
+    pos-x="170"
+	pos-y="35"
+    width="24"
+	height="24"
+	background-image=""
+	>
+	<style>
+QPushButton {
+  border-image: url($DIR$/theme/main-window/sys_minimize_normal.png) 0 0 0 0 stretch stretch;
+  background-color:rgba(0, 0, 0, 0.0);
+}
+QPushButton:hover:!pressed {
+  border-image: url($DIR$/theme/main-window/sys_minimize_highlight.png) 0 0 0 0 stretch stretch;
+}
+QPushButton:hover {
+  border-image: url($DIR$/theme/main-window/sys_minimize_pressed.png) 0 0 0 0 stretch stretch;
+}
+    </style>
+  </element>
+</theme>
