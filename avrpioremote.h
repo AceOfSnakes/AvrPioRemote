@@ -184,9 +184,9 @@ private slots:
     void on_InputHdmiButton_clicked();
     void on_InputNetButton_clicked();
     void on_InputTunerButton_clicked();
-    void on_Num1Button_clicked();
-    void on_Num2Button_clicked();
-    void on_Num3Button_clicked();
+    void on_AutoAlcDirectButton_clicked();
+    void on_StandardButton_clicked();
+    void on_AdvSurrButton_clicked();
     void on_ShowAllListeningModesButton_clicked();
     void on_InputVideoButton_clicked();
     void on_ATBEQModesButton_clicked();

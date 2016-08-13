@@ -76,6 +76,7 @@ private slots:
 //    void on_StartLoggingInTestWindowCheckBox_clicked();
     void on_ShowReceiverNameInTitleCheckBox_clicked();
     void on_ShowDefaultInputNameCheckBox_clicked();
+    void on_BlackThemeCheckBox_clicked();
     void on_RestoreZoneControlWindowCheckBox_clicked();
     void on_pushButtonConnect_clicked();
     void on_ShowBlueRayWindowCheckBox_clicked();

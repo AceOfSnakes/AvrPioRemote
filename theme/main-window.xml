@@ -1,58 +1,111 @@
 <theme
-  name="Black-Default"
+  name="Black-Default" padding-left="10" padding-right="7" padding-top="66" padding-bottom="10"
+  background-image="$DIR$/theme/main-window/black-bkgnd.png"
   >
-  <element
-    name="window"
-    width=""
-	height=""
-	padding-left="10"
-	padding-right="8"
-	padding-top="60"
-	padding-bottom="20"
-	background-image="$DIR$/theme/main-window/bkgnd.png"
-	>
+  <element name="window" width="" height="" >
     <style/>
   </element>
-  <element
-    name="exit-button"
-    pos-x="198"
-	pos-y="35"
-    width="24"
-	height="24"
-	background-image=""
-	>
+  <element name="exit-button" pos-x="198" pos-y="35" width="24" height="24" background-image="" >
 	<style>
-QPushButton {
+QWidget {
   border-image: url($DIR$/theme/main-window/sys_exit_normal.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
-QPushButton:hover:!pressed {
+QWidget:hover:!pressed {
   border-image: url($DIR$/theme/main-window/sys_exit_highlight.png) 0 0 0 0 stretch stretch;
 }
-QPushButton:hover {
+QWidget:hover {
   border-image: url($DIR$/theme/main-window/sys_exit_pressed.png) 0 0 0 0 stretch stretch;
 }
     </style>
   </element>
-  <element
-    name="minimize-button"
-    pos-x="170"
-	pos-y="35"
-    width="24"
-	height="24"
-	background-image=""
-	>
+  <element name="minimize-button" pos-x="170" pos-y="35" width="24" height="24" background-image="" >
 	<style>
-QPushButton {
+QWidget {
   border-image: url($DIR$/theme/main-window/sys_minimize_normal.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
-QPushButton:hover:!pressed {
+QWidget:hover:!pressed {
   border-image: url($DIR$/theme/main-window/sys_minimize_highlight.png) 0 0 0 0 stretch stretch;
 }
-QPushButton:hover {
+QWidget:hover {
   border-image: url($DIR$/theme/main-window/sys_minimize_pressed.png) 0 0 0 0 stretch stretch;
 }
     </style>
   </element>
+  <element name="input-name-label" id="InputNameLabel" >
+	<style>QWidget{color:lightblue;}</style>
+  </element>
+  <element name="volume-label" id="VolumeLabel" >
+	<style>QWidget{color:lightblue;}</style>
+  </element>
+  <element name="volume-line-edit" id="VolumeLineEdit" >
+	<style>QWidget{color:white;background:none;border:none;background-color:rgba(0, 0, 0, 0.0);}</style>
+  </element>
+  <element name="status-line-edit" id="StatusLineEdit" >
+	<style>QWidget{color:gray;background:none;border:1px solid rgba(100, 100, 100, 0.5);border-radius:2px;background-color:rgba(50, 50, 50, 0.5);}</style>
+  </element>
+  <element name="status-line-edit" id="ScreenLineEdit1" >
+	<style>QWidget{color:white;background:none;border-top:1px solid rgba(100, 100, 100, 0.5);background-color:rgba(50, 50, 50, 0.0);}</style>
+  </element>
+  <element name="status-line-edit" id="ListeningModeLineEdit" >
+	<style>QWidget{color:gray;background:none;border:none;border-bottom:1px solid rgba(100, 100, 100, 0.5);background-color:rgba(50, 50, 50, 0.0);}</style>
+  </element>
+  <element name="status-line-edit" id="AudioCodecLineEdit" >
+	<style>QWidget{color:gray;background:none;border:none;background-color:rgba(50, 50, 50, 0.0);}</style>
+  </element>
+  <element name="status-line-edit" id="AudioSampleRateLineEdit" >
+	<style>QWidget{color:gray;background:none;border:none;background-color:rgba(50, 50, 50, 0.0);}</style>
+  </element>
+  <element name="status-line-edit" id="InputNameLineEdit" >
+	<style>QWidget{color:gray;background:none;border:1px solid rgba(100, 100, 100, 0.5);border-radius:2px;background-color:rgba(50, 50, 50, 0.5);}</style>
+  </element>
+  <element name="input-button" pos-x="10" pos-y="50" width="51" height="23" >
+	<style>
+QWidget {
+  border-image: url($DIR$/theme/main-window/blue-button-normal51x23.png) 0 0 0 0 stretch stretch;
+  background-color:rgba(0, 0, 0, 0.0);
+  color: white;
+}
+QWidget:pressed {
+  border-image: url($DIR$/theme/main-window/blue-button-selected51x23.png) 0 0 0 0 stretch stretch;
+}
+QWidget:checked {
+  border-image: url($DIR$/theme/main-window/blue-button-selected51x23.png) 0 0 0 0 stretch stretch;
+}
+QWidget:disabled {
+  border-image: url($DIR$/theme/main-window/blue-button-disabled51x23.png) 0 0 0 0 stretch stretch;
+  color: darkgray;
+}
+	</style>
+  </element>
+  <element parent="input-button" name="input-bd-button" id="InputBdButton" pos-x="10" pos-y="50" />
+  <element parent="input-button" name="input-dvd-button" id="InputDvdButton" pos-x="60" pos-y="50" />
+  <element parent="input-button" name="input-dvr-button" id="InputDvrButton" pos-x="110" pos-y="50" />
+  <element parent="input-button" name="input-hdmi-button" id="InputHdmiButton" pos-x="160" pos-y="50" />
+  <element parent="input-button" name="input-tv-button" id="InputTvButton" pos-x="10" pos-y="80" />
+  <element parent="input-button" name="input-cd-button" id="InputCdButton" pos-x="60" pos-y="80" />
+  <element parent="input-button" name="input-net-button" id="InputNetButton" pos-x="110" pos-y="80" />
+  <element parent="input-button" name="input-adpt-button" id="InputAdptButton" pos-x="160" pos-y="80" />
+  <element parent="input-button" name="input-ipod-button" id="InputIpodButton" pos-x="10" pos-y="110" />
+  <element parent="input-button" name="input-sat-button" id="InputSatButton" pos-x="60" pos-y="110" />
+  <element parent="input-button" name="input-video-button" id="InputVideoButton" pos-x="110" pos-y="110" />
+  <element parent="input-button" name="input-tuner-button" id="InputTunerButton" pos-x="160" pos-y="110" />
+  <element parent="input-button" name="input-left-button" id="InputLeftButton" pos-x="10" pos-y="140" />
+  <element parent="input-button" name="input-right-button" id="InputRightButton" pos-x="60" pos-y="140" />
+  <element parent="input-button" name="volume-up-button" id="VolumeUpButton" pos-x="160" pos-y="150" />
+  <element parent="input-button" name="volume-down-button" id="VolumeDownButton" pos-x="160" pos-y="190" />
+  <element parent="input-button" name="phase-button" id="PhaseButton" pos-x="10" pos-y="260" />
+  <element parent="input-button" name="pqls-button" id="PqlsButton" pos-x="60" pos-y="260" />
+  <element parent="input-button" name="hi-bit-button" id="HiBitButton" pos-x="110" pos-y="260" />
+  <element parent="input-button" name="s-retr-button" id="SRetrButton" pos-x="160" pos-y="260" />
+  <element parent="input-button" name="auto-alc-direct-retr-button" id="AutoAlcDirectButton" pos-x="10" pos-y="180" />
+  <element parent="input-button" name="standard-button" id="StandardButton" pos-x="80" pos-y="180" />
+  <element parent="input-button" name="adv-surr-button" id="AdvSurrButton" pos-x="10" pos-y="220" />
+  <element parent="input-button" name="zone-control-button" id="ZoneControlButton" pos-x="80" pos-y="10" />
+  <element parent="input-button" name="more-button" id="MoreButton" pos-x="150" pos-y="10" />
+  <element parent="input-button" name="connect-button" id="pushButtonConnect" pos-x="80" pos-y="290" />
+  <element parent="input-button" name="volume-mute-button" id="VolumeMuteButton" pos-x="160" pos-y="220" />
+  <element parent="input-button" name="show-all-listening-modes-button" id="ShowAllListeningModesButton" pos-x="70" pos-y="220" />
+  <element parent="input-button" name="atb-eq-button" id="ATBEQModesButton" pos-x="100" pos-y="220" />
 </theme>

@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -818,6 +818,13 @@
         <widget class="QCheckBox" name="ShowDefaultInputNameCheckBox">
          <property name="text">
           <string>Show default name of the input line</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="BlackThemeCheckBox">
+         <property name="text">
+          <string>Black Theme</string>
          </property>
         </widget>
        </item>

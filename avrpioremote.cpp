@@ -84,12 +84,14 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 //            | Qt::MSWindowsFixedSizeDialogHint;
 //    this->setWindowFlags(flags );
 
-    SetTheme("theme/main-window.xml");
-
     // restore the position of the window
     if (m_Settings.value("SaveMainWindowGeometry", true).toBool())
     {
         restoreGeometry(m_Settings.value("MainWindowGeometry").toByteArray());
+    }
+
+    if (m_Settings.value("UseBlackTheme", true).toBool()) {
+        SetTheme("theme/main-window.xml");
     }
 
     m_PowerButtonOffIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit_green.png", QSize(128, 128));
@@ -291,7 +293,7 @@ bool AVRPioRemote::eventFilter(QObject *obj, QEvent *event)
     static int x_rel_pos = 0;
     static int y_rel_pos = 0;
     QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-    if (event->type() == QEvent::MouseButtonPress) {
+    if (obj->objectName() == ui->centralWidget->objectName() && event->type() == QEvent::MouseButtonPress) {
         mouse_down = true;
         x_rel_pos = mouseEvent->globalPos().x() - x();
         y_rel_pos = mouseEvent->globalPos().y() - y();
@@ -330,10 +332,10 @@ void AVRPioRemote::SetTheme(QString theme_name) {
         return;
     }
 
-    padding_left = window_theme.padding_left;
-    padding_right = window_theme.padding_right;
-    padding_top = window_theme.padding_top;
-    padding_bottom = window_theme.padding_bottom;
+    padding_left = theme.padding_left;
+    padding_right =theme.padding_right;
+    padding_top = theme.padding_top;
+    padding_bottom = theme.padding_bottom;
     if (window_theme.width != 0) {
         width = window_theme.width;
     }
@@ -342,43 +344,45 @@ void AVRPioRemote::SetTheme(QString theme_name) {
     }
 
     //QString path = QCoreApplication::applicationDirPath() + "/theme/bkgnd.png";
-    QPixmap pixmap(window_theme.background_image);
-    if(pixmap.height() > 0) {
-        setWindowFlags(Qt::FramelessWindowHint);
+    if (theme.background_image != "") {
+        QPixmap pixmap(theme.background_image);
+        if(pixmap.height() > 0) {
+            setWindowFlags(Qt::FramelessWindowHint);
 #ifdef Q_OS_LINUX
-        if(QX11Info::isPlatformX11() ){
-            if(QX11Info::isCompositingManagerRunning()) {
-                setAttribute(Qt::WA_TranslucentBackground);
+            if(QX11Info::isPlatformX11() ){
+                if(QX11Info::isCompositingManagerRunning()) {
+                    setAttribute(Qt::WA_TranslucentBackground);
+                }
             }
-        }
 #else
-        setAttribute(Qt::WA_TranslucentBackground);
+            setAttribute(Qt::WA_TranslucentBackground);
 #endif
-        pixmap = pixmap.scaled(width + padding_left + padding_right, height + padding_top + padding_bottom);
-        ui->centralWidget->setPixmap(pixmap);
+            pixmap = pixmap.scaled(width + padding_left + padding_right, height + padding_top + padding_bottom);
+            ui->centralWidget->setPixmap(pixmap);
 
-        ThemeReader::ThemeElement exit_button_theme = theme.getElement("exit-button");
-        if (exit_button_theme.name != "") {
-            QPushButton *exitButton = new QPushButton(ui->centralWidget);
-            exitButton->setFixedSize(exit_button_theme.width, exit_button_theme.height);
-            exitButton->move(exit_button_theme.pos_x, exit_button_theme.pos_y);
-            if (exit_button_theme.style != "") {
-                exitButton->setStyleSheet(exit_button_theme.style);
+            ThemeReader::ThemeElement exit_button_theme = theme.getElement("exit-button");
+            if (exit_button_theme.name != "") {
+                QPushButton *exitButton = new QPushButton(ui->centralWidget);
+                exitButton->setFixedSize(exit_button_theme.width, exit_button_theme.height);
+                exitButton->move(exit_button_theme.posX, exit_button_theme.posY);
+                if (exit_button_theme.style != "") {
+                    exitButton->setStyleSheet(exit_button_theme.style);
+                }
+                connect(exitButton, SIGNAL(clicked()), this, SLOT(quit()));
             }
-            connect(exitButton, SIGNAL(clicked()), this, SLOT(quit()));
-        }
-        ThemeReader::ThemeElement minimize_button_theme = theme.getElement("minimize-button");
-        if (minimize_button_theme.name != "") {
-            QPushButton *minimizeButton = new QPushButton(ui->centralWidget);
-            minimizeButton->setFixedSize(minimize_button_theme.width, minimize_button_theme.height);
-            minimizeButton->move(minimize_button_theme.pos_x, minimize_button_theme.pos_y);
-            if (minimize_button_theme.style != "") {
-                minimizeButton->setStyleSheet(minimize_button_theme.style);
+            ThemeReader::ThemeElement minimize_button_theme = theme.getElement("minimize-button");
+            if (minimize_button_theme.name != "") {
+                QPushButton *minimizeButton = new QPushButton(ui->centralWidget);
+                minimizeButton->setFixedSize(minimize_button_theme.width, minimize_button_theme.height);
+                minimizeButton->move(minimize_button_theme.posX, minimize_button_theme.posY);
+                if (minimize_button_theme.style != "") {
+                    minimizeButton->setStyleSheet(minimize_button_theme.style);
+                }
+                connect(minimizeButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
             }
-            connect(minimizeButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
-        }
-//        showMinimized();
+    //        showMinimized();
 
+        }
     }
 
         //QPixmap pixmap("J:\\Projekte\\blue-bkgnd2.png");
@@ -391,6 +395,7 @@ void AVRPioRemote::SetTheme(QString theme_name) {
         // set not resizeable
         this->setFixedSize(width + padding_left + padding_right, height + padding_top + padding_bottom);
         ui->mainWidget->move(padding_left, padding_top);
+        theme.applyThemeToWidgets(ui->centralWidget);
         //exitButton->setText("Exit");
 //        exitButton->setStyleSheet(
 //                    "QPushButton {"
@@ -897,10 +902,10 @@ void AVRPioRemote::EnableControls(bool enable)
 
     ui->InputLeftButton->setEnabled(enable);
     ui->InputRightButton->setEnabled(enable);
-    ui->Num1Button->setEnabled(enable);
-    ui->Num2Button->setEnabled(enable);
+    ui->AutoAlcDirectButton->setEnabled(enable);
+    ui->StandardButton->setEnabled(enable);
 
-    ui->Num3Button->setEnabled(enable);
+    ui->AdvSurrButton->setEnabled(enable);
     ui->PhaseButton->setEnabled(enable);
     ui->PqlsButton->setEnabled(enable);
     ui->VolumeDownButton->setEnabled(enable);
@@ -1256,19 +1261,19 @@ void AVRPioRemote::on_InputTunerButton_clicked()
     SendCmd("02FN");
 }
 
-void AVRPioRemote::on_Num1Button_clicked()
+void AVRPioRemote::on_AutoAlcDirectButton_clicked()
 {
     //ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
     SendCmd("0005SR");
 }
 
-void AVRPioRemote::on_Num2Button_clicked()
+void AVRPioRemote::on_StandardButton_clicked()
 {
     //ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
     SendCmd("0010SR");
 }
 
-void AVRPioRemote::on_Num3Button_clicked()
+void AVRPioRemote::on_AdvSurrButton_clicked()
 {
     //ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
     SendCmd("0100SR");

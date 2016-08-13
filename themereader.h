@@ -1,6 +1,7 @@
 #ifndef THEMEREADER_H
 #define THEMEREADER_H
 
+#include <QWidget>
 #include <QString>
 #include <QVector>
 
@@ -11,18 +12,27 @@ public:
     bool readTheme(QString theme);
     struct ThemeElement {
         QString name;
-        int pos_x;
-        int pos_y;
+        QString id;
+        QString parent;
+        bool hasPosX;
+        int posX;
+        bool hasPosY;
+        int posY;
+        bool hasWidth;
         int width;
+        bool hasHeight;
         int height;
-        int padding_left;
-        int padding_right;
-        int padding_top;
-        int padding_bottom;
-        QString background_image;
         QString style;
     };
+    QString theme_name;
+    QString background_image;
+    int padding_left;
+    int padding_right;
+    int padding_top;
+    int padding_bottom;
     ThemeElement getElement(QString name);
+    void applyThemeToWidgets(QWidget* parent);
+    void applyThemeToWidget(QWidget* widget, const ThemeElement& te);
 private:
     QVector<ThemeElement> themeElements;
 };

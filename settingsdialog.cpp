@@ -83,6 +83,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
     ui->FilterBlueRay->setChecked(m_Settings.value("FilterBlueRay", true).toBool());
     ui->ShowDefaultInputNameCheckBox->setChecked(m_Settings.value("ShowDefaultInputName", false).toBool());
+    ui->BlackThemeCheckBox->setChecked(m_Settings.value("UseBlackTheme", true).toBool());
 
     // configure ip adress edit input
     ui->lineEditIP1->setValidator(&m_IpValidator);
@@ -390,6 +391,11 @@ void SettingsDialog::on_ShowReceiverNameInTitleCheckBox_clicked()
 void SettingsDialog::on_ShowDefaultInputNameCheckBox_clicked()
 {
     m_Settings.setValue("ShowDefaultInputName", ui->ShowDefaultInputNameCheckBox->isChecked());
+}
+
+void SettingsDialog::on_BlackThemeCheckBox_clicked()
+{
+    m_Settings.setValue("UseBlackTheme", ui->BlackThemeCheckBox->isChecked());
 }
 
 void SettingsDialog::on_RestoreZoneControlWindowCheckBox_clicked()
