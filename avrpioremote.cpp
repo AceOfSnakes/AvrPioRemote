@@ -38,7 +38,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 {
     m_IpPort = 8102;
     m_ReceiverOnline = false;
-
+    m_tray_icon = NULL;
     m_SelectedInput   = NULL;
     m_SelectedInputZ2 = NULL;
     m_SelectedInputZ3 = NULL;
@@ -76,13 +76,13 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     width = size().width();
     height = size().height();
     // add minimize button to to title
-//    Qt::WindowFlags flags =
-//    Qt::CustomizeWindowHint |
-//            Qt::WindowMinimizeButtonHint
-//            |Qt::WindowMaximizeButtonHint
-//            | Qt::WindowCloseButtonHint
-//            | Qt::MSWindowsFixedSizeDialogHint;
-//    this->setWindowFlags(flags );
+    //    Qt::WindowFlags flags =
+    //    Qt::CustomizeWindowHint |
+    //            Qt::WindowMinimizeButtonHint
+    //            |Qt::WindowMaximizeButtonHint
+    //            | Qt::WindowCloseButtonHint
+    //            | Qt::MSWindowsFixedSizeDialogHint;
+    //    this->setWindowFlags(flags );
 
     // restore the position of the window
     if (m_Settings.value("SaveMainWindowGeometry", true).toBool())
@@ -241,6 +241,27 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     responseList << AudioStatusDataResponse_AST().getResponseID();
     responseList << Response_AUB().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
+    if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
+        if(m_tray_icon == NULL) {
+            m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/pioneer.png"), this);
+
+            connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
+
+            QAction *quit_action = new QAction( "Exit", m_tray_icon );
+            connect( quit_action, SIGNAL(triggered()), this, SLOT(quit()) );
+
+            QAction *hide_action = new QAction( "Show/Hide", m_tray_icon );
+            connect( hide_action, SIGNAL(triggered()), this, SLOT(on_show_hide()) );
+
+            QMenu *tray_icon_menu = new QMenu;
+            tray_icon_menu->addAction( hide_action );
+            tray_icon_menu->addAction( quit_action );
+
+            m_tray_icon->setContextMenu( tray_icon_menu );
+
+            m_tray_icon->show();
+        }
+    }
 }
 
 
@@ -263,6 +284,9 @@ AVRPioRemote::~AVRPioRemote()
     delete m_HdmiControlDialog;
     delete m_InfoDialog;
     delete m_MCACCProgressDialog;
+    if(m_tray_icon != NULL) {
+        delete m_tray_icon;
+    }
     delete ui;
 }
 
@@ -317,11 +341,11 @@ void AVRPioRemote::SetTheme(QString theme_name) {
     //                 + "/plugins";
     //    QCoreApplication::setLibraryPaths(libPaths);
 
-        //this->statusBar()->setSizeGripEnabled(false);
+    //this->statusBar()->setSizeGripEnabled(false);
 
 
-        //setWindowFlags(Qt::FramelessWindowHint);
-        //QIcon pixmap("J:\\Projekte\\blue-bkgnd.svg");
+    //setWindowFlags(Qt::FramelessWindowHint);
+    //QIcon pixmap("J:\\Projekte\\blue-bkgnd.svg");
 
     ThemeReader theme;
     if (!theme.readTheme(theme_name)) {
@@ -378,38 +402,85 @@ void AVRPioRemote::SetTheme(QString theme_name) {
                 if (minimize_button_theme.style != "") {
                     minimizeButton->setStyleSheet(minimize_button_theme.style);
                 }
-                connect(minimizeButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
+                connect(minimizeButton, SIGNAL(clicked()), this, SLOT(minimize()));
             }
-    //        showMinimized();
+            //        showMinimized();
 
         }
     }
 
-        //QPixmap pixmap("J:\\Projekte\\blue-bkgnd2.png");
-        //qDebug() << pixmap;
-        //ui->centralWidget->setPixmap(pixmap.pixmap(QSize()));
-        //qDebug() << QImageReader::supportedImageFormats();
-        //qDebug() << pixmap.availableSizes();
+    //QPixmap pixmap("J:\\Projekte\\blue-bkgnd2.png");
+    //qDebug() << pixmap;
+    //ui->centralWidget->setPixmap(pixmap.pixmap(QSize()));
+    //qDebug() << QImageReader::supportedImageFormats();
+    //qDebug() << pixmap.availableSizes();
 
     //    qDebug()<<"dedede"<<flags;
-        // set not resizeable
-        this->setFixedSize(width + padding_left + padding_right, height + padding_top + padding_bottom);
-        ui->mainWidget->move(padding_left, padding_top);
-        theme.applyThemeToWidgets(ui->centralWidget);
-        //exitButton->setText("Exit");
-//        exitButton->setStyleSheet(
-//                    "QPushButton {"
-//                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_normal.png) 0 0 0 0 stretch stretch;"
-//                    //"  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_normal.png)  no-repeat center center fixed;"
-//                    "  background-color:rgba(0, 0, 0, 0.0);"
-//                    "}"
-//                    "QPushButton:hover:!pressed {"
-//                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_highlight.png) 0 0 0 0 stretch stretch;"
-//                    "}"
-//                    "QPushButton:hover {"
-//                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_pressed.png) 0 0 0 0 stretch stretch;"
-//                    "}"
-//        );
+    // set not resizeable
+    this->setFixedSize(width + padding_left + padding_right, height + padding_top + padding_bottom);
+    ui->mainWidget->move(padding_left, padding_top);
+    theme.applyThemeToWidgets(ui->centralWidget);
+    //exitButton->setText("Exit");
+    //        exitButton->setStyleSheet(
+    //                    "QPushButton {"
+    //                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_normal.png) 0 0 0 0 stretch stretch;"
+    //                    //"  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_normal.png)  no-repeat center center fixed;"
+    //                    "  background-color:rgba(0, 0, 0, 0.0);"
+    //                    "}"
+    //                    "QPushButton:hover:!pressed {"
+    //                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_highlight.png) 0 0 0 0 stretch stretch;"
+    //                    "}"
+    //                    "QPushButton:hover {"
+    //                    "  border-image: url(" + QCoreApplication::applicationDirPath() + "/theme/sys_exit_pressed.png) 0 0 0 0 stretch stretch;"
+    //                    "}"
+    //        );
+}
+void AVRPioRemote::on_show_hide( ) {
+
+    if( isVisible() )  {
+        hide();
+
+        foreach(QDialog* x,this->findChildren<QDialog *>()) {
+            //qDebug()<<x->objectName()<<x->isVisible()<<x->isActiveWindow()<<x->isMinimized();
+            if(x->isVisible()) {
+                x->showMinimized();
+                x->setVisible(false);
+            }
+        }
+    }
+    else {
+        //qDebug()<<"\n\nRestore\n";
+        foreach(QDialog* x,this->findChildren<QDialog *>()) {
+            //qDebug()<<x->objectName()<<x->isHidden()<<x->isVisible()<<x->isMinimized();
+            if(x->isVisible() || x->isMinimized()) {
+                x->showNormal();
+                x->raise();
+            }
+        }
+        show();
+        raise();
+        setFocus();
+        qApp->setActiveWindow(this);
+    }
+}
+
+void AVRPioRemote::on_show_hide( QSystemTrayIcon::ActivationReason reason )
+{
+    if( reason )     {
+        if( reason != QSystemTrayIcon::Trigger ) {
+            return;
+        }
+    }
+
+    on_show_hide();
+
+}
+void AVRPioRemote::minimize() {
+    if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
+        on_show_hide();
+    } else {
+        emit showMinimized();
+    }
 }
 
 void AVRPioRemote::quit()
@@ -1057,10 +1128,10 @@ void AVRPioRemote::on_MoreButton_clicked()
         //        pAction = new QAction("LS Settings", this);
         //        pAction = new QAction("Show Zone 2", this);
         //        pAction = new QAction("Input Wizard", this);
-       MyMenu.addSeparator();
-//        pAction = new QAction(tr("-"), this);
-//        pAction->setSeparator(true);
-//        MyMenu.addAction(pAction);
+        MyMenu.addSeparator();
+        //        pAction = new QAction(tr("-"), this);
+        //        pAction->setSeparator(true);
+        //        MyMenu.addAction(pAction);
     }
 
     pAction = new QAction(tr("Test"), this);
@@ -1072,10 +1143,10 @@ void AVRPioRemote::on_MoreButton_clicked()
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_SettingsDialog, SLOT(ShowSettingsDialog()));
 
-//    pAction = new QAction(tr("-"), this);
-//    pAction->setSeparator(true);
-//    MyMenu.addAction(pAction);
-           MyMenu.addSeparator();
+    //    pAction = new QAction(tr("-"), this);
+    //    pAction->setSeparator(true);
+    //    MyMenu.addAction(pAction);
+    MyMenu.addSeparator();
 
     pAction = new QAction(tr("Blu-Ray"), this);
     MyMenu.addAction(pAction);
@@ -1084,7 +1155,7 @@ void AVRPioRemote::on_MoreButton_clicked()
     pAction = new QAction(tr("Blu-Ray Test"), this);
     MyMenu.addAction(pAction);
     connect(pAction, SIGNAL(triggered()), m_PlayerTestDialog, SLOT(ShowTestDialog()));
-/*
+    /*
     pAction = new QAction(tr("Information"), this);
     pAction->setSeparator(true);
     MyMenu.addAction(pAction);*/

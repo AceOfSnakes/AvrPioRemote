@@ -93,6 +93,8 @@ private slots:
 
     void on_FilterBlueRay_clicked();
 
+    void on_MinimizeToTrayCheckBox_clicked();
+
 signals:
     void onConnect();
     void onConnectBD();

@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -966,6 +966,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="MinimizeToTrayCheckBox">
+         <property name="text">
+          <string>Minimize to tray</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -983,6 +990,7 @@
       <zorder>ShowUSBCheckBox</zorder>
       <zorder>ShowNetRadioCheckBox</zorder>
       <zorder>ShowTunerCheckBox</zorder>
+      <zorder>MinimizeToTrayCheckBox</zorder>
      </widget>
     </widget>
    </item>

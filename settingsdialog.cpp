@@ -78,6 +78,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->RestoreBlueRayWindowCheckBox->setChecked(m_Settings.value("SaveBlueRayWindowGeometry", false).toBool());
     ui->RestoreAVSettingsWindowCheckBox->setChecked(m_Settings.value("SaveAVSettingsWindowGeometry", false).toBool());
     ui->RestoreMCACCEQWindowCheckBox->setChecked(m_Settings.value("SaveMCACCEQWindowGeometry", false).toBool());
+    ui->MinimizeToTrayCheckBox->setChecked(m_Settings.value("MinimizeToTrayCheckBox", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
@@ -518,4 +519,9 @@ void SettingsDialog::on_ShowPlayerNameInTitle_clicked()
 void SettingsDialog::on_FilterBlueRay_clicked()
 {
     m_Settings.setValue("FilterBlueRay", ui->FilterBlueRay->isChecked());
+}
+
+void SettingsDialog::on_MinimizeToTrayCheckBox_clicked()
+{
+    m_Settings.setValue("MinimizeToTrayCheckBox", ui->MinimizeToTrayCheckBox->isChecked());
 }

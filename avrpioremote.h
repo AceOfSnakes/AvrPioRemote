@@ -34,6 +34,7 @@
 #include "eqdialog.h"
 #include "logger.h"
 #include <QTranslator>
+#include <QSystemTrayIcon>
 #include <QTimer>
 #include "listeningmodedialog.h"
 #include "usbdialog.h"
@@ -107,6 +108,7 @@ private:
     QPushButton*    m_SelectedInput;
     QPushButton*    m_SelectedInputZ2;
     QPushButton*    m_SelectedInputZ3;
+    QSystemTrayIcon* m_tray_icon;
     bool            m_Zone2PowerOn;
     bool            m_Zone3PowerOn;
 
@@ -153,6 +155,7 @@ public slots:
     void quit();
 private slots:
     void CommError(QString socketError);
+    void minimize();
     void CommConnected();
     void CommDisconnected();
     void ShowAboutDialog();
@@ -162,6 +165,8 @@ private slots:
     void StatusLineTimeout();
     void RefreshTimeout();
     void on_pushButtonConnect_clicked();
+    void on_show_hide(QSystemTrayIcon::ActivationReason reason);
+    void on_show_hide();
     //void ConnectWorkerErrorString(QString);
     //void onConnectWorkerFinished();
     void on_VolumeDownButton_clicked();
