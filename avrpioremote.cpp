@@ -457,7 +457,7 @@ void AVRPioRemote::on_show_hide( ) {
                 x->raise();
             }
         }
-        show();
+        showNormal();
         raise();
         setFocus();
         qApp->setActiveWindow(this);
