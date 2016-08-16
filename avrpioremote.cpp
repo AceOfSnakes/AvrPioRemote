@@ -36,6 +36,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_StatusLineTimer(this),
     m_RefreshTimer(this)
 {
+    this->setWindowFlags(Qt::Dialog);
     m_IpPort = 8102;
     m_ReceiverOnline = false;
     m_tray_icon = NULL;
@@ -450,6 +451,9 @@ void AVRPioRemote::on_show_hide( ) {
     }
     else {
         //qDebug()<<"\n\nRestore\n";
+        showNormal();
+        raise();
+        setFocus();
         foreach(QDialog* x,this->findChildren<QDialog *>()) {
             //qDebug()<<x->objectName()<<x->isHidden()<<x->isVisible()<<x->isMinimized();
             if(x->isVisible() || x->isMinimized()) {
@@ -457,9 +461,7 @@ void AVRPioRemote::on_show_hide( ) {
                 x->raise();
             }
         }
-        showNormal();
-        raise();
-        setFocus();
+
         qApp->setActiveWindow(this);
     }
 }
