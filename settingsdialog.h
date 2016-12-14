@@ -33,7 +33,7 @@ class SettingsDialog;
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface& Comm, PlayerInterface &CommBD);
     ~SettingsDialog();
@@ -98,7 +98,7 @@ private slots:
 signals:
     void onConnect();
     void onConnectBD();
-
+    void minimizeToTrayChanged();
 private:
     QSettings&          m_Settings;
     QTranslator         m_Translater;

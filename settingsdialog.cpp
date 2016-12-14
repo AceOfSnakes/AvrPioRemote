@@ -239,7 +239,6 @@ void SettingsDialog::CommErrorBD(QString/* socketError*/)
 
 void SettingsDialog::CommConnectedBD()
 {
-    qDebug()<<"CommConnectedBD()";
     ui->pushButtonConnect_BD->setEnabled(true);
     ui->pushButtonAuto_BD->setEnabled(false);
     ui->pushButtonConnect_BD->setText(tr("Disconnect"));
@@ -524,4 +523,5 @@ void SettingsDialog::on_FilterBlueRay_clicked()
 void SettingsDialog::on_MinimizeToTrayCheckBox_clicked()
 {
     m_Settings.setValue("MinimizeToTrayCheckBox", ui->MinimizeToTrayCheckBox->isChecked());
+    emit minimizeToTrayChanged();
 }

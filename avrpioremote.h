@@ -65,7 +65,7 @@ class AVRPioRemote;
 class AVRPioRemote : public QMainWindow, public ResponseListener
 {
     Q_OBJECT
-    
+
 public:
     explicit AVRPioRemote(QWidget *parent = 0);
     ~AVRPioRemote();
@@ -196,7 +196,7 @@ private slots:
     void on_InputVideoButton_clicked();
     void on_ATBEQModesButton_clicked();
     void on_InfoButton_clicked();
-
+    void on_MinimizeToTrayChanged();
     void on_ZoneControlButton_clicked();
 
 signals:

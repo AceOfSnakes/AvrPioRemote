@@ -262,10 +262,19 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
         if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
             m_tray_icon->show();
         }
+        connect(m_SettingsDialog,SIGNAL(minimizeToTrayChanged()), this, SLOT(on_MinimizeToTrayChanged()));
     }
     qApp->installEventFilter(this);
 }
 
+void AVRPioRemote::on_MinimizeToTrayChanged() {
+    if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
+        m_tray_icon->show();
+    }
+    else {
+        m_tray_icon->hide();
+    }
+}
 
 AVRPioRemote::~AVRPioRemote()
 {
