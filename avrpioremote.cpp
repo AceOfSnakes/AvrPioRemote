@@ -172,7 +172,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
 
-    
+
     // create usb dialog
     m_usbDialog = new usbDialog(this, m_Settings, m_ReceiverInterface);
 
@@ -242,32 +242,34 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     responseList << AudioStatusDataResponse_AST().getResponseID();
     responseList << Response_AUB().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
-    if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
-        if(m_tray_icon == NULL) {
-            m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/pioneer.png"), this);
 
-            connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
+    if(m_tray_icon == NULL) {
+        m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/pioneer.png"), this);
 
-            QAction *quit_action = new QAction( "Exit", m_tray_icon );
-            connect( quit_action, SIGNAL(triggered()), this, SLOT(quit()) );
+        connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
 
-            QAction *hide_action = new QAction( "Show/Hide", m_tray_icon );
-            connect( hide_action, SIGNAL(triggered()), this, SLOT(on_show_hide()) );
+        QAction *quit_action = new QAction( "Exit", m_tray_icon );
+        connect( quit_action, SIGNAL(triggered()), this, SLOT(quit()) );
 
-            QMenu *tray_icon_menu = new QMenu;
-            tray_icon_menu->addAction( hide_action );
-            tray_icon_menu->addAction( quit_action );
+        QAction *hide_action = new QAction( "Show/Hide", m_tray_icon );
+        connect( hide_action, SIGNAL(triggered()), this, SLOT(on_show_hide()) );
 
-            m_tray_icon->setContextMenu( tray_icon_menu );
+        QMenu *tray_icon_menu = new QMenu;
+        tray_icon_menu->addAction( hide_action );
+        tray_icon_menu->addAction( quit_action );
 
+        m_tray_icon->setContextMenu( tray_icon_menu );
+        if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
             m_tray_icon->show();
         }
     }
+    qApp->installEventFilter(this);
 }
 
 
 AVRPioRemote::~AVRPioRemote()
 {
+    qApp->removeEventFilter(this);
     delete m_NetRadioDialog;
     delete m_BluRayDialog;
     delete m_usbDialog;
@@ -602,7 +604,7 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
         if (m_BluRayDialog->isVisible())
             m_BluRayDialog->hide();
     }
-    
+
 }
 
 //void AVRPioRemote::SocketStateChanged(QAbstractSocket::SocketState State)
