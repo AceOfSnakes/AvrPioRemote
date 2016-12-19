@@ -104,7 +104,7 @@ QWidget:disabled {
   <element parent="input-button" name="adv-surr-button" id="AdvSurrButton" pos-x="10" pos-y="220" />
   <element parent="input-button" name="zone-control-button" id="ZoneControlButton" pos-x="80" pos-y="10" />
   <element parent="input-button" name="more-button" id="MoreButton" pos-x="150" pos-y="10" />
-  <element parent="input-button" name="connect-button" id="pushButtonConnect" pos-x="80" pos-y="290" />
+  <element parent="input-button" name="connect-button" id="pushButtonConnect" pos-x="60" pos-y="290" />
   <element parent="input-button" name="volume-mute-button" id="VolumeMuteButton" pos-x="160" pos-y="220" />
   <element parent="input-button" name="show-all-listening-modes-button" id="ShowAllListeningModesButton" pos-x="70" pos-y="220" />
   <element parent="input-button" name="atb-eq-button" id="ATBEQModesButton" pos-x="100" pos-y="220" />

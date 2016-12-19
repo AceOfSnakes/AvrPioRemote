@@ -247,7 +247,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
         m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/pioneer.png"), this);
 
         connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
-
         QAction *quit_action = new QAction( "Exit", m_tray_icon );
         connect( quit_action, SIGNAL(triggered()), this, SLOT(quit()) );
 
@@ -315,6 +314,14 @@ void AVRPioRemote::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
     switch (e->type()) {
+    case QEvent::WindowStateChange: {
+        QWindowStateChangeEvent* event =
+                static_cast< QWindowStateChangeEvent* >( e );
+        if(((event->oldState() == Qt::WindowNoState )&& isMinimized()) || ((event->oldState() &Qt::WindowMinimized ) && !isMinimized() )) {
+            on_show_hide();
+        }
+    }
+        break;
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
@@ -328,6 +335,7 @@ bool AVRPioRemote::eventFilter(QObject *obj, QEvent *event)
     static bool mouse_down = false;
     static int x_rel_pos = 0;
     static int y_rel_pos = 0;
+
     QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
     if (obj->objectName() == ui->centralWidget->objectName() && event->type() == QEvent::MouseButtonPress) {
         mouse_down = true;
@@ -489,6 +497,7 @@ void AVRPioRemote::on_show_hide( QSystemTrayIcon::ActivationReason reason )
 
 }
 void AVRPioRemote::minimize() {
+    qDebug()<<"minimize";
     if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
         on_show_hide();
     } else {

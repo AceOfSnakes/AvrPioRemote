@@ -662,9 +662,9 @@
      <widget class="QPushButton" name="pushButtonConnect">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>60</x>
         <y>290</y>
-        <width>131</width>
+        <width>151</width>
         <height>41</height>
        </rect>
       </property>
