@@ -312,12 +312,18 @@ void AVRPioRemote::closeEvent(QCloseEvent *event)
 
 void AVRPioRemote::changeEvent(QEvent *e)
 {
+    //qDebug()<<e;
     QMainWindow::changeEvent(e);
     switch (e->type()) {
     case QEvent::WindowStateChange: {
         QWindowStateChangeEvent* event =
                 static_cast< QWindowStateChangeEvent* >( e );
-        if(((event->oldState() == Qt::WindowNoState )&& isMinimized()) || ((event->oldState() &Qt::WindowMinimized ) && !isMinimized() )) {
+        if(!isMinimized() && isVisible()) {
+            showNormal();
+            break;
+        }
+        //qDebug()<<event<<isMinimized()<<event->oldState();
+        if(((event->oldState() == Qt::WindowNoState || event->oldState() & Qt::WindowMaximized)&& isMinimized()) || ((event->oldState() &Qt::WindowMinimized ) && !isMinimized() )) {
             on_show_hide();
         }
     }
