@@ -1,11 +1,11 @@
 <theme
-  name="Black-Default" padding-left="10" padding-right="7" padding-top="66" padding-bottom="10"
+  name="Black-Default" padding-left="7" padding-right="7" padding-top="66" padding-bottom="14"
   background-image="$DIR$/theme/main-window/black-bkgnd.png"
   >
   <element name="window" width="" height="" >
     <style/>
   </element>
-  <element name="exit-button" pos-x="198" pos-y="35" width="24" height="24" background-image="" >
+  <element name="exit-button" pos-x="194" pos-y="32" width="24" height="24" background-image="" >
 	<style>
 QWidget {
   border-image: url($DIR$/theme/main-window/sys_exit_normal.png) 0 0 0 0 stretch stretch;
@@ -19,7 +19,7 @@ QWidget:hover {
 }
     </style>
   </element>
-  <element name="minimize-button" pos-x="170" pos-y="35" width="24" height="24" background-image="" >
+  <element name="minimize-button" pos-x="168" pos-y="32" width="24" height="24" background-image="" >
 	<style>
 QWidget {
   border-image: url($DIR$/theme/main-window/sys_minimize_normal.png) 0 0 0 0 stretch stretch;

@@ -1,7 +1,7 @@
 #include "speakersystemrequest_ssf.h"
 
 SpeakerSystemRequest_SSF::SpeakerSystemRequest_SSF() :
-    m_SpeakerSystem(0)
+    m_SpeakerSystem("00")
 {
 
 }
@@ -25,14 +25,14 @@ bool SpeakerSystemRequest_SSF::parseString(QString str)
 {
     if (str.startsWith("SSF"))
     {
-        m_SpeakerSystem = str.mid(3, 2).toInt();
+        m_SpeakerSystem = str.mid(3, 2);
 
         return true;
     }
     return false;
 }
 
-int SpeakerSystemRequest_SSF::GetSpeakerSystem()
+QString SpeakerSystemRequest_SSF::GetSpeakerSystem()
 {
     return m_SpeakerSystem;
 }

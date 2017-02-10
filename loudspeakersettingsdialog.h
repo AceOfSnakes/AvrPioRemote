@@ -27,6 +27,7 @@
 #include <QMoveEvent>
 #include <QCheckBox>
 #include <QVector>
+#include <QPair>
 #include <QRadioButton>
 
 namespace Ui {
@@ -43,8 +44,8 @@ public:
     // ResponseListener interface
     void ResponseReceived(ReceivedObjectBase *);
 
-    int mVal; // Wert der aktuellen Konfig
-    int mchannels[12]; //Wert des aktuellen Channels DB-Preset
+    QString mCurrentSpeakerSetting; // Wert der aktuellen Konfig
+    QVector<int> mchannels; //Wert des aktuellen Channels DB-Preset
     int errflag; //errorflag für SSF Befehl setzen
 
 private:
@@ -59,6 +60,7 @@ private:
     QVector<QComboBox*>     m_SpeakerSettings;
     bool                    m_RefreshSpeakerSettings;
     QVector<QRadioButton*>  m_XOverButtons;
+    QVector<QPair<QString, QString>> m_SpeakerConfigurations;
 
     void moveEvent(QMoveEvent*event);
     void requestSpeakerSettings();
@@ -66,6 +68,8 @@ private:
     void enableSpeakerSettings(bool);
     void disableControls();
     void requestData();
+    void initSpeakerConfiguration();
+    void addSpkConf(const QString&, const QString&);
 
 public slots:
 
@@ -76,7 +80,6 @@ signals:
     void SendCmd(QString data);
 
 private slots:
-    void on_SetBut_clicked();
     void on_savebutt_clicked();
     void on_restbutt_clicked();
     void ValueChanged();
@@ -93,6 +96,7 @@ private slots:
     void on_radioButtonSurOnSide_clicked();
     void on_radioButtonSurBehind_clicked();
     void XOver_selected();
+    void on_LSsystem_currentIndexChanged(int index);
 };
 
 #endif // LOUDSPEAKERSETTINGSDIALOG_H

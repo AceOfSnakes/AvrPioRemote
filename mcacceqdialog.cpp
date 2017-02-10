@@ -25,19 +25,6 @@ MCACCEQDialog::MCACCEQDialog(QWidget *parent, QSettings& settings, ReceiverInter
 
     ui->groupBoxMCACC->setEnabled(false);
 
-    m_Speakers.append(QPair<QString, QRadioButton*>("L__", ui->RadioButtonFrontLeftCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("R__", ui->RadioButtonFrontRightCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("C__", ui->RadioButtonCenterCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("SL_", ui->RadioButtonSurroundLeftCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("SR_", ui->RadioButtonSurroundRightCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("SBL", ui->RadioButtonSurroundBackLeftCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("SBR", ui->RadioButtonSurroundBackRightCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("LH_", ui->RadioButtonFrontHeightLeftCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("RH_", ui->RadioButtonFrontHeightRightCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("LW_", ui->RadioButtonFrontWideLeftCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("RW_", ui->RadioButtonFrontWideRightCh));
-    m_Speakers.append(QPair<QString, QRadioButton*>("SW_", ui->RadioButtonSW));
-
     m_Slider.append(ui->Slider63Hz);
     m_Slider.append(ui->Slider125Hz);
     m_Slider.append(ui->Slider250Hz);
@@ -47,6 +34,8 @@ MCACCEQDialog::MCACCEQDialog(QWidget *parent, QSettings& settings, ReceiverInter
     m_Slider.append(ui->Slider4kHz);
     m_Slider.append(ui->Slider8kHz);
     m_Slider.append(ui->Slider16kHz);
+    m_Slider.append(ui->SliderWideTrim);
+    m_Slider.append(ui->Slider31Hz);
 
     m_Labels.append(ui->Label63Hz);
     m_Labels.append(ui->Label125Hz);
@@ -57,32 +46,44 @@ MCACCEQDialog::MCACCEQDialog(QWidget *parent, QSettings& settings, ReceiverInter
     m_Labels.append(ui->Label4kHz);
     m_Labels.append(ui->Label8kHz);
     m_Labels.append(ui->Label16kHz);
+    m_Labels.append(ui->LabelWideTrim);
+    m_Labels.append(ui->Label31Hz);
+
+    addChannel("L__", ui->RadioButtonFrontLeftCh);
+    addChannel("R__", ui->RadioButtonFrontRightCh);
+    addChannel("C__", ui->RadioButtonCenterCh);
+    addChannel("SL_", ui->RadioButtonSurroundLeftCh);
+    addChannel("SR_", ui->RadioButtonSurroundRightCh);
+    addChannel("SBL", ui->RadioButtonSurroundBackLeftCh);
+    addChannel("SBR", ui->RadioButtonSurroundBackRightCh);
+    addChannel("LH_", ui->RadioButtonFrontHeightLeftCh);
+    addChannel("RH_", ui->RadioButtonFrontHeightRightCh);
+    addChannel("LW_", ui->RadioButtonFrontWideLeftCh);
+    addChannel("RW_", ui->RadioButtonFrontWideRightCh);
+    addChannel("SW_", ui->RadioButtonSW);
+    addChannel("TML", ui->RadioButtonTopMiddleLeftCh);
+    addChannel("TMR", ui->RadioButtonTopMiddleRightCh);
+    addChannel("TFL", ui->RadioButtonTopFrontLeftCh);
+    addChannel("TFR", ui->RadioButtonTopFrontRightCh);
+    addChannel("TRL", ui->RadioButtonTopRearLeftCh);
+    addChannel("TRR", ui->RadioButtonTopRearRightCh);
+    addChannel("SW1", ui->RadioButtonSW1);
+    addChannel("SW2", ui->RadioButtonSW2);
 
     for(int i = 0; i < (int)m_Slider.size(); i++)
     {
         m_Slider[i]->setEnabled(false);
         m_Slider[i]->setValue(50);
-    }
-
-    for (int i = 0; i < (int)m_Slider.size(); i++)
-    {
         connect(m_Slider[i],SIGNAL(sliderReleased()),this,SLOT(SliderValueChanged()));
     }
 
-    m_EQData.resize(m_Speakers.size());
-    m_Speakers[0].second->setChecked(true);
-    for (int i = 0; i < (int)m_EQData.size(); i++)
+    m_Channels[0].radio->setChecked(true);
+    for (int i = 0; i < (int)m_Channels.size(); i++)
     {
-        m_EQData[i].resize(m_Slider.size());
-        m_Speakers[i].second->setEnabled(false);
-        connect(m_Speakers[i].second, SIGNAL(clicked()) ,this, SLOT(SpeakerClicked()));
-        for (int j = 0; j < (int)m_EQData[i].size(); j++)
-        {
-            m_EQData[i][j] = 50;
-        }
+        m_Channels[i].radio->setEnabled(false);
+        connect(m_Channels[i].radio, SIGNAL(clicked()) ,this, SLOT(ChannelClicked()));
     }
 
-    m_Distance.resize(m_Speakers.size());
     ui->DistanceSpinBox->setValue(0);
 
     m_MCACCButtons << ui->radioButtonMCACC1;
@@ -165,13 +166,16 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
 
         DisableControls();
 
-        for (int i = 0; i < m_Speakers.size(); i++)
+        for (int i = 0; i < m_Channels.size(); i++)
         {
             // ask for eq data
-            RefreshSpeakerEq(m_Speakers[i].first);
+            for(int j = 0; j < m_Channels[i].eqData.size(); j++) {
+                m_Channels[i].eqData[j].enabled = false;
+                m_Channels[i].eqData[j].value = 50;
+            }
+            RefreshSpeakerEq(m_Channels[i].channel);
             // ask the distance data
-            SendCmd("?SSS" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + m_Speakers[i].first);
-            //qDebug() << "Distance" << "?SSS" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + m_Speakers[i].first;
+            SendCmd("?SSS" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + m_Channels[i].channel);
         }
 
         ui->RadioButtonSW->setEnabled(true);
@@ -187,9 +191,9 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
         int value = mcacceq->GetEQValue();
         int eqidx = mcacceq->GetEqNo();
         // find the speaker the data is for
-        for (int i = 0; i < m_Speakers.size(); i++)
+        for (int i = 0; i < m_Channels.size(); i++)
         {
-            if (mcacceq->GetSpeakerId() == m_Speakers[i].first)
+            if (mcacceq->GetSpeakerId() == m_Channels[i].channel)
             {
                 idx = i;
                 break;
@@ -199,11 +203,12 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
         if (idx == -1)
             return;
         // enable this speaker
-        m_Speakers[idx].second->setEnabled(true);
+        m_Channels[idx].radio->setEnabled(true);
         // save the value for the given frequency
-        m_EQData[idx][eqidx] = value;
+        m_Channels[idx].eqData[eqidx].value = value;
+        m_Channels[idx].eqData[eqidx].enabled = true;
         // show the data if the given speaker is selected
-        if (m_Speakers[idx].second->isChecked())
+        if (m_Channels[idx].radio->isChecked())
         {
             m_Slider[eqidx]->setValue(value);
             m_Slider[eqidx]->setEnabled(true);
@@ -223,9 +228,9 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
             //qDebug() << "Distance" << distance->GetSpeakerId() << distance->GetValue();
             int idx = -1;
             // find the speaker
-            for (int i = 0; i < m_Speakers.size(); i++)
+            for (int i = 0; i < m_Channels.size(); i++)
             {
-                if (distance->GetSpeakerId() == m_Speakers[i].first)
+                if (distance->GetSpeakerId() == m_Channels[i].channel)
                 {
                     idx = i;
                     break;
@@ -235,12 +240,12 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
                 return;
             //qDebug() << "Distance" << distance->GetSpeakerId() << distance->GetValue();
             // save the distance for the given speaker
-            m_Distance[idx] = distance->GetValue();
+            m_Channels[idx].distance = distance->GetValue();
             // update gui if needed
-            if (m_Speakers[idx].second->isChecked())
+            if (m_Channels[idx].radio->isChecked())
             {
                 ui->groupBoxDistance->setEnabled(true);
-                ui->DistanceSpinBox->setValue(m_Distance[idx]);
+                ui->DistanceSpinBox->setValue(m_Channels[idx].distance);
             }
         }
         return;
@@ -250,8 +255,16 @@ void MCACCEQDialog::ResponseReceived(ReceivedObjectBase *response)
 void MCACCEQDialog::RefreshSpeakerEq(QString speaker)
 {
     if (speaker != "SW_") {
-        for (int i = 0; i < m_Slider.size(); i++) {
-            emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + "0" + QString("%1").arg(i));
+        if (speaker == "SW1" || speaker == "SW2") {
+            emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + "00");
+            emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + "01");
+            emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + "02");
+            emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + "09");
+            emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + "10");
+        } else {
+            for (int i = 0; i < m_Slider.size(); i++) {
+                emit SendCmd("?SUW" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + speaker + QString("%1").arg(i, 2, 10, QChar('0')));
+            }
         }
     }
 }
@@ -264,32 +277,33 @@ void MCACCEQDialog::EnableSlider(bool enabled)
     }
 }
 
-void MCACCEQDialog::SpeakerClicked()
+void MCACCEQDialog::ChannelClicked()
 {
     QString id;
     QObject* sender = QObject::sender();
     id = sender->objectName();
     bool isSubwoofer = false;
-    for (int i = 0; i < (int)m_Speakers.size(); i++)
+    for (int i = 0; i < (int)m_Channels.size(); i++)
     {
-        QString tempid = m_Speakers[i].second->objectName();
-        qDebug() << tempid << m_Speakers[i].first;
+        QString tempid = m_Channels[i].radio->objectName();
+        //qDebug() << tempid << m_Channels[i].channel;
         if (id == tempid)
         {
             m_SelectedChannel = i;
-            isSubwoofer = m_Speakers[i].first == "SW_";
+            isSubwoofer = m_Channels[i].channel == "SW_";// || m_Speakers[i].first == "SW1" || m_Speakers[i].first == "SW2";
             EnableSlider(!isSubwoofer);
             if (!isSubwoofer) {
                 for (int j = 0; j < (int)m_Slider.size(); j++)
                 {
-                    m_Slider[j]->setValue(m_EQData[i][j]);
-                    m_Labels[j]->setText(MCACCEQResponse_SUW::GetDBValueString(m_EQData[i][j]));
+                    m_Slider[j]->setEnabled(m_Channels[i].eqData[j].enabled);
+                    m_Slider[j]->setValue(m_Channels[i].eqData[j].value);
+                    m_Labels[j]->setText(MCACCEQResponse_SUW::GetDBValueString(m_Channels[i].eqData[j].value));
                 }
             } else {
-                SendCmd("?SSS" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + "SW_");
+                SendCmd("?SSS" + QString("%1").arg(m_CurrentMcacc, 2, 10, QChar('0')) + m_Channels[i].channel);
             }
             ui->DistanceSpinBox->setEnabled(true);
-            ui->DistanceSpinBox->setValue(m_Distance[i]);
+            ui->DistanceSpinBox->setValue(m_Channels[i].distance);
             ui->ImmediatelyCheckBox->setEnabled(true);
             break;
         }
@@ -307,20 +321,20 @@ void MCACCEQDialog::SliderValueChanged()
         QString tempid = m_Slider[i]->objectName();
         if (id == tempid)
         {
-            m_EQData[m_SelectedChannel][i] = m_Slider[i]->value();
-            m_Labels[i]->setText(MCACCEQResponse_SUW::GetDBValueString(m_EQData[m_SelectedChannel][i]));
-            QString cmd = QString("00%1%2%3SUW").arg(m_Speakers[m_SelectedChannel].first).arg(i, 2, 10, QChar('0')).arg(m_EQData[m_SelectedChannel][i]);
+            m_Channels[m_SelectedChannel].eqData[i].value = m_Slider[i]->value();
+            m_Labels[i]->setText(MCACCEQResponse_SUW::GetDBValueString(m_Channels[m_SelectedChannel].eqData[i].value));
+            QString cmd = QString("00%1%2%3SUW").arg(m_Channels[m_SelectedChannel].channel).arg(i, 2, 10, QChar('0')).arg(m_Channels[m_SelectedChannel].eqData[i].value);
             SendCmd(cmd);
             j = m_SelectedChannel;
             if (ui->paar->isChecked()) // LS Paarweise gleich einstellen
             {
                 if (j==0 || j==3 || j==5 || j==7 || j==9)
                 {
-                   cmd = QString("00%1%2%3SUW").arg(m_Speakers[(m_SelectedChannel+1)].first).arg(i, 2, 10, QChar('0')).arg(m_EQData[m_SelectedChannel][i]);
+                   cmd = QString("00%1%2%3SUW").arg(m_Channels[(m_SelectedChannel+1)].channel).arg(i, 2, 10, QChar('0')).arg(m_Channels[m_SelectedChannel].eqData[i].value);
                 }
                 if (j==1 || j==4 || j==6 || j==8 || j==10)
                 {
-                   cmd = QString("00%1%2%3SUW").arg(m_Speakers[(m_SelectedChannel-1)].first).arg(i, 2, 10, QChar('0')).arg(m_EQData[m_SelectedChannel][i]);
+                   cmd = QString("00%1%2%3SUW").arg(m_Channels[(m_SelectedChannel-1)].channel).arg(i, 2, 10, QChar('0')).arg(m_Channels[m_SelectedChannel].eqData[i].value);
                 }
                 SendCmd(cmd);
             }
@@ -339,9 +353,9 @@ void MCACCEQDialog::MCACC_selected()
     {
         m_Slider[i]->setValue(50);
     }
-    for (int i = 0; i < (int)m_Speakers.size(); i++)
+    for (int i = 0; i < (int)m_Channels.size(); i++)
     {
-        m_Speakers[i].second->setEnabled(false);
+        m_Channels[i].radio->setEnabled(false);
     }
     for (int i = 0; i < (int)m_MCACCButtons.size(); i++)
     {
@@ -375,14 +389,14 @@ void MCACCEQDialog::on_SaveToFilePushButton_clicked()
 
     QSettings settings(filename, QSettings::IniFormat);
     settings.setValue("MCACC", mcacc);
-    for (int i = 0; i < (int)m_EQData.size(); i++)
+    for (int i = 0; i < (int)m_Channels.size(); i++)
     {
-        for( int j = 0; j < (int)m_EQData[i].size(); j++)
-            settings.setValue(QString("CHANNEL%1_EQ%2").arg(i).arg(j), m_EQData[i][j]);
+        for( int j = 0; j < (int)m_Slider.size(); j++)
+            settings.setValue(QString("CHANNEL%1_EQ%2").arg(i).arg(j), m_Channels[i].eqData[j].value);
     }
-    for(int i = 0; i < m_Distance.size(); i++)
+    for(int i = 0; i < m_Channels.size(); i++)
     {
-        settings.setValue(QString("DISTANCE%1").arg(i), m_Distance[i]);
+        settings.setValue(QString("DISTANCE%1").arg(i), m_Channels[i].distance);
     }
 }
 
@@ -409,21 +423,21 @@ void MCACCEQDialog::on_RestoreFromFilePushButton_clicked()
     if (!(filename.endsWith(".ini", Qt::CaseInsensitive)))
         filename += ".ini";
     QSettings settings(filename, QSettings::IniFormat);
-    for (int i = 0; i < (int)m_EQData.size(); i++)
+    for (int i = 0; i < (int)m_Channels.size(); i++)
     {
-        for( int j = 0; j < (int)m_EQData[i].size(); j++)
+        for( int j = 0; j < (int)m_Slider.size(); j++)
         {
-            m_EQData[i][j] = settings.value(QString("CHANNEL%1_EQ%2").arg(i).arg(j), 50).toInt();
-            QString cmd = QString("00%1%2%3SUW").arg(m_Speakers[i].first).arg(j, 2, 10, QChar('0')).arg(m_EQData[i][j]);
+            m_Channels[i].eqData[j].value = settings.value(QString("CHANNEL%1_EQ%2").arg(i).arg(j), 50).toInt();
+            QString cmd = QString("00%1%2%3SUW").arg(m_Channels[i].channel).arg(j, 2, 10, QChar('0')).arg(m_Channels[i].eqData[j].value);
             SendCmd(cmd);
         }
         //QThread::usleep(200);
     }
-    for(int i = 0; i < m_Distance.size(); i++)
+    for(int i = 0; i < m_Channels.size(); i++)
     {
-        m_Distance[i] = settings.value(QString("DISTANCE%1").arg(i), 0.0).toDouble();
-        int distance = (int)(m_Distance[i] * 100.0 + 0.5);
-        QString cmd = QString("00%1%2%3SSS").arg(m_Speakers[i].first).arg("1").arg(distance, 6, 10, QChar('0'));
+        m_Channels[i].distance = settings.value(QString("DISTANCE%1").arg(i), 0.0).toDouble();
+        int distance = (int)(m_Channels[i].distance * 100.0 + 0.5);
+        QString cmd = QString("00%1%2%3SSS").arg(m_Channels[i].channel).arg("1").arg(distance, 6, 10, QChar('0'));
         SendCmd(cmd);
     }
 }
@@ -452,7 +466,7 @@ void MCACCEQDialog::on_SetDistancePushButton_clicked()
 void MCACCEQDialog::SendDistance()
 {
     int distance = (int)(ui->DistanceSpinBox->value() * 100.0 + 0.5);
-    QString cmd = QString("00%1%2%3SSS").arg(m_Speakers[m_SelectedChannel].first).arg("1").arg(distance, 6, 10, QChar('0'));
+    QString cmd = QString("00%1%2%3SSS").arg(m_Channels[m_SelectedChannel].channel).arg("1").arg(distance, 6, 10, QChar('0'));
     SendCmd(cmd);
 }
 
@@ -460,4 +474,15 @@ void MCACCEQDialog::DisableControls()
 {
     EnableSlider(false);
     ui->groupBoxDistance->setDisabled(true);
+}
+
+void MCACCEQDialog::addChannel(const QString& channel, QRadioButton* radio)
+{
+    MCACCEQDialog::ChannelData data;
+    data.channel = channel;
+    data.radio = radio;
+    data.distance = 0;
+    data.eqData.resize(m_Slider.size());
+
+    m_Channels.append(data);
 }

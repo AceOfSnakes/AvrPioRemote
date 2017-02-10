@@ -21,30 +21,6 @@
 #include "receiver_interface/receiverinterface.h"
 #include <QThread>
 
-
-const char* LStyp[] = {
-    "Normal(SB/FH)", //0
-    "Normal(SB/FW)",
-    "Speaker B",
-    "Front Bi-Amp",
-    "Zone 2",
-    "9.1ch FH/FW",
-    "7.1ch+Speaker B",
-    "7.1ch Front Bi-Amp",
-    "7.1ch+ZONE2",
-    "7.1ch FH/FW+ZONE2",
-    "5.1ch Bi-Amp+ZONE2",
-    "5.1ch+ZONE 2+3",
-    "5.1ch+SP-B Bi-Amp",
-    "5.1ch F+Surr Bi-Amp",
-    "5.1ch F+C Bi-Amp", //14
-    "5.1ch C+Surr Bi-Amp",
-    };
-
-const int LSwert[] = {    //codewert des LSTyps im AVR
-    0,1,2,3,4,10,11,12,13,14,15,16,17,18,19,20,
-    };
-
 const char* channels[]={
     "L__",
     "R__",
@@ -58,6 +34,16 @@ const char* channels[]={
     "RH_",
     "LW_",
     "RW_",
+    "TML",
+    "TMR",
+    "TFL",
+    "TFR",
+    "TRL",
+    "TRR",
+    "SW1",
+    "SW2",
+    "ALL",
+    NULL
 };
 
 LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings &settings,ReceiverInterface &Comm ) :
@@ -69,8 +55,6 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_RefreshSpeakerSettings(false)
 {
     errflag=0;
-    bool x922;
-    int lsanz=14;
 
     ui->setupUi(this);
     //this->setFixedSize(this->size());
@@ -80,6 +64,8 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     {
         m_PositionSet = restoreGeometry(m_Settings.value("LSSettingsWindowGeometry").toByteArray());
     }
+
+    initSpeakerConfiguration();
 
     // communication
 //    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(SpeakerReceived(QString)));
@@ -98,6 +84,15 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_Sliders.append(ui->sfhr);
     m_Sliders.append(ui->sfwl);
     m_Sliders.append(ui->sfwr);
+    m_Sliders.append(ui->ssw2);
+    m_Sliders.append(ui->stfl);
+    m_Sliders.append(ui->stfr);
+    m_Sliders.append(ui->stml);
+    m_Sliders.append(ui->stmr);
+    m_Sliders.append(ui->stbl);
+    m_Sliders.append(ui->stbr);
+    m_Sliders.append(ui->sall);
+
     foreach (QSlider* slider, m_Sliders) {
         connect(slider, SIGNAL(sliderReleased()), this, SLOT(ValueChanged()));
     }
@@ -115,6 +110,14 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_Labels.append(ui->lfhr);
     m_Labels.append(ui->lfwl);
     m_Labels.append(ui->lfwr);
+    m_Labels.append(ui->lsw2);
+    m_Labels.append(ui->ltfl);
+    m_Labels.append(ui->ltfr);
+    m_Labels.append(ui->ltml);
+    m_Labels.append(ui->ltmr);
+    m_Labels.append(ui->ltbl);
+    m_Labels.append(ui->ltbr);
+    m_Labels.append(ui->lall);
 
     m_MCACCButtons.append(ui->mc1);
     m_MCACCButtons.append(ui->mc2);
@@ -126,15 +129,10 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
         connect(checkBox, SIGNAL(clicked()), this, SLOT(checkbox()));
     }
 
-    x922=m_Settings.value("TunerCompatibilityMode").toBool();
-    if (x922)   //Im Kompatmodus nur verfügbare Typen anzeigen
-        lsanz=5;
+    for (int i=0; channels[i] != NULL;i++) {
 
-    for(int i=0;i<lsanz;i++) //LS-Konfig belegen
-        ui->LSsystem->addItem(LStyp[i]);
-
-    for (int i=0;i<12;i++)
-        mchannels[i]=50;
+        mchannels.append(50);
+    }
 
     QStringList list;
     list << "Small" << "Large";
@@ -154,6 +152,22 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     list << "Yes" << "Plus" << "No";
     ui->comboBoxSubwooferSetting->addItems(list);
 
+    list.clear();
+    list << "Yes" << "Plus" << "No";
+    ui->comboBoxSubwoofer2Setting->addItems(list);
+
+    list.clear();
+    list << "Small" << "Large" << "No" << "Front" << "Surround" << "Surround Back";
+    ui->comboBoxTopForwardSetting->addItems(list);
+
+    list.clear();
+    list << "Small" << "Large" << "No" << "Front" << "Surround" << "Surround Back";
+    ui->comboBoxTopMiddleSetting->addItems(list);
+
+    list.clear();
+    list << "Small" << "Large" << "No" << "Front" << "Surround" << "Surround Back";
+    ui->comboBoxTopBackwardSetting->addItems(list);
+
     QStringList mstr1;
     mstr1 << "Memory 1"  << "Memory 2" << "Memory 3" << "Memory 4" << "Memory 5" << "Memory 6";
     ui->selectmem->addItems(mstr1);
@@ -165,6 +179,10 @@ LoudspeakerSettingsDialog::LoudspeakerSettingsDialog(QWidget *parent, QSettings 
     m_SpeakerSettings << ui->comboBoxSurroundSetting;
     m_SpeakerSettings << ui->comboBoxSurroundBackSetting;
     m_SpeakerSettings << ui->comboBoxSubwooferSetting;
+    m_SpeakerSettings << ui->comboBoxSubwoofer2Setting;
+    m_SpeakerSettings << ui->comboBoxTopForwardSetting;
+    m_SpeakerSettings << ui->comboBoxTopMiddleSetting;
+    m_SpeakerSettings << ui->comboBoxTopBackwardSetting;
     foreach( QComboBox* comboBox, m_SpeakerSettings)
     {
         connect(comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(speakerSettingsComboBoxValueChanged(int)));
@@ -270,8 +288,15 @@ void LoudspeakerSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
     if (system != NULL)
     {
         ui->groupBoxSpeakerConfiguration->setEnabled(true);
-        ui->LSsystem->setCurrentIndex(system->GetSpeakerSystem());//aktuelle Konfig
-        mVal = system->GetSpeakerSystem();  //in public speichern zum Vergleich beim setzen
+        mCurrentSpeakerSetting = system->GetSpeakerSystem();
+        int nr = 0;
+        for(int i = 0; i < m_SpeakerConfigurations.size(); i++) {
+            if (mCurrentSpeakerSetting == m_SpeakerConfigurations[i].first) {
+                nr = i;
+                break;
+            }
+        }
+        ui->LSsystem->setCurrentIndex(nr);//aktuelle Konfig
         return;
     }
     ChannelLevelResponse_CLV* level = dynamic_cast<ChannelLevelResponse_CLV*>(response);
@@ -344,37 +369,20 @@ void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
 }
 
 
-void LoudspeakerSettingsDialog::on_SetBut_clicked()
-{
-    QString str;
-    int i=LSwert[ui->LSsystem->currentIndex()];
-    errflag=0;
-    if (i != mVal)
-    {
-      str = QString("%1SSF").arg(i);
-      if (str.size()<5)
-          str="0"+str;
-      SendCmd(str);
-      mVal=i;
-      errflag=1;
-    }
-}
-
-
 void LoudspeakerSettingsDialog::on_savebutt_clicked()
 {   //Channel-Level aus public-Speicher in Memory x sichern, gem. Auswahl Combobox,
     QString str;
     int str1;
     str1 = m_Settings.value("IP/4").toInt(); //letztes Oktett IP anhängen, falls mehrere Reciever
 
-    for (int i = 0; i< 12; i++)
+    for (int i = 0; i< mchannels.size(); i++)
     {
         str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
-          m_Settings.setValue(str,mchannels[i]);
+          m_Settings.setValue(str, mchannels[i]);
     }
 
     str = QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
-    m_Settings.setValue(str, mVal);
+    m_Settings.setValue(str, mCurrentSpeakerSetting);
     for (int i = 0; i < m_SpeakerSettings.size(); i++)
     {
           str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(i, 2, 10, QChar('0'));
@@ -411,7 +419,7 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
 */
 //    str1=m_Settings.value("IP/4").toInt();//letztes Oktett IP anhängen, falls mehrere Reciever
 
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < m_Sliders.size(); i++)
     {
           str = QString("mem%1-%2/%3").arg(ui->selectmem->currentIndex()).arg(str1).arg(channels[i]);
           j = m_Settings.value(str).toInt();
@@ -425,8 +433,8 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
           setslider();
     }
     str = QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
-    mVal = m_Settings.value(str).toInt();
-    str = QString("%1SSF").arg(mVal);
+    mCurrentSpeakerSetting = m_Settings.value(str).toInt();
+    str = QString("%1SSF").arg(mCurrentSpeakerSetting);
     if (str.size() < 5)
         str = "0" + str;
     SendCmd(str);
@@ -464,7 +472,7 @@ void LoudspeakerSettingsDialog::setslider(int idx, int value)
 {
     QString str;
     double j;
-    if (idx < 0 || idx >= 12)
+    if (idx < 0 || idx >= m_Sliders.size())
         return;
     if (value <= 25 && value >= 75)
         value = 50;
@@ -612,7 +620,7 @@ void LoudspeakerSettingsDialog::requestData()
     requestSpeakerSettings();
 // hier aktuellen Channel Level anfordern
 
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < m_Sliders.size(); i++)
     {
         SendCmd(QString("?%1CLV").arg(channels[i]));
     }
@@ -634,4 +642,75 @@ void LoudspeakerSettingsDialog::XOver_selected()
             break;
         }
     }
+}
+
+void LoudspeakerSettingsDialog::initSpeakerConfiguration()
+{
+    bool x922;
+    x922=m_Settings.value("TunerCompatibilityMode").toBool();
+
+    m_SpeakerConfigurations.clear();
+    ui->LSsystem->clear();
+
+    addSpkConf("00", "Normal(SB/FH)");
+    addSpkConf("01", "Normal(SB/FW)");
+    addSpkConf("02", "Speaker B");
+    addSpkConf("03", "Front Bi-Amp");
+    addSpkConf("04", "Zone 2");
+    if (!x922) { //Im Kompatmodus nur verfügbare Typen anzeigen
+        addSpkConf("05", "HD Zone");
+        addSpkConf("07", "5.2");
+        addSpkConf("08", "Front Bi-Amp (for 5ch model)");
+        addSpkConf("09", "Speaker B (for 5ch model)");
+        addSpkConf("10", "9.1 FH/FW");
+        addSpkConf("11", "7.1 + Speaker B");
+        addSpkConf("12", "7.1 Front Bi-Amp");
+        addSpkConf("13", "7.1 + Zone 2");
+        addSpkConf("14", "7.1 FH/FW + Zone 2");
+        addSpkConf("15", "5.1 Bi-Amp + Zone 2");
+        addSpkConf("16", "5.1 + Zone 2+3");
+        addSpkConf("17", "5.1 + SP-B Bi-Amp");
+        addSpkConf("18", "5.1 F+Surr Bi-Amp");
+        addSpkConf("19", "5.1 F+C Bi-Amp");
+        addSpkConf("20", "5.1 C+Surr Bi-Amp");
+        addSpkConf("21", "Multi-Zone Music");
+        addSpkConf("22", "7.2.2 TMd/FW (not use)");
+        addSpkConf("23", "7.2.2 TMd/FH (not use)");
+        addSpkConf("24", "5.2.4 (not use)");
+        addSpkConf("25", "5.2 Zone 2 + HD Zone");
+        addSpkConf("26", "7.2.2/5.2.2/7.2");
+        addSpkConf("27", "7.2.2 Front Bi-Amp");
+        addSpkConf("30", "9.2.2 TMd/FH");
+        addSpkConf("31", "7.2.4 SB Pre out");
+        addSpkConf("32", "7.2.4 Front Pre out");
+    }
+
+    for (int i = 0; i < m_SpeakerConfigurations.size(); i++) {
+        ui->LSsystem->addItem(m_SpeakerConfigurations[i].second);
+
+    }
+//    for (int i = 0; i < m_SpeakerConfigurations.size(); i++) //LS-Konfig belegen
+//        ui->LSsystem->addItem(m_SpeakerConfigurations.[i]);
+
+
+}
+
+void LoudspeakerSettingsDialog::addSpkConf(const QString& nr, const QString& descr)
+{
+    m_SpeakerConfigurations.append(QPair<QString, QString>(nr, descr));
+}
+
+void LoudspeakerSettingsDialog::on_LSsystem_currentIndexChanged(int index)
+{
+    QString str;
+    QString nr = m_SpeakerConfigurations[index].first;
+    errflag = 0;
+    if (nr != mCurrentSpeakerSetting)
+    {
+      str = QString("%1SSF").arg(nr);
+      SendCmd(str);
+      mCurrentSpeakerSetting = nr;
+      errflag = 1;
+    }
+
 }

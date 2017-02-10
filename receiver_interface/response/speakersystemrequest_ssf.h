@@ -12,9 +12,9 @@ public:
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
 
-    int GetSpeakerSystem();
+    QString GetSpeakerSystem();
 private:
-    int     m_SpeakerSystem;
+    QString m_SpeakerSystem;
 };
 
 #endif // SPEAKERSYSTEMREQUEST_H
