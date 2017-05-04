@@ -33,6 +33,20 @@ QWidget:hover {
 }
     </style>
   </element>
+  <element name="power-button" id="PowerButton">
+	<style>
+QWidget {
+  background-color:rgba(0, 0, 0, 0.0);
+}
+	</style>
+  </element>
+  <element name="info-button" id="InfoButton">
+	<style>
+QWidget {
+  background-color:rgba(0, 0, 0, 0.0);
+}
+	</style>
+  </element>
   <element name="input-name-label" id="InputNameLabel" >
 	<style>QWidget{color:lightblue;}</style>
   </element>
