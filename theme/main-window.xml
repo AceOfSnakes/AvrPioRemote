@@ -33,9 +33,10 @@ QWidget:hover {
 }
     </style>
   </element>
-  <element name="power-button" id="PowerButton">
+  <element name="power-button" id="PowerButton" width="48" height="42" pos-x="8" pos-y="5">
 	<style>
 QWidget {
+  border-image: url($DIR$/theme/main-window/blank.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
 	</style>
@@ -43,6 +44,7 @@ QWidget {
   <element name="info-button" id="InfoButton">
 	<style>
 QWidget {
+  border-image: url($DIR$/theme/main-window/blank.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
 	</style>
