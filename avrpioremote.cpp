@@ -34,6 +34,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     ui(new Ui::AVRPioRemote),
     m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
     m_StatusLineTimer(this),
+    m_ReceiverInterface(),
+    m_PlayerInterface(),
     m_RefreshTimer(this)
 {
     this->setWindowFlags(Qt::Dialog);
@@ -503,7 +505,6 @@ void AVRPioRemote::on_show_hide( QSystemTrayIcon::ActivationReason reason )
 
 }
 void AVRPioRemote::minimize() {
-    qDebug()<<"minimize";
     if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
         on_show_hide();
     } else {
@@ -1033,7 +1034,6 @@ void AVRPioRemote::onConnectBD()
 
 void AVRPioRemote::onConnect()
 {
-    qDebug()<<"Connect to receiver";
     if (!m_ReceiverInterface.IsConnected())
     {
         // connect

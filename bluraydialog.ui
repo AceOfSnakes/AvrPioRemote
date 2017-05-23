@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>410</height>
+    <width>651</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -166,13 +166,6 @@
                  <width>16</width>
                  <height>16</height>
                 </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="text">
-                <string>PushButton</string>
                </property>
               </widget>
              </item>
@@ -431,6 +424,28 @@
            </property>
           </widget>
          </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="BdZoomButton">
+           <property name="minimumSize">
+            <size>
+             <width>90</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>ZOOM</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
          <item row="1" column="0">
           <widget class="QPushButton" name="BdProgramButton">
            <property name="minimumSize">
@@ -469,28 +484,6 @@
            </property>
            <property name="text">
             <string>BOOKMARK</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QPushButton" name="BdZoomButton">
-           <property name="minimumSize">
-            <size>
-             <width>90</width>
-             <height>23</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>120</width>
-             <height>23</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>ZOOM</string>
            </property>
            <property name="autoDefault">
             <bool>false</bool>
@@ -649,6 +642,76 @@
            </property>
            <property name="text">
             <string>v</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <widget class="QPushButton" name="BdReturnButton">
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>140</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>RETURN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="BdMediaGalleryButton">
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>140</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>HOME MEDIA GALLERY</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="BdPopUpMenuButton">
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>140</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>POPUP MENU</string>
            </property>
            <property name="autoDefault">
             <bool>false</bool>
@@ -1095,76 +1158,6 @@
             </widget>
            </item>
           </layout>
-         </item>
-         <item row="4" column="3">
-          <widget class="QPushButton" name="BdReturnButton">
-           <property name="minimumSize">
-            <size>
-             <width>140</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>140</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>RETURN</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QPushButton" name="BdMediaGalleryButton">
-           <property name="minimumSize">
-            <size>
-             <width>140</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>140</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>HOME MEDIA GALLERY</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="3">
-          <widget class="QPushButton" name="BdPopUpMenuButton">
-           <property name="minimumSize">
-            <size>
-             <width>140</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>140</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>POPUP MENU</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>

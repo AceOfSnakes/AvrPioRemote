@@ -1,4 +1,5 @@
 #include "autosearchdialog.h"
+#include <string>
 #include "ui_autosearchdialog.h"
 #include "logger.h"
 #include <QHostAddress>
@@ -8,6 +9,8 @@
 #include <QtNetwork>
 #include <QtXml>
 #include <QMenu>
+
+string trim(const string &t, const string &ws);
 
 RemoteDevice::RemoteDevice() {
     port = 0;
@@ -28,7 +31,6 @@ void RemoteDevice::Connect(QString ip, int port)
     connect((socket), SIGNAL(connected()), this, SLOT(_TcpConnected()));
     connect((socket), SIGNAL(disconnected()), this, SLOT(_TcpDisconnected()));
     connect((socket), SIGNAL(readyRead()), this, SLOT(_DataAvailable()));
-    //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
     connect((socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(_TcpError(QAbstractSocket::SocketError)));
     socket->connectToHost(ip, port);
 }
@@ -39,16 +41,20 @@ RemoteDevice::~RemoteDevice()
     socket = NULL;
 }
 
-
-AutoSearchDialog::AutoSearchDialog(QSettings& settings, QWidget *parent, bool receiver) :
+AutoSearchDialog::AutoSearchDialog(QSettings& settings, QWidget *parent, bool receiver,QString pingCommand, QString pingResponseStart
+                                   , QString pingResponseStartOff) :
     QDialog(parent),
     m_Result(0),
     m_SelectedPort(0),
     m_GroupAddress("239.255.255.250"),
     m_FindReceivers(receiver),
     m_Settings(settings),
+    m_pingCommand(pingCommand),
+    m_pingResponseStart(pingResponseStart),
+    m_pingResponseStartOff(pingResponseStartOff),
     ui(new Ui::AutoSearchDialog)
 {
+    qDebug()<<"AutoSearchDialog";
     ui->setupUi(this);
 
     ui->label->setVisible(false);
@@ -85,7 +91,6 @@ AutoSearchDialog::AutoSearchDialog(QSettings& settings, QWidget *parent, bool re
         ui->label_2->setText(ui->label_2->text().replace(QString("%device%"),tr("player")));
     }
     SendMsg();
-    //connect(m_HUpnpWrapper,SIGNAL(NewDevice(QString,QString)), this, SLOT(NewDevice(QString,QString)));
 }
 
 AutoSearchDialog::~AutoSearchDialog()
@@ -115,11 +120,7 @@ void AutoSearchDialog::changeEvent(QEvent *e)
 
 void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
 {
-
-    //emit UpdateLabel("Device " + name + " " + url);
-
     Logger::Log("Found UPnP device: " + name + " " + ip + " " + location);
-    qDebug () << ("Found UPnP device: " + name + " " + ip + " " + location);
     QUrl url = QUrl(location);
     QEventLoop eventLoop;
 
@@ -137,7 +138,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     QString modelName;
     QString remoteSupported("0");
     QString remotePort(QString::number(url.port()));
-    bool filterBlueRay = m_Settings.value("FilterBlueRay", true).toBool();
+
     if (reply->error() == QNetworkReply::NoError) {
         //success
         //Get your xml into xmlText(you can use QString instead og QByteArray)
@@ -186,91 +187,71 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
                 }
             }
         }
-
-        qDebug() << "Success" << manufacturer << friendlyName << modelName;
         delete reply;
     }
     else {
         //failure
-        qDebug() << "Failure" << reply->errorString();
+        Logger::Log("Failure" + reply->errorString());
         delete reply;\
         eventLoop.quit();
         return;
     }
     eventLoop.quit();
-    if (m_FindReceivers) {
-        foreach(RemoteDevice *dev ,m_RemoteDevices) {
-            qDebug()<<ip<<dev->ip;
-            if(QString::compare(ip,dev->ip)==0) {
-                qDebug()<<"already in list"<<ip;
-                return;
-            }
-        }
-        RemoteDevice* device = new RemoteDevice(location);
-        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
-        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
-        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-        device->Connect(ip, 23);
-        m_RemoteDevices.append(device);
-
-    } else if(!filterBlueRay || (remoteSupported.toInt() == 1 && modelName.startsWith("BDP"))) {
-        QString name=QString(filterBlueRay?
-                                 "%1 (%2:%3)":
-                                 "%4 / %5 / %1 (%2:%03)").arg(modelName).arg(ip).arg(remotePort).arg(manufacturer).arg(friendlyName);
-        QList<QListWidgetItem*> find = ui->listWidget->findItems(name,Qt::MatchContains| Qt::MatchRecursive);
-
-//        ui->listWidget->findItems()
-        if(find.size()==0) {
-            ui->listWidget->addItem(name);
-            if (ui->listWidget->count() == 1) {
-                ui->listWidget->setCurrentRow(0);
-                m_SelectedAddress = ip;
-                m_SelectedPort = remotePort.toInt();
-            }
-            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, ip);
-            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, remotePort.toInt());
-            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 2, location);
-        } else {
-            qDebug() << name << "already in list";
-        }
+    QString deviceKey = modelName.append("/").append("23");
+    if(m_RemoteDevices.contains(deviceKey)) {
+        Logger::Log("already in remote devices list "+modelName+" "+ip);
     }
+    RemoteDevice* device = new RemoteDevice(location);
+    connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
+    connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
+    connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
+    connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+    device->Connect(ip, 23);
+    m_RemoteDevices.insert(deviceKey,device);
 }
 
 void AutoSearchDialog::TcpConnected()
 {
-    Logger::Log("TcpConnected");
     QObject* sender = QObject::sender();
     RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
-    device->socket->write("?RGD\r\n");
+    qDebug()<<device->ip<<device->port<<QString().append(m_pingCommand).append("\r\n").toLatin1().data();
+    device->socket->write(QString().append(m_pingCommand).append("\r\n").toLatin1().data());
 }
 
 void AutoSearchDialog::TcpDisconnected()
 {
-    Logger::Log("TcpDisconnected");
-    //    QObject* sender = QObject::sender();
-    //    RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
-    //    int port = device->port;
-    //    QString ip = device->ip;
-    //    int idx = m_RemoteDevices.indexOf(device);
-    //    if (idx != -1)
-    //        m_RemoteDevices.remove(idx);
-    //    delete device;
-    //    if (port == 23)
-    //    {
-    //        device = new RemoteDevice();
-    //        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
-    //        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-    //        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
-    //        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-    //        device->Connect(ip, 8102);
-    //        m_RemoteDevices.append(device);
-    //    }
 }
 
+QString AutoSearchDialog::removeDevice(QMap<QString,RemoteDevice*>  &m_RemoteDevices,RemoteDevice* device) {
+    foreach(QString key,m_RemoteDevices.keys()) {
+        if(device == m_RemoteDevices.value(key)) {
+            m_RemoteDevices.remove(key);
+            int index=key.lastIndexOf("/");
+            key.truncate(index);
+            return key;
+        }
+    }
+    return QString();
+}
+void AutoSearchDialog::reconnect(QString & key,QString & ip,int port,RemoteDevice* device){
+    if (key != NULL && (port == 23 || port != 8102))
+    {
+        device = new RemoteDevice();
+        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
+        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
+        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
+        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+        if(port == 23) {
+            device->Connect(ip, 8102);
+            m_RemoteDevices.insert(key.append("/8102"), device);
+        } else {
+            device->Connect(ip, 23);
+            m_RemoteDevices.insert(key.append("/23"), device);
+        }
+    }
+}
 void AutoSearchDialog::ReadString()
 {
-    Logger::Log("ReadString");
     QObject* sender = QObject::sender();
     RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
     int count = device->socket->bytesAvailable();
@@ -278,68 +259,58 @@ void AutoSearchDialog::ReadString()
     data.resize(count + 1);
     device->socket->read(&data[0], count);
     data[count] = '\0';
-    QString str = QString::fromLatin1((const char*)&data[0]);
+    string m_ReceivedString="";
+    m_ReceivedString.append((const char*)&data[0], 0, count);
+    m_ReceivedString = trim(m_ReceivedString, "\r");
+    m_ReceivedString = trim(m_ReceivedString, "\n");
+    QString str;
+    str = str.fromUtf8(m_ReceivedString.c_str());
+    qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;
     Logger::Log(str);
     Logger::Log(QString("QHostAddress: %1:%2").arg(device->ip).arg(device->port));
 
-    if (str.startsWith("RGD"))
+    if (str.startsWith(m_pingResponseStart)||
+            (!m_pingResponseStartOff.isEmpty() && str.startsWith(m_pingResponseStartOff)))
     {
-        QStringList l = str.mid(3).split(QRegExp("[<>]"), QString::SkipEmptyParts);
-        QString str1, str2;
-        if (l.count() > 0)
-            str1 = l[0];
-        if (l.count() > 1)
-            str2 = l[1];
-        if (str2 != "")
-        {
-            RemoteDevice* rd = new RemoteDevice();
-            rd->ip = device->ip;
-            rd->port = device->port;
-            m_DeviceInList.append(rd);
-            ui->listWidget->addItem(QString("%1 (%2:%3)").arg(str2).arg(device->ip).arg(device->port));
-            if (ui->listWidget->count() == 1) {
-                ui->listWidget->setCurrentRow(0);
-                m_SelectedAddress = device->ip;
-                m_SelectedPort = device->port;
+        foreach(RemoteDevice *dev ,m_DeviceInList) {
+            if(QString::compare(device->ip,dev->ip)==0 && device->port == dev->port) {
+                qDebug()<<"already in list"<<device->ip<<device->port;
+                return;
             }
-            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, device->ip);
-            ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, device->port);
-            int idx = m_RemoteDevices.indexOf(device);
-            if (idx != -1)
-                m_RemoteDevices.remove(idx);
-            device->socket->close();
-            device->socket->disconnect();
-            device->deleteLater();
-            return;
         }
+
+        RemoteDevice* rd = new RemoteDevice();
+        rd->ip = device->ip;
+        rd->port = device->port;
+        QString key = removeDevice(m_RemoteDevices,device);
+        m_DeviceInList.append(rd);
+        ui->listWidget->addItem(QString("%1 (%2:%3)").arg(key).arg(device->ip).arg(device->port));
+        if (ui->listWidget->count() == 1) {
+            ui->listWidget->setCurrentRow(0);
+            m_SelectedAddress = device->ip;
+            m_SelectedPort = device->port;
+        }
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, device->ip);
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, device->port);
+
+
+        device->socket->close();
+        device->socket->disconnect();
+        device->deleteLater();
+        return;
     }
 
     int port = device->port;
     QString ip = device->ip;
-    int idx = m_RemoteDevices.indexOf(device);
-    if (idx != -1)
-        m_RemoteDevices.remove(idx);
+    QString key = removeDevice(m_RemoteDevices,device);
     device->deleteLater();
-    if (port == 23)
-    {
-        device = new RemoteDevice();
-        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
-        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
-        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-        device->Connect(ip, 8102);
-        m_RemoteDevices.append(device);
-    }
+    reconnect(key,ip,port,device);
 }
 
 void AutoSearchDialog::TcpError(QAbstractSocket::SocketError socketError)
 {
-    //             QMessageBox::information(this, tr("Pioneer Remote"),
-    //                                      tr("The host was not found. Please check the "
-    //                                         "host name and port settings."));
     QObject* sender = QObject::sender();
     RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
-    //str="ui->"+sender->objectName();
     QString str;
     switch (socketError) {
     case QAbstractSocket::RemoteHostClosedError:
@@ -347,44 +318,19 @@ void AutoSearchDialog::TcpError(QAbstractSocket::SocketError socketError)
         break;
     case QAbstractSocket::HostNotFoundError:
         str = QString("Host not found: %1").arg(device->socket->errorString());
-        //Log(tr("The host was not found. Please check the host name and port settings."), QColor(255, 0, 0));
         break;
     case QAbstractSocket::ConnectionRefusedError:
         str = QString("Host refused connection: %1").arg(device->socket->errorString());
-        //        Log(tr("The connection was refused by the peer. "
-        //               "Make sure the receiver is on "
-        //               "and check ip address and port."), QColor(255, 0, 0));
         break;
     default:
         str = QString("The following error occurred: %1.").arg(device->socket->errorString());
-        //Log(tr("The following error occurred: %1.").arg(m_Socket.errorString()), QColor(255, 0, 0));
     }
-    Logger::Log(str);
-    Logger::Log(QString("Error: QHostAddress: %1:%2").arg(device->ip).arg(device->port));
     int port = device->port;
     QString ip = device->ip;
-    int idx = m_RemoteDevices.indexOf(device);
-    if (idx != -1)
-        m_RemoteDevices.remove(idx);
+    QString key = removeDevice(m_RemoteDevices,device);
     delete device;
-    if (port == 23)
-    {
-        Logger::Log("again");
-        device = new RemoteDevice();
-        connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
-        connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
-        connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-        device->Connect(ip, 8102);
-        m_RemoteDevices.append(device);
-    }
-    //    if (m_StartConnection)
-    //    {
-    //        Xsleep::msleep(10000);
-    //        ConnectTCP();
-    //    }
+    reconnect(key,ip,port,device);
 }
-
 void AutoSearchDialog::on_CancelButton_clicked()
 {
     m_Result = 0;
@@ -405,17 +351,14 @@ void AutoSearchDialog::on_repeatButton_clicked()
 
 void AutoSearchDialog::on_listWidget_clicked(const QModelIndex &index)
 {
-    //m_SelectedIndex = index.row();
     m_SelectedAddress = ui->listWidget->item(index.row())->data(Qt::UserRole).toString();
     m_SelectedPort = ui->listWidget->item(index.row())->data(Qt::UserRole + 1).toInt();
     QString url = ui->listWidget->item(index.row())->data(Qt::UserRole + 2).toString();
-    qDebug() << "Yahoo " << m_SelectedAddress << m_SelectedPort << url;
 }
 
 void AutoSearchDialog::on_listWidget_doubleClicked(const QModelIndex &index)
 {
     m_Result = 1;
-    //m_SelectedIndex = index.row();
     m_SelectedAddress = ui->listWidget->item(index.row())->data(Qt::UserRole).toString();
     m_SelectedPort = ui->listWidget->item(index.row())->data(Qt::UserRole + 1).toInt();
     close();
@@ -437,21 +380,18 @@ void AutoSearchDialog::ProcessPendingDatagrams()
 {
     foreach( QUdpSocket* socket, m_MulticatsSockets)
     {
+
         while (socket->hasPendingDatagrams()) {
             QByteArray datagram;
             QHostAddress remoteAddr;
             datagram.resize(socket->pendingDatagramSize());
             socket->readDatagram(datagram.data(), datagram.size(), &remoteAddr);
             QString data = QString(datagram);
-            //qDebug() << data;
-
             if (data.contains("200 OK", Qt::CaseInsensitive) && data.contains("rootdevice", Qt::CaseInsensitive)) {
-                //qDebug() << remoteAddr.toString() << data;
                 QStringList ll = data.split(QRegExp("[\n\r]"), QString::SkipEmptyParts);
                 QString location;
                 foreach (QString s, ll)
                 {
-                    //qDebug() << s;
                     if (s.startsWith("LOCATION: ", Qt::CaseInsensitive))
                     {
                         location = s.mid(10);
@@ -466,14 +406,17 @@ void AutoSearchDialog::ProcessPendingDatagrams()
 
 void AutoSearchDialog::SendMsg()
 {
-    QByteArray datagram = "M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 1\r\nST: upnp:rootdevice\r\nUSER-AGENT: AVRPioRemote\r\n\r\n\r\n";
+    QByteArray datagram = "M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\n"
+                          "MAN: \"ssdp:discover\"\r\n"
+                          "MX: 1\r\n"
+                          "ST: upnp:rootdevice\r\n"
+                          "USER-AGENT: AVRPioRemote\r\n\r\n\r\n";
 
     foreach(QUdpSocket* socket, m_MulticatsSockets)
     {
-        //qDebug() << "Send to :" << socket->multicastInterface().humanReadableName();
         if (socket->writeDatagram(datagram, m_GroupAddress, 1900) == -1)
         {
-            qDebug() << QString("Error on %1!!!").arg(socket->localAddress().toString());
+            Logger::Log(QString("Error on %1!!!").arg(socket->localAddress().toString()));
         }
     }
 }
@@ -481,22 +424,21 @@ void AutoSearchDialog::SendMsg()
 
 void AutoSearchDialog::on_listWidget_customContextMenuRequested(const QPoint &pos)
 {
-   if(ui->listWidget->currentItem()== NULL ) {
-       return;
-   }
-   if(ui->listWidget->currentItem() != ui->listWidget->itemAt(pos)) {
-       return;
-   }
-   QString url = ui->listWidget->itemAt(pos)->data(Qt::UserRole + 2).toString();
-   if (!url.isEmpty()) {
-       QMenu menu(ui->listWidget);
-       QAction *copyAction = menu.addAction(tr("Copy device URL to clipboard"));
-       QList<QAction*> act;
-       act.append(copyAction);
-       QAction *selectedAction = menu.exec(ui->listWidget->mapToGlobal(pos));
-       if(selectedAction == copyAction) {
-           qDebug() << "In place";
-           QApplication::clipboard()->setText(url);
-       }
-   }
+    if(ui->listWidget->currentItem()== NULL ) {
+        return;
+    }
+    if(ui->listWidget->currentItem() != ui->listWidget->itemAt(pos)) {
+        return;
+    }
+    QString url = ui->listWidget->itemAt(pos)->data(Qt::UserRole + 2).toString();
+    if (!url.isEmpty()) {
+        QMenu menu(ui->listWidget);
+        QAction *copyAction = menu.addAction(tr("Copy device URL to clipboard"));
+        QList<QAction*> act;
+        act.append(copyAction);
+        QAction *selectedAction = menu.exec(ui->listWidget->mapToGlobal(pos));
+        if(selectedAction == copyAction) {
+            QApplication::clipboard()->setText(url);
+        }
+    }
 }

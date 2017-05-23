@@ -89,11 +89,13 @@ private slots:
 
     void on_pushButtonConnect_BD_clicked();
 
-    void on_ShowPlayerNameInTitle_clicked();
+//    void on_ShowPlayerNameInTitle_clicked();
 
-    void on_FilterBlueRay_clicked();
+//    void on_FilterBlueRay_clicked();
 
     void on_MinimizeToTrayCheckBox_clicked();
+
+    void on_pushBDSettingsLoadButton_clicked();
 
 signals:
     void onConnect();

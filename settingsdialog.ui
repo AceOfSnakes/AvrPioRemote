@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -405,21 +405,37 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="ShowPlayerNameInTitle">
-         <property name="enabled">
-          <bool>true</bool>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <property name="topMargin">
+          <number>0</number>
          </property>
-         <property name="text">
-          <string>Show Player name in window title</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="FilterBlueRay">
-         <property name="text">
-          <string>Filter Blu-Ray on search</string>
-         </property>
-        </widget>
+         <item>
+          <widget class="QPushButton" name="pushBDSettingsLoadButton">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Load  Player Settings</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">

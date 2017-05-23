@@ -20,6 +20,7 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QSignalMapper>
 #include <QListWidgetItem>
 #include "playerinterface.h"
 #include "settingsdialog.h"
@@ -35,7 +36,7 @@ class BluRayDialog;
 class BluRayDialog : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit BluRayDialog(QWidget *parent, QSettings& settings, PlayerInterface& Comm, SettingsDialog * settingsDialog);
     ~BluRayDialog();
@@ -49,17 +50,12 @@ private:
     bool                m_offline;
     QIcon           m_PowerButtonOnIcon;
     QIcon           m_PowerButtonOffIcon;
-    
-//    PlayerInterface m_PlayerInterface;
+
     int             m_PlayerIpPort;
     QString         m_PlayerIpAddress;
-//    QIntValidator   m_PlayerIpValidator;
-//    QIntValidator   m_PlayerIpPortValidator;
- //   QSettings       m_Settings;
-    
     bool            m_PlayerOnline;
+    QSignalMapper* signalMapper;
 
-    
 
     void moveEvent(QMoveEvent*event);
     virtual void resizeEvent(QResizeEvent *event);
@@ -69,74 +65,21 @@ public slots:
     void ManualShowBluRayDialog();
     void ShowBluRayDialog(bool autoShow);
     void EnableControls(bool enable);
-  //  void EnableIPInput(bool enable);
     void onConnect();
     void PlayerOffline(bool);
-    void PlayerType (QString name);
     void UpdateDisplayInfo (QRegExp &rx);
 private slots:
     void CheckOnline();
     void CheckOnlineInternal();
     void CommConnected();
+    void ChangeSettings();
     void CommDisconnected();
     void CommError(QString socketError);
     bool SendCmd(const QString& cmd);
     void on_pushButtonConnect_clicked();
     void on_BdPowerButton_clicked();
-    void on_BdContinuedButton_clicked();
-    void on_BdOpen_CloseButton_clicked();   
-    void on_BdAudioButton_clicked();
-    void on_BdSubtitleButton_clicked();
-    void on_BdAngleButton_clicked();
-    void on_BdFlDimmerButton_clicked();
-    void on_BdCD_DVDButton_clicked();
-    void on_BdHDMIButton_clicked();
-    void on_BdTopMenuButton_clicked();
-    void on_BdFunctionButton_clicked();
-    void on_BdExitButton_clicked();
-    void on_BdMediaGalleryButton_clicked();
-    void on_BdPopUpMenuButton_clicked();
-    void on_CursorUpButton_clicked();
-    void on_CursorLeftButton_clicked();
-    void on_CursorEnterButton_clicked();
-    void on_CursorRightButton_clicked();
-    void on_CursorDownButton_clicked();
-    void on_BdHomeMenuButton_clicked();
-    void on_BdReturnButton_clicked();
-    void on_BdProgramButton_clicked();
-    void on_BdBookmarkButton_clicked();
-    void on_BdZoomButton_clicked();
-    void on_BdIndexButton_clicked();
-    void on_BdPrevButton_clicked();
-    void on_BdPlayButton_clicked();   
-    void on_BdNextButton_clicked();  
-    void on_BdRevButton_clicked();   
-    void on_BdPauseButton_clicked();   
-    void on_BdStopButton_clicked();
-    void on_BdFwdButton_clicked();
-    void on_Bd1Button_clicked();
-    void on_Bd2Button_clicked();
-    void on_Bd3Button_clicked();
-    void on_Bd2ndVideoButton_clicked();
-    void on_Bd4Button_clicked();  
-    void on_Bd5Button_clicked();  
-    void on_Bd6Button_clicked();  
-    void on_Bd2AudioButton_clicked();
-    void on_Bd7Button_clicked();    
-    void on_Bd8Button_clicked();  
-    void on_Bd9Button_clicked();  
-    void on_BdA_BButton_clicked();
-    void on_BdClearButton_clicked();
-    void on_Bd0Button_clicked();
-    void on_BdEnterButton_clicked();
-    void on_BdRepeatButton_clicked();
-    void on_BdDisplayButton_clicked();
-    void on_BdKeylockButton_clicked();
-    void on_BdReplayButton_clicked();
-    void on_BdSkipSearchButton_clicked();
-
 signals:
-//	    void SendCmd(QString data);
+    //	    void SendCmd(QString data);
 };
 
 #endif // BLURAYDIALOG_H

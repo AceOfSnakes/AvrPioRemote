@@ -18,34 +18,38 @@
 #include "playerinterface.h"
 #include "Defs.h"
 #include <QTextCodec>
+#include <QThread>
 #include <QStringList>
+#include <QJsonDocument>
 #include <QRegExp>
 
 
 
 string trim(const string &t, const string &ws);
 
-PlayerInterface::PlayerInterface():m_error_count(0),rxBD("^([0-9]{3})?([0-9]{2,3})([0-9]{2})([0-9]{2})([0-9]{2})$")
+PlayerInterface::PlayerInterface():m_error_count(0)
 {
+    rxBD.setPattern(m_PlayerSettings.value("timeRegExp").toString());
     m_Connected = false;
     // socket
     connect((&m_Socket), SIGNAL(connected()), this, SLOT(TcpConnected()));
     connect((&m_Socket), SIGNAL(disconnected()), this, SLOT(TcpDisconnected()));
     connect((&m_Socket), SIGNAL(readyRead()), this, SLOT(ReadString()));
-    //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
     connect((&m_Socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-    m_ping_commands.insert("?P");
-    m_ping_commands.insert("?L");
-    m_ping_commands.insert("?A");
+    reloadPlayerSettings(m_PlayerSettings);
+ }
+void PlayerInterface::reloadPlayerSettings(QVariantMap  settings) {
+    m_PlayerSettings.clear();
+    m_PlayerSettings.unite(settings);
+    m_ping_commands.clear();
+    m_ping_commands.append(m_PlayerSettings.value("pingCommands").toList());
+    emit SettingsChanged();
 }
-
 
 void PlayerInterface::ConnectToPlayer(const QString& PlayerIpAddress, const int PlayerIpPort)
 {
-
     m_Socket.connectToHost(PlayerIpAddress, PlayerIpPort);
 }
-
 
 void PlayerInterface::Disconnect()
 {
@@ -54,28 +58,22 @@ void PlayerInterface::Disconnect()
     m_Socket.close();
 }
 
-
 void PlayerInterface::TcpConnected()
 {
-    qDebug()<<"PlayerInterface::TcpConnected()";
     m_Connected = true;
     emit Connected();
 }
 
-
 void PlayerInterface::TcpDisconnected()
 {
-    qDebug()<<"PlayerInterface::TcpDisconnected()";
     m_Connected = false;
     emit Disconnected();
 }
-
 
 bool PlayerInterface::IsConnected()
 {
     return m_Connected;
 }
-
 
 void PlayerInterface::ReadString()
 {
@@ -126,7 +124,6 @@ void PlayerInterface::TcpError(QAbstractSocket::SocketError socketError)
         break;
     case QAbstractSocket::HostNotFoundError:
         str = QString("Host not found: %1").arg(m_Socket.errorString());
-        //Log(tr("The host was not found. Please check the host name and port settings."), QColor(255, 0, 0));
         break;
     case QAbstractSocket::ConnectionRefusedError:
         str = QString("Host refused connection: %1").arg(m_Socket.errorString());
@@ -134,25 +131,27 @@ void PlayerInterface::TcpError(QAbstractSocket::SocketError socketError)
     default:
         str = QString("The following error occurred: %1.").arg(m_Socket.errorString());
     }
-    qDebug()<<"PlayerInterface::TcpError"<<socketError;
     emit CommError(str);
 }
-
-
 
 bool PlayerInterface::SendCmd(const QString& cmd)
 {
     CmdToBeSend(cmd);
-    QString tmp = cmd + "\r";
+    QString tmp = cmd + "\r\n";
     return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
+
 }
 
 void PlayerInterface::InterpretString(const QString& data)
 {
+    qDebug()<<data;
     bool timeMatch = rxBD.exactMatch(data);
-    if (data.startsWith("P0")) {
+    if (data.startsWith(m_PlayerSettings.value("pingResponseOk").toString())) {
+        if(!m_PlayerSettings.value("initCmd").isNull()) {
+            SendCmd(m_PlayerSettings.value("initCmd").toString());
+        }
         emit PlayerOffline(false);
-    } else if(data.startsWith("E04")) {
+    } else if(data.startsWith(m_PlayerSettings.value("pingResponseErr").toString())) {
         m_error_count ++;
         if(m_error_count == m_ping_commands.size()) {
             emit PlayerOffline(true);
@@ -163,8 +162,6 @@ void PlayerInterface::InterpretString(const QString& data)
         return;
     } else if(timeMatch) {
         emit UpdateDisplayInfo(rxBD);
-    } else if (data.startsWith("BDP")) {
-        emit PlayerType(data);
     }
     m_error_count = 0;
 }

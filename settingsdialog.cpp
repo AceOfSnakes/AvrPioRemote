@@ -18,6 +18,9 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include <QDebug>
+#include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMessageBox>
 
 SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInterface &Comm, PlayerInterface &CommBD) :
@@ -57,8 +60,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     {
         ui->LanguageEnglishRadioButton->setChecked(true);
     }
-    ui->ShowPlayerNameInTitle->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
-    ui->FilterBlueRay->setChecked(m_Settings.value("FilterBlueRay", true).toBool());
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
@@ -81,8 +82,6 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->MinimizeToTrayCheckBox->setChecked(m_Settings.value("MinimizeToTrayCheckBox", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
-    ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowPlayerNameInTitle", true).toBool());
-    ui->FilterBlueRay->setChecked(m_Settings.value("FilterBlueRay", true).toBool());
     ui->ShowDefaultInputNameCheckBox->setChecked(m_Settings.value("ShowDefaultInputName", false).toBool());
     ui->BlackThemeCheckBox->setChecked(m_Settings.value("UseBlackTheme", true).toBool());
 
@@ -217,7 +216,6 @@ void SettingsDialog::CommError(QString/* socketError*/)
 
 void SettingsDialog::CommConnected()
 {
-    qDebug()<<"CommConnected()";
     ui->pushButtonConnect->setEnabled(true);
     ui->pushButtonAuto->setEnabled(false);
     ui->pushButtonConnect->setText(tr("Disconnect"));
@@ -454,13 +452,9 @@ void SettingsDialog::on_pushButtonAuto_clicked()
     } while(m_AutoSearchDialog->m_Result == 2);
     if (m_AutoSearchDialog->m_Result == 1)
     {
-        //QString ip = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->ip;
         QString ip = m_AutoSearchDialog->m_SelectedAddress;
-        //int port = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->port;
         int port = m_AutoSearchDialog->m_SelectedPort;
-        qDebug() << QString("Found: %1:%2").arg(ip).arg(port);
         QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
-        qDebug() << l;
         if (l.size() == 4)
         {
             SetIpAddress(l[0], l[1], l[2], l[3], QString("%1").arg(port));
@@ -473,21 +467,20 @@ void SettingsDialog::on_pushButtonAuto_clicked()
 
 void SettingsDialog::on_pushButtonAuto_BD_clicked()
 {
+    qDebug()<<"m_CommBD.m_ping_commands"<<m_CommBD.m_ping_commands;
     do
     {
         delete m_AutoSearchDialog;
-        m_AutoSearchDialog = new AutoSearchDialog(m_Settings, this, false);
+        m_AutoSearchDialog = new AutoSearchDialog(m_Settings, this, false,m_CommBD.m_ping_commands.at(0).toString(),
+                                                  m_CommBD.m_PlayerSettings.value("pingResponseOk").toString(),
+                                                  m_CommBD.m_PlayerSettings.value("pingResponseErr").toString());
         m_AutoSearchDialog->exec();
     } while(m_AutoSearchDialog->m_Result == 2);
     if (m_AutoSearchDialog->m_Result == 1)
     {
-        //QString ip = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->ip;
         QString ip = m_AutoSearchDialog->m_SelectedAddress;
-        //int port = m_AutoSearchDialog->m_DeviceInList[m_AutoSearchDialog->m_SelectedIndex]->port;
         int port = m_AutoSearchDialog->m_SelectedPort;
-        qDebug() << QString("Found: %1:%2").arg(ip).arg(port);
         QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
-        qDebug() << l;
         if (l.size() == 4)
         {
             SetIpAddressBD(l[0], l[1], l[2], l[3], QString("%1").arg(port));
@@ -510,18 +503,27 @@ void SettingsDialog::on_pushButtonConnect_BD_clicked()
     emit onConnectBD();
 }
 
-void SettingsDialog::on_ShowPlayerNameInTitle_clicked()
-{
-    m_Settings.setValue("ShowPlayerNameInTitle", ui->ShowReceiverNameInTitleCheckBox->isChecked());
-}
-
-void SettingsDialog::on_FilterBlueRay_clicked()
-{
-    m_Settings.setValue("FilterBlueRay", ui->FilterBlueRay->isChecked());
-}
 
 void SettingsDialog::on_MinimizeToTrayCheckBox_clicked()
 {
     m_Settings.setValue("MinimizeToTrayCheckBox", ui->MinimizeToTrayCheckBox->isChecked());
     emit minimizeToTrayChanged();
+}
+
+void SettingsDialog::on_pushBDSettingsLoadButton_clicked()
+{
+    QString xfile = QFileDialog::getOpenFileName(this, tr("Load Player Settings"),
+                                                 NULL, tr("Json Files").append(" (*.json);;").append(tr(
+                                                                                                         "All files")).append(" (* *.*)"));
+
+    if (!xfile.isEmpty()) {
+        QFile file(xfile);
+        QByteArray array;
+        if (file.open(QIODevice::ReadOnly)) {
+            array = file.readAll();
+            QJsonDocument document = QJsonDocument::fromJson(array);
+            file.close();
+            m_CommBD.reloadPlayerSettings(QJsonObject::fromVariantMap(document.toVariant().toMap()).toVariantMap());
+        }
+    }
 }
