@@ -144,7 +144,7 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 
 void PlayerInterface::InterpretString(const QString& data)
 {
-    qDebug()<<data;
+   // qDebug()<<data;
     bool timeMatch = rxBD.exactMatch(data);
     if (data.startsWith(m_PlayerSettings.value("pingResponseOk").toString())) {
         if(!m_PlayerSettings.value("initCmd").isNull()) {

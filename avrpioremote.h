@@ -167,6 +167,7 @@ private slots:
     void on_pushButtonConnect_clicked();
     void on_show_hide(QSystemTrayIcon::ActivationReason reason);
     void on_show_hide();
+
     //void ConnectWorkerErrorString(QString);
     //void onConnectWorkerFinished();
     void on_VolumeDownButton_clicked();

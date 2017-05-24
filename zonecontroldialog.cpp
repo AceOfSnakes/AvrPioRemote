@@ -196,12 +196,12 @@ void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
         if (mute->GetZone() == MuteResponse_MUT_Z2MUT_Z3MUT::Zone2)
         {
             ui->Z2MuteButton->setChecked(mute->IsMuted());
-            qDebug() << "mute z2" << mute->IsMuted();
+            //qDebug() << "mute z2" << mute->IsMuted();
         }
         else if (mute->GetZone() == MuteResponse_MUT_Z2MUT_Z3MUT::Zone3)
         {
             ui->Z3MuteButton->setChecked(mute->IsMuted());
-            qDebug() << "mute z3" << mute->IsMuted();
+            //qDebug() << "mute z3" << mute->IsMuted();
         }
         return;
     }

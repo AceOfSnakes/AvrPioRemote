@@ -54,7 +54,7 @@ AutoSearchDialog::AutoSearchDialog(QSettings& settings, QWidget *parent, bool re
     m_pingResponseStartOff(pingResponseStartOff),
     ui(new Ui::AutoSearchDialog)
 {
-    qDebug()<<"AutoSearchDialog";
+    //qDebug()<<"AutoSearchDialog";
     ui->setupUi(this);
 
     ui->label->setVisible(false);
@@ -214,7 +214,7 @@ void AutoSearchDialog::TcpConnected()
 {
     QObject* sender = QObject::sender();
     RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
-    qDebug()<<device->ip<<device->port<<QString().append(m_pingCommand).append("\r\n").toLatin1().data();
+    //qDebug()<<device->ip<<device->port<<QString().append(m_pingCommand).append("\r\n").toLatin1().data();
     device->socket->write(QString().append(m_pingCommand).append("\r\n").toLatin1().data());
 }
 
@@ -265,7 +265,7 @@ void AutoSearchDialog::ReadString()
     m_ReceivedString = trim(m_ReceivedString, "\n");
     QString str;
     str = str.fromUtf8(m_ReceivedString.c_str());
-    qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;
+    //qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;
     Logger::Log(str);
     Logger::Log(QString("QHostAddress: %1:%2").arg(device->ip).arg(device->port));
 

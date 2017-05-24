@@ -122,7 +122,7 @@ bool WiringModel::setData(const QModelIndex & index, const QVariant & value, int
         if (index.column() == 5)
         {
             //return Qt::Checked or Qt::Unchecked here
-            qDebug() << value;
+            //qDebug() << value;
             if ((Qt::CheckState)value.toInt() == Qt::Checked)
             {
                 //user has checked item

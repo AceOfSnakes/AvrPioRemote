@@ -467,7 +467,7 @@ void SettingsDialog::on_pushButtonAuto_clicked()
 
 void SettingsDialog::on_pushButtonAuto_BD_clicked()
 {
-    qDebug()<<"m_CommBD.m_ping_commands"<<m_CommBD.m_ping_commands;
+//    qDebug()<<"m_CommBD.m_ping_commands"<<m_CommBD.m_ping_commands;
     do
     {
         delete m_AutoSearchDialog;

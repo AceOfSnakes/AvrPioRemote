@@ -58,7 +58,7 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     connect((&m_PlayerInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_PlayerInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
     connect((&m_PlayerInterface), SIGNAL(PlayerOffline(bool)), this,  SLOT(PlayerOffline(bool)));
-    connect((&m_PlayerInterface), SIGNAL(PlayerType(QString)), this,  SLOT(PlayerType(QString)));
+    //connect((&m_PlayerInterface), SIGNAL(PlayerType(QString)), this,  SLOT(PlayerType(QString)));
     connect((&m_PlayerInterface), SIGNAL(SettingsChanged()), this,  SLOT(ChangeSettings()));
     connect((&m_PlayerInterface), SIGNAL(UpdateDisplayInfo(QRegExp &)), this,  SLOT(UpdateDisplayInfo(QRegExp &)));
     CheckOnline();
@@ -73,9 +73,9 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
 }
 
 void BluRayDialog::ChangeSettings() {
-    signalMapper->dumpObjectTree();
+    //signalMapper->dumpObjectTree();
     QList<QPushButton *> allPButtons = this->findChildren<QPushButton *>();
-    qDebug()<<signalMapper->dynamicPropertyNames();
+    //qDebug()<<signalMapper->dynamicPropertyNames();
     foreach (QPushButton *button, allPButtons) {
         if(button->objectName().startsWith("Bd")||button->objectName().startsWith("Cursor")) {
             signalMapper->removeMappings(button);
@@ -92,6 +92,7 @@ void BluRayDialog::ChangeSettings() {
 
 BluRayDialog::~BluRayDialog()
 {
+    delete signalMapper;
     delete ui;
 }
 
@@ -205,7 +206,7 @@ void BluRayDialog::CommError(QString/* socketError*/)
 
 bool BluRayDialog::SendCmd(const QString& cmd)
 {
-    qDebug()<<">>"+cmd;
+    //qDebug()<<">>"+cmd;
     return m_PlayerInterface.SendCmd(cmd);
 }
 

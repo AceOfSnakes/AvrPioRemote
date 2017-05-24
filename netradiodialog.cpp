@@ -220,7 +220,7 @@ void NetRadioDialog::NetData(QString data)
     if (data.startsWith("GBH") || data.startsWith("GBP"))
     {
         m_VisibleListSize = data.mid(3, 2).toInt();
-         qDebug() << "visible list size " << m_VisibleListSize;
+         //qDebug() << "visible list size " << m_VisibleListSize;
     }
     else if (data.startsWith("GCH") || data.startsWith("GCP"))
     {
@@ -253,9 +253,9 @@ void NetRadioDialog::NetData(QString data)
         m_IndexOfLine1 = data.mid(3, 5).toInt();
         m_IndexOfLastLine = data.mid(8, 5).toInt();
         m_TotalNumberOfItems = data.mid(13, 5).toInt();
-        qDebug() << "IndexOfLine1 " << m_IndexOfLine1
-                 << " IndexOfLastLine " << m_IndexOfLastLine
-                 << " TotalNumberOfItems " << m_TotalNumberOfItems;
+        //qDebug() << "IndexOfLine1 " << m_IndexOfLine1
+        //         << " IndexOfLastLine " << m_IndexOfLastLine
+        //         << " TotalNumberOfItems " << m_TotalNumberOfItems;
     }
     else if (data.startsWith("GEH") || data.startsWith("GEP"))
     {

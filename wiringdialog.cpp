@@ -149,7 +149,7 @@ void WiringDialog::AquireData()
 {
     m_ParameterErrorCount = 0;
     m_CurrentAction = ACTION_GET_NAME;
-    qDebug() << "Start aquiring";
+    //qDebug() << "Start aquiring";
     //m_WiringModel.m_Inputs.clear();
     //m_WiringModel.refreshView();
     //m_WiringModel.removeRows(0, m_WiringModel.rowCount());
@@ -187,7 +187,7 @@ void WiringDialog::DataReceived(QString data)
                 m_WiringModel.FillTable(m_Inputs);
                 // Show the current name in the main window
                 SendCmd("?F");
-                qDebug() << "Aquire done";
+                //qDebug() << "Aquire done";
                 return;
             }
             m_CurrentAction = ACTION_GET_NAME;
@@ -294,7 +294,7 @@ void WiringDialog::DataReceived(QString data)
                         if (m_CurrentInput == m_Inputs.end())
                         {
                             m_CurrentAction = ACTION_NOTHING;
-                            qDebug() << "Aquire done";
+                            //qDebug() << "Aquire done";
                             //m_WiringModel.refreshView();
                             m_WiringModel.FillTable(m_Inputs);
                             // Show the current name in the main window
@@ -320,7 +320,7 @@ void WiringDialog::closeEvent(QCloseEvent *event)
     //m_ReceiverInterface.Disconnect();
     // save the window position
     //m_Settings.setValue("MainWindowGeometry", saveGeometry());
-    qDebug() << "Wiring close";
+    //qDebug() << "Wiring close";
     m_Comm.disconnect(SIGNAL(DataReceived(QString)));
     QDialog::closeEvent(event);
 }
