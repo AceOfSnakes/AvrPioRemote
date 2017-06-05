@@ -392,7 +392,7 @@ void AVRPioRemote::SetTheme(QString theme_name) {
         width = window_theme.width;
     }
     if (window_theme.height != 0) {
-        width = window_theme.height;
+        height = window_theme.height;
     }
 
     //QString path = QCoreApplication::applicationDirPath() + "/theme/bkgnd.png";

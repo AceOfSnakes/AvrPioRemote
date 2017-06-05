@@ -38,5 +38,6 @@
         <file>images/document-properties.png</file>
         <file>pio-icon1.ico</file>
         <file>images/pioneer.png</file>
+        <file>images/Built_with_Qt_RGB_logo.png</file>
     </qresource>
 </RCC>

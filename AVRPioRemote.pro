@@ -6,7 +6,7 @@
 
 QT       += core gui
 QT       += network xml
-QT       += svg
+QT       += opengl
 unix: QT += x11extras
 
 

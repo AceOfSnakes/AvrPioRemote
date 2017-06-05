@@ -24,6 +24,40 @@ AboutDialog::AboutDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(this->size());
+    QString compiler;
+    QString tmp;
+#ifdef __clang_version__
+    compiler.append(QString().sprintf("Compiler: clang %s",  __clang_version__));
+#elif defined __GNUC__ && defined __VERSION__
+    compiler.append(QString().sprintf("Compiler: gcc %s", __VERSION__));
+#elif defined _MSC_VER
+    compiler.append("Compiler: Visual Studio");
+#if _MSC_VER == 1910
+    compiler.append(" 2017 / MSVC++ 15.0");
+#elif _MSC_VER == 1900
+    compiler.append(" 2015 / MSVC++ 14.0");
+#elif _MSC_VER == 1800
+    compiler.append(" 2013 / MSVC++ 12.0");
+#elif _MSC_VER == 1700
+    compiler.append(" 2012 / MSVC++ 11.0");
+#elif _MSC_VER == 1600
+    compiler.append(" 2010 / MSVC++ 10.0");
+#elif  _MSC_VER == 1500
+    compiler.append(" 2008 / MSVC++ 9.0");
+#elif  _MSC_VER == 1400
+    compiler.append(" 2005 / MSVC++ 8.0");
+#elif  _MSC_VER == 1310
+    compiler.append(" 2003 / MSVC++ 7.1");
+#else
+    compiler.append(", unrecognised version");
+#endif
+    compiler.append(QString().sprintf(" (_MSC_VER=%d)", (int)_MSC_VER));
+#endif
+    ui->labelCompiler->setText(compiler);
+    ui->labelQT->setText(QString("Based on Qt ").append(QT_VERSION_STR));
+    QImage img(":/new/prefix1/images/Built_with_Qt_RGB_logo.png");
+    ui->labelQTLogo->setPixmap(QPixmap::fromImage(img));
+
 }
 
 AboutDialog::~AboutDialog()
