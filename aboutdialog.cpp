@@ -54,7 +54,13 @@ AboutDialog::AboutDialog(QWidget *parent) :
     compiler.append(QString().sprintf(" (_MSC_VER=%d)", (int)_MSC_VER));
 #endif
     ui->labelCompiler->setText(compiler);
-    ui->labelQT->setText(QString("Based on Qt ").append(QT_VERSION_STR));
+    ui->labelQT->setText(QString("Based on Qt ")
+    .append(QT_VERSION_STR)
+#ifdef Q_OS_WIN64
+    .append(" x64")
+#endif
+     );
+
     QImage img(":/new/prefix1/images/Built_with_Qt_RGB_logo.png");
     ui->labelQTLogo->setPixmap(QPixmap::fromImage(img));
 
