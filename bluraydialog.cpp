@@ -41,7 +41,7 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     m_PlayerOnline = false;
 
     ui->setupUi(this);
-    if (m_Settings.value("PlayerSettings", NULL) != NULL ) {
+    if (m_Settings.contains("PlayerSettings")) {
         m_PlayerInterface.reloadPlayerSettings(m_Settings.value("PlayerSettings").toMap());
     }
     // restore the position of the window
