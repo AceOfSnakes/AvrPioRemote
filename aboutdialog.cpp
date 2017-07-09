@@ -63,7 +63,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
 
     QImage img(":/new/prefix1/images/Built_with_Qt_RGB_logo.png");
     ui->labelQTLogo->setPixmap(QPixmap::fromImage(img));
-
+    QObject::connect(ui->labelQTLogo, SIGNAL(customContextMenuRequested(QPoint)), qApp, SLOT(aboutQt()));
 }
 
 AboutDialog::~AboutDialog()
@@ -74,4 +74,9 @@ AboutDialog::~AboutDialog()
 void AboutDialog::on_pushButton_clicked()
 {
     this->close();
+}
+
+void AboutDialog::on_labelQTLogo_customContextMenuRequested(const QPoint &pos)
+{
+
 }

@@ -27,13 +27,15 @@ class AboutDialog;
 class AboutDialog : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit AboutDialog(QWidget *parent = 0);
     ~AboutDialog();
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_labelQTLogo_customContextMenuRequested(const QPoint &pos);
 
 private:
     Ui::AboutDialog *ui;
