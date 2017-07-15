@@ -120,6 +120,7 @@ void AutoSearchDialog::changeEvent(QEvent *e)
 
 void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
 {
+    qDebug()<<"Found UPnP device: " + name + " " + ip + " " + location;
     Logger::Log("Found UPnP device: " + name + " " + ip + " " + location);
     QUrl url = QUrl(location);
     QEventLoop eventLoop;
@@ -214,7 +215,7 @@ void AutoSearchDialog::TcpConnected()
 {
     QObject* sender = QObject::sender();
     RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
-    //qDebug()<<device->ip<<device->port<<QString().append(m_pingCommand).append("\r\n").toLatin1().data();
+    qDebug()<<device->ip<<device->port<<QString().append(m_pingCommand).append("\r\n").toLatin1().data();
     device->socket->write(QString().append(m_pingCommand).append("\r\n").toLatin1().data());
 }
 
@@ -265,12 +266,12 @@ void AutoSearchDialog::ReadString()
     m_ReceivedString = trim(m_ReceivedString, "\n");
     QString str;
     str = str.fromUtf8(m_ReceivedString.c_str());
-    //qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;
+    qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;
     Logger::Log(str);
     Logger::Log(QString("QHostAddress: %1:%2").arg(device->ip).arg(device->port));
 
-    if (str.startsWith(m_pingResponseStart)||
-            (!m_pingResponseStartOff.isEmpty() && str.startsWith(m_pingResponseStartOff)))
+    if (str.contains(m_pingResponseStart)||
+            (!m_pingResponseStartOff.isEmpty() && str.contains(m_pingResponseStartOff)))
     {
         foreach(RemoteDevice *dev ,m_DeviceInList) {
             if(QString::compare(device->ip,dev->ip)==0 && device->port == dev->port) {

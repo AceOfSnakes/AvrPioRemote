@@ -138,13 +138,14 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 {
     CmdToBeSend(cmd);
     QString tmp = cmd + "\r\n";
+    qDebug()<<tmp;
     return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
 
 }
 
 void PlayerInterface::InterpretString(const QString& data)
 {
-   // qDebug()<<data;
+    qDebug()<<data;
     bool timeMatch = rxBD.exactMatch(data);
     if (data.startsWith(m_PlayerSettings.value("pingResponseOk").toString())) {
         if(!m_PlayerSettings.value("initCmd").isNull()) {

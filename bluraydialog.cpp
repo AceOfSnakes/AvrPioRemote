@@ -279,7 +279,8 @@ void BluRayDialog::onConnect()
     CheckOnline();
 }
 
-void SendCommand(PlayerInterface&    m_PlayerInterface,QString &str) {
+void SendCommand(PlayerInterface&    m_PlayerInterface, QString &str) {
+    qDebug()<<str;
     m_PlayerInterface.SendCmd(str);
 }
 
