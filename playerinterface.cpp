@@ -43,6 +43,7 @@ void PlayerInterface::reloadPlayerSettings(QVariantMap  settings) {
     m_PlayerSettings.unite(settings);
     m_ping_commands.clear();
     m_ping_commands.append(m_PlayerSettings.value("pingCommands").toList());
+    rxBD.setPattern(m_PlayerSettings.value("timeRegExp").toString());
     emit SettingsChanged();
 }
 
