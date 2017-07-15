@@ -60,6 +60,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     .append(" x64")
 #endif
      );
+    setWindowFlags(windowFlags() & (~Qt::WindowContextHelpButtonHint));
 
     QImage img(":/new/prefix1/images/Built_with_Qt_RGB_logo.png");
     ui->labelQTLogo->setPixmap(QPixmap::fromImage(img));
