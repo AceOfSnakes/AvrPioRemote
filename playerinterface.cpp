@@ -147,12 +147,12 @@ void PlayerInterface::InterpretString(const QString& data)
 {
     qDebug()<<data;
     bool timeMatch = rxBD.exactMatch(data);
-    if (data.startsWith(m_PlayerSettings.value("pingResponseOk").toString())) {
+    if (data.contains(m_PlayerSettings.value("pingResponseOk").toString())) {
         if(!m_PlayerSettings.value("initCmd").isNull()) {
             SendCmd(m_PlayerSettings.value("initCmd").toString());
         }
         emit PlayerOffline(false);
-    } else if(data.startsWith(m_PlayerSettings.value("pingResponseErr").toString())) {
+    } else if(data.contains(m_PlayerSettings.value("pingResponseErr").toString())) {
         m_error_count ++;
         if(m_error_count == m_ping_commands.size()) {
             emit PlayerOffline(true);
