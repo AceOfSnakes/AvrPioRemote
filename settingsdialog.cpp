@@ -27,7 +27,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     QDialog(parent),
     m_Settings(settings),
     m_IpValidator(0, 255, this),
-    m_IpPortValidator(0, 35535, this),
+    m_IpPortValidator(0, 99999, this),
     m_Comm(Comm),
     m_CommBD(CommBD),
     ui(new Ui::SettingsDialog),

@@ -121,9 +121,6 @@ void BluRayDialog::ConnectPlayer()
 void BluRayDialog::UpdateDisplayInfo (QRegExp &rx) {
     QString time = QString("--:--:--");
     QString track = QString("---:---");
-    qDebug()<<"rx"
-              "dddddddddddddddddd";
-    qDebug()<<rx;
     if(!rx.cap(2).isEmpty()) {
         time = rx.cap(3).append(":").append(rx.cap(4)).append(":").append(rx.cap(5));
         track.clear();
