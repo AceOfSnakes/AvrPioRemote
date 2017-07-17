@@ -474,6 +474,7 @@ void SettingsDialog::on_pushButtonAuto_BD_clicked()
         m_AutoSearchDialog = new AutoSearchDialog(m_Settings, this, false,m_CommBD.m_ping_commands.at(0).toString(),
                                                   m_CommBD.m_PlayerSettings.value("pingResponseOk").toString(),
                                                   m_CommBD.m_PlayerSettings.value("pingResponseErr").toString());
+
         m_AutoSearchDialog->exec();
     } while(m_AutoSearchDialog->m_Result == 2);
     if (m_AutoSearchDialog->m_Result == 1)

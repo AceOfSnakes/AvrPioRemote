@@ -120,7 +120,7 @@ void AutoSearchDialog::changeEvent(QEvent *e)
 
 void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
 {
-    qDebug()<<"Found UPnP device: " + name + " " + ip + " " + location;
+    //qDebug()<<"Found UPnP device: " + name + " " + ip + " " + location;
     Logger::Log("Found UPnP device: " + name + " " + ip + " " + location);
     QUrl url = QUrl(location);
     QEventLoop eventLoop;
@@ -198,6 +198,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         return;
     }
     eventLoop.quit();
+    //qDebug()<<modelName;
     QString deviceKey = modelName.append("/").append("23");
     if(m_RemoteDevices.contains(deviceKey)) {
         Logger::Log("already in remote devices list "+modelName+" "+ip);
@@ -215,7 +216,7 @@ void AutoSearchDialog::TcpConnected()
 {
     QObject* sender = QObject::sender();
     RemoteDevice* device = dynamic_cast<RemoteDevice*>(sender);
-    qDebug()<<device->ip<<device->port<<QString().append(m_pingCommand).append("\r\n").toLatin1().data();
+    //qDebug()<<device->ip<<device->port<<QString().append(m_pingCommand).append("\r\n").toLatin1().data();
     device->socket->write(QString().append(m_pingCommand).append("\r\n").toLatin1().data());
 }
 
@@ -266,16 +267,18 @@ void AutoSearchDialog::ReadString()
     m_ReceivedString = trim(m_ReceivedString, "\n");
     QString str;
     str = str.fromUtf8(m_ReceivedString.c_str());
-    qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;
+    //qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;
     Logger::Log(str);
     Logger::Log(QString("QHostAddress: %1:%2").arg(device->ip).arg(device->port));
-
     if (str.contains(m_pingResponseStart)||
-            (!m_pingResponseStartOff.isEmpty() && str.contains(m_pingResponseStartOff)))
-    {
+            (!m_pingResponseStartOff.isEmpty() && str.contains(m_pingResponseStartOff))) {
         foreach(RemoteDevice *dev ,m_DeviceInList) {
             if(QString::compare(device->ip,dev->ip)==0 && device->port == dev->port) {
                 qDebug()<<"already in list"<<device->ip<<device->port;
+                device->socket->close();
+                device->socket->disconnect();
+                device->deleteLater();
+                m_DeviceInList.removeOne(device);
                 return;
             }
         }
@@ -298,13 +301,14 @@ void AutoSearchDialog::ReadString()
         device->socket->close();
         device->socket->disconnect();
         device->deleteLater();
+        m_DeviceInList.removeOne(device);
         return;
     }
 
     int port = device->port;
     QString ip = device->ip;
     QString key = removeDevice(m_RemoteDevices,device);
-    device->deleteLater();
+    //device->deleteLater();
     reconnect(key,ip,port,device);
 }
 
@@ -381,7 +385,6 @@ void AutoSearchDialog::ProcessPendingDatagrams()
 {
     foreach( QUdpSocket* socket, m_MulticatsSockets)
     {
-
         while (socket->hasPendingDatagrams()) {
             QByteArray datagram;
             QHostAddress remoteAddr;
@@ -420,6 +423,7 @@ void AutoSearchDialog::SendMsg()
             Logger::Log(QString("Error on %1!!!").arg(socket->localAddress().toString()));
         }
     }
+
 }
 
 

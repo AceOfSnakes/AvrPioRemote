@@ -169,7 +169,7 @@ HEADERS  += avrpioremote.h \
     mcaccprogressdialog.h \
     receiver_interface/response/mcaccprogressresponse_ssj.h \
     themereader.h
- 
+
 
 
 FORMS    += avrpioremote.ui \
@@ -251,3 +251,5 @@ TRANSLATIONS = avrpioremote_en.ts \
 !isEmpty(X64) {
 TARGET = AVRPioRemote64
 }
+
+CONFIG += exceptions rtti
