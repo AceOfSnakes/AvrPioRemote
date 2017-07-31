@@ -199,7 +199,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     }
     eventLoop.quit();
     //qDebug()<<modelName;
-    QString deviceKey = modelName.append("/").append("23");
+    QString deviceKey = modelName.append("/").append(QString::number(url.port()));
     if(m_RemoteDevices.contains(deviceKey)) {
         Logger::Log("already in remote devices list "+modelName+" "+ip);
     }
@@ -208,7 +208,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
     connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
     connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadString()));
     connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
-    device->Connect(ip, 23);
+    device->Connect(ip, url.port());
     m_RemoteDevices.insert(deviceKey,device);
 }
 
@@ -333,7 +333,7 @@ void AutoSearchDialog::TcpError(QAbstractSocket::SocketError socketError)
     int port = device->port;
     QString ip = device->ip;
     QString key = removeDevice(m_RemoteDevices,device);
-    delete device;
+    device->deleteLater();
     reconnect(key,ip,port,device);
 }
 void AutoSearchDialog::on_CancelButton_clicked()
