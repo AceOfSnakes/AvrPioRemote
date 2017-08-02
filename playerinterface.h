@@ -96,13 +96,16 @@ public:
         {"BdDisplayButton","/A181AFE3/RU"},
         {"BdKeylockButton","/A181AF22/RU"},
         {"BdReplayButton","/A181AF24/RU"},
-        {"BdSkipSearchButton","/A181AF25/RU"}
+        {"BdSkipSearchButton","/A181AF25/RU"},
+        {"prefferedPort",8102},
+        {"crlf",true}
     };
 
 private:
     QTcpSocket      m_Socket;
     string          m_ReceivedString;
     bool            m_Connected;
+    bool            crlf;
     int             m_error_count;
     QRegExp         rxBD;
     void InterpretString(const QString& data);

@@ -138,7 +138,7 @@ void PlayerInterface::TcpError(QAbstractSocket::SocketError socketError)
 bool PlayerInterface::SendCmd(const QString& cmd)
 {
     CmdToBeSend(cmd);
-    QString tmp = cmd + "\r\n";
+    QString tmp = cmd + (m_PlayerSettings.value("crlf",true).toBool()?"\r\n":"\r");
     qDebug()<<tmp;
     return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
 

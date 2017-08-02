@@ -473,7 +473,9 @@ void SettingsDialog::on_pushButtonAuto_BD_clicked()
         delete m_AutoSearchDialog;
         m_AutoSearchDialog = new AutoSearchDialog(m_Settings, this, false,m_CommBD.m_ping_commands.at(0).toString(),
                                                   m_CommBD.m_PlayerSettings.value("pingResponseOk").toString(),
-                                                  m_CommBD.m_PlayerSettings.value("pingResponseErr").toString());
+                                                  m_CommBD.m_PlayerSettings.value("pingResponseErr").toString(),
+                                                  m_CommBD.m_PlayerSettings.value("prefferedPort",8102).toInt(),
+                                                  m_CommBD.m_PlayerSettings.value("crlf",true).toBool());
 
         m_AutoSearchDialog->exec();
     } while(m_AutoSearchDialog->m_Result == 2);

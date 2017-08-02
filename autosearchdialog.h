@@ -47,9 +47,10 @@ class AutoSearchDialog : public QDialog
 
 public:
     explicit AutoSearchDialog(QSettings& settings, QWidget *parent = 0, bool receiver = true, QString pingCommand="?RGD",
-                              QString pingResponseStart="RGD", QString pingResponseStartOff="");
+                              QString pingResponseStart="RGD", QString pingResponseStartOff="", int prefferedPort=23, bool crlf=true);
     ~AutoSearchDialog();
-
+    int                     prefferedPort;
+    bool                    crlf;
     int                     m_Result;
     QSettings               &m_Settings;
     QString                 m_SelectedAddress;
