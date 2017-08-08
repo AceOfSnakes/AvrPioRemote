@@ -99,7 +99,7 @@ AutoSearchDialog::AutoSearchDialog(QSettings& settings, QWidget *parent, bool re
 AutoSearchDialog::~AutoSearchDialog()
 {
     foreach (RemoteDevice* tmp, m_RemoteDevices) {
-        delete tmp;
+      //  delete tmp;
     }
     m_RemoteDevices.clear();
     foreach (RemoteDevice* tmp, m_DeviceInList) {

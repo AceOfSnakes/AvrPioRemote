@@ -35,7 +35,7 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
 {
     ui->setupUi(this);
 
-    this->setWindowTitle(device.append(" test").append(device));
+    this->setWindowTitle(device.append(" test ").append(device));
     // restore the position of the window
     if (m_Settings.value(QString("SaveTestWindowGeometry").append(device), false).toBool())
     {
