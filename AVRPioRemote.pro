@@ -96,7 +96,91 @@ SOURCES += main.cpp \
     receiver_interface/response/speakercontrolresponse_spk.cpp \
     mcaccprogressdialog.cpp \
     receiver_interface/response/mcaccprogressresponse_ssj.cpp \
-    themereader.cpp
+    themereader.cpp \
+    receiver_interface/command/cmdbase.cpp \
+    receiver_interface/response/audiostatusdataresponse_ast.cpp \
+    receiver_interface/response/bassresponse_ba_zgb.cpp \
+    receiver_interface/response/channellevelresponse_clv.cpp \
+    receiver_interface/response/displaydataresponse_fl.cpp \
+    receiver_interface/response/emphasisresponse_ilv.cpp \
+    receiver_interface/response/eqresponse_atb.cpp \
+    receiver_interface/response/errorresponse_b_e.cpp \
+    receiver_interface/response/hdmicontrolarcresponse_stt.cpp \
+    receiver_interface/response/hdmicontrolmoderesponse_str.cpp \
+    receiver_interface/response/hdmicontrolresponse_stq.cpp \
+    receiver_interface/response/hdmipassthroughresponse_stu.cpp \
+    receiver_interface/response/hibitresponse_ati.cpp \
+    receiver_interface/response/inputfunctionresponse_fn.cpp \
+    receiver_interface/response/inputnameresponse_rgb.cpp \
+    receiver_interface/response/mcacceqresponse_suw.cpp \
+    receiver_interface/response/mcaccnumberresponse_mc.cpp \
+    receiver_interface/response/mcaccprogressresponse_ssj.cpp \
+    receiver_interface/response/muteresponse_mut_z2mut_z3mut.cpp \
+    receiver_interface/response/phasecontrolresponse_is.cpp \
+    receiver_interface/response/powerresponse_pwr_apr_bpr_zep.cpp \
+    receiver_interface/response/pqlscontrolresponse_pq.cpp \
+    receiver_interface/response/receivedobjectbase.cpp \
+    receiver_interface/response/response_aub.cpp \
+    receiver_interface/response/responselistener.cpp \
+    receiver_interface/response/soundretrieverresponse_ata.cpp \
+    receiver_interface/response/speakercontrolresponse_spk.cpp \
+    receiver_interface/response/speakerdistanceresponse_sss.cpp \
+    receiver_interface/response/speakersettingresponse_ssg.cpp \
+    receiver_interface/response/speakersystemrequest_ssf.cpp \
+    receiver_interface/response/surroundpositionresponse_ssp.cpp \
+    receiver_interface/response/toneresponse_to_zga.cpp \
+    receiver_interface/response/trebleresponse_tr_zgg.cpp \
+    receiver_interface/response/videostatusdataresponse_vst.cpp \
+    receiver_interface/response/volumeresponse_vol_zv_yv.cpp \
+    receiver_interface/response/xcurveresponse_sst.cpp \
+    receiver_interface/response/xoverresponse_ssq.cpp \
+    receiver_interface/response/zonenumberbase.cpp \
+    receiver_interface/msgdistributor.cpp \
+    receiver_interface/receiverinterface.cpp \
+    receiver_interface/command/cmdbase.cpp \
+    receiver_interface/devices/discoverydevice.cpp \
+    receiver_interface/response/audiostatusdataresponse_ast.cpp \
+    receiver_interface/response/bassresponse_ba_zgb.cpp \
+    receiver_interface/response/channellevelresponse_clv.cpp \
+    receiver_interface/response/displaydataresponse_fl.cpp \
+    receiver_interface/response/emphasisresponse_ilv.cpp \
+    receiver_interface/response/eqresponse_atb.cpp \
+    receiver_interface/response/errorresponse_b_e.cpp \
+    receiver_interface/response/hdmicontrolarcresponse_stt.cpp \
+    receiver_interface/response/hdmicontrolmoderesponse_str.cpp \
+    receiver_interface/response/hdmicontrolresponse_stq.cpp \
+    receiver_interface/response/hdmipassthroughresponse_stu.cpp \
+    receiver_interface/response/hibitresponse_ati.cpp \
+    receiver_interface/response/inputfunctionresponse_fn.cpp \
+    receiver_interface/response/inputnameresponse_rgb.cpp \
+    receiver_interface/response/mcacceqresponse_suw.cpp \
+    receiver_interface/response/mcaccnumberresponse_mc.cpp \
+    receiver_interface/response/mcaccprogressresponse_ssj.cpp \
+    receiver_interface/response/muteresponse_mut_z2mut_z3mut.cpp \
+    receiver_interface/response/phasecontrolresponse_is.cpp \
+    receiver_interface/response/powerresponse_pwr_apr_bpr_zep.cpp \
+    receiver_interface/response/pqlscontrolresponse_pq.cpp \
+    receiver_interface/response/receivedobjectbase.cpp \
+    receiver_interface/response/response_aub.cpp \
+    receiver_interface/response/responselistener.cpp \
+    receiver_interface/response/soundretrieverresponse_ata.cpp \
+    receiver_interface/response/speakercontrolresponse_spk.cpp \
+    receiver_interface/response/speakerdistanceresponse_sss.cpp \
+    receiver_interface/response/speakersettingresponse_ssg.cpp \
+    receiver_interface/response/speakersystemrequest_ssf.cpp \
+    receiver_interface/response/surroundpositionresponse_ssp.cpp \
+    receiver_interface/response/toneresponse_to_zga.cpp \
+    receiver_interface/response/trebleresponse_tr_zgg.cpp \
+    receiver_interface/response/videostatusdataresponse_vst.cpp \
+    receiver_interface/response/volumeresponse_vol_zv_yv.cpp \
+    receiver_interface/response/xcurveresponse_sst.cpp \
+    receiver_interface/response/xoverresponse_ssq.cpp \
+    receiver_interface/response/zonenumberbase.cpp \
+    receiver_interface/msgdistributor.cpp \
+    receiver_interface/receiverinterface.cpp \
+    receiver_interface/devices/discoverydevice.cpp \
+    receiver_interface/devices/pioneerreceiver.cpp \
+    receiver_interface/devices/onkyoreceiver.cpp
 
 
 HEADERS  += avrpioremote.h \
@@ -168,7 +252,91 @@ HEADERS  += avrpioremote.h \
     receiver_interface/response/speakercontrolresponse_spk.h \
     mcaccprogressdialog.h \
     receiver_interface/response/mcaccprogressresponse_ssj.h \
-    themereader.h
+    themereader.h \
+    receiver_interface/command/cmdbase.h \
+    receiver_interface/response/audiostatusdataresponse_ast.h \
+    receiver_interface/response/bassresponse_ba_zgb.h \
+    receiver_interface/response/channellevelresponse_clv.h \
+    receiver_interface/response/displaydataresponse_fl.h \
+    receiver_interface/response/emphasisresponse_ilv.h \
+    receiver_interface/response/eqresponse_atb.h \
+    receiver_interface/response/errorresponse_b_e.h \
+    receiver_interface/response/hdmicontrolarcresponse_stt.h \
+    receiver_interface/response/hdmicontrolmoderesponse_str.h \
+    receiver_interface/response/hdmicontrolresponse_stq.h \
+    receiver_interface/response/hdmipassthroughresponse_stu.h \
+    receiver_interface/response/hibitresponse_ati.h \
+    receiver_interface/response/inputfunctionresponse_fn.h \
+    receiver_interface/response/inputnameresponse_rgb.h \
+    receiver_interface/response/mcacceqresponse_suw.h \
+    receiver_interface/response/mcaccnumberresponse_mc.h \
+    receiver_interface/response/mcaccprogressresponse_ssj.h \
+    receiver_interface/response/muteresponse_mut_z2mut_z3mut.h \
+    receiver_interface/response/phasecontrolresponse_is.h \
+    receiver_interface/response/powerresponse_pwr_apr_bpr_zep.h \
+    receiver_interface/response/pqlscontrolresponse_pq.h \
+    receiver_interface/response/receivedobjectbase.h \
+    receiver_interface/response/response_aub.h \
+    receiver_interface/response/responselistener.h \
+    receiver_interface/response/soundretrieverresponse_ata.h \
+    receiver_interface/response/speakercontrolresponse_spk.h \
+    receiver_interface/response/speakerdistanceresponse_sss.h \
+    receiver_interface/response/speakersettingresponse_ssg.h \
+    receiver_interface/response/speakersystemrequest_ssf.h \
+    receiver_interface/response/surroundpositionresponse_ssp.h \
+    receiver_interface/response/toneresponse_to_zga.h \
+    receiver_interface/response/trebleresponse_tr_zgg.h \
+    receiver_interface/response/videostatusdataresponse_vst.h \
+    receiver_interface/response/volumeresponse_vol_zv_yv.h \
+    receiver_interface/response/xcurveresponse_sst.h \
+    receiver_interface/response/xoverresponse_ssq.h \
+    receiver_interface/response/zonenumberbase.h \
+    receiver_interface/msgdistributor.h \
+    receiver_interface/receiverinterface.h \
+    receiver_interface/command/cmdbase.h \
+    receiver_interface/devices/discoverydevice.h \
+    receiver_interface/response/audiostatusdataresponse_ast.h \
+    receiver_interface/response/bassresponse_ba_zgb.h \
+    receiver_interface/response/channellevelresponse_clv.h \
+    receiver_interface/response/displaydataresponse_fl.h \
+    receiver_interface/response/emphasisresponse_ilv.h \
+    receiver_interface/response/eqresponse_atb.h \
+    receiver_interface/response/errorresponse_b_e.h \
+    receiver_interface/response/hdmicontrolarcresponse_stt.h \
+    receiver_interface/response/hdmicontrolmoderesponse_str.h \
+    receiver_interface/response/hdmicontrolresponse_stq.h \
+    receiver_interface/response/hdmipassthroughresponse_stu.h \
+    receiver_interface/response/hibitresponse_ati.h \
+    receiver_interface/response/inputfunctionresponse_fn.h \
+    receiver_interface/response/inputnameresponse_rgb.h \
+    receiver_interface/response/mcacceqresponse_suw.h \
+    receiver_interface/response/mcaccnumberresponse_mc.h \
+    receiver_interface/response/mcaccprogressresponse_ssj.h \
+    receiver_interface/response/muteresponse_mut_z2mut_z3mut.h \
+    receiver_interface/response/phasecontrolresponse_is.h \
+    receiver_interface/response/powerresponse_pwr_apr_bpr_zep.h \
+    receiver_interface/response/pqlscontrolresponse_pq.h \
+    receiver_interface/response/receivedobjectbase.h \
+    receiver_interface/response/response_aub.h \
+    receiver_interface/response/responselistener.h \
+    receiver_interface/response/soundretrieverresponse_ata.h \
+    receiver_interface/response/speakercontrolresponse_spk.h \
+    receiver_interface/response/speakerdistanceresponse_sss.h \
+    receiver_interface/response/speakersettingresponse_ssg.h \
+    receiver_interface/response/speakersystemrequest_ssf.h \
+    receiver_interface/response/surroundpositionresponse_ssp.h \
+    receiver_interface/response/toneresponse_to_zga.h \
+    receiver_interface/response/trebleresponse_tr_zgg.h \
+    receiver_interface/response/videostatusdataresponse_vst.h \
+    receiver_interface/response/volumeresponse_vol_zv_yv.h \
+    receiver_interface/response/xcurveresponse_sst.h \
+    receiver_interface/response/xoverresponse_ssq.h \
+    receiver_interface/response/zonenumberbase.h \
+    receiver_interface/msgdistributor.h \
+    receiver_interface/receiverinterface.h \
+    receiver_interface/devices/discoverydevice.h \
+    receiver_interface/devices/pioneerreceiver.h \
+    receiver_interface/devices/onkyoreceiver.h
 
 
 

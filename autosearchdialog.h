@@ -11,35 +11,12 @@
 #include "logger.h"
 #include <QUdpSocket>
 #include <QSettings>
+#include "receiver_interface/devices/discoverydevice.h"
 
 using namespace std;
 namespace Ui {
 class AutoSearchDialog;
 }
-
-class RemoteDevice : public QObject
-{
-    Q_OBJECT
-    QString m_url;
-public:
-    RemoteDevice();
-    RemoteDevice(QString &url);
-    void Connect(QString ip, int port);
-    ~RemoteDevice();
-    QString ip;
-    int port;
-    QTcpSocket* socket;
-private slots:
-    void _DataAvailable(){emit DataAvailable();}
-    void _TcpError(QAbstractSocket::SocketError socketError){emit TcpError(socketError);}
-    void _TcpConnected(){emit TcpConnected();}
-    void _TcpDisconnected(){TcpDisconnected();}
-signals:
-    void DataAvailable();
-    void TcpError(QAbstractSocket::SocketError socketError);
-    void TcpConnected();
-    void TcpDisconnected();
-};
 
 class AutoSearchDialog : public QDialog
 {
@@ -52,10 +29,10 @@ public:
     int                     prefferedPort;
     bool                    crlf;
     int                     m_Result;
-    QSettings               &m_Settings;
+    QSettings&              m_Settings;
     QString                 m_SelectedAddress;
     int                     m_SelectedPort;
-    QVector<RemoteDevice*>  m_DeviceInList;
+    QVector<DiscoveryDevice*> m_DeviceInList;
 
 protected:
     void changeEvent(QEvent *e);
@@ -63,17 +40,19 @@ protected:
     QString m_pingResponseStart;
     QString m_pingResponseStartOff;
 
-    QMap<QString,RemoteDevice*>  m_RemoteDevices;
+    QMap<QString, DiscoveryDevice*> m_RemoteDevices;
     QVector<QUdpSocket*>    m_MulticatsSockets;
     QHostAddress            m_GroupAddress;
     bool                    m_FindReceivers;
-    QString removeDevice(QMap<QString,RemoteDevice*>  &m_RemoteDevices,RemoteDevice* device);
+    QString removeDevice(QMap<QString, DiscoveryDevice *> &m_RemoteDevices, DiscoveryDevice* device);
     void SendMsg();
-    void reconnect(QString & key,QString & ip,int port,RemoteDevice* device);
+    void reconnect(QString & key, QString & ip, int port, DiscoveryDevice *device);
 private slots:
     void NewDevice(QString name, QString ip, QString location);
-    void ReadString();
-    void TcpError(QAbstractSocket::SocketError socketError);
+    void PioneerAnswer();
+    void ReadOnkyoAnswer();
+    void PioneerError(QAbstractSocket::SocketError socketError);
+    void OnkyoError(QAbstractSocket::SocketError socketError);
     void TcpConnected();
     void TcpDisconnected();
     void ProcessPendingDatagrams();
