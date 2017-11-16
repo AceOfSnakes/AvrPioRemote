@@ -67,7 +67,7 @@ QString OnkyoReceiver::read()
     }
     eISCPHeader header;
     memcpy((char*)&header, data.data(), sizeof(eISCPHeader));
-    if (strnicmp("ISCP", header.magic, 4) != 0)
+    if (strncmp("ISCP", header.magic, 4) != 0)
     {
         qDebug() << "Onkyo error: no identifier 'ISCP' found";
         return "";
