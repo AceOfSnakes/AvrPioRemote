@@ -551,7 +551,7 @@ void NetRadioDialog::on_PageDownButton_2_clicked()
     emit SendCmd(cmd);
 }
 
-void NetRadioDialog::on_listWidget_itemDoubleClicked(QListWidgetItem */*item*/)
+void NetRadioDialog::on_listWidget_itemDoubleClicked(QListWidgetItem * /*item*/)
 {
 //    qDebug() << "Current row " << currentRow;
     int currentRow = ui->listWidget->currentRow();

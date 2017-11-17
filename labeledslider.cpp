@@ -28,7 +28,7 @@ void LabeledSlider::changeEvent(QEvent *e)
     }
 }
 
-void LabeledSlider::retranslateUi(QWidget */*LabeledSlider*/)
+void LabeledSlider::retranslateUi(QWidget * /*LabeledSlider*/)
 {
 //    LabeledSlider->setWindowTitle(QApplication::translate("LabeledSlider", "Form", 0));
 //    topLabel->setText(QApplication::translate("LabeledSlider", "top", 0));

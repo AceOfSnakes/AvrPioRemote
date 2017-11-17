@@ -40,6 +40,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 {
     this->setWindowFlags(Qt::Dialog);
     m_IpPort = 8102;
+    m_IsPioneer = true;
     m_ReceiverOnline = false;
     m_tray_icon = NULL;
     m_SelectedInput   = NULL;
@@ -1039,8 +1040,9 @@ void AVRPioRemote::onConnect()
         // connect
         // read settings from the line edits
         QString ip1, ip2, ip3, ip4, ip_port;
+        bool is_pioneer;
         // first the 4 ip address blocks
-        m_SettingsDialog->GetIpAddress(ip1, ip2, ip3, ip4, ip_port);
+        m_SettingsDialog->GetIpAddress(ip1, ip2, ip3, ip4, ip_port, is_pioneer);
         if (ip1 == "")
         {
             ip1 = "192"; // set default
@@ -1063,18 +1065,21 @@ void AVRPioRemote::onConnect()
         {
             ip_port = "8102"; // set default
             m_IpPort = 8102;
+            m_IsPioneer = true;
         }
         else
         {
             m_IpPort = ip_port.toInt();
+            m_IsPioneer = is_pioneer;
         }
         // save the ip address and port permanently
-        m_SettingsDialog->SetIpAddress(ip1, ip2, ip3, ip4, ip_port);
+        m_SettingsDialog->SetIpAddress(ip1, ip2, ip3, ip4, ip_port, m_IsPioneer);
         m_Settings.setValue("IP/1", ip1);
         m_Settings.setValue("IP/2", ip2);
         m_Settings.setValue("IP/3", ip3);
         m_Settings.setValue("IP/4", ip4);
         m_Settings.setValue("IP/PORT", ip_port);
+        m_Settings.setValue("IP/IsPioneer", m_IsPioneer);
         ConnectReceiver();
     }
     else

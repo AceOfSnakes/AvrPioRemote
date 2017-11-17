@@ -97,6 +97,7 @@ QString OnkyoReceiver::read()
         return "";
     }
     dataBegin++;
+    // remove EOL, \r and \n characters
     if ((char)data[data.size() -1] == '\n' || (char)data[data.size() -1] == '\r' || (char)data[data.size() -1] == '\u001A')
     {
         data[data.size() -1] = '\0';

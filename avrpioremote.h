@@ -78,6 +78,7 @@ private:
     PlayerInterface             m_PlayerInterface;
     int                         m_IpPort;
     QString                     m_IpAddress;
+    bool                        m_IsPioneer;
     QSettings                   m_Settings;
     NetRadioDialog*             m_NetRadioDialog;
     BluRayDialog*               m_BluRayDialog;

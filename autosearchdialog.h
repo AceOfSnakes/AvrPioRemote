@@ -32,6 +32,7 @@ public:
     QSettings&              m_Settings;
     QString                 m_SelectedAddress;
     int                     m_SelectedPort;
+    bool                    m_SelectedPioneer;
     QVector<DiscoveryDevice*> m_DeviceInList;
 
 protected:

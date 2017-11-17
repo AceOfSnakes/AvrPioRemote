@@ -103,12 +103,14 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->lineEditIP3->setText(m_Settings.value("IP/3", "1").toString());
     ui->lineEditIP4->setText(m_Settings.value("IP/4", "1").toString());
     ui->lineEditIPPort->setText(m_Settings.value("IP/PORT", "8102").toString());
+    ((m_Settings.value("IP/IsPioneer", true).toBool()) ? ui->radioButtonVendorPioneer : ui->radioButtonVendorOnkyo)->setChecked(true);
     // get the saved player ip address data
     ui->lineEditIP1_BD->setText(m_Settings.value("Player_IP/1", "192").toString());
     ui->lineEditIP2_BD->setText(m_Settings.value("Player_IP/2", "168").toString());
     ui->lineEditIP3_BD->setText(m_Settings.value("Player_IP/3", "1").toString());
     ui->lineEditIP4_BD->setText(m_Settings.value("Player_IP/4", "1").toString());
     ui->lineEditIPPort_BD->setText(m_Settings.value("Player_IP/PORT", "8102").toString());
+
 
     connect((&m_Comm), SIGNAL(Connected()), this, SLOT(CommConnected()));
     connect((&m_Comm), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
@@ -154,13 +156,14 @@ void SettingsDialog::ShowSettingsDialog()
     }
 }
 
-void SettingsDialog::GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString& port)
+void SettingsDialog::GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString& port, bool& is_pioneer)
 {
     ip1 = ui->lineEditIP1->text().trimmed();
     ip2 = ui->lineEditIP2->text().trimmed();
     ip3 = ui->lineEditIP3->text().trimmed();
     ip4 = ui->lineEditIP4->text().trimmed();
     port = ui->lineEditIPPort->text().trimmed();
+    is_pioneer = ui->radioButtonVendorPioneer->isChecked();
 }
 
 void SettingsDialog::GetIpAddressBD(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString& port)
@@ -172,13 +175,14 @@ void SettingsDialog::GetIpAddressBD(QString& ip1, QString& ip2, QString& ip3, QS
     port = ui->lineEditIPPort_BD->text().trimmed();
 }
 
-void SettingsDialog::SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port)
+void SettingsDialog::SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port, bool is_pioneer)
 {
     ui->lineEditIP1->setText(ip1);
     ui->lineEditIP2->setText(ip2);
     ui->lineEditIP3->setText(ip3);
     ui->lineEditIP4->setText(ip4);
     ui->lineEditIPPort->setText(port);
+    ((is_pioneer) ? ui->radioButtonVendorPioneer : ui->radioButtonVendorOnkyo)->setChecked(true);
 }
 
 void SettingsDialog::SetIpAddressBD(QString ip1, QString ip2, QString ip3, QString ip4, QString port)
@@ -314,6 +318,15 @@ void SettingsDialog::SetLanguage()
 
 }
 
+void SettingsDialog::on_radioButtonVendorPioneer_clicked()
+{
+    m_Settings.setValue("Player_IP/TypePioneer", true);
+}
+
+void SettingsDialog::on_radioButtonVendorOnkyo_clicked()
+{
+    m_Settings.setValue("Player_IP/TypePioneer", false);
+}
 
 void SettingsDialog::on_pushButton_clicked()
 {
@@ -457,9 +470,9 @@ void SettingsDialog::on_pushButtonAuto_clicked()
         QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
         if (l.size() == 4)
         {
-            SetIpAddress(l[0], l[1], l[2], l[3], QString("%1").arg(port));
+            SetIpAddress(l[0], l[1], l[2], l[3], QString("%1").arg(port), m_AutoSearchDialog->m_SelectedPioneer);
         }
-
+        //m_Settings.setValue("Player_IP/TypePioneer", m_AutoSearchDialog->m_SelectedPioneer);
     }
     delete m_AutoSearchDialog;
     m_AutoSearchDialog = NULL;

@@ -22,6 +22,7 @@ AutoSearchDialog::AutoSearchDialog(QSettings& settings, QWidget *parent, bool re
     crlf(_crlf),
     m_Result(0),
     m_SelectedPort(0),
+    m_SelectedPioneer(true),
     m_GroupAddress("239.255.255.250"),
     m_FindReceivers(receiver),
     m_Settings(settings),
@@ -265,12 +266,12 @@ void AutoSearchDialog::reconnect(QString & key, QString & ip, int port, Discover
 
 void AutoSearchDialog::ReadOnkyoAnswer()
 {
-    qDebug() << "ReadUdpAnswer";
+    qDebug() << "ReadOnkyoAnswer";
     QObject* sender = QObject::sender();
     DiscoveryDevice* device = dynamic_cast<DiscoveryDevice*>(sender);
     QString answer = device->read();
     qDebug() << answer;
-    if (answer.startsWith("PWR0"), Qt::CaseInsensitive)
+    if (answer.startsWith("PWR0", Qt::CaseInsensitive))
     {
         DiscoveryDevice* rd = new OnkyoReceiver();
         rd->ip = device->ip;
@@ -282,9 +283,11 @@ void AutoSearchDialog::ReadOnkyoAnswer()
             ui->listWidget->setCurrentRow(0);
             m_SelectedAddress = device->ip;
             m_SelectedPort = device->port;
+            m_SelectedPioneer = false;
         }
         ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, device->ip);
         ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, device->port);
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 3, false);
     }
 
     device->close();
@@ -325,9 +328,11 @@ void AutoSearchDialog::PioneerAnswer()
             ui->listWidget->setCurrentRow(0);
             m_SelectedAddress = device->ip;
             m_SelectedPort = device->port;
+            m_SelectedPioneer = true;
         }
         ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole, device->ip);
         ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 1, device->port);
+        ui->listWidget->item(ui->listWidget->count() - 1)->setData(Qt::UserRole + 3, true);
 
 
         device->close();
@@ -425,7 +430,8 @@ void AutoSearchDialog::on_listWidget_clicked(const QModelIndex &index)
 {
     m_SelectedAddress = ui->listWidget->item(index.row())->data(Qt::UserRole).toString();
     m_SelectedPort = ui->listWidget->item(index.row())->data(Qt::UserRole + 1).toInt();
-    QString url = ui->listWidget->item(index.row())->data(Qt::UserRole + 2).toString();
+    //QString url = ui->listWidget->item(index.row())->data(Qt::UserRole + 2).toString();
+    m_SelectedPioneer = ui->listWidget->item(index.row())->data(Qt::UserRole + 3).toBool();
 }
 
 void AutoSearchDialog::on_listWidget_doubleClicked(const QModelIndex &index)
@@ -433,6 +439,7 @@ void AutoSearchDialog::on_listWidget_doubleClicked(const QModelIndex &index)
     m_Result = 1;
     m_SelectedAddress = ui->listWidget->item(index.row())->data(Qt::UserRole).toString();
     m_SelectedPort = ui->listWidget->item(index.row())->data(Qt::UserRole + 1).toInt();
+    m_SelectedPioneer = ui->listWidget->item(index.row())->data(Qt::UserRole + 3).toBool();
     close();
 }
 

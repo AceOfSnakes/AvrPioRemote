@@ -39,8 +39,8 @@ public:
     ~SettingsDialog();
 
     void SetLanguage();
-    void GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString &port);
-    void SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port);
+    void GetIpAddress(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString &port, bool &is_pioneer);
+    void SetIpAddress(QString ip1, QString ip2, QString ip3, QString ip4, QString port, bool is_pioneer);
     void GetIpAddressBD(QString& ip1, QString& ip2, QString& ip3, QString& ip4, QString &port);
     void SetIpAddressBD(QString ip1, QString ip2, QString ip3, QString ip4, QString port);
 
@@ -97,6 +97,8 @@ private slots:
 
     void on_pushBDSettingsLoadButton_clicked();
 
+    void on_radioButtonVendorPioneer_clicked();
+    void on_radioButtonVendorOnkyo_clicked();
 signals:
     void onConnect();
     void onConnectBD();
