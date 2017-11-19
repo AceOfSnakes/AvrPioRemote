@@ -102,6 +102,10 @@ void usbDialog::ManualShowusbDialog()
 
 void usbDialog::ShowusbDialog(bool autoShow)
 {   
+    if (!m_Comm.IsPioneer())
+    {
+        return;
+    }
     if ((!autoShow) || (m_Settings.value("AutoShowUSB", true).toBool() && !isVisible()))
     {
         emit SendCmd("?GAI");
@@ -125,6 +129,10 @@ void usbDialog::ShowusbDialog(bool autoShow)
 
 void usbDialog::ResponseReceived(ReceivedObjectBase *response)
 {
+    if (!m_Comm.IsPioneer())
+    {
+        return;
+    }
     DisplayDataResponse_FL* display = dynamic_cast<DisplayDataResponse_FL*>(response);
     if (display != NULL)
     {
@@ -144,13 +152,18 @@ void usbDialog::ResponseReceived(ReceivedObjectBase *response)
 void usbDialog::Timeout()
 {
     if(isVisible())
-        emit SendCmd("?GAI");
+    {
+        if (m_Comm.IsPioneer())
+        {
+            emit SendCmd("?GAI");
+        }
+    }
 }
 
 
 void usbDialog::RefreshPlayTime()
 {
-    if (m_ScreenType >= 2 && m_ScreenType <= 5)
+    if (m_Comm.IsPioneer() && m_ScreenType >= 2 && m_ScreenType <= 5)
     {
         uint64_t tmp = QDateTime::currentMSecsSinceEpoch() / 1000ULL - m_PlayTime;
         uint64_t hour = tmp / 3600ULL;

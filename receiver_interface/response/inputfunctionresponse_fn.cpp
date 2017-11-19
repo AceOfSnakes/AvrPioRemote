@@ -41,7 +41,36 @@ QMap<int, QString> InputFunctionResponse_FN::_initMap()
     return inputs;
 }
 
-QMap<int, QString>  InputFunctionResponse_FN::m_VIDEO_INPUT = _initMap();
+QMap<int, QString> InputFunctionResponse_FN::_initOnkyoMap()
+{
+    QMap<int, QString> inputs;
+    inputs[0x01] = "CBL/SAT";
+    inputs[0x02] = "GAME";
+    inputs[0x03] = "AUX";
+    inputs[0x10] = "BD/DVD";
+    inputs[0x11] = "STRM BOX";
+    inputs[0x12] = "TV";
+    inputs[0x22] = "PHONO";
+    inputs[0x23] = "CD";
+    inputs[0x24] = "FM";
+    inputs[0x25] = "AM";
+    inputs[0x26] = "TUNER";
+    inputs[0x29] = "USB(Front)";
+    inputs[0x2B] = "NET";
+    inputs[0x2C] = "USB(toggle)";
+    inputs[0x2E] = "BT AUDIO";
+    inputs[0x55] = "HDMI 5";
+    inputs[0x56] = "HDMI 6";
+    inputs[0x57] = "HDMI 7";
+//    "UP"	sets Selector Position Wrap-Around Up
+//    "DOWN"	sets Selector Position Wrap-Around Down
+//    "QSTN"	gets The Selector Position
+    return inputs;
+}
+
+
+QMap<int, QString>  InputFunctionResponse_FN::m_PIONEER_INPUT = _initMap();
+QMap<int, QString>  InputFunctionResponse_FN::m_ONKYO_INPUT = _initOnkyoMap();
 
 
 InputFunctionResponse_FN::InputFunctionResponse_FN() :
@@ -62,19 +91,34 @@ QString InputFunctionResponse_FN::getResponseID()
 
 QStringList InputFunctionResponse_FN::getMsgIDs()
 {
-    return QStringList() << "FN";
+    return QStringList() << "FN" << "SLI";
 }
 
 bool InputFunctionResponse_FN::parseString(QString str)
 {
-    if (sscanf(str.toLatin1(), "FN%d", &m_inputNumber) == 1)
+    if (m_IsPioneer)
     {
-        QString str = m_VIDEO_INPUT[m_inputNumber];
-        if (str == "") {
-            m_inputNumber = -1;
-            return false;
+        if (sscanf(str.toLatin1(), "FN%d", &m_inputNumber) == 1)
+        {
+            QString str = m_PIONEER_INPUT[m_inputNumber];
+            if (str == "") {
+                m_inputNumber = -1;
+                return false;
+            }
+            return true;
         }
-        return true;
+    }
+    else
+    {
+        if (sscanf(str.toLatin1(), "SLI%x", &m_inputNumber) == 1)
+        {
+            QString str = m_ONKYO_INPUT[m_inputNumber];
+            if (str == "") {
+                m_inputNumber = -1;
+                return false;
+            }
+            return true;
+        }
     }
     return false;
 }
@@ -86,15 +130,35 @@ int InputFunctionResponse_FN::getNumber()
 
 QString InputFunctionResponse_FN::getName()
 {
-    QString str = m_VIDEO_INPUT[m_inputNumber];
-    if (str == "") {
-        m_inputNumber = -1;
-        str = tr("unknown");
+
+    QString str = "";
+    if (m_IsPioneer)
+    {
+        str = m_PIONEER_INPUT[m_inputNumber];
+        if (str == "") {
+            m_inputNumber = -1;
+            str = tr("unknown");
+        }
+    }
+    else
+    {
+        str = m_ONKYO_INPUT[m_inputNumber];
+        if (str == "") {
+            m_inputNumber = -1;
+            str = tr("unknown");
+        }
     }
     return str;
 }
 
 const QMap<int, QString> InputFunctionResponse_FN::getInputList()
 {
-    return m_VIDEO_INPUT;
+    if (m_IsPioneer)
+    {
+        return m_PIONEER_INPUT;
+    }
+    else
+    {
+        return m_ONKYO_INPUT;
+    }
 }

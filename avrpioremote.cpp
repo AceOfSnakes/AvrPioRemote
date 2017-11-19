@@ -111,57 +111,81 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((&m_ReceiverInterface), SIGNAL(ReceiverNetworkName(QString)), this,  SLOT(ReceiverNetworkName(QString)));
     connect((&m_ReceiverInterface), SIGNAL(ZoneInput(int, int)),this,SLOT(ZoneInput(int, int)));
 
+    // PIONEER BUTTONS
+
     // make a list with buttons that correspond to a input type
-    /* 00 */ m_InputButtons.append(NULL); //"PHONO"
-    /* 01 */ m_InputButtons.append(ui->InputCdButton); //"CD",
-    /* 02 */ m_InputButtons.append(ui->InputTunerButton); //"TUNER",
-    /* 03 */ m_InputButtons.append(NULL); //"CD-R/TAPE",
-    /* 04 */ m_InputButtons.append(ui->InputDvdButton); //"DVD",
-    /* 05 */ m_InputButtons.append(ui->InputTvButton); //"TV/SAT",
-    /* 06 */ m_InputButtons.append(ui->InputSatButton); //"SAT/CBL",
-    /* 07 */ m_InputButtons.append(NULL); //"",
-    /* 08 */ m_InputButtons.append(NULL); //"",
-    /* 09 */ m_InputButtons.append(NULL); //"",
-    /* 10 */ m_InputButtons.append(ui->InputVideoButton); //"VIDEO 1(VIDEO)",
-    /* 11 */ m_InputButtons.append(NULL); //"",
-    /* 12 */ m_InputButtons.append(NULL); //"MULTI CH IN",
-    /* 13 */ m_InputButtons.append(NULL); //"",
-    /* 14 */ m_InputButtons.append(NULL); //"VIDEO 2",
-    /* 15 */ m_InputButtons.append(ui->InputDvrButton); //"DVR/BDR",
-    /* 16 */ m_InputButtons.append(NULL); //"",
-    /* 17 */ m_InputButtons.append(ui->InputIpodButton); //"iPod/USB",
-    /* 18 */ m_InputButtons.append(ui->InputNetButton); //"XM RADIO",
-    /* 19 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI 1",
-    /* 20 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI 2",
-    /* 21 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI 3",
-    /* 22 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI 4",
-    /* 23 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI 5",
-    /* 24 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI 6",
-    /* 25 */ m_InputButtons.append(ui->InputBdButton); //"BD",
-    /* 26 */ m_InputButtons.append(ui->InputNetButton); //"HOME MEDIA GALLERY(Internet Radio)",
-    /* 27 */ m_InputButtons.append(ui->InputNetButton); //"SIRIUS",
-    /* 28 */ m_InputButtons.append(NULL); //"",
-    /* 29 */ m_InputButtons.append(NULL); //"",
-    /* 30 */ m_InputButtons.append(NULL); //"",
-    /* 31 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI (cyclic)",
-    /* 32 */ m_InputButtons.append(NULL); //"",
-    /* 33 */ m_InputButtons.append(ui->InputAdptButton); //"ADAPTER PORT",
-    /* 34 */ m_InputButtons.append(ui->InputHdmiButton); //"HDMI 7",
-    /* 35 */ m_InputButtons.append(NULL); //"",
-    /* 36 */ m_InputButtons.append(NULL); //"",
-    /* 37 */ m_InputButtons.append(NULL); //"",
-    /* 38 */ m_InputButtons.append(ui->InputNetButton); //"INTERNET RADIO",
-    /* 39 */ m_InputButtons.append(NULL); //"",
-    /* 40 */ m_InputButtons.append(ui->InputNetButton); //"SiriusXM",
-    /* 41 */ m_InputButtons.append(ui->InputNetButton); //"PANDORA",
-    /* 42 */ m_InputButtons.append(NULL); //"",
-    /* 43 */ m_InputButtons.append(NULL); //"",
-    /* 44 */ m_InputButtons.append(ui->InputNetButton); //"MEDIA SERVER",
-    /* 45 */ m_InputButtons.append(ui->InputNetButton); //"FAVORITES",
-    /* 46 */ m_InputButtons.append(NULL); //"",
-    /* 47 */ m_InputButtons.append(NULL); //"",
-    /* 48 */ m_InputButtons.append(ui->InputHdmiButton); //"MHL",
-    /* END */ m_InputButtons.append((QPushButton*)-1);
+    /* 00 */ m_PioneerInputButtons.append(NULL); //"PHONO"
+    /* 01 */ m_PioneerInputButtons.append(ui->InputCdButton); //"CD",
+    /* 02 */ m_PioneerInputButtons.append(ui->InputTunerButton); //"TUNER",
+    /* 03 */ m_PioneerInputButtons.append(NULL); //"CD-R/TAPE",
+    /* 04 */ m_PioneerInputButtons.append(ui->InputDvdButton); //"DVD",
+    /* 05 */ m_PioneerInputButtons.append(ui->InputTvButton); //"TV/SAT",
+    /* 06 */ m_PioneerInputButtons.append(ui->InputSatButton); //"SAT/CBL",
+    /* 07 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 08 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 09 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 10 */ m_PioneerInputButtons.append(ui->InputVideoButton); //"VIDEO 1(VIDEO)",
+    /* 11 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 12 */ m_PioneerInputButtons.append(NULL); //"MULTI CH IN",
+    /* 13 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 14 */ m_PioneerInputButtons.append(NULL); //"VIDEO 2",
+    /* 15 */ m_PioneerInputButtons.append(ui->InputDvrButton); //"DVR/BDR",
+    /* 16 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 17 */ m_PioneerInputButtons.append(ui->InputIpodButton); //"iPod/USB",
+    /* 18 */ m_PioneerInputButtons.append(ui->InputNetButton); //"XM RADIO",
+    /* 19 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI 1",
+    /* 20 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI 2",
+    /* 21 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI 3",
+    /* 22 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI 4",
+    /* 23 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI 5",
+    /* 24 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI 6",
+    /* 25 */ m_PioneerInputButtons.append(ui->InputBdButton); //"BD",
+    /* 26 */ m_PioneerInputButtons.append(ui->InputNetButton); //"HOME MEDIA GALLERY(Internet Radio)",
+    /* 27 */ m_PioneerInputButtons.append(ui->InputNetButton); //"SIRIUS",
+    /* 28 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 29 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 30 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 31 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI (cyclic)",
+    /* 32 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 33 */ m_PioneerInputButtons.append(ui->InputAdptButton); //"ADAPTER PORT",
+    /* 34 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"HDMI 7",
+    /* 35 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 36 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 37 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 38 */ m_PioneerInputButtons.append(ui->InputNetButton); //"INTERNET RADIO",
+    /* 39 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 40 */ m_PioneerInputButtons.append(ui->InputNetButton); //"SiriusXM",
+    /* 41 */ m_PioneerInputButtons.append(ui->InputNetButton); //"PANDORA",
+    /* 42 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 43 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 44 */ m_PioneerInputButtons.append(ui->InputNetButton); //"MEDIA SERVER",
+    /* 45 */ m_PioneerInputButtons.append(ui->InputNetButton); //"FAVORITES",
+    /* 46 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 47 */ m_PioneerInputButtons.append(NULL); //"",
+    /* 48 */ m_PioneerInputButtons.append(ui->InputHdmiButton); //"MHL",
+    /* END */ m_PioneerInputButtons.append((QPushButton*)-1);
+
+    // ONKYO BUTTONS
+
+    m_OnkyoInputButtons[0x01] = ui->InputSatButton; //"CBL/SAT";
+    m_OnkyoInputButtons[0x02] = ui->InputDvdButton; //"GAME";
+    m_OnkyoInputButtons[0x03] = NULL; //"AUX";
+    m_OnkyoInputButtons[0x10] = ui->InputBdButton; //"BD/DVD";
+    m_OnkyoInputButtons[0x11] = ui->InputNetButton; //"STRM BOX";
+    m_OnkyoInputButtons[0x12] = ui->InputTvButton; //"TV";1
+    m_OnkyoInputButtons[0x22] = NULL; //"PHONO";
+    m_OnkyoInputButtons[0x23] = ui->InputCdButton; //"CD";
+    m_OnkyoInputButtons[0x24] = ui->InputTunerButton; //"FM";
+    m_OnkyoInputButtons[0x25] = ui->InputTunerButton; //"AM";
+    m_OnkyoInputButtons[0x26] = ui->InputTunerButton; //"TUNER";
+    m_OnkyoInputButtons[0x29] = ui->InputIpodButton; //"USB(Front)";
+    m_OnkyoInputButtons[0x2B] = ui->InputNetButton; //"NET";
+    m_OnkyoInputButtons[0x2C] = NULL; //"USB(toggle)";
+    m_OnkyoInputButtons[0x2E] = NULL; //"BT AUDIO";
+    m_OnkyoInputButtons[0x55] = ui->InputHdmiButton; //"HDMI 5";
+    m_OnkyoInputButtons[0x56] = ui->InputHdmiButton; //"HDMI 6";
+    m_OnkyoInputButtons[0x57] = ui->InputHdmiButton; //"HDMI 7";
+
 
     // configure the timer
     connect((&m_StatusLineTimer), SIGNAL(timeout()), this, SLOT(StatusLineTimeout()));
@@ -539,17 +563,24 @@ QPushButton* AVRPioRemote::FindInputButton(int idx)
     QPushButton* found = NULL;
     int i = 0;
     // find a button associated with the input
-    while (m_InputButtons[i] != (QPushButton*)-1)
+    if (m_IsPioneer)
     {
-        if (m_InputButtons[i] != NULL)
+        while (m_PioneerInputButtons[i] != (QPushButton*)-1)
         {
-            if (i == idx)
+            if (m_PioneerInputButtons[i] != NULL)
             {
-                found = m_InputButtons[i];
-                break;
+                if (i == idx)
+                {
+                    found = m_PioneerInputButtons[i];
+                    break;
+                }
             }
+            i++;
         }
-        i++;
+    }
+    else
+    {
+        found = m_OnkyoInputButtons.value(idx, NULL);
     }
     return found;
 }
@@ -572,23 +603,37 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
     if (zone == 1 && found != NULL)
     {
         m_SelectedInput = found;
-        while (m_InputButtons[i] != (QPushButton*)-1)
+        if (m_IsPioneer)
         {
-            if (m_InputButtons[i] != NULL)
+            while (m_PioneerInputButtons[i] != (QPushButton*)-1)
             {
-                if (i == idx)
+                if (m_PioneerInputButtons[i] != NULL)
                 {
-                    // select the found input button
-                    m_InputButtons[i]->setChecked(true);
+                    if (i == idx)
+                    {
+                        // select the found input button
+                        m_PioneerInputButtons[i]->setChecked(true);
+                    }
+                    else
+                    {
+                        // unselect all other input buttons
+                        if(m_PioneerInputButtons[i] != found)
+                            m_PioneerInputButtons[i]->setChecked(false);
+                    }
                 }
-                else
+                i++;
+            }
+        }
+        else
+        {
+            foreach (QPushButton* button, m_OnkyoInputButtons)
+            {
+                if (button != NULL)
                 {
-                    // unselect all other input buttons
-                    if(m_InputButtons[i] != found)
-                        m_InputButtons[i]->setChecked(false);
+                    int key = m_OnkyoInputButtons.key(button);
+                    button->setChecked(key == idx);
                 }
             }
-            i++;
         }
     }
     // if it is a net input, open NetRadio window, otherwise close it
@@ -979,6 +1024,7 @@ void AVRPioRemote::CommConnected()
         SendCmd("AMTQSTN"); // mute
         SendCmd("MVLQSTN"); // volume
         SendCmd("SLIQSTN"); // input
+        SendCmd("FLDQSTN"); // display
     }
 }
 
@@ -1054,20 +1100,20 @@ void AVRPioRemote::EnableControls(bool enable)
             enableInputs = true;
 
 //        ui->InputAdptButton->setEnabled(enableInputs);
-//        ui->InputBdButton->setEnabled(enableInputs);
-//        ui->InputCdButton->setEnabled(enableInputs);
-//        ui->InputDvdButton->setEnabled(enableInputs);
+        ui->InputBdButton->setEnabled(enableInputs);
+        ui->InputCdButton->setEnabled(enableInputs);
+        ui->InputDvdButton->setEnabled(enableInputs);
 //        ui->InputDvrButton->setEnabled(enableInputs);
-//        ui->InputHdmiButton->setEnabled(enableInputs);
-//        ui->InputIpodButton->setEnabled(enableInputs);
-//        ui->InputNetButton->setEnabled(enableInputs);
-//        ui->InputSatButton->setEnabled(enableInputs);
-//        ui->InputTunerButton->setEnabled(enableInputs);
-//        ui->InputTvButton->setEnabled(enableInputs);
+        ui->InputHdmiButton->setEnabled(enableInputs);
+        ui->InputIpodButton->setEnabled(enableInputs);
+        ui->InputNetButton->setEnabled(enableInputs);
+        ui->InputSatButton->setEnabled(enableInputs);
+        ui->InputTunerButton->setEnabled(enableInputs);
+        ui->InputTvButton->setEnabled(enableInputs);
 //        ui->InputVideoButton->setEnabled(enableInputs);
 
-//        ui->InputLeftButton->setEnabled(enable);
-//        ui->InputRightButton->setEnabled(enable);
+        ui->InputLeftButton->setEnabled(enable);
+        ui->InputRightButton->setEnabled(enable);
 //        ui->AutoAlcDirectButton->setEnabled(enable);
 //        ui->StandardButton->setEnabled(enable);
 
@@ -1354,6 +1400,10 @@ void AVRPioRemote::on_InputLeftButton_clicked()
     {
         SendCmd("FD");
     }
+    else
+    {
+        SendCmd("SLIDOWN");
+    }
 }
 
 void AVRPioRemote::on_InputRightButton_clicked()
@@ -1361,6 +1411,10 @@ void AVRPioRemote::on_InputRightButton_clicked()
     if (m_IsPioneer)
     {
         SendCmd("FU");
+    }
+    else
+    {
+        SendCmd("SLIDUP");
     }
 }
 
@@ -1451,6 +1505,10 @@ void AVRPioRemote::on_InputBdButton_clicked()
     {
         SendCmd("25FN");
     }
+    else
+    {
+        SendCmd("SLI10");
+    }
 }
 
 void AVRPioRemote::on_InputDvdButton_clicked()
@@ -1459,6 +1517,10 @@ void AVRPioRemote::on_InputDvdButton_clicked()
     if (m_IsPioneer)
     {
         SendCmd("04FN");
+    }
+    else
+    {
+        SendCmd("SLI02");
     }
 }
 
@@ -1487,13 +1549,24 @@ void AVRPioRemote::on_InputCdButton_clicked()
     {
         SendCmd("01FN");
     }
+    else
+    {
+        SendCmd("SLI12");
+    }
 }
 
 void AVRPioRemote::on_InputIpodButton_clicked()
 {
     m_usbDialog->ShowusbDialog(true);
     ui->InputIpodButton->setChecked(!ui->InputIpodButton->isChecked());
-    SendCmd("17FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("17FN");
+    }
+    else
+    {
+        SendCmd("SLI29");
+    }
 }
 
 void AVRPioRemote::on_InputSatButton_clicked()
@@ -1511,6 +1584,10 @@ void AVRPioRemote::on_InputAdptButton_clicked()
     if (m_IsPioneer)
     {
         SendCmd("33FN");
+    }
+    else
+    {
+        SendCmd("SLI01");
     }
 }
 
@@ -1549,6 +1626,10 @@ void AVRPioRemote::on_InputTunerButton_clicked()
     if (m_IsPioneer)
     {
         SendCmd("02FN");
+    }
+    else
+    {
+        SendCmd("SLI26");
     }
 }
 

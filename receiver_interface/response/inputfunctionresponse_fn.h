@@ -19,9 +19,11 @@ public:
 
 protected:
     int m_inputNumber;
-    static QMap<int, QString>  m_VIDEO_INPUT;
+    static QMap<int, QString>  m_PIONEER_INPUT;
+    static QMap<int, QString>  m_ONKYO_INPUT;
 
     static QMap<int, QString> _initMap();
+    static QMap<int, QString> _initOnkyoMap();
 };
 
 #endif // INPUTFUNCTIONRESPONSE_H

@@ -58,70 +58,77 @@ int OnkyoReceiver::write(QString str)
 void OnkyoReceiver::NewDataToRead()
 {
     QByteArray data = socket->readAll();
+    qDebug() << data;
     m_BufferedData.append(data);
     if(m_BufferedData.length() > DATA_MAX_LENGTH)
     {
         m_BufferedData.remove(0, m_BufferedData.length() - DATA_MAX_LENGTH);
     }
 
-    if (!m_ReceivingData) // search for header
+    bool done;
+    do
     {
-        int idx = m_BufferedData.indexOf("ISCP");
-        if (idx < 0)
+        done = true;
+        if (!m_ReceivingData) // search for header
         {
-            //m_ReceivedData.clear();
-            return;
-        }
-        eISCPHeader header;
-        if (isMsgBegin(m_BufferedData, idx, header))
-        {
-            m_ReceivingData = true;
-            m_ReceivingDataLength = header.dataSize;
-            //m_ReceivedData = "";
-            m_BufferedData.remove(0, idx + sizeof(eISCPHeader));
-        }
-    }
-    if (m_ReceivingData)
-    {
-        if (m_BufferedData.length() >= m_ReceivingDataLength)
-        {
-            // remove EOL, \r and \n characters
-            int len = m_ReceivingDataLength;
-            for (int i = 2; i >= 0; i--)
+            int idx = m_BufferedData.indexOf("ISCP");
+            if (idx < 0)
             {
-                if ((char)m_BufferedData[len -1] == '\n' || (char)m_BufferedData[len -1] == '\r' || (char)m_BufferedData[len -1] == '\u001A')
+                //m_ReceivedData.clear();
+                return;
+            }
+            eISCPHeader header;
+            if (isMsgBegin(m_BufferedData, idx, header))
+            {
+                m_ReceivingData = true;
+                m_ReceivingDataLength = header.dataSize;
+                m_BufferedData.remove(0, idx + sizeof(eISCPHeader));
+                done = false;
+            }
+        }
+        if (m_ReceivingData)
+        {
+            if (m_BufferedData.length() >= m_ReceivingDataLength)
+            {
+                // remove EOL, \r and \n characters
+                int len = m_ReceivingDataLength;
+                for (int i = 2; i >= 0; i--)
                 {
-                    len--;
+                    if ((char)m_BufferedData[len -1] == '\n' || (char)m_BufferedData[len -1] == '\r' || (char)m_BufferedData[len -1] == '\u001A')
+                    {
+                        len--;
+                    }
                 }
-            }
-            if (m_BufferedData[0] != '!')
-            {
-                qDebug() << "Onkyo error: start char '!' not found";
+                if (m_BufferedData[0] != '!')
+                {
+                    qDebug() << "Onkyo error: start char '!' not found";
+                    m_BufferedData.remove(0, m_ReceivingDataLength);
+                    m_ReceivingData = false;
+                    return;
+                }
+                if (m_IsReceiver && m_BufferedData[1] != eISCP_ID_RECEIVER)
+                {
+                    qDebug() << "Onkyo error: data is not for the receiver";
+                    m_BufferedData.remove(0, m_ReceivingDataLength);
+                    m_ReceivingData = false;
+                    return;
+                }
+                if (!m_IsReceiver && m_BufferedData[1] != eISCP_ID_PLAYER)
+                {
+                    qDebug() << "Onkyo error: data is not for the player";
+                    m_BufferedData.remove(0, m_ReceivingDataLength);
+                    m_ReceivingData = false;
+                    return;
+                }
+                QByteArray msg = m_BufferedData.mid(2, len - 2);
+                QString received_data = QString(msg);
                 m_BufferedData.remove(0, m_ReceivingDataLength);
                 m_ReceivingData = false;
-                return;
+                emit DataReceived(received_data);
+                done = false;
             }
-            if (m_IsReceiver && m_BufferedData[1] != eISCP_ID_RECEIVER)
-            {
-                qDebug() << "Onkyo error: data is not for the receiver";
-                m_BufferedData.remove(0, m_ReceivingDataLength);
-                m_ReceivingData = false;
-                return;
-            }
-            if (!m_IsReceiver && m_BufferedData[1] != eISCP_ID_PLAYER)
-            {
-                qDebug() << "Onkyo error: data is not for the player";
-                m_BufferedData.remove(0, m_ReceivingDataLength);
-                m_ReceivingData = false;
-                return;
-            }
-            QByteArray msg = m_BufferedData.mid(2, len - 2);
-            QString received_data = QString(msg);
-            m_BufferedData.remove(0, m_ReceivingDataLength);
-            m_ReceivingData = false;
-            emit DataReceived(received_data);
         }
-    }
+    } while(!done);
 }
 
 bool OnkyoReceiver::isMsgBegin(QByteArray data, int start, eISCPHeader& header)

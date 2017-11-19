@@ -119,7 +119,8 @@ private:
     bool            m_Connected;
     bool            m_PassThroughLast;
 
-    QVector<QPushButton*> m_InputButtons;
+    QVector<QPushButton*> m_PioneerInputButtons;
+    QMap<int, QPushButton*> m_OnkyoInputButtons;
 
     int padding_left;
     int padding_right;

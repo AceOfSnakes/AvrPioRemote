@@ -105,7 +105,10 @@ void NetRadioDialog::ShowNetDialog(bool autoShow)
 {   
     if ((!autoShow) || (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible()))
     {
-        emit SendCmd("?GAH");
+        if (m_Comm.IsPioneer())
+        {
+            emit SendCmd("?GAH");
+        }
         if (!m_PositionSet || !m_Settings.value("SaveNetRadioWindowGeometry", false).toBool())
         {
             QWidget* Parent = dynamic_cast<QWidget*>(parent());
@@ -181,41 +184,53 @@ void NetRadioDialog::ResponseReceived(ReceivedObjectBase *response)
 void NetRadioDialog::Timeout()
 {
     if(isVisible())
-        emit SendCmd("?GAH");
+    {
+        if (m_Comm.IsPioneer())
+        {
+            emit SendCmd("?GAH");
+        }
+    }
 }
 
 
 void NetRadioDialog::RefreshPlayTime()
 {
-    if (m_ScreenType >= 2 && m_ScreenType <= 5)
+    if (m_Comm.IsPioneer())
     {
-        uint64_t tmp = QDateTime::currentMSecsSinceEpoch() / 1000ULL - m_PlayTime;
-        uint64_t hour = tmp / 3600ULL;
-        tmp = tmp - hour * 3600;
-        uint64_t min = tmp / 60;
-        uint64_t sec = tmp % 60;
-        QString timeString;
-        if (hour > 0)
+        if (m_ScreenType >= 2 && m_ScreenType <= 5)
         {
-            timeString = QString("%1:%2:%3").arg(hour, 2, 10, QChar('0')).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0'));
+            uint64_t tmp = QDateTime::currentMSecsSinceEpoch() / 1000ULL - m_PlayTime;
+            uint64_t hour = tmp / 3600ULL;
+            tmp = tmp - hour * 3600;
+            uint64_t min = tmp / 60;
+            uint64_t sec = tmp % 60;
+            QString timeString;
+            if (hour > 0)
+            {
+                timeString = QString("%1:%2:%3").arg(hour, 2, 10, QChar('0')).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0'));
+            }
+            else
+            {
+                timeString = QString("%1:%2").arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0'));
+            }
+            if (m_TotalTime != "" && m_TotalTime != "0:00")
+                timeString += " (" + m_TotalTime + ")";
+            ui->TimeLabel->setText(timeString);
         }
         else
         {
-            timeString = QString("%1:%2").arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0'));
+            m_PlayTimeTimer.stop();
         }
-        if (m_TotalTime != "" && m_TotalTime != "0:00")
-            timeString += " (" + m_TotalTime + ")";
-        ui->TimeLabel->setText(timeString);
-    }
-    else
-    {
-        m_PlayTimeTimer.stop();
     }
 }
 
 
 void NetRadioDialog::NetData(QString data)
 {
+    if (!m_Comm.IsPioneer())
+    {
+        return;
+    }
      //qDebug() << " >>> " << data;
     if (data.startsWith("GBH") || data.startsWith("GBP"))
     {

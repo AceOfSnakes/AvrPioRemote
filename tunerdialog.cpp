@@ -138,12 +138,20 @@ void TunerDialog::ShowTunerDialog(bool autoShow)
         ui->CancelButton->setEnabled(false);
     }
 //    SendCmd("?FR");
-    SendCmd("?PR");
+    if (m_Comm.IsPioneer())
+    {
+        SendCmd("?PR");
+    }
 }
 
 
 void TunerDialog::ResponseReceived(ReceivedObjectBase *response)
 {
+    if (!m_Comm.IsPioneer())
+    {
+        return;
+    }
+
     DisplayDataResponse_FL* display = dynamic_cast<DisplayDataResponse_FL*>(response);
     if (display != NULL)
     {
