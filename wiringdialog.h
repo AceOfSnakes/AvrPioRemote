@@ -55,7 +55,7 @@ private:
 
 public slots:
     void ShowWiringDialog();
-    void DataReceived(QString data);
+    void DataReceived(const QString &data, bool is_pioneer);
 
 signals:
     void SendCmd(QString);

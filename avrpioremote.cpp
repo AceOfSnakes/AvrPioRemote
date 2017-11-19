@@ -105,7 +105,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     connect((&m_ReceiverInterface), SIGNAL(Connected()), this, SLOT(CommConnected()));
     connect((&m_ReceiverInterface), SIGNAL(Disconnected()), this, SLOT(CommDisconnected()));
     connect((&m_ReceiverInterface), SIGNAL(CommError(QString)), this,  SLOT(CommError(QString)));
-    connect((&m_ReceiverInterface), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
+    connect((&m_ReceiverInterface), SIGNAL(DataReceived(const QString&, bool)), this,  SLOT(NewDataReceived(const QString&, bool)));
     connect((&m_ReceiverInterface), SIGNAL(ListeningModeData(QString)), this,  SLOT(ListeningModeData(QString)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverType(QString,QString)), this,  SLOT(ReceiverType(QString,QString)));
     connect((&m_ReceiverInterface), SIGNAL(ReceiverNetworkName(QString)), this,  SLOT(ReceiverNetworkName(QString)));
@@ -310,6 +310,7 @@ void AVRPioRemote::closeEvent(QCloseEvent *event)
     m_ReceiverInterface.Disconnect();
     // save the window position
     m_Settings.setValue("MainWindowGeometry", saveGeometry());
+    m_ReceiverInterface.Stop();
     QMainWindow::closeEvent(event);
 }
 
@@ -525,8 +526,11 @@ void AVRPioRemote::StatusLineTimeout()
 
 void AVRPioRemote::RefreshTimeout()
 {
-    SendCmd("?AST");
-    SendCmd("?VST");
+    if (m_IsPioneer)
+    {
+        SendCmd("?AST");
+        SendCmd("?VST");
+    }
 }
 
 
@@ -660,8 +664,11 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
 
 void AVRPioRemote::LMSelectedAction(QString Param)
 {
-    QString cmd = QString("%1SR").arg(Param);
-    SendCmd(cmd);
+    if (m_IsPioneer)
+    {
+        QString cmd = QString("%1SR").arg(Param);
+        SendCmd(cmd);
+    }
 }
 
 void AVRPioRemote::ConnectReceiver()
@@ -674,7 +681,7 @@ void AVRPioRemote::ConnectReceiver()
 
     if (!m_ReceiverInterface.IsConnected())
     {
-        m_ReceiverInterface.ConnectToReceiver(m_IpAddress, m_IpPort);
+        m_ReceiverInterface.ConnectToReceiver(m_IpAddress, m_IpPort, m_IsPioneer);
     }
 
 }
@@ -699,7 +706,7 @@ void AVRPioRemote::ConnectPlayer()
 //}
 
 
-void AVRPioRemote::NewDataReceived(QString data)
+void AVRPioRemote::NewDataReceived(const QString& data, bool is_pioneer)
 {
     Logger::Log("<-- " + data);
 }
@@ -724,7 +731,10 @@ void AVRPioRemote::ResponseReceived(ReceivedObjectBase *response)
         if (power->GetZone() == PowerResponse_PWR_APR_BPR_ZEP::ZoneMain)
         {
             //RequestStatus(true);
-            SendCmd("?F");
+            if (m_IsPioneer)
+            {
+                SendCmd("?F");
+            }
             m_PowerOn = power->IsPoweredOn();
             ui->PowerButton->setIcon((m_PowerOn) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
             //ui->PowerButton->setText((!m_PowerOn) ? tr("ON") : tr("OFF"));
@@ -872,8 +882,11 @@ void AVRPioRemote::InputChanged(int no, QString name)
     else
         ui->InputNameLineEdit->setToolTip(name);
     SelectInputButton(no);
-    QString str = QString("?RGB%1").arg(no, 2, 10, QLatin1Char('0'));
-    SendCmd(str.toLocal8Bit());
+    if (m_IsPioneer)
+    {
+        QString str = QString("?RGB%1").arg(no, 2, 10, QLatin1Char('0'));
+        SendCmd(str.toLocal8Bit());
+    }
     RequestStatus(false);
 }
 
@@ -894,27 +907,30 @@ void AVRPioRemote::RequestStatus(bool input)
 {
     if (m_ReceiverOnline)
     {
-        bool isVSX5XX = m_Settings.value("VSX5xxCompatibilityMode", false).toBool();
-        SendCmd("?V"); // volume
-        SendCmd("?M"); // mute
-        if (!isVSX5XX)
-            SendCmd("?FL"); // request display
-        SendCmd("?AST"); // request audio information
-        SendCmd("?VST"); // request video information
-        SendCmd("?S"); // request listening mode
-        SendCmd("?L"); // request playing listening mode
-        SendCmd("?TO"); // request Tone
-        SendCmd("?BA"); // request Bass
-        SendCmd("?TR"); // request Treble
-        if (input)
-            SendCmd("?F"); // request input
-        if (!isVSX5XX) {
-            SendCmd("?IS"); // phase control
-            SendCmd("?ATI"); // Hi-Bit
-            SendCmd("?ATA"); // S.Retriever
-            SendCmd("?PQ"); // PQLS
+        if (m_IsPioneer)
+        {
+            bool isVSX5XX = m_Settings.value("VSX5xxCompatibilityMode", false).toBool();
+            SendCmd("?V"); // volume
+            SendCmd("?M"); // mute
+            if (!isVSX5XX)
+                SendCmd("?FL"); // request display
+            SendCmd("?AST"); // request audio information
+            SendCmd("?VST"); // request video information
+            SendCmd("?S"); // request listening mode
+            SendCmd("?L"); // request playing listening mode
+            SendCmd("?TO"); // request Tone
+            SendCmd("?BA"); // request Bass
+            SendCmd("?TR"); // request Treble
+            if (input)
+                SendCmd("?F"); // request input
+            if (!isVSX5XX) {
+                SendCmd("?IS"); // phase control
+                SendCmd("?ATI"); // Hi-Bit
+                SendCmd("?ATA"); // S.Retriever
+                SendCmd("?PQ"); // PQLS
+            }
+            SendCmd("?AUB"); // new data (only HiBit flag known)
         }
-        SendCmd("?AUB"); // new data (only HiBit flag known)
     }
     //sendCmd("?RGB**"); // request input name information
 }
@@ -949,11 +965,21 @@ void AVRPioRemote::CommConnected()
     ui->pushButtonConnect->setChecked(true);
     ui->ZoneControlButton->setEnabled(true);
     m_ReceiverOnline = true;
-    SendCmd("?RGD"); // Receiver-Kennung
-    SendCmd("?SSO"); // Receiver friendly name (network)
-    //SendCmd("?STU"); // PassThrough
-    SendCmd("?P"); // power
-    SendCmd("?F"); // power
+    if (m_IsPioneer)
+    {
+        SendCmd("?RGD"); // Receiver-Kennung
+        SendCmd("?SSO"); // Receiver friendly name (network)
+        //SendCmd("?STU"); // PassThrough
+        SendCmd("?P"); // power
+        SendCmd("?F"); // input
+    }
+    else
+    {
+        SendCmd("PWRQSTN"); // power
+        SendCmd("AMTQSTN"); // mute
+        SendCmd("MVLQSTN"); // volume
+        SendCmd("SLIQSTN"); // input
+    }
 }
 
 void AVRPioRemote::CommDisconnected()
@@ -981,40 +1007,80 @@ bool AVRPioRemote::SendCmd(const QString& cmd)
 
 void AVRPioRemote::EnableControls(bool enable)
 {
-    ui->SRetrButton->setEnabled(enable);
-    ui->HiBitButton->setEnabled(enable);
+    if (m_IsPioneer)
+    {
+        ui->SRetrButton->setEnabled(enable);
+        ui->HiBitButton->setEnabled(enable);
 
-    bool enableInputs = false;
-    if ((m_Connected && m_PassThroughLast) || enable)
-        enableInputs = true;
+        bool enableInputs = false;
+        if ((m_Connected && m_PassThroughLast) || enable)
+            enableInputs = true;
 
-    ui->InputAdptButton->setEnabled(enableInputs);
-    ui->InputBdButton->setEnabled(enableInputs);
-    ui->InputCdButton->setEnabled(enableInputs);
-    ui->InputDvdButton->setEnabled(enableInputs);
-    ui->InputDvrButton->setEnabled(enableInputs);
-    ui->InputHdmiButton->setEnabled(enableInputs);
-    ui->InputIpodButton->setEnabled(enableInputs);
-    ui->InputNetButton->setEnabled(enableInputs);
-    ui->InputSatButton->setEnabled(enableInputs);
-    ui->InputTunerButton->setEnabled(enableInputs);
-    ui->InputTvButton->setEnabled(enableInputs);
-    ui->InputVideoButton->setEnabled(enableInputs);
+        ui->InputAdptButton->setEnabled(enableInputs);
+        ui->InputBdButton->setEnabled(enableInputs);
+        ui->InputCdButton->setEnabled(enableInputs);
+        ui->InputDvdButton->setEnabled(enableInputs);
+        ui->InputDvrButton->setEnabled(enableInputs);
+        ui->InputHdmiButton->setEnabled(enableInputs);
+        ui->InputIpodButton->setEnabled(enableInputs);
+        ui->InputNetButton->setEnabled(enableInputs);
+        ui->InputSatButton->setEnabled(enableInputs);
+        ui->InputTunerButton->setEnabled(enableInputs);
+        ui->InputTvButton->setEnabled(enableInputs);
+        ui->InputVideoButton->setEnabled(enableInputs);
 
-    ui->InputLeftButton->setEnabled(enable);
-    ui->InputRightButton->setEnabled(enable);
-    ui->AutoAlcDirectButton->setEnabled(enable);
-    ui->StandardButton->setEnabled(enable);
+        ui->InputLeftButton->setEnabled(enable);
+        ui->InputRightButton->setEnabled(enable);
+        ui->AutoAlcDirectButton->setEnabled(enable);
+        ui->StandardButton->setEnabled(enable);
 
-    ui->AdvSurrButton->setEnabled(enable);
-    ui->PhaseButton->setEnabled(enable);
-    ui->PqlsButton->setEnabled(enable);
-    ui->VolumeDownButton->setEnabled(enable);
-    ui->VolumeMuteButton->setEnabled(enable);
-    ui->VolumeUpButton->setEnabled(enable);
-    ui->ShowAllListeningModesButton->setEnabled(enable);
-    ui->ATBEQModesButton->setEnabled(enable);
-    ui->InfoButton->setEnabled(enable);
+        ui->AdvSurrButton->setEnabled(enable);
+        ui->PhaseButton->setEnabled(enable);
+        ui->PqlsButton->setEnabled(enable);
+        ui->VolumeDownButton->setEnabled(enable);
+        ui->VolumeMuteButton->setEnabled(enable);
+        ui->VolumeUpButton->setEnabled(enable);
+        ui->ShowAllListeningModesButton->setEnabled(enable);
+        ui->ATBEQModesButton->setEnabled(enable);
+        ui->InfoButton->setEnabled(enable);
+    }
+    else
+    {
+        //ui->SRetrButton->setEnabled(enable);
+        //ui->HiBitButton->setEnabled(enable);
+
+        bool enableInputs = false;
+        if ((m_Connected && m_PassThroughLast) || enable)
+            enableInputs = true;
+
+//        ui->InputAdptButton->setEnabled(enableInputs);
+//        ui->InputBdButton->setEnabled(enableInputs);
+//        ui->InputCdButton->setEnabled(enableInputs);
+//        ui->InputDvdButton->setEnabled(enableInputs);
+//        ui->InputDvrButton->setEnabled(enableInputs);
+//        ui->InputHdmiButton->setEnabled(enableInputs);
+//        ui->InputIpodButton->setEnabled(enableInputs);
+//        ui->InputNetButton->setEnabled(enableInputs);
+//        ui->InputSatButton->setEnabled(enableInputs);
+//        ui->InputTunerButton->setEnabled(enableInputs);
+//        ui->InputTvButton->setEnabled(enableInputs);
+//        ui->InputVideoButton->setEnabled(enableInputs);
+
+//        ui->InputLeftButton->setEnabled(enable);
+//        ui->InputRightButton->setEnabled(enable);
+//        ui->AutoAlcDirectButton->setEnabled(enable);
+//        ui->StandardButton->setEnabled(enable);
+
+//        ui->AdvSurrButton->setEnabled(enable);
+//        ui->PhaseButton->setEnabled(enable);
+//        ui->PqlsButton->setEnabled(enable);
+        ui->VolumeDownButton->setEnabled(enable);
+        ui->VolumeMuteButton->setEnabled(enable);
+        ui->VolumeUpButton->setEnabled(enable);
+//        ui->ShowAllListeningModesButton->setEnabled(enable);
+//        ui->ATBEQModesButton->setEnabled(enable);
+//        ui->InfoButton->setEnabled(enable);
+    }
 }
 
 
@@ -1204,20 +1270,44 @@ void AVRPioRemote::on_MoreButton_clicked()
 
 void AVRPioRemote::on_VolumeUpButton_clicked()
 {
-    SendCmd("VU");
+    if (m_IsPioneer)
+    {
+        SendCmd("VU");
+    }
+    else
+    {
+        SendCmd("MVLUP");
+    }
 }
 
 void AVRPioRemote::on_VolumeDownButton_clicked()
 {
-    SendCmd("VD");
+    if (m_IsPioneer)
+    {
+        SendCmd("VD");
+    }
+    else
+    {
+        SendCmd("MVLDOWN");
+    }
 }
 
 void AVRPioRemote::on_VolumeMuteButton_clicked()
 {
-    if (ui->VolumeMuteButton->isChecked())
-        SendCmd("MO");
+    if (m_IsPioneer)
+    {
+        if (ui->VolumeMuteButton->isChecked())
+            SendCmd("MO");
+        else
+            SendCmd("MF");
+    }
     else
-        SendCmd("MF");
+    {
+        if (ui->VolumeMuteButton->isChecked())
+            SendCmd("AMT01");
+        else
+            SendCmd("AMT00");
+    }
 }
 
 void AVRPioRemote::on_pushButtonConnect_clicked()
@@ -1232,13 +1322,27 @@ void AVRPioRemote::on_PowerButton_clicked()
     //ui->PowerButton->setChecked(!ui->PowerButton->isChecked());
     if (!m_PowerOn)
     {
-        SendCmd("PO");
-        SendCmd("PO");
+        if (m_IsPioneer)
+        {
+            SendCmd("PO");
+            SendCmd("PO");
+        }
+        else
+        {
+            SendCmd("PWR01");
+        }
     }
     else
     {
-        SendCmd("PF");
-        SendCmd("PF");
+        if (m_IsPioneer)
+        {
+            SendCmd("PF");
+            SendCmd("PF");
+        }
+        else
+        {
+            SendCmd("PWR00");
+        }
         m_ReceiverOnline = false;
     }
 }
@@ -1246,12 +1350,18 @@ void AVRPioRemote::on_PowerButton_clicked()
 
 void AVRPioRemote::on_InputLeftButton_clicked()
 {
-    SendCmd("FD");
+    if (m_IsPioneer)
+    {
+        SendCmd("FD");
+    }
 }
 
 void AVRPioRemote::on_InputRightButton_clicked()
 {
-    SendCmd("FU");
+    if (m_IsPioneer)
+    {
+        SendCmd("FU");
+    }
 }
 
 void AVRPioRemote::on_PhaseButton_clicked()
@@ -1259,9 +1369,19 @@ void AVRPioRemote::on_PhaseButton_clicked()
     ui->PhaseButton->setChecked(!ui->PhaseButton->isChecked());
     //SendCmd("9IS");
     if (ui->PhaseButton->isChecked())
-        SendCmd("0IS");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("0IS");
+        }
+    }
     else
-        SendCmd("1IS");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("1IS");
+        }
+    }
 }
 
 void AVRPioRemote::on_PqlsButton_clicked()
@@ -1269,9 +1389,19 @@ void AVRPioRemote::on_PqlsButton_clicked()
     ui->PqlsButton->setChecked(!ui->PqlsButton->isChecked());
     //SendCmd("9PQ");
     if (ui->PqlsButton->isChecked())
-        SendCmd("0PQ");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("0PQ");
+        }
+    }
     else
-        SendCmd("1PQ");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("1PQ");
+        }
+    }
 }
 
 void AVRPioRemote::on_SRetrButton_clicked()
@@ -1279,9 +1409,19 @@ void AVRPioRemote::on_SRetrButton_clicked()
     ui->SRetrButton->setChecked(!ui->SRetrButton->isChecked());
     //SendCmd("9ATV");
     if (ui->SRetrButton->isChecked())
-        SendCmd("0ATA");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("0ATA");
+        }
+    }
     else
-        SendCmd("1ATA");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("1ATA");
+        }
+    }
 }
 
 void AVRPioRemote::on_HiBitButton_clicked()
@@ -1289,39 +1429,64 @@ void AVRPioRemote::on_HiBitButton_clicked()
     ui->HiBitButton->setChecked(!ui->HiBitButton->isChecked());
     //SendCmd("9ATI");
     if (ui->HiBitButton->isChecked())
-        SendCmd("0ATI");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("0ATI");
+        }
+    }
     else
-        SendCmd("1ATI");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("1ATI");
+        }
+    }
 }
 
 void AVRPioRemote::on_InputBdButton_clicked()
 {
     ui->InputBdButton->setChecked(!ui->InputBdButton->isChecked());
-    SendCmd("25FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("25FN");
+    }
 }
 
 void AVRPioRemote::on_InputDvdButton_clicked()
 {
     ui->InputDvdButton->setChecked(!ui->InputDvdButton->isChecked());
-    SendCmd("04FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("04FN");
+    }
 }
 
 void AVRPioRemote::on_InputDvrButton_clicked()
 {
     ui->InputDvrButton->setChecked(!ui->InputDvrButton->isChecked());
-    SendCmd("15FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("15FN");
+    }
 }
 
 void AVRPioRemote::on_InputTvButton_clicked()
 {
     ui->InputTvButton->setChecked(!ui->InputTvButton->isChecked());
-    SendCmd("05FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("05FN");
+    }
 }
 
 void AVRPioRemote::on_InputCdButton_clicked()
 {
     ui->InputCdButton->setChecked(!ui->InputCdButton->isChecked());
-    SendCmd("01FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("01FN");
+    }
 }
 
 void AVRPioRemote::on_InputIpodButton_clicked()
@@ -1334,53 +1499,84 @@ void AVRPioRemote::on_InputIpodButton_clicked()
 void AVRPioRemote::on_InputSatButton_clicked()
 {
     ui->InputSatButton->setChecked(!ui->InputSatButton->isChecked());
-    SendCmd("06FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("06FN");
+    }
 }
 
 void AVRPioRemote::on_InputAdptButton_clicked()
 {
     ui->InputAdptButton->setChecked(!ui->InputAdptButton->isChecked());
-    SendCmd("33FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("33FN");
+    }
 }
 
 void AVRPioRemote::on_InputHdmiButton_clicked()
 {
     ui->InputHdmiButton->setChecked(!ui->InputHdmiButton->isChecked());
-    SendCmd("31FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("31FN");
+    }
 }
 
 void AVRPioRemote::on_InputNetButton_clicked()
 {
     ui->InputNetButton->setChecked(!ui->InputNetButton->isChecked());
     if (!m_Settings.value("VSX5xxCompatibilityMode", false).toBool())
-        SendCmd("26FN");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("26FN");
+        }
+    }
     else
-        SendCmd("38FN");
+    {
+        if (m_IsPioneer)
+        {
+            SendCmd("38FN");
+        }
+    }
 }
 
 void AVRPioRemote::on_InputTunerButton_clicked()
 {
     ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
     m_TunerDialog->ShowTunerDialog(true);
-    SendCmd("02FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("02FN");
+    }
 }
 
 void AVRPioRemote::on_AutoAlcDirectButton_clicked()
 {
     //ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
-    SendCmd("0005SR");
+    if (m_IsPioneer)
+    {
+        SendCmd("0005SR");
+    }
 }
 
 void AVRPioRemote::on_StandardButton_clicked()
 {
     //ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
-    SendCmd("0010SR");
+    if (m_IsPioneer)
+    {
+        SendCmd("0010SR");
+    }
 }
 
 void AVRPioRemote::on_AdvSurrButton_clicked()
 {
     //ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
-    SendCmd("0100SR");
+    if (m_IsPioneer)
+    {
+        SendCmd("0100SR");
+    }
 }
 
 void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
@@ -1427,7 +1623,10 @@ void AVRPioRemote::on_ShowAllListeningModesButton_clicked()
 void AVRPioRemote::on_InputVideoButton_clicked()
 {
     ui->InputVideoButton->setChecked(!ui->InputVideoButton->isChecked());
-    SendCmd("10FN");
+    if (m_IsPioneer)
+    {
+        SendCmd("10FN");
+    }
 }
 
 void AVRPioRemote::on_ATBEQModesButton_clicked()

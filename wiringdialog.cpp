@@ -103,7 +103,7 @@ void WiringDialog::ShowWiringDialog()
             pos.setY(Parent->pos().y());
             this->move(pos);
         }
-        connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
+        connect(&m_Comm, SIGNAL(DataReceived(const QString&, bool)), this, SLOT(DataReceived(const QString&, bool)));
         this->show();
         //SendCmd("?SSC0400");
 
@@ -167,151 +167,154 @@ void WiringDialog::AquireData()
     SendCmd(str);
 }
 
-void WiringDialog::DataReceived(QString data)
+void WiringDialog::DataReceived(const QString& data, bool is_pioneer)
 {
     //qDebug() << "Wiring received: " << data;
     if (m_CurrentAction == ACTION_NOTHING)
         return;
 
-    if (data.startsWith("E06"))
+    if (m_Comm.IsPioneer())
     {
-        m_ParameterErrorCount++;
-        if (m_ParameterErrorCount > 2)
+        if (data.startsWith("E06"))
         {
-            m_ParameterErrorCount = 0;
-            //qDebug() << "Erase " << m_CurrentInput->id << ", " << m_CurrentInput->name << ", count " << m_Inputs.size();
-            m_CurrentInput = m_Inputs.erase(m_CurrentInput);
-            if (m_CurrentInput == m_Inputs.end())
+            m_ParameterErrorCount++;
+            if (m_ParameterErrorCount > 2)
             {
-                m_CurrentAction = ACTION_NOTHING;
-                m_WiringModel.FillTable(m_Inputs);
-                // Show the current name in the main window
-                SendCmd("?F");
-                //qDebug() << "Aquire done";
-                return;
+                m_ParameterErrorCount = 0;
+                //qDebug() << "Erase " << m_CurrentInput->id << ", " << m_CurrentInput->name << ", count " << m_Inputs.size();
+                m_CurrentInput = m_Inputs.erase(m_CurrentInput);
+                if (m_CurrentInput == m_Inputs.end())
+                {
+                    m_CurrentAction = ACTION_NOTHING;
+                    m_WiringModel.FillTable(m_Inputs);
+                    // Show the current name in the main window
+                    SendCmd("?F");
+                    //qDebug() << "Aquire done";
+                    return;
+                }
+                m_CurrentAction = ACTION_GET_NAME;
             }
-            m_CurrentAction = ACTION_GET_NAME;
         }
-    }
 
-    if (m_CurrentAction == ACTION_GET_AUDIO_ASSIGNMENT)
-    {
-        if (data.startsWith("SSC"))
+        if (m_CurrentAction == ACTION_GET_AUDIO_ASSIGNMENT)
         {
-            if (data.length() >= 8)
+            if (data.startsWith("SSC"))
             {
-                QString tmp = data.mid(5, 2);
-                if (tmp == "00")
+                if (data.length() >= 8)
                 {
-                    QString id = data.mid(3, 2);
-                    QString audio = data.mid(7, 2);
-                    if (m_CurrentInput->id == id)
+                    QString tmp = data.mid(5, 2);
+                    if (tmp == "00")
                     {
-                        m_CurrentInput->audio = audio;
-                        m_ParameterErrorCount = 0;
-                        m_CurrentAction = ACTION_GET_HDMI_ASSIGNMENT;
-                        QString cmd = QString("?SSC%1001").arg(m_CurrentInput->id);
-                        SendCmd(cmd);
-                        return;
-                    }
-                }
-            }
-        }
-        QString cmd = QString("?SSC%1000").arg(m_CurrentInput->id);
-        SendCmd(cmd);
-        return;
-    }
-    else if (m_CurrentAction == ACTION_GET_HDMI_ASSIGNMENT)
-    {
-        if (data.startsWith("SSC"))
-        {
-            if (data.length() >= 8)
-            {
-                QString tmp = data.mid(5, 2);
-                if (tmp == "01")
-                {
-                    QString id = data.mid(3, 2);
-                    QString hdmi = data.mid(7, 2);
-                    if (m_CurrentInput->id == id)
-                    {
-                        m_CurrentInput->hdmi = hdmi;
-                        m_ParameterErrorCount = 0;
-                        m_CurrentAction = ACTION_GET_VIDEO_ASSIGNMENT;
-                        QString cmd = QString("?SSC%1002").arg(m_CurrentInput->id);
-                        SendCmd(cmd);
-                        return;
-                    }
-                }
-            }
-        }
-        QString cmd = QString("?SSC%1001").arg(m_CurrentInput->id);
-        SendCmd(cmd);
-        return;
-    }
-    else if (m_CurrentAction == ACTION_GET_VIDEO_ASSIGNMENT)
-    {
-        if (data.startsWith("SSC"))
-        {
-            if (data.length() >= 8)
-            {
-                QString tmp = data.mid(5, 2);
-                if (tmp == "02")
-                {
-                    QString id = data.mid(3, 2);
-                    QString video = data.mid(7, 2);
-                    if (m_CurrentInput->id == id)
-                    {
-                        m_CurrentInput->video = video;
-                        m_ParameterErrorCount = 0;
-                        m_CurrentAction = ACTION_GET_SKIP;
-                        QString cmd = QString("?SSC%1003").arg(m_CurrentInput->id);
-                        SendCmd(cmd);
-                        return;
-                    }
-                }
-            }
-        }
-        QString cmd = QString("?SSC%1002").arg(m_CurrentInput->id);
-        SendCmd(cmd);
-        return;
-    }
-    else if (m_CurrentAction == ACTION_GET_SKIP)
-    {
-        if (data.startsWith("SSC"))
-        {
-            if (data.length() >= 8)
-            {
-                QString tmp = data.mid(5, 2);
-                if (tmp == "03")
-                {
-                    QString id = data.mid(3, 2);
-                    QString skip = data.mid(7, 2);
-                    if (m_CurrentInput->id == id)
-                    {
-                        m_CurrentInput->skip = skip;
-                        m_ParameterErrorCount = 0;
-                        m_CurrentInput++;
-                        if (m_CurrentInput == m_Inputs.end())
+                        QString id = data.mid(3, 2);
+                        QString audio = data.mid(7, 2);
+                        if (m_CurrentInput->id == id)
                         {
-                            m_CurrentAction = ACTION_NOTHING;
-                            //qDebug() << "Aquire done";
-                            //m_WiringModel.refreshView();
-                            m_WiringModel.FillTable(m_Inputs);
-                            // Show the current name in the main window
-                            SendCmd("?F");
+                            m_CurrentInput->audio = audio;
+                            m_ParameterErrorCount = 0;
+                            m_CurrentAction = ACTION_GET_HDMI_ASSIGNMENT;
+                            QString cmd = QString("?SSC%1001").arg(m_CurrentInput->id);
+                            SendCmd(cmd);
                             return;
                         }
-                        m_CurrentAction = ACTION_GET_NAME;
-                        QString str = QString("?RGB%1").arg(m_CurrentInput->id);
-                        SendCmd(str);
-                        return;
                     }
                 }
             }
+            QString cmd = QString("?SSC%1000").arg(m_CurrentInput->id);
+            SendCmd(cmd);
+            return;
         }
-        QString cmd = QString("?SSC%1003").arg(m_CurrentInput->id);
-        SendCmd(cmd);
-        return;
+        else if (m_CurrentAction == ACTION_GET_HDMI_ASSIGNMENT)
+        {
+            if (data.startsWith("SSC"))
+            {
+                if (data.length() >= 8)
+                {
+                    QString tmp = data.mid(5, 2);
+                    if (tmp == "01")
+                    {
+                        QString id = data.mid(3, 2);
+                        QString hdmi = data.mid(7, 2);
+                        if (m_CurrentInput->id == id)
+                        {
+                            m_CurrentInput->hdmi = hdmi;
+                            m_ParameterErrorCount = 0;
+                            m_CurrentAction = ACTION_GET_VIDEO_ASSIGNMENT;
+                            QString cmd = QString("?SSC%1002").arg(m_CurrentInput->id);
+                            SendCmd(cmd);
+                            return;
+                        }
+                    }
+                }
+            }
+            QString cmd = QString("?SSC%1001").arg(m_CurrentInput->id);
+            SendCmd(cmd);
+            return;
+        }
+        else if (m_CurrentAction == ACTION_GET_VIDEO_ASSIGNMENT)
+        {
+            if (data.startsWith("SSC"))
+            {
+                if (data.length() >= 8)
+                {
+                    QString tmp = data.mid(5, 2);
+                    if (tmp == "02")
+                    {
+                        QString id = data.mid(3, 2);
+                        QString video = data.mid(7, 2);
+                        if (m_CurrentInput->id == id)
+                        {
+                            m_CurrentInput->video = video;
+                            m_ParameterErrorCount = 0;
+                            m_CurrentAction = ACTION_GET_SKIP;
+                            QString cmd = QString("?SSC%1003").arg(m_CurrentInput->id);
+                            SendCmd(cmd);
+                            return;
+                        }
+                    }
+                }
+            }
+            QString cmd = QString("?SSC%1002").arg(m_CurrentInput->id);
+            SendCmd(cmd);
+            return;
+        }
+        else if (m_CurrentAction == ACTION_GET_SKIP)
+        {
+            if (data.startsWith("SSC"))
+            {
+                if (data.length() >= 8)
+                {
+                    QString tmp = data.mid(5, 2);
+                    if (tmp == "03")
+                    {
+                        QString id = data.mid(3, 2);
+                        QString skip = data.mid(7, 2);
+                        if (m_CurrentInput->id == id)
+                        {
+                            m_CurrentInput->skip = skip;
+                            m_ParameterErrorCount = 0;
+                            m_CurrentInput++;
+                            if (m_CurrentInput == m_Inputs.end())
+                            {
+                                m_CurrentAction = ACTION_NOTHING;
+                                //qDebug() << "Aquire done";
+                                //m_WiringModel.refreshView();
+                                m_WiringModel.FillTable(m_Inputs);
+                                // Show the current name in the main window
+                                SendCmd("?F");
+                                return;
+                            }
+                            m_CurrentAction = ACTION_GET_NAME;
+                            QString str = QString("?RGB%1").arg(m_CurrentInput->id);
+                            SendCmd(str);
+                            return;
+                        }
+                    }
+                }
+            }
+            QString cmd = QString("?SSC%1003").arg(m_CurrentInput->id);
+            SendCmd(cmd);
+            return;
+        }
     }
 }
 

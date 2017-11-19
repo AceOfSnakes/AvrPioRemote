@@ -45,7 +45,7 @@ class MsgDistributor
 public:
     ~MsgDistributor();
     static void AddResponseListener(ResponseListener*, QStringList&);
-    static void NotifyListener(const QString &);
+    static void NotifyListener(const QString &, const bool is_pioneer);
     static void NotifyListener(ReceivedObjectBase *);
 
 private:
@@ -56,9 +56,9 @@ private:
     void _init();
     void _addResponse(ReceivedObjectBase*);
     void _addResponseListener(ResponseListener* listener, QStringList &ids);
-    void _notifyListener(const QString &);
+    void _notifyListener(const QString &, const bool is_pioneer);
     QString _getIdFromString(const QString &);
-    QVector<ReceivedObjectBase*> _getResponseObjects(const QString&);
+    QVector<ReceivedObjectBase*> _getResponseObjects(const QString&, const bool is_pioneer);
 
     QMultiMap<QString, ResponseListener*>    m_Listener;
     QMultiMap<QString, ReceivedObjectBase*>  m_Responses;

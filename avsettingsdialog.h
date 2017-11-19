@@ -37,7 +37,7 @@ private:
 
 public slots:
     void ShowAVSettingsDialog();
-    void NewDataReceived(QString data);
+    void NewDataReceived(const QString &data, bool is_pioneer);
     void CmdRepeatTimeout();
 
 signals:

@@ -50,8 +50,8 @@ protected:
     void reconnect(QString & key, QString & ip, int port, DiscoveryDevice *device);
 private slots:
     void NewDevice(QString name, QString ip, QString location);
-    void PioneerAnswer();
-    void ReadOnkyoAnswer();
+    void PioneerAnswer(const QString &answer);
+    void ReadOnkyoAnswer(const QString &answer);
     void PioneerError(QAbstractSocket::SocketError socketError);
     void OnkyoError(QAbstractSocket::SocketError socketError);
     void TcpConnected();

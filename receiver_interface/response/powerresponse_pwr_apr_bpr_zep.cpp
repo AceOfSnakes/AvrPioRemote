@@ -28,7 +28,14 @@ bool PowerResponse_PWR_APR_BPR_ZEP::parseString(QString str)
     if (sscanf(str.toLatin1(), "PWR%d", &n) == 1)
     {
         m_Zone = ZoneMain;
-        m_PoweredOn = (n == 0);
+        if (m_IsPioneer)
+        {
+            m_PoweredOn = (n == 0);
+        }
+        else
+        {
+            m_PoweredOn = (n != 0);
+        }
         return true;
     }
     if (sscanf(str.toLatin1(), "APR%d", &n) == 1)

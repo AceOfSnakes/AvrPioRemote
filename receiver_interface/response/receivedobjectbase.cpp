@@ -2,12 +2,18 @@
 
 ReceivedObjectBase::ReceivedObjectBase(QObject *parent) : QObject(parent)
 {
-
+    m_IsPioneer = true;
 }
 
 ReceivedObjectBase::~ReceivedObjectBase()
 {
 
+}
+
+bool ReceivedObjectBase::parseString(const QString& str, const bool is_pioneer)
+{
+    m_IsPioneer = is_pioneer;
+    return parseString(str);
 }
 
 QString ReceivedObjectBase::DecodeHexString(const QString& hex)

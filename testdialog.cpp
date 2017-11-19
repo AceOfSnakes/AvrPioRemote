@@ -59,7 +59,7 @@ TestDialog::TestDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &Sett
         ui->historyComboBox->addItems(history);
     }
     m_LogEnabled=ui->LogCommunicationCheckBox->isChecked();
-    connect((m_Comm), SIGNAL(DataReceived(QString)), this,  SLOT(NewDataReceived(QString)));
+    connect((m_Comm), SIGNAL(DataReceived(const QString&, bool)), this,  SLOT(NewDataReceived(const QString&, bool)));
     connect((this),    SIGNAL(SendCmd(QString)), m_Comm, SLOT(SendCmd(QString)));
     connect((m_Comm),  SIGNAL(CmdToBeSend(QString)), this,  SLOT(LogSendCmd(QString)));
 }
@@ -148,7 +148,29 @@ void TestDialog::on_ClearButton_clicked()
 }
 
 
-void TestDialog::NewDataReceived(QString data)
+void TestDialog::NewDataReceived(const QString& data, bool is_pioneer)
+{
+    if (m_LogEnabled)
+    {
+        // filter
+        bool found = false;
+        for(int i = 0; i < m_FilterStrings.count(); i++)
+        {
+            if (data.startsWith(m_FilterStrings[i], Qt::CaseInsensitive))
+            {
+                found = true;
+                break;
+            }
+        }
+        if (m_InvertFilter && found)
+            AddToList("<-- " + data);
+        else if (!m_InvertFilter && !found)
+            AddToList("<-- " + data);
+    }
+}
+
+
+void TestDialog::NewDataReceived(const QString& data)
 {
     if (m_LogEnabled)
     {

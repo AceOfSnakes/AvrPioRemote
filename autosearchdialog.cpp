@@ -189,7 +189,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         qDebug() << "It´s onkyo!" << iRemotePort;
         device = new OnkyoReceiver();
         ((OnkyoReceiver*)device)->setIsReceiver(m_FindReceivers);
-        connect((device), SIGNAL(DataAvailable()), this, SLOT(ReadOnkyoAnswer()));
+        connect((device), SIGNAL(DataReceived(const QString&)), this, SLOT(ReadOnkyoAnswer(const QString&)));
         connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
         connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(OnkyoError(QAbstractSocket::SocketError)));
         connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
@@ -199,7 +199,7 @@ void AutoSearchDialog::NewDevice(QString name, QString ip, QString location)
         device = new PioneerReceiver();
         connect((device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
         connect((device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-        connect((device), SIGNAL(DataAvailable()), this, SLOT(PioneerAnswer()));
+        connect((device), SIGNAL(DataReceived(const QString&)), this, SLOT(PioneerAnswer(const QString&)));
         connect((device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(PioneerError(QAbstractSocket::SocketError)));
         m_RemoteDevices.insert(deviceKey, device);
         device->Connect(ip, iRemotePort);
@@ -264,12 +264,12 @@ void AutoSearchDialog::reconnect(QString & key, QString & ip, int port, Discover
     }
 }
 
-void AutoSearchDialog::ReadOnkyoAnswer()
+void AutoSearchDialog::ReadOnkyoAnswer(const QString& answer)
 {
     qDebug() << "ReadOnkyoAnswer";
     QObject* sender = QObject::sender();
     DiscoveryDevice* device = dynamic_cast<DiscoveryDevice*>(sender);
-    QString answer = device->read();
+    //QString answer = device->read();
     qDebug() << answer;
     if (answer.startsWith("PWR0", Qt::CaseInsensitive))
     {
@@ -295,14 +295,14 @@ void AutoSearchDialog::ReadOnkyoAnswer()
     m_DeviceInList.removeOne(device);
 }
 
-void AutoSearchDialog::PioneerAnswer()
+void AutoSearchDialog::PioneerAnswer(const QString& answer)
 {
     qDebug() << "ReadString";
     QObject* sender = QObject::sender();
     DiscoveryDevice* device = dynamic_cast<DiscoveryDevice*>(sender);
     Logger::Log("void AutoSearchDialog::ReadString()");
 //    str = str.fromUtf8(m_ReceivedString.c_str());
-    QString str = device->read();
+    QString str = answer;//device->read();
     qDebug() << QString("QHostAddress: %1:%2 ").arg(device->ip).arg(device->port).append(str);
     Logger::Log(QString("QHostAddress: %1:%2 ").arg(device->ip).arg(device->port).append(str));
     //qDebug()<<device->ip<<device->port<<str<<m_pingResponseStart<<m_pingResponseStartOff;

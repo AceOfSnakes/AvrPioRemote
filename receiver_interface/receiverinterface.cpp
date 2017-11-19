@@ -21,6 +21,7 @@
 #include <QTextCodec>
 #include <QStringList>
 #include <QRegExp>
+#include <QMutexLocker>
 
 string trim(const string &t, const string &ws)
 {
@@ -35,33 +36,131 @@ string trim(const string &t, const string &ws)
     return str.erase(0, str.find_first_not_of(ws.c_str()));
 }
 
+/**
 
-ReceiverInterface::ReceiverInterface()
+MESSAGE SENDER
+
+**/
+
+MessageSender::MessageSender(ReceiverInterface& comm) :
+    m_Comm(comm)
+{
+
+}
+
+MessageSender::~MessageSender()
+{
+    Stop();
+}
+
+void MessageSender::SendMessage(const QString& msg)
+{
+    QMutexLocker locker(&m_QueueMutex);
+    m_Queue.enqueue(msg);
+    m_Semaphore.release();
+}
+
+void MessageSender::ClearQueue()
+{
+    QMutexLocker locker(&m_QueueMutex);
+}
+
+void MessageSender::Stop()
+{
+    m_Exit = true;
+    m_Semaphore.release();
+}
+
+void MessageSender::run() {
+    m_Exit = false;
+    qDebug() << "MessageSender started";
+    bool isEmpty = true;
+    while(!m_Exit)
+    {
+        m_QueueMutex.lock();
+        isEmpty = m_Queue.isEmpty();
+        if (!isEmpty)
+        {
+            QString msg = m_Queue.dequeue();
+            //m_Comm.SendCmdImmediately(msg);
+            emit SendCmdImmediately(msg);
+        }
+        m_QueueMutex.unlock();
+        msleep(50);
+        m_Semaphore.acquire();
+        qDebug() << "MessageSender running";
+    }
+    //QString result;
+    /* ... here is the expensive or blocking operation ... */
+    //emit resultReady(result);
+}
+
+
+/**
+
+RECEIVER INTERFACE
+
+**/
+
+ReceiverInterface::ReceiverInterface() :
+    m_MessageSender(*this)
 {
     m_Connected = false;
+    m_Device = NULL;
+    m_IsPioneer = true;
+    m_MessageSender.start();
 
-    // socket
-    connect((&m_Socket), SIGNAL(connected()), this, SLOT(TcpConnected()));
-    connect((&m_Socket), SIGNAL(disconnected()), this, SLOT(TcpDisconnected()));
-    connect((&m_Socket), SIGNAL(readyRead()), this, SLOT(ReadString()));
-    //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
-    connect((&m_Socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+    connect((&m_MessageSender), SIGNAL(SendCmdImmediately(const QString&)), this, SLOT(SendCmdImmediately(const QString&)));
+
+//    // socket
+//    connect((&m_Socket), SIGNAL(connected()), this, SLOT(TcpConnected()));
+//    connect((&m_Socket), SIGNAL(disconnected()), this, SLOT(TcpDisconnected()));
+//    connect((&m_Socket), SIGNAL(readyRead()), this, SLOT(ReadString()));
+//    //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
+//    connect((&m_Socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
 }
 
-
-void ReceiverInterface::ConnectToReceiver(const QString& IpAddress, const int IpPort)
+void ReceiverInterface::Stop()
 {
-    m_Socket.connectToHost(IpAddress, IpPort);
+    m_MessageSender.Stop();
 }
 
+void ReceiverInterface::ConnectToReceiver(const QString& IpAddress, const int IpPort, const bool IsPioneer)
+{
+    Disconnect();
+
+    m_IsPioneer = IsPioneer;
+    if (IsPioneer)
+    {
+        m_Device = new PioneerReceiver;
+    }
+    else
+    {
+        m_Device = new OnkyoReceiver;
+    }
+    // socket
+    connect((m_Device), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
+    connect((m_Device), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
+    connect((m_Device), SIGNAL(DataReceived(const QString&)), this, SLOT(ReadString(const QString&)));
+    //connect((&m_Socket), SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(SocketStateChanged(QAbstractSocket::SocketState)));
+    connect((m_Device), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(TcpError(QAbstractSocket::SocketError)));
+
+    //m_Socket.connectToHost(IpAddress, IpPort);
+    m_Device->Connect(IpAddress, IpPort);
+}
 
 void ReceiverInterface::Disconnect()
 {
     m_Connected = false;
-    m_Socket.disconnectFromHost();
-    m_Socket.close();
+    if (m_Device != NULL)
+    {
+        m_Device->close();
+        delete m_Device;
+    }
+    m_Device = NULL;
+//    m_Socket.disconnectFromHost();
+//    m_Socket.close();
 }
-
 
 void ReceiverInterface::TcpConnected()
 {
@@ -69,69 +168,106 @@ void ReceiverInterface::TcpConnected()
     emit Connected();
 }
 
-
 void ReceiverInterface::TcpDisconnected()
 {
     m_Connected = false;
     emit Disconnected();
 }
 
-
 bool ReceiverInterface::IsConnected()
 {
     return m_Connected;
 }
 
-
-void ReceiverInterface::ReadString()
+void ReceiverInterface::ReadString(const QString &data)
 {
-    // read all available data
-    int count = m_Socket.bytesAvailable();
-    std::vector<char> data;
-    data.resize(count + 1);
-    m_Socket.read(&data[0], count);
-    data[count] = '\0';
-
-    // split lines
-    int lineLength = 0;
-    int lineStartPos = 0;
-    for(int i = 0; i < count; i++)
+    m_ReceivedString = data;
+    if (m_IsPioneer)
     {
-        if (data[i] != '\n' && data[i] != '\r')
-        {
-            continue;
-        }
-        lineLength = i - lineStartPos;
-        if (lineLength > 0)
-        {
-            m_ReceivedString.append((const char*)&data[lineStartPos], 0, lineLength);
-            m_ReceivedString = trim(m_ReceivedString, "\r");
-            m_ReceivedString = trim(m_ReceivedString, "\n");
-            if (m_ReceivedString != "")
-            {
-                QString str;
-                //QTextCodec::setCodecForCStrings();
-                str = str.fromUtf8(m_ReceivedString.c_str());
-
-//                QByteArray encodedString = m_ReceivedString.c_str();
-//                QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
-//                str = codec->toUnicode(encodedString);
-                //str = str.fromStdString(m_ReceivedString);
-//                str = str.trimmed();
-//                str.remove(QChar('\r'));
-//                str.remove(QChar('\n'));
-                InterpretString(str);
-                MsgDistributor::NotifyListener(str);
-                emit DataReceived(str);
-            }
-            m_ReceivedString = "";
-        }
-        lineStartPos = i + 1;
+        InterpretPioneerString(m_ReceivedString);
     }
-    if (lineStartPos < count)
-        m_ReceivedString.append((const char*)&data[lineStartPos]);
-}
+    else
+    {
+        InterpretOnkyoString(m_ReceivedString);
+    }
+    MsgDistributor::NotifyListener(m_ReceivedString, m_IsPioneer);
+    emit DataReceived(m_ReceivedString, m_IsPioneer);
+    qDebug() << "received:" << m_ReceivedString;
 
+
+//    // read all available data
+//    //QString data = m_Device->read();
+//    //int count = data.length();
+
+////    if (m_IsPioneer)
+////    {
+//        // split lines
+//        int lineLength = 0;
+//        int lineStartPos = 0;
+//        for(int i = 0; i < count; i++)
+//        {
+//            if (data[i] != '\n' && data[i] != '\r' && data[i] != '\u001A')
+//            {
+//                continue;
+//            }
+//            lineLength = i - lineStartPos;
+//            if (lineLength > 0)
+//            {
+//                //m_ReceivedString.append((const char*)&data[lineStartPos], 0, lineLength);
+//    //            m_ReceivedString = trim(m_ReceivedString, "\r");
+//    //            m_ReceivedString = trim(m_ReceivedString, "\n");
+//                m_ReceivedString.append(data.mid(lineStartPos, lineLength));
+//                m_ReceivedString.replace("\r", "");
+//                m_ReceivedString.replace("\n", "");
+//                m_ReceivedString.replace("\n", "\u001A"); // EOL
+//                if (m_ReceivedString != "")
+//                {
+//    //                QString str;
+//    //                //QTextCodec::setCodecForCStrings();
+//    //                str = str.fromUtf8(m_ReceivedString.c_str());
+
+//    ////                QByteArray encodedString = m_ReceivedString.c_str();
+//    ////                QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+//    ////                str = codec->toUnicode(encodedString);
+//    //                //str = str.fromStdString(m_ReceivedString);
+//    ////                str = str.trimmed();
+//    ////                str.remove(QChar('\r'));
+//    ////                str.remove(QChar('\n'));
+//    //                InterpretPioneerString(str);
+//    //                MsgDistributor::NotifyListener(str);
+//    //                emit DataReceived(str);
+
+
+//                    if (m_IsPioneer)
+//                    {
+//                        InterpretPioneerString(m_ReceivedString);
+//                    }
+//                    else
+//                    {
+//                        InterpretOnkyoString(m_ReceivedString);
+//                    }
+//                    MsgDistributor::NotifyListener(m_ReceivedString, m_IsPioneer);
+//                    emit DataReceived(m_ReceivedString, m_IsPioneer);
+//                }
+//                qDebug() << "received:" << m_ReceivedString;
+//                m_ReceivedString = "";
+//            }
+//            lineStartPos = i + 1;
+//        }
+//        if (lineStartPos < count)
+//        {
+//            m_ReceivedString.append((const char*)&data[lineStartPos]);
+//        }
+////    }
+////    else // is onkyo
+////    {
+////        qDebug() << m_ReceivedString;
+////        m_ReceivedString = data;
+////        InterpretOnkyoString(m_ReceivedString);
+////        MsgDistributor::NotifyListener(m_ReceivedString, m_IsPioneer);
+////        emit DataReceived(m_ReceivedString, m_IsPioneer);
+////    }
+}
 
 void ReceiverInterface::TcpError(QAbstractSocket::SocketError socketError)
 {
@@ -141,20 +277,20 @@ void ReceiverInterface::TcpError(QAbstractSocket::SocketError socketError)
     QString str;
     switch (socketError) {
     case QAbstractSocket::RemoteHostClosedError:
-        str = QString("Host closed connection: %1").arg(m_Socket.errorString());
+        str = QString("Host closed connection: %1").arg(m_Device->errorString());
         break;
     case QAbstractSocket::HostNotFoundError:
-        str = QString("Host not found: %1").arg(m_Socket.errorString());
+        str = QString("Host not found: %1").arg(m_Device->errorString());
         //Log(tr("The host was not found. Please check the host name and port settings."), QColor(255, 0, 0));
         break;
     case QAbstractSocket::ConnectionRefusedError:
-        str = QString("Host refused connection: %1").arg(m_Socket.errorString());
+        str = QString("Host refused connection: %1").arg(m_Device->errorString());
 //        Log(tr("The connection was refused by the peer. "
 //               "Make sure the receiver is on "
 //               "and check ip address and port."), QColor(255, 0, 0));
         break;
     default:
-        str = QString("The following error occurred: %1.").arg(m_Socket.errorString());
+        str = QString("The following error occurred: %1.").arg(m_Device->errorString());
         //Log(tr("The following error occurred: %1.").arg(m_Socket.errorString()), QColor(255, 0, 0));
     }
     emit CommError(str);
@@ -165,18 +301,30 @@ void ReceiverInterface::TcpError(QAbstractSocket::SocketError socketError)
 //    }
 }
 
+void ReceiverInterface::SendCmd(const QString& cmd)
+{
+    m_MessageSender.SendMessage(cmd);
+}
 
-bool ReceiverInterface::SendCmd(const QString& cmd)
+bool ReceiverInterface::SendCmdImmediately(const QString& cmd)
 {
 //    Log("--> " + cmd, QColor(0, 200, 0));
     CmdToBeSend(cmd);
     //Logger::Log("--> " + cmd);
-    QString tmp = cmd + "\r";
-    return m_Socket.write(tmp.toLatin1(), tmp.length()) == tmp.length();
+
+    QString tmp = cmd;
+    if (m_IsPioneer)
+    {
+        tmp = cmd + "\r";
+    }
+    if (m_Device != NULL)
+    {
+        return m_Device->write(tmp);
+    }
+    return false;
 }
 
-
-void ReceiverInterface::InterpretString(const QString& data)
+void ReceiverInterface::InterpretPioneerString(const QString& data)
 {
     if (data.startsWith("SR"))
     {
@@ -253,3 +401,6 @@ void ReceiverInterface::InterpretString(const QString& data)
     }
 }
 
+void ReceiverInterface::InterpretOnkyoString(const QString& data)
+{
+}

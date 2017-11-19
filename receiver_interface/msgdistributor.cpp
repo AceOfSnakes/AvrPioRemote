@@ -28,9 +28,9 @@ void MsgDistributor::AddResponseListener(ResponseListener* listener, QStringList
   getInstance()-> _addResponseListener(listener, ids);
 }
 
-void MsgDistributor::NotifyListener(const QString &str)
+void MsgDistributor::NotifyListener(const QString &str, const bool is_pioneer)
 {
-    getInstance()->_notifyListener(str);
+    getInstance()->_notifyListener(str, is_pioneer);
 }
 
 //////////////////////////////////////////////////////
@@ -116,9 +116,9 @@ void MsgDistributor::_addResponseListener(ResponseListener* listener, QStringLis
     }
 }
 
-void MsgDistributor::_notifyListener(const QString& str)
+void MsgDistributor::_notifyListener(const QString& str, const bool is_pioneer)
 {
-    QVector<ReceivedObjectBase*> objs = _getResponseObjects(str);
+    QVector<ReceivedObjectBase*> objs = _getResponseObjects(str, is_pioneer);
     foreach (ReceivedObjectBase* obj, objs)
     {
         QList<ResponseListener*> listenerList = m_Listener.values(obj->getResponseID());
@@ -138,6 +138,10 @@ QString MsgDistributor::_getIdFromString(const QString &str)
         id = "Z3MUT";
     else if (str.startsWith("CLV"))
         id = "CLV";
+    else if (str.startsWith("VL3"))
+        id = "VL3";
+    else if (str.startsWith("MT3"))
+        id = "MT3";
     else
     {
         foreach(QChar c, str)
@@ -150,7 +154,7 @@ QString MsgDistributor::_getIdFromString(const QString &str)
     return id;
 }
 
-QVector<ReceivedObjectBase*> MsgDistributor::_getResponseObjects(const QString &str)
+QVector<ReceivedObjectBase*> MsgDistributor::_getResponseObjects(const QString &str, const bool is_pioneer)
 {
     QVector<ReceivedObjectBase*> v;
     QString id;
@@ -158,7 +162,7 @@ QVector<ReceivedObjectBase*> MsgDistributor::_getResponseObjects(const QString &
     QList<ReceivedObjectBase*> responseList = m_Responses.values(id);
     foreach (ReceivedObjectBase* response, responseList)
     {
-        if (response->parseString(str))
+        if (response->parseString(str, is_pioneer))
             v.append(response);
     }
     return v;

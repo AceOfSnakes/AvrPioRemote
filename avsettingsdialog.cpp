@@ -19,7 +19,7 @@ AVSettingsDialog::AVSettingsDialog(QWidget *parent, QSettings& settings, Receive
     }
 
     connect(this,     SIGNAL(SendCmdSignal(QString)), (&m_Comm), SLOT(SendCmd(QString)));
-    connect((&m_Comm), SIGNAL(DataReceived(QString)), this,      SLOT(NewDataReceived(QString)));
+    connect((&m_Comm), SIGNAL(DataReceived(const QString&, bool)), this,      SLOT(NewDataReceived(const QString&, bool)));
 
     ui->ResolutionComboBox->addItem("AUTO",     "00");
     ui->ResolutionComboBox->addItem("PURE",     "01");
@@ -284,7 +284,7 @@ void AVSettingsDialog::Refresh()
     SendCmd("?SAB"); // SLEEP
 }
 
-void AVSettingsDialog::NewDataReceived(QString data)
+void AVSettingsDialog::NewDataReceived(const QString& data, bool is_pioneer)
 {
     if (!this->isVisible())
         return;

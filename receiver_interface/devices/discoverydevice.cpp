@@ -13,7 +13,7 @@ void DiscoveryDevice::Connect(QString ip, int port)
     socket = new QTcpSocket();
     connect((socket), SIGNAL(connected()), this, SLOT(_TcpConnected()));
     connect((socket), SIGNAL(disconnected()), this, SLOT(_TcpDisconnected()));
-    connect((socket), SIGNAL(readyRead()), this, SLOT(_DataAvailable()));
+    connect((socket), SIGNAL(readyRead()), this, SLOT(_NewDataToRead()));
     connect((socket), SIGNAL(error(QAbstractSocket::SocketError)), this,  SLOT(_TcpError(QAbstractSocket::SocketError)));
     socket->connectToHost(ip, port);
 }
@@ -36,7 +36,7 @@ int DiscoveryDevice::write(QString str)
 QString DiscoveryDevice::read()
 {
     QByteArray data = socket->readAll();
-    return QString(data);
+    return QString::fromUtf8(data);
 }
 
 QString DiscoveryDevice::errorString()

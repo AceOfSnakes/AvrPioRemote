@@ -14,7 +14,7 @@ VolumeResponse_VOL_ZV_YV::~VolumeResponse_VOL_ZV_YV()
 
 QStringList VolumeResponse_VOL_ZV_YV::getMsgIDs()
 {
-    return QStringList() << "VOL" << "ZV" << "YV";
+    return QStringList() << "VOL" << "ZV" << "YV" << "MVL" << "ZVL" << "VL3";
 }
 
 QString VolumeResponse_VOL_ZV_YV::getResponseID()
@@ -24,20 +24,41 @@ QString VolumeResponse_VOL_ZV_YV::getResponseID()
 
 bool VolumeResponse_VOL_ZV_YV::parseString(QString str)
 {
-    if (sscanf(str.toLatin1(), "VOL%d", &m_Volume) == 1)
+    if (m_IsPioneer)
     {
-        m_Zone = ZoneMain;
-        return true;
+        if (sscanf(str.toLatin1(), "VOL%d", &m_Volume) == 1)
+        {
+            m_Zone = ZoneMain;
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "ZV%d", &m_Volume) == 1)
+        {
+            m_Zone = Zone2;
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "YV%d", &m_Volume) == 1)
+        {
+            m_Zone = Zone3;
+            return true;
+        }
     }
-    if (sscanf(str.toLatin1(), "ZV%d", &m_Volume) == 1)
+    else
     {
-        m_Zone = Zone2;
-        return true;
-    }
-    if (sscanf(str.toLatin1(), "YV%d", &m_Volume) == 1)
-    {
-        m_Zone = Zone3;
-        return true;
+        if (sscanf(str.toLatin1(), "MVL%x", &m_Volume) == 1)
+        {
+            m_Zone = ZoneMain;
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "ZVL%x", &m_Volume) == 1)
+        {
+            m_Zone = Zone2;
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "ZV3%x", &m_Volume) == 1)
+        {
+            m_Zone = Zone3;
+            return true;
+        }
     }
     return false;
 }
@@ -49,7 +70,7 @@ float VolumeResponse_VOL_ZV_YV::GetdBValue()
     switch(m_Zone)
     {
     case ZoneMain:
-        volume_dB = -80.5 + (double)m_Volume * 0.5;
+        volume_dB = ((m_IsPioneer) ? (-80.5) : (-82)) + (double)m_Volume * 0.5;
         break;
     case Zone2:
     case Zone3:
@@ -69,20 +90,30 @@ QString VolumeResponse_VOL_ZV_YV::GetAsString()
     switch(m_Zone)
     {
     case ZoneMain:
-        if (dBValue <= -80.5)
+        if ((m_IsPioneer && (dBValue <= -80.5)) || (!m_IsPioneer && (dBValue <= -82)))
+        {
             str = "---.---";
+        }
         else if (dBValue <= 0.0)
+        {
             str = QString("%1dB").arg(dBValue, 4, 'f', 1);
+        }
         else
+        {
             str = QString("+%1dB").arg(dBValue, 4, 'f', 1);
+        }
         break;
     case Zone2:
     case Zone3:
     case Zone4:
         if (dBValue <= 0.0)
+        {
             str = QString("%1dB").arg(dBValue, 4, 'f', 1);
+        }
         else
+        {
             str = QString("+%1dB").arg(dBValue, 4, 'f', 1);
+        }
         break;
     }
 

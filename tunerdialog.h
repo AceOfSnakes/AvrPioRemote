@@ -63,7 +63,7 @@ private:
 public slots:
     void ManualShowTunerDialog();
     void ShowTunerDialog(bool autoShow);
-    void DataReceived(QString data);
+    void DataReceived(const QString &data, bool is_pioneer);
     void SelectClassButton(int idx);
     void SelectPresetButton(int idx);
     void PresetSelected(QString Param);

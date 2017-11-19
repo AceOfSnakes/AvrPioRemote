@@ -8,6 +8,9 @@ class PioneerReceiver : public DiscoveryDevice
 {
 public:
     PioneerReceiver();
+private:
+    QString         m_ReceivedString;
+    virtual void NewDataToRead();
 };
 
 #endif // PIONEERRECEIVER_H

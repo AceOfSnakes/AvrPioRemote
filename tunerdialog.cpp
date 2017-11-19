@@ -43,7 +43,7 @@ TunerDialog::TunerDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &se
     m_TunerFrequency = 0;
     m_CompatibilityMode = false;
 
-    connect(&m_Comm, SIGNAL(DataReceived(QString)), this, SLOT(DataReceived(QString)));
+    connect(&m_Comm, SIGNAL(DataReceived(const QString&, bool)), this, SLOT(DataReceived(const QString&, bool)));
     connect(this, SIGNAL(SendCmd(QString)), &m_Comm, SLOT(SendCmd(QString)));
 
     MsgDistributor::AddResponseListener(this, QStringList() << InputFunctionResponse_FN().getResponseID() << DisplayDataResponse_FL().getResponseID());
@@ -188,70 +188,73 @@ void TunerDialog::PresetButtonClicked(QString Param)
 }
 
 
-void TunerDialog::DataReceived(QString data)
+void TunerDialog::DataReceived(const QString& data, bool is_pioneer)
 {
-    if (data.startsWith("FRA"))
+    if (m_Comm.IsPioneer())
     {
-        m_TunerFrequency = data.mid(3).toInt();
-        QString str = QString("%1 kHz").arg(data.mid(3).toInt());
-        ui->FrequencyEdit->setText(str);
-        ui->FMButton->setChecked(false);
-        ui->AMButton->setChecked(true);
-    }
-    else if (data.startsWith("FRF"))
-    {
-        m_TunerFrequency = data.mid(3).toInt();
-        QString str = QString("%1 MHz").arg(data.mid(3).toDouble() / 100.0);
-        ui->FrequencyEdit->setText(str);
-        ui->FMButton->setChecked(true);
-        ui->AMButton->setChecked(false);
-    }
-    else if (data.startsWith("PR"))
-    {
-        int n = 0;
-        m_SelectedClassNo = data[2];
-        n = data[2].toLatin1() - 'A';
-        SelectClassButton(n);
-
-        m_SelectedPresetNo = data.mid(3, 2);
-        n = data.mid(3).toInt() - 1;
-        SelectPresetButton(n);
-
-        SendCmd("?FR");
-        SendCmd("?TQ");
-    }
-    else if (data.startsWith("TQ"))
-    {
-        QString Class = QString("%1").arg(data[2]);
-        QString Preset = "0" + data.mid(3, 1);
-        QString Name = data.mid(4);
-        Name = Name.trimmed();
-        while (Name.startsWith("\""))
-            Name.remove(0, 1);
-        while (Name.endsWith("\""))
-            Name.chop(1);
-        Name = Name.trimmed();
-        if (m_SelectedClassNo == Class && m_SelectedPresetNo == Preset)
+        if (data.startsWith("FRA"))
         {
-            ui->PresetEdit->setText(Name);
+            m_TunerFrequency = data.mid(3).toInt();
+            QString str = QString("%1 kHz").arg(data.mid(3).toInt());
+            ui->FrequencyEdit->setText(str);
+            ui->FMButton->setChecked(false);
+            ui->AMButton->setChecked(true);
         }
-        // clear the preset actions list
-        if (Class == "A" && Preset == "01")
+        else if (data.startsWith("FRF"))
         {
-            for(int i = 0; i < m_PresetActions.count(); i++)
+            m_TunerFrequency = data.mid(3).toInt();
+            QString str = QString("%1 MHz").arg(data.mid(3).toDouble() / 100.0);
+            ui->FrequencyEdit->setText(str);
+            ui->FMButton->setChecked(true);
+            ui->AMButton->setChecked(false);
+        }
+        else if (data.startsWith("PR"))
+        {
+            int n = 0;
+            m_SelectedClassNo = data[2];
+            n = data[2].toLatin1() - 'A';
+            SelectClassButton(n);
+
+            m_SelectedPresetNo = data.mid(3, 2);
+            n = data.mid(3).toInt() - 1;
+            SelectPresetButton(n);
+
+            SendCmd("?FR");
+            SendCmd("?TQ");
+        }
+        else if (data.startsWith("TQ"))
+        {
+            QString Class = QString("%1").arg(data[2]);
+            QString Preset = "0" + data.mid(3, 1);
+            QString Name = data.mid(4);
+            Name = Name.trimmed();
+            while (Name.startsWith("\""))
+                Name.remove(0, 1);
+            while (Name.endsWith("\""))
+                Name.chop(1);
+            Name = Name.trimmed();
+            if (m_SelectedClassNo == Class && m_SelectedPresetNo == Preset)
             {
-                delete m_PresetActions[i];
+                ui->PresetEdit->setText(Name);
             }
-            m_PresetActions.clear();
-        }
+            // clear the preset actions list
+            if (Class == "A" && Preset == "01")
+            {
+                for(int i = 0; i < m_PresetActions.count(); i++)
+                {
+                    delete m_PresetActions[i];
+                }
+                m_PresetActions.clear();
+            }
 
-        // if the name is set add the preset to the action list
-        if (Name != "")
-        {
-            QString Param = QString("%1%2").arg(Class).arg(Preset);
-            ActionWithParameter* action = new ActionWithParameter(ui->ChoosePresetButton, Name, Param);
-            connect(action, SIGNAL(ActionTriggered(QString)), this, SLOT(PresetSelected(QString)));
-            m_PresetActions.append(action);
+            // if the name is set add the preset to the action list
+            if (Name != "")
+            {
+                QString Param = QString("%1%2").arg(Class).arg(Preset);
+                ActionWithParameter* action = new ActionWithParameter(ui->ChoosePresetButton, Name, Param);
+                connect(action, SIGNAL(ActionTriggered(QString)), this, SLOT(PresetSelected(QString)));
+                m_PresetActions.append(action);
+            }
         }
     }
 }

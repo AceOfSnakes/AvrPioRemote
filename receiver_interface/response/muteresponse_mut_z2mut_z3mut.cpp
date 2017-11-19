@@ -14,7 +14,7 @@ MuteResponse_MUT_Z2MUT_Z3MUT::~MuteResponse_MUT_Z2MUT_Z3MUT()
 
 QStringList MuteResponse_MUT_Z2MUT_Z3MUT::getMsgIDs()
 {
-    return QStringList() << "MUT" << "Z2MUT" << "Z3MUT";
+    return QStringList() << "MUT" << "Z2MUT" << "Z3MUT" << "AMT" << "ZMT" << "MT3";
 }
 
 QString MuteResponse_MUT_Z2MUT_Z3MUT::getResponseID()
@@ -25,23 +25,47 @@ QString MuteResponse_MUT_Z2MUT_Z3MUT::getResponseID()
 bool MuteResponse_MUT_Z2MUT_Z3MUT::parseString(QString str)
 {
     int n = 0;
-    if (sscanf(str.toLatin1(), "MUT%d", &n) == 1)
+    if (m_IsPioneer)
     {
-        m_Zone = ZoneMain;
-        m_Muted = (n == 0);
-        return true;
+        if (sscanf(str.toLatin1(), "MUT%d", &n) == 1)
+        {
+            m_Zone = ZoneMain;
+            m_Muted = (n == 0);
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "Z2MUT%d", &n) == 1)
+        {
+            m_Zone = Zone2;
+            m_Muted = (n == 0);
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "Z3MUT%d", &n) == 1)
+        {
+            m_Zone = Zone3;
+            m_Muted = (n == 0);
+            return true;
+        }
     }
-    if (sscanf(str.toLatin1(), "Z2MUT%d", &n) == 1)
+    else
     {
-        m_Zone = Zone2;
-        m_Muted = (n == 0);
-        return true;
-    }
-    if (sscanf(str.toLatin1(), "Z3MUT%d", &n) == 1)
-    {
-        m_Zone = Zone3;
-        m_Muted = (n == 0);
-        return true;
+        if (sscanf(str.toLatin1(), "AMT%d", &n) == 1)
+        {
+            m_Zone = ZoneMain;
+            m_Muted = (n != 0);
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "ZMT%d", &n) == 1)
+        {
+            m_Zone = Zone2;
+            m_Muted = (n != 0);
+            return true;
+        }
+        if (sscanf(str.toLatin1(), "MT3%d", &n) == 1)
+        {
+            m_Zone = Zone3;
+            m_Muted = (n != 0);
+            return true;
+        }
     }
     return false;
 }

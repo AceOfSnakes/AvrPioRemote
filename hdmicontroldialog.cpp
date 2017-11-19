@@ -86,7 +86,10 @@ void HdmiControlDialog::ShowHdmiControlDialog()
         SendCmd("?STR");
         SendCmd("?STT");
     }
-    SendCmd("?STU");
+    if(m_Comm.IsPioneer())
+    {
+        SendCmd("?STU");
+    }
 }
 
 void HdmiControlDialog::ResponseReceived(ReceivedObjectBase *response)
@@ -136,7 +139,10 @@ void HdmiControlDialog::ResponseReceived(ReceivedObjectBase *response)
 
 void HdmiControlDialog::CommConnected()
 {
-    SendCmd("?STU");
+    if(m_Comm.IsPioneer())
+    {
+        SendCmd("?STU");
+    }
 }
 
 void HdmiControlDialog::on_hdmiControlCheckBox_toggled(bool on)

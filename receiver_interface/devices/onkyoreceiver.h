@@ -25,10 +25,16 @@ class OnkyoReceiver : public DiscoveryDevice
 public:
     OnkyoReceiver();
     virtual int write(QString str);
-    virtual QString read();
-    void setIsReceiver(bool isReceiver);
+    //virtual QString read();
+    void setIsReceiver(bool m_IsReceiver);
 private:
-    bool isReceiver;
+    bool            m_IsReceiver;
+    QByteArray      m_BufferedData;
+    bool            m_ReceivingData;
+    int             m_ReceivingDataLength;
+    //QString         m_ReceivedData;
+    virtual void NewDataToRead();
+    bool isMsgBegin(QByteArray data, int start, eISCPHeader& header);
 };
 
 #endif // ONKYORECEIVER_H

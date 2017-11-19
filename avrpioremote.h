@@ -146,7 +146,7 @@ public slots:
     void EnableControls(bool enable);
     void RequestStatus(bool input = true);
     bool SendCmd(const QString& cmd);
-    void NewDataReceived(QString data);
+    void NewDataReceived(const QString &, bool);
     void ZoneInput (int zone, int input);
     void ListeningModeData(QString name);
     void ReceiverType (QString no, QString name);
@@ -203,7 +203,7 @@ private slots:
 
 signals:
     void NetData(QString data);
-    void DataReceived(QString data);
+    void DataReceived(const QString&, bool);
 };
 
 #endif // AVRPIOREMOTE_H

@@ -58,7 +58,8 @@ private slots:
 
 public slots:
     void ShowTestDialog();
-    void NewDataReceived(QString data);
+    void NewDataReceived(const QString &data);
+    void NewDataReceived(const QString &data, bool is_pioneer);
     void LogSendCmd(QString data);
 
 private:
