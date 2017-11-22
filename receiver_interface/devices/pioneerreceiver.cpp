@@ -47,7 +47,7 @@ void PioneerReceiver::NewDataToRead()
     }
     if (lineStartPos < count)
     {
-        m_ReceivedString.append((const char*)&data[lineStartPos]);
+        m_ReceivedString.append((const char*)data.toStdString()[lineStartPos]);
     }
 }
 
