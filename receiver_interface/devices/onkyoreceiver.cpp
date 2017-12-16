@@ -3,7 +3,7 @@
 
 #define eISCP_ID_RECEIVER '1'
 #define eISCP_ID_PLAYER '7'  // hopefully the right number for the players
-#define DATA_MAX_LENGTH 1500
+#define DATA_MAX_LENGTH 64000
 
 eISCPHeader::eISCPHeader()
 {
@@ -30,7 +30,7 @@ void OnkyoReceiver::setIsReceiver(bool isReceiver)
 
 int OnkyoReceiver::write(QString str)
 {
-    qDebug() << "Onkyo write to " /*<< hostAddress*/ << ":" << port << " ---> " << str;
+    //qDebug() << "Onkyo write to " /*<< hostAddress*/ << ":" << port << " ---> " << str;
     eISCPHeader header;
     header.dataSize  = qToBigEndian(str.length() + 3);
     QByteArray datagram;
@@ -51,14 +51,14 @@ int OnkyoReceiver::write(QString str)
 
     socket->readAll(); // clear the incomming buffer, may cause problems
     int n = socket->write(datagram);
-    qDebug() << "result: " << n;
+    //qDebug() << "result: " << n;
     return n;
 }
 
 void OnkyoReceiver::NewDataToRead()
 {
     QByteArray data = socket->readAll();
-    qDebug() << data;
+    //qDebug() << data;
     m_BufferedData.append(data);
     if(m_BufferedData.length() > DATA_MAX_LENGTH)
     {
@@ -121,7 +121,7 @@ void OnkyoReceiver::NewDataToRead()
                     return;
                 }
                 QByteArray msg = m_BufferedData.mid(2, len - 2);
-                QString received_data = QString(msg);
+                QString received_data = QString::fromUtf8(msg);
                 m_BufferedData.remove(0, m_ReceivingDataLength);
                 m_ReceivingData = false;
                 emit DataReceived(received_data);

@@ -206,6 +206,32 @@ const STRING_PAIR LISTENING_MODE[]  = {
     {"", ""},
 };
 
+const STRING_PAIR LISTENING_MODE_ONKYO[] = {
+    {"00", "STEREO"},
+    {"01", "DIRECT"},
+    {"03", "FILM/Game-RPG"},
+    {"05", "ACTION/Game-Action"},
+    {"06", "MUSICAL/Game-Rock"},
+    {"08", "CLASSICAL"}, // ORCHESTRA
+    {"09", "UNPLUGGED"},
+    {"0A", "ENT. SHOW"}, // "STUDIO-MIX"
+    {"0B", "DRAMA"}, // TV LOGIC
+    {"0C", "EXT. STEREO"}, // "ALL CH STEREO"
+    {"0D", "F.S. SURROUND"}, // "THEATER-DIMENSIONAL"
+    {"0E", "ENHANCED 7/ENHANCE/Game-Sports"},
+    {"0F", "MONO"},
+    {"11", "PURE AUDIO"},
+    {"13", "EXT. MONO"}, //FULL MONO
+    {"1F", "Multi Zone Music"},
+    {"40", "Straight Decode"},
+    {"80", "PLII Movie/Dolby Atmos/Dolby Surround"},
+    {"81", "PLII Music"},
+    {"82", "Neo:6 Cinema/DTS:X/Neural:X"},
+    {"83", "Neo:6 Music"},
+    {"86", "PLII Game"},
+    {"FF", "Auto Surround"},
+    {"", ""},
+};
 
 const STRING_PAIR PLAYING_LISTENING_MODE[]  = {
     {"0001", "STEREO"},

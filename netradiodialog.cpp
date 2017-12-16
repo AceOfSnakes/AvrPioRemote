@@ -103,7 +103,7 @@ void NetRadioDialog::ManualShowNetDialog()
 
 void NetRadioDialog::ShowNetDialog(bool autoShow)
 {   
-    if ((!autoShow) || (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible()))
+    if (m_Comm.IsPioneer() && ((!autoShow) || (m_Settings.value("AutoShowNetRadio", true).toBool() && !isVisible())))
     {
         if (m_Comm.IsPioneer())
         {
@@ -128,6 +128,10 @@ void NetRadioDialog::ShowNetDialog(bool autoShow)
 
 void NetRadioDialog::ResponseReceived(ReceivedObjectBase *response)
 {
+    if (!m_Comm.IsPioneer())
+    {
+        return;
+    }
     InputFunctionResponse_FN* inputFunction = dynamic_cast<InputFunctionResponse_FN*>(response);
     if (inputFunction != NULL)
     {

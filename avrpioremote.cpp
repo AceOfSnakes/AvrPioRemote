@@ -198,6 +198,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     // create NetRadio dialog
     m_NetRadioDialog = new NetRadioDialog(this, m_Settings, m_ReceiverInterface);
+    m_NetOnkyoDialog = new NetOnkyoDialog(this, m_Settings, m_ReceiverInterface);
 
 
     // create usb dialog
@@ -306,6 +307,7 @@ AVRPioRemote::~AVRPioRemote()
 {
     qApp->removeEventFilter(this);
     delete m_NetRadioDialog;
+    delete m_NetOnkyoDialog;
     delete m_BluRayDialog;
     delete m_usbDialog;
     delete m_LoudspeakerSettingsDialog;
@@ -637,15 +639,27 @@ void AVRPioRemote::SelectInputButton(int idx, int zone)
         }
     }
     // if it is a net input, open NetRadio window, otherwise close it
-    if (m_SelectedInput == ui->InputNetButton || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputNetButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputNetButton))
+    if ((m_SelectedInput == ui->InputNetButton && m_PowerOn) || (m_Zone2PowerOn && m_SelectedInputZ2 == ui->InputNetButton) || (m_Zone3PowerOn && m_SelectedInputZ3 == ui->InputNetButton))
     {
-
-        m_NetRadioDialog->ShowNetDialog(true);
+        if (m_IsPioneer)
+        {
+            m_NetRadioDialog->ShowNetDialog(true);
+        }
+        else
+        {
+            m_NetOnkyoDialog->ShowNetDialog(true);
+        }
     }
     else
     {
         if (m_NetRadioDialog->isVisible())
+        {
             m_NetRadioDialog->hide();
+        }
+        if (m_NetOnkyoDialog->isVisible())
+        {
+            m_NetOnkyoDialog->hide();
+        }
     }
 
     // if it is the tuner input, open Tuner window, otherwise close it
@@ -1025,6 +1039,11 @@ void AVRPioRemote::CommConnected()
         SendCmd("MVLQSTN"); // volume
         SendCmd("SLIQSTN"); // input
         SendCmd("FLDQSTN"); // display
+        SendCmd("PCTQSTN"); // phase control
+        SendCmd("PCPQSTN"); // phase control plus
+        SendCmd("HBTQSTN"); // hi-bit
+        SendCmd("PQLQSTN"); // pqls
+        SendCmd("LMDQSTN"); // listening mode
     }
 }
 
@@ -1092,8 +1111,8 @@ void AVRPioRemote::EnableControls(bool enable)
     }
     else
     {
-        //ui->SRetrButton->setEnabled(enable);
-        //ui->HiBitButton->setEnabled(enable);
+        ui->SRetrButton->setEnabled(enable);
+        ui->HiBitButton->setEnabled(enable);
 
         bool enableInputs = false;
         if ((m_Connected && m_PassThroughLast) || enable)
@@ -1114,12 +1133,12 @@ void AVRPioRemote::EnableControls(bool enable)
 
         ui->InputLeftButton->setEnabled(enable);
         ui->InputRightButton->setEnabled(enable);
-//        ui->AutoAlcDirectButton->setEnabled(enable);
-//        ui->StandardButton->setEnabled(enable);
+        ui->AutoAlcDirectButton->setEnabled(enable);
+        ui->StandardButton->setEnabled(enable);
 
-//        ui->AdvSurrButton->setEnabled(enable);
-//        ui->PhaseButton->setEnabled(enable);
-//        ui->PqlsButton->setEnabled(enable);
+        ui->AdvSurrButton->setEnabled(enable);
+        ui->PhaseButton->setEnabled(enable);
+        ui->PqlsButton->setEnabled(enable);
         ui->VolumeDownButton->setEnabled(enable);
         ui->VolumeMuteButton->setEnabled(enable);
         ui->VolumeUpButton->setEnabled(enable);
@@ -1220,45 +1239,54 @@ void AVRPioRemote::on_MoreButton_clicked()
 
     if (m_ReceiverOnline == true)
     {
-        pAction = new QAction(tr("Internet Radio"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ManualShowNetDialog()));
+        if (m_IsPioneer)
+        {
+            pAction = new QAction(tr("Internet Radio"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_NetRadioDialog, SLOT(ManualShowNetDialog()));
 
-        pAction = new QAction(tr("Tuner"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ManualShowTunerDialog()));
+            pAction = new QAction(tr("Tuner"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_TunerDialog, SLOT(ManualShowTunerDialog()));
 
-        pAction = new QAction(tr("IPod / USB"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_usbDialog, SLOT(ManualShowusbDialog()));
+            pAction = new QAction(tr("IPod / USB"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_usbDialog, SLOT(ManualShowusbDialog()));
 
-        pAction = new QAction(tr("Equalizer / Tone"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
+            pAction = new QAction(tr("Equalizer / Tone"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
 
-        pAction = new QAction(tr("Speaker Settings"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsDialog, SLOT(ShowLoudspeakerSettingsDialog()));
+            pAction = new QAction(tr("Speaker Settings"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsDialog, SLOT(ShowLoudspeakerSettingsDialog()));
 
-        pAction = new QAction(tr("ListenMode Settings"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_Listendiag, SLOT(ShowListeningDialog()));
+            pAction = new QAction(tr("ListenMode Settings"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_Listendiag, SLOT(ShowListeningDialog()));
 
-        pAction = new QAction(tr("Audio / Video Settings"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_AVSettingsDialog, SLOT(ShowAVSettingsDialog()));
+            pAction = new QAction(tr("Audio / Video Settings"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_AVSettingsDialog, SLOT(ShowAVSettingsDialog()));
 
-        pAction = new QAction(tr("MCACC Equalizer"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_MCACCEQDialog, SLOT(ShowMCACCEQDialog()));
+            pAction = new QAction(tr("MCACC Equalizer"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_MCACCEQDialog, SLOT(ShowMCACCEQDialog()));
 
-        pAction = new QAction(tr("HDMI Control"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_HdmiControlDialog, SLOT(ShowHdmiControlDialog()));
+            pAction = new QAction(tr("HDMI Control"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_HdmiControlDialog, SLOT(ShowHdmiControlDialog()));
 
-        pAction = new QAction(tr("MCACC Measuring Progress"), this);
-        MyMenu.addAction(pAction);
-        connect(pAction, SIGNAL(triggered()), m_MCACCProgressDialog, SLOT(ShowMCACCProgressDialog()));
+            pAction = new QAction(tr("MCACC Measuring Progress"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_MCACCProgressDialog, SLOT(ShowMCACCProgressDialog()));
+        }
+        else
+        {
+            pAction = new QAction(tr("Internet Radio"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_NetOnkyoDialog, SLOT(ManualShowNetDialog()));
+        }
 
         //        pAction = new QAction(tr("Wiring Wizard"), this);
         //        MyMenu.addAction(pAction);
@@ -1428,12 +1456,20 @@ void AVRPioRemote::on_PhaseButton_clicked()
         {
             SendCmd("0IS");
         }
+        else
+        {
+            SendCmd("PCT00");
+        }
     }
     else
     {
         if (m_IsPioneer)
         {
             SendCmd("1IS");
+        }
+        else
+        {
+            SendCmd("PCT01");
         }
     }
 }
@@ -1448,12 +1484,20 @@ void AVRPioRemote::on_PqlsButton_clicked()
         {
             SendCmd("0PQ");
         }
+        else
+        {
+            SendCmd("PQL00");
+        }
     }
     else
     {
         if (m_IsPioneer)
         {
             SendCmd("1PQ");
+        }
+        else
+        {
+            SendCmd("PQL01");
         }
     }
 }
@@ -1468,12 +1512,20 @@ void AVRPioRemote::on_SRetrButton_clicked()
         {
             SendCmd("0ATA");
         }
+        else
+        {
+            SendCmd("MOT00");
+        }
     }
     else
     {
         if (m_IsPioneer)
         {
             SendCmd("1ATA");
+        }
+        else
+        {
+            SendCmd("MOT01");
         }
     }
 }
@@ -1488,12 +1540,20 @@ void AVRPioRemote::on_HiBitButton_clicked()
         {
             SendCmd("0ATI");
         }
+        else
+        {
+            SendCmd("HBT00");
+        }
     }
     else
     {
         if (m_IsPioneer)
         {
             SendCmd("1ATI");
+        }
+        else
+        {
+            SendCmd("HBT01");
         }
     }
 }
@@ -1540,6 +1600,10 @@ void AVRPioRemote::on_InputTvButton_clicked()
     {
         SendCmd("05FN");
     }
+    else
+    {
+        SendCmd("SLI12");
+    }
 }
 
 void AVRPioRemote::on_InputCdButton_clicked()
@@ -1551,7 +1615,7 @@ void AVRPioRemote::on_InputCdButton_clicked()
     }
     else
     {
-        SendCmd("SLI12");
+        SendCmd("SLI23");
     }
 }
 
@@ -1587,7 +1651,7 @@ void AVRPioRemote::on_InputAdptButton_clicked()
     }
     else
     {
-        SendCmd("SLI01");
+        SendCmd("SLI03");
     }
 }
 
@@ -1609,6 +1673,10 @@ void AVRPioRemote::on_InputNetButton_clicked()
         {
             SendCmd("26FN");
         }
+        else
+        {
+            SendCmd("SLI2B");
+        }
     }
     else
     {
@@ -1616,15 +1684,19 @@ void AVRPioRemote::on_InputNetButton_clicked()
         {
             SendCmd("38FN");
         }
+        else
+        {
+            SendCmd("SLI2B");
+        }
     }
 }
 
 void AVRPioRemote::on_InputTunerButton_clicked()
 {
     ui->InputTunerButton->setChecked(!ui->InputTunerButton->isChecked());
-    m_TunerDialog->ShowTunerDialog(true);
     if (m_IsPioneer)
     {
+        m_TunerDialog->ShowTunerDialog(true);
         SendCmd("02FN");
     }
     else
@@ -1640,6 +1712,10 @@ void AVRPioRemote::on_AutoAlcDirectButton_clicked()
     {
         SendCmd("0005SR");
     }
+    else
+    {
+        SendCmd("LMDAUTO");
+    }
 }
 
 void AVRPioRemote::on_StandardButton_clicked()
@@ -1649,6 +1725,10 @@ void AVRPioRemote::on_StandardButton_clicked()
     {
         SendCmd("0010SR");
     }
+    else
+    {
+        SendCmd("LMDSTEREO");
+    }
 }
 
 void AVRPioRemote::on_AdvSurrButton_clicked()
@@ -1657,6 +1737,10 @@ void AVRPioRemote::on_AdvSurrButton_clicked()
     if (m_IsPioneer)
     {
         SendCmd("0100SR");
+    }
+    else
+    {
+        SendCmd("LMDSURR");
     }
 }
 
@@ -1707,6 +1791,10 @@ void AVRPioRemote::on_InputVideoButton_clicked()
     if (m_IsPioneer)
     {
         SendCmd("10FN");
+    }
+    else
+    {
+        SendCmd("SLI11"); //streamer box
     }
 }
 

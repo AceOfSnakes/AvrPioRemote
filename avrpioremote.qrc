@@ -39,5 +39,6 @@
         <file>pio-icon1.ico</file>
         <file>images/pioneer.png</file>
         <file>images/Built_with_Qt_RGB_logo.png</file>
+        <file>images/200px-Gnome-edit-redo.svg.png</file>
     </qresource>
 </RCC>

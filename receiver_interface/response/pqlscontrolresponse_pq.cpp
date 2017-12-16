@@ -14,7 +14,7 @@ PQLSControlResponse_PQ::~PQLSControlResponse_PQ()
 
 QStringList PQLSControlResponse_PQ::getMsgIDs()
 {
-    return QStringList() << "PQ";
+    return QStringList() << "PQ" << "PQL";
 }
 
 QString PQLSControlResponse_PQ::getResponseID()
@@ -26,6 +26,11 @@ bool PQLSControlResponse_PQ::parseString(QString str)
 {
     int n = 0;
     if (sscanf(str.toLatin1(), "PQ%d", &n))
+    {
+        m_PQLSControlOn = (n != 0);
+        return true;
+    }
+    if (sscanf(str.toLatin1(), "PQL%d", &n))
     {
         m_PQLSControlOn = (n != 0);
         return true;

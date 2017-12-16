@@ -14,7 +14,7 @@ SoundRetrieverResponse_ATA::~SoundRetrieverResponse_ATA()
 
 QStringList SoundRetrieverResponse_ATA::getMsgIDs()
 {
-    return QStringList() << "ATA";
+    return QStringList() << "ATA" << "MOT";
 }
 
 QString SoundRetrieverResponse_ATA::getResponseID()
@@ -26,6 +26,11 @@ bool SoundRetrieverResponse_ATA::parseString(QString str)
 {
     int n = 0;
     if (sscanf(str.toLatin1(), "ATA%d", &n))
+    {
+        m_SoundRetrieverOn = (n != 0);
+        return true;
+    }
+    if (sscanf(str.toLatin1(), "MOT%d", &n))
     {
         m_SoundRetrieverOn = (n != 0);
         return true;

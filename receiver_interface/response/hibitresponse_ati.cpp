@@ -14,7 +14,7 @@ HiBitResponse_ATI::~HiBitResponse_ATI()
 
 QStringList HiBitResponse_ATI::getMsgIDs()
 {
-    return QStringList() << "ATI";
+    return QStringList() << "ATI" << "HBT";
 }
 
 QString HiBitResponse_ATI::getResponseID()
@@ -26,6 +26,11 @@ bool HiBitResponse_ATI::parseString(QString str)
 {
     int n = 0;
     if (sscanf(str.toLatin1(), "ATI%d", &n))
+    {
+        m_HiBitOn = (n != 0);
+        return true;
+    }
+    if (sscanf(str.toLatin1(), "HBT%d", &n))
     {
         m_HiBitOn = (n != 0);
         return true;

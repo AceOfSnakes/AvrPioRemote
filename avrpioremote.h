@@ -25,6 +25,7 @@
 #include "Defs.h"
 #include "receiver_interface/receiverinterface.h"
 #include "netradiodialog.h"
+#include "netonkyodialog.h"
 #include "bluraydialog.h"
 #include "aboutdialog.h"
 #include "loudspeakersettingsdialog.h"
@@ -81,6 +82,7 @@ private:
     bool                        m_IsPioneer;
     QSettings                   m_Settings;
     NetRadioDialog*             m_NetRadioDialog;
+    NetOnkyoDialog*             m_NetOnkyoDialog;
     BluRayDialog*               m_BluRayDialog;
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
     TunerDialog*                m_TunerDialog;

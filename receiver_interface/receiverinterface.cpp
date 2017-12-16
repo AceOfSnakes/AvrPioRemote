@@ -403,4 +403,17 @@ void ReceiverInterface::InterpretPioneerString(const QString& data)
 
 void ReceiverInterface::InterpretOnkyoString(const QString& data)
 {
+    if (data.startsWith("LMD"))
+    {
+        QString text = FindValueByKey(LISTENING_MODE_ONKYO, data.mid(3, 2));
+        if (text == "")
+            text = "---";
+        emit ListeningModeData(text);
+    }
+    else if (/*data.startsWith("NLS") || */data.startsWith("NLT")  || data.startsWith("NTM") || data.startsWith("NJA")
+              || data.startsWith("NAT") || data.startsWith("NAL")  || data.startsWith("NTI") || data.startsWith("NTR")
+              || data.startsWith("NST") || data.startsWith("NLA"))
+    {
+        emit NetData(data);
+    }
 }

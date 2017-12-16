@@ -72,6 +72,7 @@ extern const STRING_PAIR AST1[];
 extern const STRING_PAIR AST3[];
 extern const STRING_PAIR VIDEO_INPUT[];
 extern const STRING_PAIR LISTENING_MODE[];
+extern const STRING_PAIR LISTENING_MODE_ONKYO[];
 extern const STRING_PAIR PLAYING_LISTENING_MODE[];
 extern const char* LOUDSPEAKERNAME_LIST[];
 extern const char* EQ_FREQUENCY_LIST[];

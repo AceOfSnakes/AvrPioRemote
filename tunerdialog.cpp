@@ -117,7 +117,7 @@ void TunerDialog::ManualShowTunerDialog()
 
 void TunerDialog::ShowTunerDialog(bool autoShow)
 {
-    if ((!autoShow) || (m_Settings.value("AutoShowTuner", true).toBool() && !isVisible()))
+    if (m_Comm.IsPioneer() &&((!autoShow) || (m_Settings.value("AutoShowTuner", true).toBool() && !isVisible())))
     {
         if (!m_PositionSet || !m_Settings.value("SaveTunerWindowGeometry", false).toBool())
         {

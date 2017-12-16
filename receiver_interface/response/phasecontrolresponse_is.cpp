@@ -14,7 +14,7 @@ PhaseControlResponse_IS::~PhaseControlResponse_IS()
 
 QStringList PhaseControlResponse_IS::getMsgIDs()
 {
-    return QStringList() << "IS";
+    return QStringList() << "IS" << "PCT" << "PCP";
 }
 
 QString PhaseControlResponse_IS::getResponseID()
@@ -26,6 +26,11 @@ bool PhaseControlResponse_IS::parseString(QString str)
 {
     int n = 0;
     if (sscanf(str.toLatin1(), "IS%d", &n))
+    {
+        m_PhaseControlOn = (n != 0);
+        return true;
+    }
+    if (sscanf(str.toLatin1(), "PCT%d", &n))
     {
         m_PhaseControlOn = (n != 0);
         return true;

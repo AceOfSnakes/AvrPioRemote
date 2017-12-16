@@ -19,6 +19,10 @@ TARGET = AVRPioRemote
 TEMPLATE = app
 win32: RC_ICONS = pio-icon1.ico
 
+*msvc* { # visual studio spec filter
+    QMAKE_CXXFLAGS += -MP
+}
+
 static { # everything below takes effect with CONFIG += static
     CONFIG += static
 #    CONFIG += staticlib # this is needed if you create a static library, not a static executable
@@ -100,7 +104,8 @@ SOURCES += \
     usbdialog.cpp \
     wiringdialog.cpp \
     wiringmodel.cpp \
-    zonecontroldialog.cpp
+    zonecontroldialog.cpp \
+    netonkyodialog.cpp
 HEADERS  += \
     receiver_interface/command/cmdbase.h \
     receiver_interface/devices/discoverydevice.h \
@@ -174,7 +179,8 @@ HEADERS  += \
     usbdialog.h \
     wiringdialog.h \
     wiringmodel.h \
-    zonecontroldialog.h
+    zonecontroldialog.h \
+    netonkyodialog.h
 FORMS    += avrpioremote.ui \
     netradiodialog.ui \
     bluraydialog.ui \
@@ -196,7 +202,8 @@ FORMS    += avrpioremote.ui \
     labeledslider.ui \
     hdmicontroldialog.ui \
     infodialog.ui \
-    mcaccprogressdialog.ui
+    mcaccprogressdialog.ui \
+    netonkyodialog.ui
 
 
 OTHER_FILES += \
@@ -256,3 +263,6 @@ TARGET = AVRPioRemote64
 }
 
 CONFIG += exceptions rtti
+
+DISTFILES += \
+    images/200px-Gnome-edit-redo.svg.png
