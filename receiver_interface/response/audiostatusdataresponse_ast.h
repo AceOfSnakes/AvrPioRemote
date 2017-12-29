@@ -20,9 +20,11 @@ public:
     QString phaseControl;
     QString phaseControlReversePhase;
     QString codec, samplingRate;
+    QString listeningMode;
+    QString upmix;
 
     QString getSummary();
-
+    QString fillPioneerChannelsString(QString onkyoChannels);
 };
 
 #endif // AUDIOSTATUSDATA_H

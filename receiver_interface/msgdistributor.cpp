@@ -142,6 +142,16 @@ QString MsgDistributor::_getIdFromString(const QString &str)
         id = "VL3";
     else if (str.startsWith("MT3"))
         id = "MT3";
+    else if (str.startsWith("TFRB"))
+        id = "TFRB";
+    else if (str.startsWith("ZTNB"))
+        id = "ZTNB";
+    else if (str.startsWith("ZBLB"))
+        id = "ZBLB";
+    else if (str.startsWith("IFA"))
+        id = "IFA";
+    else if (str.startsWith("IFV"))
+        id = "IFV";
     else
     {
         foreach(QChar c, str)

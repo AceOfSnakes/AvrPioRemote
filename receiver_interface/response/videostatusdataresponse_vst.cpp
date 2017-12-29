@@ -134,7 +134,7 @@ VideoStatusDataResponse_VST::~VideoStatusDataResponse_VST()
 
 QStringList VideoStatusDataResponse_VST::getMsgIDs()
 {
-    return QStringList() << "VST";
+    return QStringList() << "VST" << "IFV";
 }
 
 QString VideoStatusDataResponse_VST::getResponseID()
@@ -255,6 +255,32 @@ bool VideoStatusDataResponse_VST::parseString(QString str)
         }
         return true;
     }
+    else if (str.startsWith("IFV"))
+    {
+        // "IFVHDMI 4,1920 x 1080p  60 Hz,RGB,24bit,MAIN,0 x 0p        60 Hz,,24bit,,"
+        // 0: a…a: Video Input Port
+        // 1: b…b: Input Resolution, Frame Rate
+        // 2: c…c: RGB/YCbCr
+        // 3: d…d: Color Depth
+        // 4: e…e: Video Output Port
+        // 5: f…f: Output Resolution, Frame Rate
+        // 6: g…g: RGB/YCbCr
+        // 7: h…h: Color Depth
+        // 8: i...i: Picture Mode
+        QStringList parts = str.mid(3).split(',', QString::KeepEmptyParts);
+        if (parts.length() > 8)
+        {
+            videoInput = parts[0];
+            inputResolution = parts[1];
+            inputColorFormat = parts[2];
+            inputBits = parts[3];
+            outputResolution = parts[5];
+            outputColorSpace = parts[6];
+            outputColorFormat = parts[7];
+            pictureMode = parts[8];
+        }
+        return true;
+    }
     return false;
 }
 
@@ -264,18 +290,23 @@ QString VideoStatusDataResponse_VST::getSummary()
 
     summary += "Video Input: " + videoInput;
     summary += "\nInput Resolution: " + inputResolution;
-    summary += "\nInput Aspect Ratio: " + inputAspectRatio;
+    if (!inputAspectRatio.isEmpty())
+        summary += "\nInput Aspect Ratio: " + inputAspectRatio;
     summary += "\nInput Color Format: " + inputColorFormat;
-    summary += "\nInput Bit Format: " + inputBits;
+    if (!inputBits.isEmpty())
+        summary += "\nInput Bit Format: " + inputBits;
     summary += "\nInput Color Space: " + inputColorSpace;
     summary += "\nOutput Resolution: " + outputResolution;
-    summary += "\nOutput Aspect: " + outputAspect;
+    if (!outputAspect.isEmpty())
+        summary += "\nOutput Aspect: " + outputAspect;
     summary += "\nOutput Color Format: " + outputColorFormat;
     summary += "\nOutput Bit Format: " + outputBits;
     summary += "\nOutput Color Space: " + outputColorSpace;
-    summary += "\nOutput 1 Recommended Resolution: " + out1RecommendedResolution;
-    summary += "\nOutput 1 Color Depth: " + out1ColorDepth;
-    summary += "\nOutput 1 Supported Color Space: " + getSupportedColorSpace(out1SupportedColorSpace);
+    if (!out1RecommendedResolution.isEmpty()) {
+        summary += "\nOutput 1 Recommended Resolution: " + out1RecommendedResolution;
+        summary += "\nOutput 1 Color Depth: " + out1ColorDepth;
+        summary += "\nOutput 1 Supported Color Space: " + getSupportedColorSpace(out1SupportedColorSpace);
+    }
 
     if (!out2RecommendedResolution.isEmpty())
         summary += "\nOutput 2 Recommended: Resolution" + out2RecommendedResolution;
@@ -310,6 +341,9 @@ QString VideoStatusDataResponse_VST::getSummary()
             summary += "\nOutput 4 Supported Color Space: " + str;
     }
 
+    if (!pictureMode.isEmpty()) {
+        summary += "\nPicture mode: " + pictureMode;
+    }
     return summary;
 }
 

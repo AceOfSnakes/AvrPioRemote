@@ -39,6 +39,7 @@ public:
     QString out4RecommendedResolution;
     QString out4ColorDepth;
     QString out4SupportedColorSpace;
+    QString pictureMode;
 
 private:
     QString getSupportedColorSpace(QString str);

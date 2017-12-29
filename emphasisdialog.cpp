@@ -197,20 +197,26 @@ void EmphasisDialog::on_flatPushButton_clicked()
 
 void EmphasisDialog::SetBass(int n)
 {
-    if (m_BassCh1 != -1 && m_BassCh2 != -1)
+    if (m_EmphasisSliders.size() > n)
     {
-        m_EmphasisSliders[m_BassCh1]->SetValue(n);
-        m_EmphasisSliders[m_BassCh2]->SetValue(n, false);
+        if (m_BassCh1 != -1 && m_BassCh2 != -1)
+        {
+            m_EmphasisSliders[m_BassCh1]->SetValue(n);
+            m_EmphasisSliders[m_BassCh2]->SetValue(n, false);
+        }
+        else if (m_BassCh1 != -1)
+            m_EmphasisSliders[m_BassCh1]->SetValue(n, false);
+        else if (m_BassCh2 != -1)
+            m_EmphasisSliders[m_BassCh2]->SetValue(n, false);
     }
-    else if (m_BassCh1 != -1)
-        m_EmphasisSliders[m_BassCh1]->SetValue(n, false);
-    else if (m_BassCh2 != -1)
-        m_EmphasisSliders[m_BassCh2]->SetValue(n, false);
 }
 
 void EmphasisDialog::SetCenter(int n)
 {
-    m_EmphasisSliders[2]->SetValue(n);
+    if (m_EmphasisSliders.size() > n)
+    {
+        m_EmphasisSliders[2]->SetValue(n);
+    }
 }
 
 int EmphasisDialog::GetBass()

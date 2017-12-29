@@ -88,8 +88,16 @@ void InfoDialog::ShowInfoDialog()
     } else {
         this->hide();
     }
-    SendCmd("?AST");
-    SendCmd("?VST");
+    if (m_Comm.IsPioneer())
+    {
+        SendCmd("?AST");
+        SendCmd("?VST");
+    }
+    else
+    {
+        SendCmd("IFAQSTN");
+        SendCmd("IFVQSTN");
+    }
 }
 
 void InfoDialog::ResponseReceived(ReceivedObjectBase *response)

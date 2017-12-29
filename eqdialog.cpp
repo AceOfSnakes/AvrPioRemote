@@ -133,6 +133,8 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings
     responseList << TrebleResponse_TR_ZGG().getResponseID();
     responseList << XCurveResponse_SST().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
+
+    ui->mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 }
 
 
@@ -154,7 +156,14 @@ void EQDialog::SetEqSlider(int value, QSlider* slider, QLabel* label)
     QString str;
     double eqValue = 0;
     slider->setValue(value);
-    eqValue = ((double)value - 50.0) / 2.0;
+    if (m_Comm.IsPioneer())
+    {
+        eqValue = ((double)value - 50.0) / 2.0;
+    }
+    else
+    {
+        eqValue = ((double)value) / 2.0;
+    }
 
     if (eqValue == 0.0) //eqValue > -0.1 && eqValue <= 0.1)
     {
@@ -171,7 +180,14 @@ void EQDialog::SetToneSlider(int value, QSlider* slider, QLabel* label)
 {
     QString str;
     slider->setValue(value);
-    value = 6 - value;
+    if (m_Comm.IsPioneer())
+    {
+        value = 6 - value;
+    }
+    else
+    {
+        value = -value;
+    }
     str = QString("%1dB").arg(value);
     label->setText(str);
 }
@@ -216,7 +232,14 @@ void EQDialog::RestorePreset(int nr, bool eq, bool emph, bool tone, bool xcurve)
         for (int i = 0; i < m_EQSliders.count(); i++)
         {
             str = QString("mem%1-%2/%3").arg(nr).arg(ip).arg(eqnames[i]);
-            value = m_Settings.value(str, 50).toInt();
+            if (m_Comm.IsPioneer())
+            {
+                value = m_Settings.value(str, 50).toInt();
+            }
+            else
+            {
+                value = m_Settings.value(str, 0).toInt();
+            }
             SetEqSlider(value, m_EQSliders[i], m_EQLabels[i]);
         }
     }
@@ -240,7 +263,14 @@ void EQDialog::RestorePreset(int nr, bool eq, bool emph, bool tone, bool xcurve)
     {
         // bass
         str = QString("mem%1-%2/Eqbass").arg(nr).arg(ip);
-        value = m_Settings.value(str, 6).toInt();
+        if (m_Comm.IsPioneer())
+        {
+            value = m_Settings.value(str, 6).toInt();
+        }
+        else
+        {
+            value = m_Settings.value(str, 0).toInt();
+        }
         SetToneSlider(value, ui->eqba, ui->wertbass);
         str = QString("%1BA").arg(value, 2, 10, QChar('0'));
         SendCmd(str);
@@ -339,13 +369,28 @@ void EQDialog::SelectPreset(int preset)
         {
             for (int i = 0; i < m_EQSliders.count(); i++)
             {
-                SetEqSlider(50, m_EQSliders[i], m_EQLabels[i]);
+                if (m_Comm.IsPioneer())
+                {
+                    SetEqSlider(50, m_EQSliders[i], m_EQLabels[i]);
+                }
+                else
+                {
+                    SetEqSlider(0, m_EQSliders[i], m_EQLabels[i]);
+                }
             }
         }
         //SetToneSlider(6, ui->eqba, ui->wertbass); // Bass
         //SetToneSlider(6, ui->eqtr, ui->werttreble); // Treble
-        m_EmphasisDialog->SetCenter(50);
-        m_EmphasisDialog->SetBass(50);
+        if (m_Comm.IsPioneer())
+        {
+            m_EmphasisDialog->SetCenter(50);
+            m_EmphasisDialog->SetBass(50);
+        }
+        else
+        {
+            m_EmphasisDialog->SetCenter(0);
+            m_EmphasisDialog->SetBass(0);
+        }
         // select the FLAT button
         ui->eqFlatPushButton->setChecked(false);
     }
@@ -368,12 +413,60 @@ void EQDialog::ShowEQDialog()
         }
         this->show();
     }
-    SendCmd("?ATB");
-    SendCmd("?BA");
-    SendCmd("?TR");
-    SendCmd("?TO");
-    SendCmd("?SST");
-    SendCmd("?ILV");
+    if (m_Comm.IsPioneer())
+    {
+        SendCmd("?ATB");
+        SendCmd("?BA");
+        SendCmd("?TR");
+        SendCmd("?TO");
+        SendCmd("?SST");
+        SendCmd("?ILV");
+        ui->eqba->setMaximum(12);
+        ui->eqba->setMinimum(0);
+        ui->eqba->setValue(6);
+        ui->eqtr->setMaximum(12);
+        ui->eqtr->setMinimum(0);
+        ui->eqtr->setValue(6);
+        m_ToneON = false;
+        ui->bypass->setVisible(true);
+        ui->eqtr->setEnabled(false);
+        ui->eqba->setEnabled(false);
+        ui->frame_x_curve->setVisible(true);
+        ui->label_3->setText("+6 dB");
+        ui->label_2->setText("-6 dB");
+        ui->saveXCurveCheckBox->setVisible(true);
+        foreach (QSlider *slider, m_EQSliders) {
+            slider->setMaximum(62);
+            slider->setMinimum(38);
+            slider->setValue(50);
+        }
+    }
+    else
+    {
+        SendCmd("ACEQSTN"); // EQ
+        SendCmd("TFRQSTN"); // Bass/Treble
+        ui->eqba->setMaximum(10);
+        ui->eqba->setMinimum(-10);
+        ui->eqba->setValue(0);
+        ui->eqtr->setMaximum(10);
+        ui->eqtr->setMinimum(-10);
+        ui->eqtr->setValue(0);
+        m_ToneON = true;
+        ui->bypass->setVisible(false);
+        ui->eqtr->setEnabled(true);
+        ui->eqba->setEnabled(true);
+        ui->frame_x_curve->setVisible(false);
+        ui->label_3->setText("+12 dB");
+        ui->label_2->setText("-12 dB");
+        ui->saveXCurveCheckBox->setVisible(false);
+        foreach (QSlider *slider, m_EQSliders) {
+            slider->setMaximum(24);
+            slider->setMinimum(-24);
+            slider->setValue(0);
+        }
+    }
+    //ui->mainLayout->setSizeConstraint(QLayout::SetMinimumSize);
+    ui->mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 }
 
 void EQDialog::ResponseReceived(ReceivedObjectBase *response)
@@ -436,7 +529,14 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
         }
         else
         {
-            ui->eqba->setValue(6);
+            if (m_Comm.IsPioneer())
+            {
+                ui->eqba->setValue(6);
+            }
+            else
+            {
+                ui->eqba->setValue(0);
+            }
             ui->wertbass->setText((tr("OFF")));
         }
         return;
@@ -452,7 +552,14 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
         }
         else
         {
-            ui->eqtr->setValue(6);
+            if (m_Comm.IsPioneer())
+            {
+                ui->eqtr->setValue(6);
+            }
+            else
+            {
+                ui->eqtr->setValue(0);
+            }
             ui->werttreble->setText((tr("OFF")));
         }
         return;
@@ -484,14 +591,39 @@ void EQDialog::Timeout()
       SendCmd(str);
 */
 
-    QString cmd = "00";
-    for (int i = 0; i < m_EQSliders.count(); i++)
+    if (m_Comm.IsPioneer())
     {
-        QString str = QString("%1").arg(m_EQSliders[i]->value(), 2, 10, QChar('0'));
-        cmd.append(str);
+        QString cmd = "00";
+        for (int i = 0; i < m_EQSliders.count(); i++)
+        {
+            QString str = QString("%1").arg(m_EQSliders[i]->value(), 2, 10, QChar('0'));
+            cmd.append(str);
+        }
+        cmd.append("50ATB");
+        emit SendCmd(cmd);
     }
-    cmd.append("50ATB");
-    emit SendCmd(cmd);
+    else
+    {
+        QString cmd = "ACE";
+        for (int i = 0; i < m_EQSliders.count(); i++)
+        {
+            QString str;
+            if (m_EQSliders[i]->value() == 0)
+            {
+                str = "000";
+            }
+            else if (m_EQSliders[i]->value() < 0)
+            {
+                str = QString::asprintf("-%02X", -m_EQSliders[i]->value());
+            }
+            else
+            {
+                str = QString::asprintf("+%02X", m_EQSliders[i]->value());
+            }
+            cmd.append(str);
+        }
+        emit SendCmd(cmd);
+    }
 }
 
 
@@ -559,8 +691,27 @@ void EQDialog::on_eqba_sliderReleased()
 {
     QString str;
     int i = ui->eqba->value();
-    str = QString("%1BA").arg(i, 2, 10, QChar('0'));
-    SendCmd(str);
+    if (m_Comm.IsPioneer())
+    {
+        str = QString("%1BA").arg(i, 2, 10, QChar('0'));
+        SendCmd(str);
+    }
+    else
+    {
+        if (i == 0)
+        {
+            str = "TFRB00";
+        }
+        else if (i < 0)
+        {
+            str = QString::asprintf("TFRB+%1X", -i);
+        }
+        else
+        {
+            str = QString::asprintf("TFRB-%1X", i);
+        }
+        SendCmd(str);
+    }
 }
 
 
@@ -568,31 +719,56 @@ void EQDialog::on_eqtr_sliderReleased()
 {
     QString str;
     int i = ui->eqtr->value();
-    str = QString("%1TR").arg(i, 2, 10, QChar('0'));
-    SendCmd(str);
+    if (m_Comm.IsPioneer())
+    {
+        str = QString("%1TR").arg(i, 2, 10, QChar('0'));
+        SendCmd(str);
+    }
+    else
+    {
+        if (i == 0)
+        {
+            str = "TFRT00";
+        }
+        else if (i < 0)
+        {
+            str = QString::asprintf("TFRT+%1X", -i);
+        }
+        else
+        {
+            str = QString::asprintf("TFRT-%1X", i);
+        }
+        SendCmd(str);
+    }
 }
 
 
 void EQDialog::on_bypass_clicked()
 {
-    if (!ui->bypass->isChecked())
+    if (m_Comm.IsPioneer())
     {
-        SendCmd("0TO");
-        ui->bypass->setText("Tone Off");
+        if (!ui->bypass->isChecked())
+        {
+            SendCmd("0TO");
+            ui->bypass->setText("Tone Off");
+        }
+        else
+        {
+            SendCmd("1TO");
+            ui->bypass->setText("Tone On");
+        }
+        SendCmd("?TO");
     }
-    else
-    {
-        SendCmd("1TO");
-        ui->bypass->setText("Tone On");
-    }
-    SendCmd("?TO");
 }
 
 
 void EQDialog::on_XCurveSlider_sliderReleased()
 {
-    QString cmd = QString("%1SST").arg(ui->XCurveSlider->sliderPosition());
-    emit SendCmd(cmd);
+    if (m_Comm.IsPioneer())
+    {
+        QString cmd = QString("%1SST").arg(ui->XCurveSlider->sliderPosition());
+        emit SendCmd(cmd);
+    }
 }
 
 
