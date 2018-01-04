@@ -8,7 +8,8 @@ EmphasisDialog::EmphasisDialog(QWidget *parent, QSettings &settings) :
     ui(new Ui::EmphasisDialog),
     m_Settings(settings),
     m_BassCh1(-1),
-    m_BassCh2(-1)
+    m_BassCh2(-1),
+    m_IsPioneer(true)
 {
     ui->setupUi(this);
 
@@ -35,6 +36,11 @@ void EmphasisDialog::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void EmphasisDialog::SetIsPioneer(bool isPioneer)
+{
+    m_IsPioneer = isPioneer;
 }
 
 void EmphasisDialog::ReadBassChannels()
@@ -168,9 +174,41 @@ void EmphasisDialog::OnSliderReleased()
             }
         }
     }
-    QString cmd = GetChannelString();
-    cmd += "ILV";
-    emit SendCmd(cmd);
+    if (m_IsPioneer)
+    {
+        QString cmd = GetChannelString();
+        cmd += "ILV";
+        emit SendCmd(cmd);
+    }
+    else
+    {
+        emit SendCmd("TCL" + GetOnkyoChannelString());
+    }
+}
+
+QString EmphasisDialog::GetOnkyoChannelString()
+{
+    QString str;
+    for (int i = 0; i < m_EmphasisSliders.count(); i++)
+    {
+        //str += QString("%1").arg(m_EmphasisSliders[i]->GetValue(), 2, 10, QChar('0'));
+        int n = m_EmphasisSliders[i]->GetValue() - 50;
+        QString tmp;
+        if (n == 0)
+        {
+            tmp = "000";
+        }
+        else if (n < 0)
+        {
+            tmp = QString::asprintf("-%02X", -n);
+        }
+        else
+        {
+            tmp = QString::asprintf("+%02X", n);
+        }
+        str.append(tmp);
+    }
+    return str;
 }
 
 QString EmphasisDialog::GetChannelString()
@@ -188,10 +226,24 @@ void EmphasisDialog::on_flatPushButton_clicked()
     QString cmd;
     for (int i = 0; i < m_EmphasisSliders.count(); i++)
     {
-        cmd += "50";
+        if (m_IsPioneer)
+        {
+            cmd += "50";
+        }
+        else
+        {
+            cmd += "000";
+        }
         m_EmphasisSliders[i]->SetValue(50);
     }
-    cmd += "ILV";
+    if (m_IsPioneer)
+    {
+        cmd += "ILV";
+    }
+    else
+    {
+        cmd += "TCL";
+    }
     emit SendCmd(cmd);
 }
 

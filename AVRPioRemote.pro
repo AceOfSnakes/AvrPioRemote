@@ -38,6 +38,8 @@ SOURCES += \
     receiver_interface/response/audiostatusdataresponse_ast.cpp \
     receiver_interface/response/bassresponse_ba_zgb.cpp \
     receiver_interface/response/channellevelresponse_clv.cpp \
+    receiver_interface/response/drcresponse_ltn.cpp \
+    receiver_interface/response/digital_filter_response_dgf.cpp \
     receiver_interface/response/displaydataresponse_fl.cpp \
     receiver_interface/response/emphasisresponse_ilv.cpp \
     receiver_interface/response/eqresponse_atb.cpp \
@@ -49,6 +51,7 @@ SOURCES += \
     receiver_interface/response/hibitresponse_ati.cpp \
     receiver_interface/response/inputfunctionresponse_fn.cpp \
     receiver_interface/response/inputnameresponse_rgb.cpp \
+    receiver_interface/response/loudnessresponse_ldm.cpp \
     receiver_interface/response/mcacceqresponse_suw.cpp \
     receiver_interface/response/mcaccnumberresponse_mc.cpp \
     receiver_interface/response/mcaccprogressresponse_ssj.cpp \
@@ -65,8 +68,10 @@ SOURCES += \
     receiver_interface/response/speakersettingresponse_ssg.cpp \
     receiver_interface/response/speakersystemrequest_ssf.cpp \
     receiver_interface/response/surroundpositionresponse_ssp.cpp \
+    receiver_interface/response/theaterfilterresponse_ras.cpp \
     receiver_interface/response/toneresponse_to_zga.cpp \
     receiver_interface/response/trebleresponse_tr_zgg.cpp \
+    receiver_interface/response/upsampling_ups.cpp \
     receiver_interface/response/videostatusdataresponse_vst.cpp \
     receiver_interface/response/volumeresponse_vol_zv_yv.cpp \
     receiver_interface/response/xcurveresponse_sst.cpp \
@@ -105,8 +110,11 @@ SOURCES += \
     wiringdialog.cpp \
     wiringmodel.cpp \
     zonecontroldialog.cpp \
-    netonkyodialog.cpp
-HEADERS  += \
+    netonkyodialog.cpp \
+    receiver_interface/response/fixedpcmresponse_fxp.cpp \
+    receiver_interface/response/audioscalarresponse_asc.cpp
+
+HEADERS += \
     receiver_interface/command/cmdbase.h \
     receiver_interface/devices/discoverydevice.h \
     receiver_interface/devices/onkyoreceiver.h \
@@ -114,6 +122,8 @@ HEADERS  += \
     receiver_interface/response/audiostatusdataresponse_ast.h \
     receiver_interface/response/bassresponse_ba_zgb.h \
     receiver_interface/response/channellevelresponse_clv.h \
+    receiver_interface/response/drcresponse_ltn.h \
+    receiver_interface/response/digital_filter_response_dgf.h \
     receiver_interface/response/displaydataresponse_fl.h \
     receiver_interface/response/emphasisresponse_ilv.h \
     receiver_interface/response/eqresponse_atb.h \
@@ -125,6 +135,7 @@ HEADERS  += \
     receiver_interface/response/hibitresponse_ati.h \
     receiver_interface/response/inputfunctionresponse_fn.h \
     receiver_interface/response/inputnameresponse_rgb.h \
+    receiver_interface/response/loudnessresponse_ldm.h \
     receiver_interface/response/mcacceqresponse_suw.h \
     receiver_interface/response/mcaccnumberresponse_mc.h \
     receiver_interface/response/mcaccprogressresponse_ssj.h \
@@ -141,8 +152,10 @@ HEADERS  += \
     receiver_interface/response/speakersettingresponse_ssg.h \
     receiver_interface/response/speakersystemrequest_ssf.h \
     receiver_interface/response/surroundpositionresponse_ssp.h \
+    receiver_interface/response/theaterfilterresponse_ras.h \
     receiver_interface/response/toneresponse_to_zga.h \
     receiver_interface/response/trebleresponse_tr_zgg.h \
+    receiver_interface/response/upsampling_ups.h \
     receiver_interface/response/videostatusdataresponse_vst.h \
     receiver_interface/response/volumeresponse_vol_zv_yv.h \
     receiver_interface/response/xcurveresponse_sst.h \
@@ -180,8 +193,11 @@ HEADERS  += \
     wiringdialog.h \
     wiringmodel.h \
     zonecontroldialog.h \
-    netonkyodialog.h
-FORMS    += avrpioremote.ui \
+    netonkyodialog.h \
+    receiver_interface/response/fixedpcmresponse_fxp.h \
+    receiver_interface/response/audioscalarresponse_asc.h
+
+FORMS += avrpioremote.ui \
     netradiodialog.ui \
     bluraydialog.ui \
     aboutdialog.ui \
@@ -204,7 +220,6 @@ FORMS    += avrpioremote.ui \
     infodialog.ui \
     mcaccprogressdialog.ui \
     netonkyodialog.ui
-
 
 OTHER_FILES += \
     images/cancel.png \

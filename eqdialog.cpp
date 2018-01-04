@@ -132,6 +132,13 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings
     responseList << BassResponse_BA_ZGB().getResponseID();
     responseList << TrebleResponse_TR_ZGG().getResponseID();
     responseList << XCurveResponse_SST().getResponseID();
+    responseList << DigitalFilterResponse_DGF().getResponseID();
+    responseList << DRCResponse_LTN().getResponseID();
+    responseList << TheaterFilterResponse_RAS().getResponseID();
+    responseList << UpsamplinResponse_UPS().getResponseID();
+    responseList << LoudnessResponse_LDM().getResponseID();
+    responseList << FixedPCMResponse_FXP().getResponseID();
+    responseList << AudioScalarResponse_ASC().getResponseID();
     MsgDistributor::AddResponseListener(this, responseList);
 
     ui->mainLayout->setSizeConstraint(QLayout::SetFixedSize);
@@ -413,6 +420,7 @@ void EQDialog::ShowEQDialog()
         }
         this->show();
     }
+    m_EmphasisDialog->SetIsPioneer(m_Comm.IsPioneer());
     if (m_Comm.IsPioneer())
     {
         SendCmd("?ATB");
@@ -445,6 +453,13 @@ void EQDialog::ShowEQDialog()
     {
         SendCmd("ACEQSTN"); // EQ
         SendCmd("TFRQSTN"); // Bass/Treble
+        SendCmd("TCLQSTN"); // Temporary channel level
+        SendCmd("DGFQSTN"); // Digital Filter
+        SendCmd("UPSQSTN"); // Upsampling
+        SendCmd("LDMQSTN"); // Loudness managemant
+        SendCmd("RASQSTN"); // Theater filter
+        SendCmd("LTNQSTN"); // DRC
+        SendCmd("ASCQSTN"); // Audio scalar
         ui->eqba->setMaximum(10);
         ui->eqba->setMinimum(-10);
         ui->eqba->setValue(0);
@@ -570,6 +585,111 @@ void EQDialog::ResponseReceived(ReceivedObjectBase *response)
     if (xcurve != NULL)
     {
         SetXCurveSlider(xcurve->GetValue(), ui->XCurveSlider, ui->XCurveLabel);
+        return;
+    }
+
+    // Digital filter
+    DigitalFilterResponse_DGF* dfilter = dynamic_cast<DigitalFilterResponse_DGF*>(response);
+    if (dfilter != NULL)
+    {
+        switch(dfilter->GetValue())
+        {
+        case 1:
+            ui->dfilter_sharp_radioButton->setChecked(true);
+            break;
+        case 2:
+            ui->dfilter_short_radioButton->setChecked(true);
+            break;
+        case 0:
+        default:
+            ui->dfilter_slow_radioButton->setChecked(true);
+            break;
+        }
+        ui->dfilter_slow_radioButton->setEnabled(true);
+        ui->dfilter_sharp_radioButton->setEnabled(true);
+        ui->dfilter_short_radioButton->setEnabled(true);
+        return;
+    }
+
+    // Theater filter
+    TheaterFilterResponse_RAS* tfilter = dynamic_cast<TheaterFilterResponse_RAS*>(response);
+    if (tfilter != NULL)
+    {
+        ui->theater_checkBox->setChecked(tfilter->GetValue() != 0);
+        ui->theater_checkBox->setEnabled(true);
+        return;
+    }
+
+    // DRC
+    DRCResponse_LTN* drc = dynamic_cast<DRCResponse_LTN*>(response);
+    if (drc != NULL)
+    {
+        switch(drc->GetValue())
+        {
+        case 1:
+            ui->drc_on_radioButton->setChecked(true);
+            break;
+        case 2:
+            ui->drc_auto_radioButton->setChecked(true);
+            break;
+        case 0:
+        default:
+            ui->drc_off_radioButton->setChecked(true);
+            break;
+        }
+        ui->drc_off_radioButton->setEnabled(true);
+        ui->drc_on_radioButton->setEnabled(true);
+        ui->drc_auto_radioButton->setEnabled(true);
+        return;
+    }
+
+    // Upsampling
+    UpsamplinResponse_UPS* upsampling = dynamic_cast<UpsamplinResponse_UPS*>(response);
+    if (upsampling != NULL)
+    {
+        switch(upsampling->GetValue())
+        {
+        case 1:
+            ui->upsampling_x2_radioButton->setChecked(true);
+            break;
+        case 2:
+            ui->upsampling_x4_radioButton->setChecked(true);
+            break;
+        case 0:
+        default:
+            ui->upsampling_x1_radioButton->setChecked(true);
+            break;
+        }
+        ui->upsampling_x1_radioButton->setEnabled(true);
+        ui->upsampling_x2_radioButton->setEnabled(true);
+        ui->upsampling_x4_radioButton->setEnabled(true);
+        return;
+    }
+
+    // Loudness
+    LoudnessResponse_LDM* loudness = dynamic_cast<LoudnessResponse_LDM*>(response);
+    if (loudness != NULL)
+    {
+        ui->loudness_checkBox->setChecked(loudness->GetValue() != 0);
+        ui->loudness_checkBox->setEnabled(true);
+        return;
+    }
+
+    // Fixed PCM
+    FixedPCMResponse_FXP* fixedpcm = dynamic_cast<FixedPCMResponse_FXP*>(response);
+    if (fixedpcm != NULL)
+    {
+        ui->fixed_pcm_checkBox->setChecked(fixedpcm->GetValue() != 0);
+        ui->fixed_pcm_checkBox->setEnabled(true);
+        return;
+    }
+
+    // Audio Scalar
+    AudioScalarResponse_ASC* audioscalar = dynamic_cast<AudioScalarResponse_ASC*>(response);
+    if (audioscalar != NULL)
+    {
+        ui->audio_scalar_checkBox->setChecked(audioscalar->GetValue() != 0);
+        ui->audio_scalar_checkBox->setEnabled(true);
         return;
     }
 }
@@ -839,3 +959,123 @@ void EQDialog::onSaveCheckBoxToggled(bool)
         ui->restbutt->setEnabled(false);
     }
 }
+
+void EQDialog::on_dfilter_slow_radioButton_clicked()
+{
+    SendCmd("DGF00");
+}
+
+void EQDialog::on_dfilter_sharp_radioButton_clicked()
+{
+    SendCmd("DGF01");
+}
+
+void EQDialog::on_dfilter_short_radioButton_clicked()
+{
+    SendCmd("DGF02");
+}
+
+void EQDialog::on_theater_checkBox_clicked()
+{
+    if (ui->theater_checkBox->isChecked())
+    {
+        SendCmd("RAS01");
+    }
+    else
+    {
+        SendCmd("RAS00");
+    }
+    //ui->theater_checkBox->setChecked(!ui->theater_checkBox->isChecked());
+    //ui->theater_checkBox->setEnabled(false);
+}
+
+void EQDialog::on_drc_off_radioButton_clicked()
+{
+    SendCmd("LTN00");
+    //ui->drc_off_radioButton->setEnabled(false);
+    //ui->drc_on_radioButton->setEnabled(false);
+    //ui->drc_auto_radioButton->setEnabled(false);
+}
+
+void EQDialog::on_drc_on_radioButton_clicked()
+{
+    SendCmd("LTN01");
+    //ui->drc_off_radioButton->setEnabled(false);
+    //ui->drc_on_radioButton->setEnabled(false);
+    //ui->drc_auto_radioButton->setEnabled(false);
+}
+
+void EQDialog::on_drc_auto_radioButton_clicked()
+{
+    SendCmd("LTN02");
+    //ui->drc_off_radioButton->setEnabled(false);
+    //ui->drc_on_radioButton->setEnabled(false);
+    //ui->drc_auto_radioButton->setEnabled(false);
+}
+
+void EQDialog::on_upsampling_x1_radioButton_clicked()
+{
+    SendCmd("UPS00");
+    //ui->upsampling_x1_radioButton->setEnabled(false);
+    //ui->upsampling_x2_radioButton->setEnabled(false);
+    //ui->upsampling_x4_radioButton->setEnabled(false);
+}
+
+void EQDialog::on_upsampling_x2_radioButton_clicked()
+{
+    SendCmd("UPS01");
+    //ui->upsampling_x1_radioButton->setEnabled(false);
+    //ui->upsampling_x2_radioButton->setEnabled(false);
+    //ui->upsampling_x4_radioButton->setEnabled(false);
+}
+
+void EQDialog::on_upsampling_x4_radioButton_clicked()
+{
+    SendCmd("UPS02");
+    //ui->upsampling_x1_radioButton->setEnabled(false);
+    //ui->upsampling_x2_radioButton->setEnabled(false);
+    //ui->upsampling_x4_radioButton->setEnabled(false);
+}
+
+void EQDialog::on_loudness_checkBox_clicked()
+{
+    if (ui->loudness_checkBox->isChecked())
+    {
+        SendCmd("LDM01");
+    }
+    else
+    {
+        SendCmd("LDM00");
+    }
+    ui->loudness_checkBox->setChecked(!ui->loudness_checkBox->isChecked());
+    //ui->loudness_checkBox->setEnabled(false);
+}
+
+void EQDialog::on_fixed_pcm_checkBox_clicked()
+{
+    if (ui->fixed_pcm_checkBox->isChecked())
+    {
+        SendCmd("FXP01");
+    }
+    else
+    {
+        SendCmd("FXP00");
+    }
+    ui->fixed_pcm_checkBox->setChecked(!ui->fixed_pcm_checkBox->isChecked());
+    //ui->fixed_pcm_checkBox->setEnabled(false);
+}
+
+void EQDialog::on_audio_scalar_checkBox_clicked()
+{
+    if (ui->audio_scalar_checkBox->isChecked())
+    {
+        SendCmd("ASC01");
+    }
+    else
+    {
+        SendCmd("ASC00");
+    }
+    ui->audio_scalar_checkBox->setChecked(!ui->audio_scalar_checkBox->isChecked());
+    //ui->audio_scalar_checkBox->setEnabled(false);
+}
+

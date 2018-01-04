@@ -39,6 +39,13 @@
 #include "response/xoverresponse_ssq.h"
 #include "response/response_aub.h"
 #include "response/mcaccprogressresponse_ssj.h"
+#include "response/digital_filter_response_dgf.h"
+#include "response/drcresponse_ltn.h"
+#include "response/theaterfilterresponse_ras.h"
+#include "response/upsampling_ups.h"
+#include "response/loudnessresponse_ldm.h"
+#include "response/fixedpcmresponse_fxp.h"
+#include "response/audioscalarresponse_asc.h"
 
 class MsgDistributor
 {

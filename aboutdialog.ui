@@ -57,7 +57,7 @@
       </font>
      </property>
      <property name="text">
-      <string>License GPLv2 (c) 2017</string>
+      <string>License GPLv2 (c) 2018</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

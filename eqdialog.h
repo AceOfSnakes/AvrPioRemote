@@ -88,6 +88,19 @@ private slots:
     void on_bypass_clicked();
     void on_XCurveSlider_sliderReleased();
     void on_emphasisPushButton_clicked();
+    void on_dfilter_slow_radioButton_clicked();
+    void on_dfilter_sharp_radioButton_clicked();
+    void on_dfilter_short_radioButton_clicked();
+    void on_theater_checkBox_clicked();
+    void on_drc_off_radioButton_clicked();
+    void on_drc_on_radioButton_clicked();
+    void on_drc_auto_radioButton_clicked();
+    void on_upsampling_x1_radioButton_clicked();
+    void on_upsampling_x2_radioButton_clicked();
+    void on_upsampling_x4_radioButton_clicked();
+    void on_loudness_checkBox_clicked();
+    void on_fixed_pcm_checkBox_clicked();
+    void on_audio_scalar_checkBox_clicked();
 };
 extern const char* eqnames[];
 #endif // EQDIALOG_H

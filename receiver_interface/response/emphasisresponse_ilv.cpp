@@ -12,7 +12,7 @@ EmphasisResponse_ILV::~EmphasisResponse_ILV()
 
 QStringList EmphasisResponse_ILV::getMsgIDs()
 {
-    return QStringList() << "ILV";
+    return QStringList() << "ILV" << "TCL";
 }
 
 QString EmphasisResponse_ILV::getResponseID()
@@ -30,6 +30,19 @@ bool EmphasisResponse_ILV::parseString(QString str)
         for (int i = 0; i < count; i++)
         {
             int n = str.mid(3 + i * 2, 2).toInt();
+            m_EmData.push_back(n);
+        }
+        return true;
+    }
+    if (str.startsWith("TCL"))
+    {
+        int count = (str.length() - 3) / 3;
+        m_EmData.clear();
+
+        for (int i = 0; i < count; i++)
+        {
+            bool ok = false;
+            int n = str.mid(3 + i * 3, 3).toInt(&ok, 16) + 50;
             m_EmData.push_back(n);
         }
         return true;

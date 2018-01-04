@@ -96,6 +96,13 @@ void MsgDistributor::_init()
     _addResponse(new XOverResponse_SSQ());
     _addResponse(new Response_AUB());
     _addResponse(new MCACCProgressResponse_SSJ());
+    _addResponse(new DigitalFilterResponse_DGF());
+    _addResponse(new DRCResponse_LTN());
+    _addResponse(new TheaterFilterResponse_RAS());
+    _addResponse(new UpsamplinResponse_UPS());
+    _addResponse(new LoudnessResponse_LDM());
+    _addResponse(new FixedPCMResponse_FXP());
+    _addResponse(new AudioScalarResponse_ASC());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)

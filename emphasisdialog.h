@@ -26,7 +26,9 @@ public:
     int GetBass();
     int GetCenter();
     QString GetChannelString();
+    QString GetOnkyoChannelString();
     void SetChannelString(QString str);
+    void SetIsPioneer(bool isPioneer);
 
 protected:
     void changeEvent(QEvent *e);
@@ -37,6 +39,7 @@ private:
     QSettings&          m_Settings;
     int                 m_BassCh1;
     int                 m_BassCh2;
+    bool                m_IsPioneer;
 
     void ReadBassChannels();
     void SaveBassChannels();
