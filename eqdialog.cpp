@@ -44,7 +44,7 @@ EQDialog::EQDialog(QWidget *parent, ReceiverInterface &Comm, QSettings &settings
     m_ToneON(false)
 {
     ui->setupUi(this);
-    this->setFixedSize(this->size());
+    //this->setFixedSize(this->size());
 
     // restore the position of the window
     if (m_Settings.value("SaveEQWindowGeometry", false).toBool())
@@ -448,6 +448,12 @@ void EQDialog::ShowEQDialog()
             slider->setMinimum(38);
             slider->setValue(50);
         }
+
+        ui->emphasisPushButton->setEnabled(true);
+        ui->eqEmphasisBass->setEnabled(true);
+        ui->eqEmphasisCenter->setEnabled(true);
+        ui->saveEmphasisCheckBox->setEnabled(true);
+        ui->saveXCurveCheckBox->setVisible(true);
     }
     else
     {
@@ -479,9 +485,18 @@ void EQDialog::ShowEQDialog()
             slider->setMinimum(-24);
             slider->setValue(0);
         }
+
+        ui->emphasisPushButton->setEnabled(false);
+        ui->eqEmphasisBass->setEnabled(false);
+        ui->eqEmphasisCenter->setEnabled(false);
+        ui->saveEmphasisCheckBox->setEnabled(false);
+        ui->saveXCurveCheckBox->setVisible(false);
     }
     //ui->mainLayout->setSizeConstraint(QLayout::SetMinimumSize);
-    ui->mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+    //ui->mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+    ui->mainLayout->setSizeConstraint(QLayout::SetMinimumSize);
+    adjustSize();
+    resize(minimumSizeHint());
 }
 
 void EQDialog::ResponseReceived(ReceivedObjectBase *response)
@@ -963,16 +978,19 @@ void EQDialog::onSaveCheckBoxToggled(bool)
 void EQDialog::on_dfilter_slow_radioButton_clicked()
 {
     SendCmd("DGF00");
+    SendCmd("DGFQSTN");
 }
 
 void EQDialog::on_dfilter_sharp_radioButton_clicked()
 {
     SendCmd("DGF01");
+    SendCmd("DGFQSTN");
 }
 
 void EQDialog::on_dfilter_short_radioButton_clicked()
 {
     SendCmd("DGF02");
+    SendCmd("DGFQSTN");
 }
 
 void EQDialog::on_theater_checkBox_clicked()
@@ -985,6 +1003,7 @@ void EQDialog::on_theater_checkBox_clicked()
     {
         SendCmd("RAS00");
     }
+    SendCmd("RASQSTN");
     //ui->theater_checkBox->setChecked(!ui->theater_checkBox->isChecked());
     //ui->theater_checkBox->setEnabled(false);
 }
@@ -992,6 +1011,7 @@ void EQDialog::on_theater_checkBox_clicked()
 void EQDialog::on_drc_off_radioButton_clicked()
 {
     SendCmd("LTN00");
+    SendCmd("LTNQSTN");
     //ui->drc_off_radioButton->setEnabled(false);
     //ui->drc_on_radioButton->setEnabled(false);
     //ui->drc_auto_radioButton->setEnabled(false);
@@ -1000,6 +1020,7 @@ void EQDialog::on_drc_off_radioButton_clicked()
 void EQDialog::on_drc_on_radioButton_clicked()
 {
     SendCmd("LTN01");
+    SendCmd("LTNQSTN");
     //ui->drc_off_radioButton->setEnabled(false);
     //ui->drc_on_radioButton->setEnabled(false);
     //ui->drc_auto_radioButton->setEnabled(false);
@@ -1008,6 +1029,7 @@ void EQDialog::on_drc_on_radioButton_clicked()
 void EQDialog::on_drc_auto_radioButton_clicked()
 {
     SendCmd("LTN02");
+    SendCmd("LTNQSTN");
     //ui->drc_off_radioButton->setEnabled(false);
     //ui->drc_on_radioButton->setEnabled(false);
     //ui->drc_auto_radioButton->setEnabled(false);
@@ -1016,6 +1038,7 @@ void EQDialog::on_drc_auto_radioButton_clicked()
 void EQDialog::on_upsampling_x1_radioButton_clicked()
 {
     SendCmd("UPS00");
+    SendCmd("UPSQSTN");
     //ui->upsampling_x1_radioButton->setEnabled(false);
     //ui->upsampling_x2_radioButton->setEnabled(false);
     //ui->upsampling_x4_radioButton->setEnabled(false);
@@ -1024,6 +1047,7 @@ void EQDialog::on_upsampling_x1_radioButton_clicked()
 void EQDialog::on_upsampling_x2_radioButton_clicked()
 {
     SendCmd("UPS01");
+    SendCmd("UPSQSTN");
     //ui->upsampling_x1_radioButton->setEnabled(false);
     //ui->upsampling_x2_radioButton->setEnabled(false);
     //ui->upsampling_x4_radioButton->setEnabled(false);
@@ -1032,6 +1056,7 @@ void EQDialog::on_upsampling_x2_radioButton_clicked()
 void EQDialog::on_upsampling_x4_radioButton_clicked()
 {
     SendCmd("UPS02");
+    SendCmd("UPSQSTN");
     //ui->upsampling_x1_radioButton->setEnabled(false);
     //ui->upsampling_x2_radioButton->setEnabled(false);
     //ui->upsampling_x4_radioButton->setEnabled(false);
@@ -1047,6 +1072,7 @@ void EQDialog::on_loudness_checkBox_clicked()
     {
         SendCmd("LDM00");
     }
+    SendCmd("LDMQSTN");
     ui->loudness_checkBox->setChecked(!ui->loudness_checkBox->isChecked());
     //ui->loudness_checkBox->setEnabled(false);
 }
@@ -1061,6 +1087,7 @@ void EQDialog::on_fixed_pcm_checkBox_clicked()
     {
         SendCmd("FXP00");
     }
+    SendCmd("FXPQSTN");
     ui->fixed_pcm_checkBox->setChecked(!ui->fixed_pcm_checkBox->isChecked());
     //ui->fixed_pcm_checkBox->setEnabled(false);
 }
@@ -1075,6 +1102,7 @@ void EQDialog::on_audio_scalar_checkBox_clicked()
     {
         SendCmd("ASC00");
     }
+    SendCmd("ASCQSTN");
     ui->audio_scalar_checkBox->setChecked(!ui->audio_scalar_checkBox->isChecked());
     //ui->audio_scalar_checkBox->setEnabled(false);
 }

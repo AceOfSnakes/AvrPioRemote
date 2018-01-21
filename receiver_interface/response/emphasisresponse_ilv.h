@@ -14,6 +14,8 @@ public:
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
     const QVector<int>& GetEmphasisData();
+    static const QString GetCmdData(int n);
+    static const QString GetDbString(int n);
 private:
     QVector<int>    m_EmData;
 };

@@ -343,4 +343,16 @@ void ReceiverInterface::InterpretOnkyoString(const QString& data)
     {
         emit NetData(data);
     }
+    else if (data.startsWith("SLZ"))
+    {
+        int n = 0;
+        sscanf(data.toLatin1(), "SLZ%X", &n);
+        emit ZoneInput(2, n);
+    }
+    else if (data.startsWith("SL3"))
+    {
+        int n = 0;
+        sscanf(data.toLatin1(), "SL3%X", &n);
+        emit ZoneInput(3, n);
+    }
 }

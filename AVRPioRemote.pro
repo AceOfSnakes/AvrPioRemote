@@ -35,6 +35,7 @@ SOURCES += \
     receiver_interface/devices/discoverydevice.cpp \
     receiver_interface/devices/onkyoreceiver.cpp \
     receiver_interface/devices/pioneerreceiver.cpp \
+    receiver_interface/response/audioscalarresponse_asc.cpp \
     receiver_interface/response/audiostatusdataresponse_ast.cpp \
     receiver_interface/response/bassresponse_ba_zgb.cpp \
     receiver_interface/response/channellevelresponse_clv.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
     receiver_interface/response/emphasisresponse_ilv.cpp \
     receiver_interface/response/eqresponse_atb.cpp \
     receiver_interface/response/errorresponse_b_e.cpp \
+    receiver_interface/response/fixedpcmresponse_fxp.cpp \
     receiver_interface/response/hdmicontrolarcresponse_stt.cpp \
     receiver_interface/response/hdmicontrolmoderesponse_str.cpp \
     receiver_interface/response/hdmicontrolresponse_stq.cpp \
@@ -64,7 +66,9 @@ SOURCES += \
     receiver_interface/response/responselistener.cpp \
     receiver_interface/response/soundretrieverresponse_ata.cpp \
     receiver_interface/response/speakercontrolresponse_spk.cpp \
+    receiver_interface/response/speakerdistanceresponse_spd.cpp \
     receiver_interface/response/speakerdistanceresponse_sss.cpp \
+    receiver_interface/response/speakerinformationresponse_spi.cpp \
     receiver_interface/response/speakersettingresponse_ssg.cpp \
     receiver_interface/response/speakersystemrequest_ssf.cpp \
     receiver_interface/response/surroundpositionresponse_ssp.cpp \
@@ -97,6 +101,7 @@ SOURCES += \
     listeningmodedialog.cpp \
     logger.cpp \
     loudspeakersettingsdialog.cpp \
+    loudspeakersettingsdialogonkyo.cpp \
     main.cpp \
     mcacceqdialog.cpp \
     mcaccprogressdialog.cpp \
@@ -110,15 +115,14 @@ SOURCES += \
     wiringdialog.cpp \
     wiringmodel.cpp \
     zonecontroldialog.cpp \
-    netonkyodialog.cpp \
-    receiver_interface/response/fixedpcmresponse_fxp.cpp \
-    receiver_interface/response/audioscalarresponse_asc.cpp
+    netonkyodialog.cpp
 
 HEADERS += \
     receiver_interface/command/cmdbase.h \
     receiver_interface/devices/discoverydevice.h \
     receiver_interface/devices/onkyoreceiver.h \
     receiver_interface/devices/pioneerreceiver.h \
+    receiver_interface/response/audioscalarresponse_asc.h \
     receiver_interface/response/audiostatusdataresponse_ast.h \
     receiver_interface/response/bassresponse_ba_zgb.h \
     receiver_interface/response/channellevelresponse_clv.h \
@@ -128,6 +132,7 @@ HEADERS += \
     receiver_interface/response/emphasisresponse_ilv.h \
     receiver_interface/response/eqresponse_atb.h \
     receiver_interface/response/errorresponse_b_e.h \
+    receiver_interface/response/fixedpcmresponse_fxp.h \
     receiver_interface/response/hdmicontrolarcresponse_stt.h \
     receiver_interface/response/hdmicontrolmoderesponse_str.h \
     receiver_interface/response/hdmicontrolresponse_stq.h \
@@ -148,7 +153,9 @@ HEADERS += \
     receiver_interface/response/responselistener.h \
     receiver_interface/response/soundretrieverresponse_ata.h \
     receiver_interface/response/speakercontrolresponse_spk.h \
+    receiver_interface/response/speakerdistanceresponse_spd.h \
     receiver_interface/response/speakerdistanceresponse_sss.h \
+    receiver_interface/response/speakerinformationresponse_spi.h \
     receiver_interface/response/speakersettingresponse_ssg.h \
     receiver_interface/response/speakersystemrequest_ssf.h \
     receiver_interface/response/surroundpositionresponse_ssp.h \
@@ -181,6 +188,7 @@ HEADERS += \
     listeningmodedialog.h \
     logger.h \
     loudspeakersettingsdialog.h \
+    loudspeakersettingsdialogonkyo.h \
     mcacceqdialog.h \
     mcaccprogressdialog.h \
     netradiodialog.h \
@@ -193,15 +201,14 @@ HEADERS += \
     wiringdialog.h \
     wiringmodel.h \
     zonecontroldialog.h \
-    netonkyodialog.h \
-    receiver_interface/response/fixedpcmresponse_fxp.h \
-    receiver_interface/response/audioscalarresponse_asc.h
+    netonkyodialog.h
 
 FORMS += avrpioremote.ui \
     netradiodialog.ui \
     bluraydialog.ui \
     aboutdialog.ui \
     loudspeakersettingsdialog.ui \
+    loudspeakersettingsdialogonkyo.ui \
     tunerdialog.ui \
     testdialog.ui \
     getoldfavoritelistdialog.ui \

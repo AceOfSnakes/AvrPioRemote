@@ -206,6 +206,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     // create loudspeaker dialog
     m_LoudspeakerSettingsDialog = new LoudspeakerSettingsDialog(this, m_Settings, m_ReceiverInterface );
+    m_LoudspeakerSettingsOnkyoDialog = new LoudspeakerSettingsOnkyoDialog(this, m_Settings, m_ReceiverInterface );
 
     // create Tuner dialog
     m_TunerDialog = new TunerDialog(this, m_ReceiverInterface, m_Settings);
@@ -311,6 +312,7 @@ AVRPioRemote::~AVRPioRemote()
     delete m_BluRayDialog;
     delete m_usbDialog;
     delete m_LoudspeakerSettingsDialog;
+    delete m_LoudspeakerSettingsOnkyoDialog;
     delete m_TunerDialog;
     delete m_TestDialog;
     delete m_PlayerTestDialog;
@@ -1306,9 +1308,9 @@ void AVRPioRemote::on_MoreButton_clicked()
             MyMenu.addAction(pAction);
             connect(pAction, SIGNAL(triggered()), m_EQDialog, SLOT(ShowEQDialog()));
 
-//            pAction = new QAction(tr("Speaker Settings"), this);
-//            MyMenu.addAction(pAction);
-//            connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsDialog, SLOT(ShowLoudspeakerSettingsDialog()));
+            pAction = new QAction(tr("Speaker Settings"), this);
+            MyMenu.addAction(pAction);
+            connect(pAction, SIGNAL(triggered()), m_LoudspeakerSettingsOnkyoDialog, SLOT(ShowLoudspeakerSettingsOnkyoDialog()));
 
 //            pAction = new QAction(tr("ListenMode Settings"), this);
 //            MyMenu.addAction(pAction);

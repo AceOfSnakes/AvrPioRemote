@@ -54,3 +54,27 @@ const QVector<int> &EmphasisResponse_ILV::GetEmphasisData()
 {
     return m_EmData;
 }
+
+const QString EmphasisResponse_ILV::GetCmdData(int n)
+{
+    QString tmp;
+    n = n - 50;
+    if (n == 0)
+    {
+        tmp = "000";
+    }
+    else if (n < 0)
+    {
+        tmp = QString::asprintf("-%02X", -n);
+    }
+    else
+    {
+        tmp = QString::asprintf("+%02X", n);
+    }
+    return tmp;
+}
+
+const QString EmphasisResponse_ILV::GetDbString(int n)
+{
+    return QString::asprintf("%+0.1f", ((n-50) / 2.0));
+}

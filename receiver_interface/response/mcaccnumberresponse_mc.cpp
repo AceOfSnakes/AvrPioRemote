@@ -14,7 +14,7 @@ MCACCNumberResponse_MC::~MCACCNumberResponse_MC()
 
 QStringList MCACCNumberResponse_MC::getMsgIDs()
 {
-    return QStringList() << "MC";
+    return QStringList() << "MC" << "MCM";
 }
 
 QString MCACCNumberResponse_MC::getResponseID()
@@ -25,6 +25,10 @@ QString MCACCNumberResponse_MC::getResponseID()
 bool MCACCNumberResponse_MC::parseString(QString str)
 {
     if (sscanf(str.toLatin1(), "MC%d", &m_MCACCNumber) == 1)
+    {
+        return true;
+    }
+    if (sscanf(str.toLatin1(), "MCM%d", &m_MCACCNumber) == 1)
     {
         return true;
     }

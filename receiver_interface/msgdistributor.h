@@ -46,6 +46,8 @@
 #include "response/loudnessresponse_ldm.h"
 #include "response/fixedpcmresponse_fxp.h"
 #include "response/audioscalarresponse_asc.h"
+#include "response/speakerinformationresponse_spi.h"
+#include "response/speakerdistanceresponse_spd.h"
 
 class MsgDistributor
 {

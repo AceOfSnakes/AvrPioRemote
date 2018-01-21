@@ -21,7 +21,7 @@
 #include "receiver_interface/receiverinterface.h"
 #include <QThread>
 
-const char* channels[]={
+static const char* channels[]={
     "L__",
     "R__",
     "C__",
@@ -351,6 +351,10 @@ void LoudspeakerSettingsDialog::ResponseReceived(ReceivedObjectBase *response)
 
 void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
 {
+    if (!m_Comm.IsPioneer())
+    {
+        return;
+    }
     if (!isVisible())
     {
         disableControls();
@@ -365,7 +369,23 @@ void LoudspeakerSettingsDialog::ShowLoudspeakerSettingsDialog()
         }
         this->show();
     }
-    SendCmd("?MC");
+    if (m_Comm.IsPioneer())
+    {
+//        ui->mc4->setEnabled(true);
+//        ui->mc5->setEnabled(true);
+//        ui->mc6->setEnabled(true);
+        SendCmd("?MC");
+    }
+    else
+    {
+        ui->mc4->setEnabled(false);
+        ui->mc5->setEnabled(false);
+        ui->mc6->setEnabled(false);
+        SendCmd("SPIQSTN"); // speaker information
+        SendCmd("SPDQSTN"); // speaker distance
+        SendCmd("SPLQSTN"); // speaker layout
+        SendCmd("MCMQSTN"); // MCACC number
+    }
 }
 
 
@@ -426,18 +446,24 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
           if (j != 0)
           {
               mchannels[i] = j;
-              str = (QString("%1%2CLV").arg(channels[i]).arg(j));
-              //qDebug() <<str;
-              SendCmd(str);
+              if (m_Comm.IsPioneer())
+              {
+                  str = (QString("%1%2CLV").arg(channels[i]).arg(j));
+                  //qDebug() <<str;
+                  SendCmd(str);
+              }
           }
           setslider();
     }
     str = QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
     mCurrentSpeakerSetting = m_Settings.value(str).toInt();
-    str = QString("%1SSF").arg(mCurrentSpeakerSetting);
-    if (str.size() < 5)
-        str = "0" + str;
-    SendCmd(str);
+    if (m_Comm.IsPioneer())
+    {
+        str = QString("%1SSF").arg(mCurrentSpeakerSetting);
+        if (str.size() < 5)
+            str = "0" + str;
+        SendCmd(str);
+    }
 
     for (int i = 0; i < m_SpeakerSettings.size(); i++)
     {
@@ -461,7 +487,13 @@ void LoudspeakerSettingsDialog::ValueChanged()
     {
         if (sender == m_Sliders[i])
         {
-            SendCmd(QString("%1%2CLV").arg(channels[i]).arg(m_Sliders[i]->value()));
+            if (m_Comm.IsPioneer())
+            {
+                SendCmd(QString("%1%2CLV").arg(channels[i]).arg(m_Sliders[i]->value()));
+            }
+            else
+            {
+            }
         }
     }
     setslider();
@@ -519,8 +551,15 @@ void LoudspeakerSettingsDialog::checkbox()
     if (m_MCACCButtons[i]->isChecked())
         {
             clear_toggles();
-            str=QString("%1MC").arg(i+1);
-            SendCmd(str);
+            if (m_Comm.IsPioneer())
+            {
+                str=QString("%1MC").arg(i+1);
+                SendCmd(str);
+            }
+            else
+            {
+                SendCmd(QString::asprintf("MCM%02X", i + 1));
+            }
             ShowLoudspeakerSettingsDialog();
         }
         m_MCACCButtons[i]->setChecked(true);
@@ -535,22 +574,34 @@ void LoudspeakerSettingsDialog::clear_toggles()
 
 void LoudspeakerSettingsDialog::on_spa_clicked()
 {
+    if (m_Comm.IsPioneer())
+    {
         SendCmd("1SPK");
+    }
 }
 
 void LoudspeakerSettingsDialog::on_spb_clicked()
 {
+    if (m_Comm.IsPioneer())
+    {
         SendCmd("2SPK");
+    }
 }
 
 void LoudspeakerSettingsDialog::on_spab_clicked()
 {
+    if (m_Comm.IsPioneer())
+    {
         SendCmd("3SPK");
+    }
 }
 
 void LoudspeakerSettingsDialog::on_spoff_clicked()
 {
+    if (m_Comm.IsPioneer())
+    {
         SendCmd("0SPK");
+    }
 }
 
 void LoudspeakerSettingsDialog::speakerSettingsComboBoxValueChanged(int index)
@@ -575,18 +626,27 @@ void LoudspeakerSettingsDialog::requestSpeakerSettings()
 {
     for (int i = 0; i < m_SpeakerSettings.size(); i++)
     {
-        SendCmd(QString("?SSG%1").arg(i, 2, 10, QChar('0')));
+        if (m_Comm.IsPioneer())
+        {
+            SendCmd(QString("?SSG%1").arg(i, 2, 10, QChar('0')));
+        }
     }
 }
 
 void LoudspeakerSettingsDialog::on_radioButtonSurOnSide_clicked()
 {
-    SendCmd("0SSP");
+    if (m_Comm.IsPioneer())
+    {
+        SendCmd("0SSP");
+    }
 }
 
 void LoudspeakerSettingsDialog::on_radioButtonSurBehind_clicked()
 {
-    SendCmd("1SSP");
+    if (m_Comm.IsPioneer())
+    {
+        SendCmd("1SSP");
+    }
 }
 
 void LoudspeakerSettingsDialog::enableSlider(bool enabled)
@@ -616,17 +676,20 @@ void LoudspeakerSettingsDialog::disableControls()
 
 void LoudspeakerSettingsDialog::requestData()
 {
-    SendCmd("?SSF");
-    requestSpeakerSettings();
+    if (m_Comm.IsPioneer())
+    {
+        SendCmd("?SSF");
+        requestSpeakerSettings();
 // hier aktuellen Channel Level anfordern
 
-    for (int i = 0; i < m_Sliders.size(); i++)
-    {
-        SendCmd(QString("?%1CLV").arg(channels[i]));
+        for (int i = 0; i < m_Sliders.size(); i++)
+        {
+            SendCmd(QString("?%1CLV").arg(channels[i]));
+        }
+        SendCmd("?SPK");
+        SendCmd("?SSP");
+        SendCmd("?SSQ");
     }
-    SendCmd("?SPK");
-    SendCmd("?SSP");
-    SendCmd("?SSQ");
 }
 
 void LoudspeakerSettingsDialog::XOver_selected()
@@ -707,10 +770,13 @@ void LoudspeakerSettingsDialog::on_LSsystem_currentIndexChanged(int index)
     errflag = 0;
     if (nr != mCurrentSpeakerSetting)
     {
-      str = QString("%1SSF").arg(nr);
-      SendCmd(str);
-      mCurrentSpeakerSetting = nr;
-      errflag = 1;
+        if (m_Comm.IsPioneer())
+        {
+            str = QString("%1SSF").arg(nr);
+            SendCmd(str);
+            mCurrentSpeakerSetting = nr;
+            errflag = 1;
+        }
     }
 
 }

@@ -32,36 +32,6 @@ ZoneControlDialog::ZoneControlDialog(QWidget *parent, QSettings &settings, Recei
     ui->Z3VolumeDownButton->setEnabled(false);
     ui->Z3MuteButton->setEnabled(false);
 
-    ui->Z2InputComboBox->addItem("DVD", 4);
-    ui->Z2InputComboBox->addItem("SAT/CBL", 6);
-    ui->Z2InputComboBox->addItem("DVR/BDR", 15);
-    ui->Z2InputComboBox->addItem("VIDEO", 10);
-    ui->Z2InputComboBox->addItem("HMG/NETWORK", 26);
-    ui->Z2InputComboBox->addItem("INTERNET RADIO", 38);
-    ui->Z2InputComboBox->addItem("MEDIA SERVER", 44);
-    ui->Z2InputComboBox->addItem("FAVORITES", 45);
-    ui->Z2InputComboBox->addItem("iPod/USB", 17);
-    ui->Z2InputComboBox->addItem("TV", 5);
-    ui->Z2InputComboBox->addItem("CD", 1);
-    ui->Z2InputComboBox->addItem("CD-R/TAPE", 3);
-    ui->Z2InputComboBox->addItem("TUNER", 2);
-    ui->Z2InputComboBox->addItem("ADAPTER PORT", 33);
-
-    ui->Z3InputComboBox->addItem("DVD", 4);
-    ui->Z3InputComboBox->addItem("SAT/CBL", 6);
-    ui->Z3InputComboBox->addItem("DVR/BDR", 15);
-    ui->Z3InputComboBox->addItem("VIDEO", 10);
-    ui->Z3InputComboBox->addItem("HMG/NETWORK", 26);
-    ui->Z3InputComboBox->addItem("INTERNET RADIO", 38);
-    ui->Z3InputComboBox->addItem("MEDIA SERVER", 44);
-    ui->Z3InputComboBox->addItem("FAVORITES", 45);
-    ui->Z3InputComboBox->addItem("iPod/USB", 17);
-    ui->Z3InputComboBox->addItem("TV", 5);
-    ui->Z3InputComboBox->addItem("CD", 1);
-    ui->Z3InputComboBox->addItem("CD-R/TAPE", 3);
-    ui->Z3InputComboBox->addItem("TUNER", 2);
-    ui->Z3InputComboBox->addItem("ADAPTER PORT", 33);
-
 //    ui->Z4InputComboBox->addItem("BD", 25);
 //    ui->Z4InputComboBox->addItem("DVD", 4);
 //    ui->Z4InputComboBox->addItem("SAT/CBL", 6);
@@ -110,21 +80,106 @@ void ZoneControlDialog::ShowZoneControlDialog()
             pos.setY(Parent->pos().y());
             this->move(pos);
         }
-        this->show();
-        emit SendCmd("?AP"); // z2 power
-        emit SendCmd("?ZS"); // z2 input
-        emit SendCmd("?ZV"); // z2 volume
-        emit SendCmd("?Z2M"); // z2 mute
 
-         if (!m_Settings.value("TunerCompatibilityMode").toBool())
-         {
-             emit SendCmd("?BP"); // z3 power
-             //emit SendCmd("?ZEP"); // z4 power
-             emit SendCmd("?ZT"); // z3 input
-             //emit SendCmd("?ZEA"); // z4 input
-             emit SendCmd("?YV"); // z3 volume
-             emit SendCmd("?Z3M"); // z3 mute
-         }
+        if (m_Comm.IsPioneer())
+        {
+            ui->MultiZoneButton->setVisible(true);
+
+            ui->Z2InputComboBox->clear();
+            ui->Z2InputComboBox->addItem("DVD", 4);
+            ui->Z2InputComboBox->addItem("SAT/CBL", 6);
+            ui->Z2InputComboBox->addItem("DVR/BDR", 15);
+            ui->Z2InputComboBox->addItem("VIDEO", 10);
+            ui->Z2InputComboBox->addItem("HMG/NETWORK", 26);
+            ui->Z2InputComboBox->addItem("INTERNET RADIO", 38);
+            ui->Z2InputComboBox->addItem("MEDIA SERVER", 44);
+            ui->Z2InputComboBox->addItem("FAVORITES", 45);
+            ui->Z2InputComboBox->addItem("iPod/USB", 17);
+            ui->Z2InputComboBox->addItem("TV", 5);
+            ui->Z2InputComboBox->addItem("CD", 1);
+            ui->Z2InputComboBox->addItem("CD-R/TAPE", 3);
+            ui->Z2InputComboBox->addItem("TUNER", 2);
+            ui->Z2InputComboBox->addItem("ADAPTER PORT", 33);
+
+            ui->Z3InputComboBox->clear();
+            ui->Z3InputComboBox->addItem("DVD", 4);
+            ui->Z3InputComboBox->addItem("SAT/CBL", 6);
+            ui->Z3InputComboBox->addItem("DVR/BDR", 15);
+            ui->Z3InputComboBox->addItem("VIDEO", 10);
+            ui->Z3InputComboBox->addItem("HMG/NETWORK", 26);
+            ui->Z3InputComboBox->addItem("INTERNET RADIO", 38);
+            ui->Z3InputComboBox->addItem("MEDIA SERVER", 44);
+            ui->Z3InputComboBox->addItem("FAVORITES", 45);
+            ui->Z3InputComboBox->addItem("iPod/USB", 17);
+            ui->Z3InputComboBox->addItem("TV", 5);
+            ui->Z3InputComboBox->addItem("CD", 1);
+            ui->Z3InputComboBox->addItem("CD-R/TAPE", 3);
+            ui->Z3InputComboBox->addItem("TUNER", 2);
+            ui->Z3InputComboBox->addItem("ADAPTER PORT", 33);
+
+            emit SendCmd("?AP"); // z2 power
+            emit SendCmd("?ZS"); // z2 input
+            emit SendCmd("?ZV"); // z2 volume
+            emit SendCmd("?Z2M"); // z2 mute
+
+            if (!m_Settings.value("TunerCompatibilityMode").toBool())
+            {
+                emit SendCmd("?BP"); // z3 power
+                //emit SendCmd("?ZEP"); // z4 power
+                emit SendCmd("?ZT"); // z3 input
+                //emit SendCmd("?ZEA"); // z4 input
+                emit SendCmd("?YV"); // z3 volume
+                emit SendCmd("?Z3M"); // z3 mute
+            }
+        }
+        else
+        {
+            ui->MultiZoneButton->setVisible(false);
+
+            ui->Z2InputComboBox->clear();
+            ui->Z2InputComboBox->addItem("CBL/SAT", 0x01);
+            ui->Z2InputComboBox->addItem("GAME", 0x02);
+            ui->Z2InputComboBox->addItem("AUX", 0x03);
+            ui->Z2InputComboBox->addItem("BD/DVD", 0x10);
+            ui->Z2InputComboBox->addItem("STR BOX", 0x11);
+            ui->Z2InputComboBox->addItem("TV", 0x12);
+            ui->Z2InputComboBox->addItem("PHONO", 0x22);
+            ui->Z2InputComboBox->addItem("CD", 0x23);
+            ui->Z2InputComboBox->addItem("FM", 0x24);
+            ui->Z2InputComboBox->addItem("AM", 0x25);
+            ui->Z2InputComboBox->addItem("TUNER", 0x26);
+            ui->Z2InputComboBox->addItem("USB (Front)", 0x29);
+            ui->Z2InputComboBox->addItem("NETWORK", 0x2B);
+            ui->Z2InputComboBox->addItem("Bluetooth", 0x2E);
+            ui->Z2InputComboBox->addItem("HDMI 5", 0x55);
+
+            ui->Z3InputComboBox->clear();
+            ui->Z3InputComboBox->addItem("CBL/SAT", 0x01);
+            ui->Z3InputComboBox->addItem("GAME", 0x02);
+            //ui->Z3InputComboBox->addItem("AUX", 0x03);
+            ui->Z3InputComboBox->addItem("BD/DVD", 0x10);
+            ui->Z3InputComboBox->addItem("STR BOX", 0x11);
+            ui->Z3InputComboBox->addItem("TV", 0x12);
+            ui->Z3InputComboBox->addItem("PHONO", 0x22);
+            ui->Z3InputComboBox->addItem("CD", 0x23);
+            ui->Z3InputComboBox->addItem("FM", 0x24);
+            ui->Z3InputComboBox->addItem("AM", 0x25);
+            ui->Z3InputComboBox->addItem("TUNER", 0x26);
+            ui->Z3InputComboBox->addItem("USB (Front)", 0x29);
+            ui->Z3InputComboBox->addItem("NETWORK", 0x2B);
+            ui->Z3InputComboBox->addItem("Bluetooth", 0x2E);
+
+            emit SendCmd("ZPWQSTN"); // z2 power
+            emit SendCmd("SLZQSTN"); // z2 input
+            emit SendCmd("ZVLQSTN"); // z2 volume
+            emit SendCmd("ZMTQSTN"); // z2 mute
+
+            emit SendCmd("PW3QSTN"); // z3 power
+            emit SendCmd("SL3QSTN"); // z3 input
+            emit SendCmd("VL3QSTN"); // z3 volume
+            emit SendCmd("MT3QSTN"); // z3 mute
+        }
+        this->show();
     }
     else
     {
@@ -140,7 +195,7 @@ void ZoneControlDialog::ResponseReceived(ReceivedObjectBase *response)
     DisplayDataResponse_FL* display = dynamic_cast<DisplayDataResponse_FL*>(response);
     if (display != NULL)
     {
-        if (display->getDisplayType() == 2)
+        if (m_Comm.IsPioneer() && display->getDisplayType() == 2)
         {
             bool zone2active = false;
             bool zone3active = false;
@@ -252,85 +307,167 @@ void ZoneControlDialog::ZoneInput (int zone, int input)
 void ZoneControlDialog::on_MultiZoneButton_clicked()
 {
     ui->MultiZoneButton->setChecked(!ui->MultiZoneButton->isChecked());
-    emit SendCmd("ZZ");
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd("ZZ");
+    }
 }
 
 void ZoneControlDialog::on_Z2ActivateButton_clicked()
 {
     ui->Z2ActivateButton->setChecked(!ui->Z2ActivateButton->isChecked());
-    emit SendCmd("APZ");
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd("APZ");
+    }
 }
 
 void ZoneControlDialog::on_Z2PowerButton_clicked()
 {
     bool checked = !ui->Z2PowerButton->isChecked();
     ui->Z2PowerButton->setChecked(checked);
-    if (checked)
-        emit SendCmd("APF");
+    if (m_Comm.IsPioneer())
+    {
+        if (checked)
+            emit SendCmd("APF");
+        else
+            emit SendCmd("APO");
+    }
     else
-        emit SendCmd("APO");
+    {
+        if (checked)
+            emit SendCmd("ZPW00");
+        else
+            emit SendCmd("ZPW01");
+    }
 }
 
 void ZoneControlDialog::on_Z2InputComboBox_activated(int index)
 {
     int input = ui->Z2InputComboBox->itemData(index).toInt();
-    emit SendCmd(QString("%1ZS").arg(input, 2, 10, QLatin1Char('0')));
-    emit SendCmd("?ZS"); // z2 input
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd(QString("%1ZS").arg(input, 2, 10, QLatin1Char('0')));
+        emit SendCmd("?ZS"); // z2 input
+    }
+    else
+    {
+        emit SendCmd(QString::asprintf("SLZ%02X", input));
+    }
 }
 
 void ZoneControlDialog::on_Z2VolumeUpButton_clicked()
 {
-    emit SendCmd("ZU");
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd("ZU");
+    }
+    else
+    {
+        emit SendCmd("ZVLUP");
+    }
 }
 
 void ZoneControlDialog::on_Z2VolumeDownButton_clicked()
 {
-    emit SendCmd("ZD");
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd("ZD");
+    }
+    else
+    {
+        emit SendCmd("ZVLDOWN");
+    }
 }
 
 void ZoneControlDialog::on_Z2MuteButton_clicked()
 {
     bool checked = !ui->Z2MuteButton->isChecked();
     ui->Z2MuteButton->setChecked(checked);
-    if (checked)
-        emit SendCmd("Z2MF");
+    if (m_Comm.IsPioneer())
+    {
+        if (checked)
+            emit SendCmd("Z2MF");
+        else
+            emit SendCmd("Z2MO");
+    }
     else
-        emit SendCmd("Z2MO");
+    {
+        emit SendCmd(checked ? "ZMT00" : "ZMT01");
+    }
 }
 
 void ZoneControlDialog::on_Z3MuteButton_clicked()
 {
     bool checked = !ui->Z3MuteButton->isChecked();
     ui->Z3MuteButton->setChecked(checked);
-    if (checked)
-        emit SendCmd("Z3MF");
+    if (m_Comm.IsPioneer())
+    {
+        if (checked)
+            emit SendCmd("Z3MF");
+        else
+            emit SendCmd("Z3MO");
+    }
     else
-        emit SendCmd("Z3MO");
+    {
+        emit SendCmd(checked ? "MT300" : "MT301");
+    }
 }
 
 void ZoneControlDialog::on_Z3PowerButton_clicked()
 {
     bool checked = !ui->Z3PowerButton->isChecked();
     ui->Z3PowerButton->setChecked(checked);
-    if (checked)
-        emit SendCmd("BPF");
+    if (m_Comm.IsPioneer())
+    {
+        if (checked)
+            emit SendCmd("BPF");
+        else
+            emit SendCmd("BPO");
+    }
     else
-        emit SendCmd("BPO");
+    {
+        if (checked)
+            emit SendCmd("PW300");
+        else
+            emit SendCmd("PW301");
+    }
 }
 
 void ZoneControlDialog::on_Z3InputComboBox_activated(int index)
 {
     int input = ui->Z3InputComboBox->itemData(index).toInt();
-    emit SendCmd(QString("%1ZT").arg(input, 2, 10, QLatin1Char('0')));
-    emit SendCmd("?ZT"); // z3 input
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd(QString("%1ZT").arg(input, 2, 10, QLatin1Char('0')));
+        emit SendCmd("?ZT"); // z3 input
+    }
+    else
+    {
+        emit SendCmd(QString::asprintf("SL3%02X", input));
+    }
 }
 
 void ZoneControlDialog::on_Z3VolumeUpButton_clicked()
 {
-    emit SendCmd("YU");
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd("YU");
+    }
+    else
+    {
+        emit SendCmd("VL3UP");
+    }
 }
 
 void ZoneControlDialog::on_Z3VolumeDownButton_clicked()
 {
-    emit SendCmd("YD");
+    if (m_Comm.IsPioneer())
+    {
+        emit SendCmd("YD");
+    }
+    else
+    {
+        emit SendCmd("VL3DOWN");
+    }
 }

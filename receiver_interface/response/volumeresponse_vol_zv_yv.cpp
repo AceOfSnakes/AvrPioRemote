@@ -54,7 +54,7 @@ bool VolumeResponse_VOL_ZV_YV::parseString(QString str)
             m_Zone = Zone2;
             return true;
         }
-        if (sscanf(str.toLatin1(), "ZV3%x", &m_Volume) == 1)
+        if (sscanf(str.toLatin1(), "VL3%x", &m_Volume) == 1)
         {
             m_Zone = Zone3;
             return true;
@@ -75,7 +75,7 @@ float VolumeResponse_VOL_ZV_YV::GetdBValue()
     case Zone2:
     case Zone3:
     case Zone4:
-        volume_dB = -81.0 + (double)m_Volume * 1.0;
+        volume_dB = (m_IsPioneer) ? (-81.0 + (double)m_Volume * 1.0) : ((double)m_Volume * 0.5);
         break;
     }
 

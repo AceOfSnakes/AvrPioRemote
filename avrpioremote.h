@@ -29,6 +29,7 @@
 #include "bluraydialog.h"
 #include "aboutdialog.h"
 #include "loudspeakersettingsdialog.h"
+#include "loudspeakersettingsdialogonkyo.h"
 #include "tunerdialog.h"
 #include "testdialog.h"
 #include "settingsdialog.h"
@@ -85,6 +86,7 @@ private:
     NetOnkyoDialog*             m_NetOnkyoDialog;
     BluRayDialog*               m_BluRayDialog;
     LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
+    LoudspeakerSettingsOnkyoDialog*  m_LoudspeakerSettingsOnkyoDialog;
     TunerDialog*                m_TunerDialog;
     TestDialog*                 m_TestDialog;
     TestDialog*                 m_PlayerTestDialog;

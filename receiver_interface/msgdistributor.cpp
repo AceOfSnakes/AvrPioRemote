@@ -103,6 +103,8 @@ void MsgDistributor::_init()
     _addResponse(new LoudnessResponse_LDM());
     _addResponse(new FixedPCMResponse_FXP());
     _addResponse(new AudioScalarResponse_ASC());
+    _addResponse(new SpeakerInformationResponse_SPI());
+    _addResponse(new SpeakerDistanceResponse_SPD());
 }
 
 void MsgDistributor::_addResponse(ReceivedObjectBase* obj)
@@ -159,6 +161,8 @@ QString MsgDistributor::_getIdFromString(const QString &str)
         id = "IFA";
     else if (str.startsWith("IFV"))
         id = "IFV";
+    else if (str.startsWith("PW3"))
+        id = "PW3";
     else
     {
         foreach(QChar c, str)

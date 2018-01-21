@@ -14,7 +14,7 @@ PowerResponse_PWR_APR_BPR_ZEP::~PowerResponse_PWR_APR_BPR_ZEP()
 
 QStringList PowerResponse_PWR_APR_BPR_ZEP::getMsgIDs()
 {
-    return QStringList() << "PWR" << "APR" << "BPR" << "ZEP";
+    return QStringList() << "PWR" << "APR" << "BPR" << "ZEP" << "ZPW" << "PW3";
 }
 
 QString PowerResponse_PWR_APR_BPR_ZEP::getResponseID()
@@ -54,6 +54,18 @@ bool PowerResponse_PWR_APR_BPR_ZEP::parseString(QString str)
     {
         m_Zone = Zone4;
         m_PoweredOn = (n == 0);
+        return true;
+    }
+    if (sscanf(str.toLatin1(), "ZPW%d", &n) == 1)
+    {
+        m_Zone = Zone2;
+        m_PoweredOn = (n != 0);
+        return true;
+    }
+    if (sscanf(str.toLatin1(), "PW3%d", &n) == 1)
+    {
+        m_Zone = Zone3;
+        m_PoweredOn = (n != 0);
         return true;
     }
     return false;
