@@ -7,10 +7,13 @@ class SpeakerInformationResponse_SPI : public ReceivedObjectBase
 {
 public:
     SpeakerInformationResponse_SPI();
+    SpeakerInformationResponse_SPI(const SpeakerInformationResponse_SPI &toCopy);
     ~SpeakerInformationResponse_SPI();
     virtual QString getResponseID();
     virtual QStringList getMsgIDs();
     virtual bool parseString(QString str);
+    SpeakerInformationResponse_SPI &operator = (const SpeakerInformationResponse_SPI &toCopy);
+    QString getCmdString();
 
     enum SUBWOOFER {
         SUBWOOFER_NO = 0,
@@ -23,11 +26,11 @@ public:
         SPEAKER_SETUP_LARGE = 2
     };
     enum CROSSOVER {
-        CROSSOVER_50HZ,
-        CROSSOVER_80HZ,
-        CROSSOVER_100HZ,
-        CROSSOVER_150HZ,
-        CROSSOVER_200HZ
+        CROSSOVER_50HZ = 50,
+        CROSSOVER_80HZ = 80,
+        CROSSOVER_100HZ = 100,
+        CROSSOVER_150HZ = 150,
+        CROSSOVER_200HZ = 200
     };
     enum SPEAKER_HEIGHT_POSITION {
         SPEAKER_HEIGHT_POSITION_NO = 0,

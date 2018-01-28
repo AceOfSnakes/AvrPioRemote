@@ -29,6 +29,11 @@ SpeakerInformationResponse_SPI::SpeakerInformationResponse_SPI()
     biAmp           = BI_AMP_NO;
 }
 
+SpeakerInformationResponse_SPI::SpeakerInformationResponse_SPI(const SpeakerInformationResponse_SPI &toCopy)
+{
+    *this = toCopy;
+}
+
 SpeakerInformationResponse_SPI::~SpeakerInformationResponse_SPI()
 {
 
@@ -48,6 +53,7 @@ bool SpeakerInformationResponse_SPI::parseString(QString str)
 {
     if (str.startsWith("SPI"))
     {
+        bool ok = false;
         subwoofer       = str.mid(3, 1).toInt();
         front           = str.mid(4, 1).toInt();
         center          = str.mid(5, 1).toInt();
@@ -55,12 +61,33 @@ bool SpeakerInformationResponse_SPI::parseString(QString str)
         surroundBack    = str.mid(7, 1).toInt();
         height1         = str.mid(8, 1).toInt();
         height2         = str.mid(9, 1).toInt();
-        crossover       = str.mid(10, 1).toInt();
-        height1Pos      = str.mid(11, 1).toInt();
-        height2Pos      = str.mid(12, 1).toInt();
-        biAmp           = str.mid(13, 1).toInt();
-
+        crossover       = str.mid(10, 3).toInt(&ok, 10);
+        height1Pos      = str.mid(13, 1).toInt();
+        height2Pos      = str.mid(14, 1).toInt();
+        biAmp           = str.mid(15, 1).toInt();
         return true;
     }
     return false;
+}
+
+QString SpeakerInformationResponse_SPI::getCmdString()
+{
+    QString cmd = QString::asprintf("SPI%d%d%d%d%d%d%d%03d%d%d%d",subwoofer,front,center,surround,surroundBack,height1,height2,crossover,height1Pos,height2Pos,biAmp);
+    return cmd;
+}
+
+SpeakerInformationResponse_SPI &SpeakerInformationResponse_SPI::operator = (const SpeakerInformationResponse_SPI &toCopy)
+{
+    subwoofer       = toCopy.subwoofer   ;
+    front           = toCopy.front       ;
+    center          = toCopy.center      ;
+    surround        = toCopy.surround    ;
+    surroundBack    = toCopy.surroundBack;
+    height1         = toCopy.height1     ;
+    height2         = toCopy.height2     ;
+    crossover       = toCopy.crossover   ;
+    height1Pos      = toCopy.height1Pos  ;
+    height2Pos      = toCopy.height2Pos  ;
+    biAmp           = toCopy.biAmp       ;
+    return *this;
 }
