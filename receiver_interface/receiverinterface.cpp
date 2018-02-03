@@ -330,7 +330,12 @@ void ReceiverInterface::InterpretPioneerString(const QString& data)
 
 void ReceiverInterface::InterpretOnkyoString(const QString& data)
 {
-    if (data.startsWith("LMD"))
+
+    if (data.endsWith("N/A"))
+    {
+        MsgDistributor::NotifyListener("E04", true);
+    }
+    else if (data.startsWith("LMD"))
     {
         QString text = FindValueByKey(LISTENING_MODE_ONKYO, data.mid(3, 2));
         if (text == "")

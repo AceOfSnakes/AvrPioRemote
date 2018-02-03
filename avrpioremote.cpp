@@ -559,6 +559,11 @@ void AVRPioRemote::RefreshTimeout()
         SendCmd("?AST");
         SendCmd("?VST");
     }
+    else
+    {
+        SendCmd("IFAQSTN");
+        SendCmd("IFVQSTN");
+    }
 }
 
 
@@ -997,6 +1002,7 @@ void AVRPioRemote::RequestStatus(bool input)
         else
         {
             SendCmd("IFAQSTN"); // request audio information
+            //SendCmd("IFVQSTN"); // request video information
         }
     }
     //sendCmd("?RGB**"); // request input name information
