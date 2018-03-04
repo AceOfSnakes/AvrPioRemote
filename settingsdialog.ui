@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -706,6 +706,9 @@
              <layout class="QHBoxLayout" name="horizontalLayout_7">
               <item>
                <widget class="QPushButton" name="pushButtonAuto_BD">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="minimumSize">
                  <size>
                   <width>100</width>
