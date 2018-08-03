@@ -157,6 +157,9 @@ void LoudspeakerSettingsOnkyoDialog::moveEvent(QMoveEvent* event)
 
 void LoudspeakerSettingsOnkyoDialog::ResponseReceived(ReceivedObjectBase *response)
 {
+    if (m_Comm.IsPioneer()) {
+        return;
+    }
     // mcacc number
     MCACCNumberResponse_MC* mcacc = dynamic_cast<MCACCNumberResponse_MC*>(response);
     if (mcacc != NULL)
