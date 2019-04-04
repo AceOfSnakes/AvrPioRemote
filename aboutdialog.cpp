@@ -32,8 +32,10 @@ AboutDialog::AboutDialog(QWidget *parent) :
     compiler.append(QString().sprintf("Compiler: gcc %s", __VERSION__));
 #elif defined _MSC_VER
     compiler.append("Compiler: Visual Studio");
-#if _MSC_VER == 1910
+#if _MSC_VER >= 1910 && _MSC_VER <= 1919
     compiler.append(" 2017 / MSVC++ 15.0");
+#elif _MSC_VER >= 1920
+    compiler.append(" 2019 / MSVC++ 16.0");
 #elif _MSC_VER == 1900
     compiler.append(" 2015 / MSVC++ 14.0");
 #elif _MSC_VER == 1800
@@ -76,6 +78,7 @@ void AboutDialog::on_pushButton_clicked()
 {
     this->close();
 }
+
 
 void AboutDialog::on_labelQTLogo_customContextMenuRequested(const QPoint &pos)
 {
