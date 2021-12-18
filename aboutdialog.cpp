@@ -25,17 +25,38 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(this->size());
     QString compiler;
-    QString tmp;
 #ifdef __clang_version__
-    compiler.append(QString().sprintf("Compiler: clang %s",  __clang_version__));
+    compiler.append(QString().asprintf("Compiler: clang %s",  __clang_version__));
 #elif defined __GNUC__ && defined __VERSION__
-    compiler.append(QString().sprintf("Compiler: gcc %s", __VERSION__));
+    compiler.append(QString().asprintf("Compiler: gcc %s", __VERSION__));
 #elif defined _MSC_VER
     compiler.append("Compiler: Visual Studio");
-#if _MSC_VER >= 1910 && _MSC_VER <= 1919
+#if 0    
+    /*
+     * https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
+     */
+#elif _MSC_VER >= 1930
+    compiler.append(" 2022 / MSVC++ 17.0");
+#elif _MSC_VER >= 1929
+#if _MSC_FULL_VER >= 192930100
+    compiler.append(" 2019 / MSVC++ 16.11");
+#else
+    compiler.append(" 2019 / MSVC++ 16.10");
+#endif
+#elif _MSC_VER >= 1928
+#if _MSC_FULL_VER >= 192829500
+    compiler.append(" 2019 / MSVC++ 16.9");
+#else
+    compiler.append(" 2019 / MSVC++ 16.8");
+#endif
+#if _MSC_VER >= 1920
+    compiler.append(" 2019 / MSVC++ 16.").append(QString().asprintf("%d",((_MSC_VER % 100) - 20)));
+#elif _MSC_VER > 1911
+    compiler.append(" 2017 / MSVC++ 15.").append(QString().asprintf("%d",((_MSC_VER % 100) - 7)));
+#elif _MSC_VER == 1911
+    compiler.append(" 2017 / MSVC++ 15.3");
+#elif _MSC_VER == 1910
     compiler.append(" 2017 / MSVC++ 15.0");
-#elif _MSC_VER >= 1920
-    compiler.append(" 2019 / MSVC++ 16.0");
 #elif _MSC_VER == 1900
     compiler.append(" 2015 / MSVC++ 14.0");
 #elif _MSC_VER == 1800
@@ -49,12 +70,18 @@ AboutDialog::AboutDialog(QWidget *parent) :
 #elif  _MSC_VER == 1400
     compiler.append(" 2005 / MSVC++ 8.0");
 #elif  _MSC_VER == 1310
-    compiler.append(" 2003 / MSVC++ 7.1");
+    compiler.append(" .NET 2003 / MSVC++ 7.1");
+#elif  _MSC_VER == 1300
+    compiler.append(" .NET 2002 / MSVC++ 7.0");
+#elif  _MSC_VER == 1300
+    compiler.append(" .NET 2002 / MSVC++ 7.0");
+#endif
 #else
     compiler.append(", unrecognised version");
 #endif
-    compiler.append(QString().sprintf(" (_MSC_VER=%d)", (int)_MSC_VER));
+    compiler.append(QString().asprintf(" (_MSC_VER=%d)", (int)_MSC_VER));
 #endif
+
     ui->labelCompiler->setText(compiler);
     ui->labelQT->setText(QString("Based on Qt ")
     .append(QT_VERSION_STR)
