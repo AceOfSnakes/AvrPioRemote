@@ -41,5 +41,7 @@
         <file>images/Built_with_Qt_RGB_logo.png</file>
         <file>images/200px-Gnome-edit-redo.svg.png</file>
         <file>images/AVRPioRemote.png</file>
+        <file>images/close.png</file>
+        <file>images/showHide.png</file>
     </qresource>
 </RCC>

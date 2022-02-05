@@ -22,6 +22,7 @@
 #include "actionwithparameter.h"
 #include <QWidget>
 #include <QSizePolicy>
+#include <QStyleFactory>
 #include <QIcon>
 #include "themereader.h"
 //#include <QtSvg>
@@ -38,6 +39,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_PlayerInterface(),
     m_RefreshTimer(this)
 {
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
     this->setWindowFlags(Qt::Dialog);
     m_IpPort = 8102;
     m_IsPioneer = true;
@@ -273,13 +275,13 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     MsgDistributor::AddResponseListener(this, responseList);
 
     if(m_tray_icon == NULL) {
-        m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/AVRPioRemote.png"), this);
+        m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/AVRPioRemote.png"));
 
         connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
-        QAction *quit_action = new QAction( "Exit", m_tray_icon );
+        QAction *quit_action = new QAction(QIcon(":/new/prefix1/images/close.png"), "Exit", m_tray_icon );
         connect( quit_action, SIGNAL(triggered()), this, SLOT(quit()) );
 
-        QAction *hide_action = new QAction( "Show/Hide", m_tray_icon );
+        QAction *hide_action = new QAction(QIcon(":/new/prefix1/images/showHide.png"), "Show/Hide", m_tray_icon );
         connect( hide_action, SIGNAL(triggered()), this, SLOT(on_show_hide()) );
 
         QMenu *tray_icon_menu = new QMenu;
