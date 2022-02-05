@@ -17,7 +17,7 @@ X64 = $$find(QT_INSTALL_PREFIX, 64)
 
 TARGET = AVRPioRemote
 TEMPLATE = app
-win32: RC_ICONS = pio-icon1.ico
+win32: RC_ICONS = AVRPioRemote.ico
 
 *msvc* { # visual studio spec filter
     QMAKE_CXXFLAGS += -MP
@@ -271,7 +271,7 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/kde/necessitas/origo/QtActivity.java \
     android/src/org/kde/necessitas/origo/QtApplication.java \
-    pio-icon1.ico
+    AVRPioRemote.ico
 
 RESOURCES += \
     avrpioremote.qrc

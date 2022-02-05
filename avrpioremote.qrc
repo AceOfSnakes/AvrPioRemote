@@ -36,9 +36,10 @@
         <file>images/edit-add.png</file>
         <file>images/edit-remove-3.png</file>
         <file>images/document-properties.png</file>
-        <file>pio-icon1.ico</file>
+        <file>AVRPioRemote.ico</file>
         <file>images/pioneer.png</file>
         <file>images/Built_with_Qt_RGB_logo.png</file>
         <file>images/200px-Gnome-edit-redo.svg.png</file>
+        <file>images/AVRPioRemote.png</file>
     </qresource>
 </RCC>

@@ -273,7 +273,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     MsgDistributor::AddResponseListener(this, responseList);
 
     if(m_tray_icon == NULL) {
-        m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/pioneer.png"), this);
+        m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/AVRPioRemote.png"), this);
 
         connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
         QAction *quit_action = new QAction( "Exit", m_tray_icon );

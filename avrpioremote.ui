@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="avrpioremote.qrc">
-    <normaloff>:/new/prefix1/pio-icon1.ico</normaloff>:/new/prefix1/pio-icon1.ico</iconset>
+    <normaloff>:/new/prefix1/AVRPioRemote.ico</normaloff>:/new/prefix1/AVRPioRemote.ico</iconset>
   </property>
   <widget class="QLabel" name="centralWidget">
    <widget class="QWidget" name="mainWidget" native="true">
