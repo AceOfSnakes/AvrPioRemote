@@ -35,6 +35,10 @@ AboutDialog::AboutDialog(QWidget *parent) :
     /*
      * https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
      */
+#elif _MSC_VER >= 1932
+    compiler.append(" 2022 / MSVC++ 17.2");
+#elif _MSC_VER >= 1931
+    compiler.append(" 2022 / MSVC++ 17.1");
 #elif _MSC_VER >= 1930
     compiler.append(" 2022 / MSVC++ 17.0");
 #elif _MSC_VER >= 1929
