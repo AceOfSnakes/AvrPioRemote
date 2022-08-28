@@ -30,6 +30,16 @@ static { # everything below takes effect with CONFIG += static
     message("~~~ static build ~~~") # this is for information, that the static build is done
     win32: TARGET = $$join(TARGET,,,) #this adds an s in the end, so you can seperate static build from non static build
 }
+
+VSCMD_VER = $$(VSCMD_VER)
+VSVERSION = $$(VisualStudioVersion)
+
+!isEmpty(VSCMD_VER) {
+    message("~~~ VSCMD_VER $$(VSCMD_VER) ~~~")
+    DEFINES += __VSCMD_VER=\\\"$$(VSCMD_VER)\\\"
+    DEFINES += __VSVERSION=$$(VisualStudioVersion)
+}
+
 SOURCES += \
     receiver_interface/command/cmdbase.cpp \
     receiver_interface/devices/discoverydevice.cpp \

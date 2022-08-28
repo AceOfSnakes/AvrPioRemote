@@ -35,6 +35,23 @@ AboutDialog::AboutDialog(QWidget *parent) :
     /*
      * https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
      */
+#elif defined __VSCMD_VER
+    /*
+     * Special for Qt
+     * add this in .pro file
+     *
+     * VSCMD_VER = $$(VSCMD_VER)
+     * VSVERSION = $$(VisualStudioVersion)
+     *
+     * !isEmpty(VSCMD_VER) {
+     *    message("~~~ VSCMD_VER $$(VSCMD_VER) ~~~")
+     *    DEFINES += __VSCMD_VER=\\\"$$(VSCMD_VER)\\\"
+     *    DEFINES += __VSVERSION=$$(VisualStudioVersion)
+     * }
+     */
+    compiler.append(QString().asprintf(" %d / MSVC++ %s", 2013 + (((int)__VSVERSION)-13) * 2
+                                       + (((int)__VSVERSION) > 16 ? 1 : 0)
+                                       , __VSCMD_VER));
 #elif _MSC_VER >= 1930
     compiler.append(" 2022 / MSVC++ 17.").append(QString().asprintf("%d",((_MSC_VER % 100) - 30)));
 #elif _MSC_VER >= 1929
