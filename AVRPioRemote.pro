@@ -13,7 +13,6 @@ unix: QT += x11extras
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
-X64 = $$find(QT_INSTALL_PREFIX, 64)
 
 TARGET = AVRPioRemote
 TEMPLATE = app
@@ -289,10 +288,6 @@ RESOURCES += \
 TRANSLATIONS = avrpioremote_en.ts \
                avrpioremote_de.ts \
                avrpioremote_ru.ts \
-
-!isEmpty(X64) {
-TARGET = AVRPioRemote64
-}
 
 CONFIG += exceptions rtti
 
