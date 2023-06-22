@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>351</width>
-    <height>487</height>
+    <height>530</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Information</string>
@@ -51,8 +57,11 @@
      <x>10</x>
      <y>180</y>
      <width>331</width>
-     <height>301</height>
+     <height>340</height>
     </rect>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContents</enum>
    </property>
    <property name="readOnly">
     <bool>true</bool>

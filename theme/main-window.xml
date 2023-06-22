@@ -1,6 +1,6 @@
 <theme
   name="Black-Default" padding-left="7" padding-right="7" padding-top="66" padding-bottom="14"
-  background-image="$DIR$/theme/main-window/black-bkgnd.png"
+  background-image="./theme/main-window/black-bkgnd.png"
   >
   <element name="window" width="" height="" >
     <style/>
@@ -8,35 +8,35 @@
   <element name="exit-button" pos-x="194" pos-y="32" width="24" height="24" background-image="" >
 	<style>
 QWidget {
-  border-image: url($DIR$/theme/main-window/sys_exit_normal.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/sys_exit_normal.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
 QWidget:hover:!pressed {
-  border-image: url($DIR$/theme/main-window/sys_exit_highlight.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/sys_exit_highlight.png) 0 0 0 0 stretch stretch;
 }
 QWidget:hover {
-  border-image: url($DIR$/theme/main-window/sys_exit_pressed.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/sys_exit_pressed.png) 0 0 0 0 stretch stretch;
 }
     </style>
   </element>
   <element name="minimize-button" pos-x="168" pos-y="32" width="24" height="24" background-image="" >
 	<style>
 QWidget {
-  border-image: url($DIR$/theme/main-window/sys_minimize_normal.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/sys_minimize_normal.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
 QWidget:hover:!pressed {
-  border-image: url($DIR$/theme/main-window/sys_minimize_highlight.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/sys_minimize_highlight.png) 0 0 0 0 stretch stretch;
 }
 QWidget:hover {
-  border-image: url($DIR$/theme/main-window/sys_minimize_pressed.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/sys_minimize_pressed.png) 0 0 0 0 stretch stretch;
 }
     </style>
   </element>
   <element name="power-button" id="PowerButton" width="48" height="42" pos-x="8" pos-y="5">
 	<style>
 QWidget {
-  border-image: url($DIR$/theme/main-window/blank.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/blank.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
 	</style>
@@ -44,7 +44,7 @@ QWidget {
   <element name="info-button" id="InfoButton">
 	<style>
 QWidget {
-  border-image: url($DIR$/theme/main-window/blank.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/blank.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
 }
 	</style>
@@ -79,18 +79,18 @@ QWidget {
   <element name="input-button" pos-x="10" pos-y="50" width="51" height="23" >
 	<style>
 QWidget {
-  border-image: url($DIR$/theme/main-window/blue-button-normal51x23.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/blue-button-normal51x23.png) 0 0 0 0 stretch stretch;
   background-color:rgba(0, 0, 0, 0.0);
   color: white;
 }
 QWidget:pressed {
-  border-image: url($DIR$/theme/main-window/blue-button-selected51x23.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/blue-button-selected51x23.png) 0 0 0 0 stretch stretch;
 }
 QWidget:checked {
-  border-image: url($DIR$/theme/main-window/blue-button-selected51x23.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/blue-button-selected51x23.png) 0 0 0 0 stretch stretch;
 }
 QWidget:disabled {
-  border-image: url($DIR$/theme/main-window/blue-button-disabled51x23.png) 0 0 0 0 stretch stretch;
+  border-image: url(./theme/main-window/blue-button-disabled51x23.png) 0 0 0 0 stretch stretch;
   color: darkgray;
 }
 	</style>
