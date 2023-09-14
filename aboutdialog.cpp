@@ -102,6 +102,9 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->labelCompiler->setText(compiler);
     ui->labelQT->setText(QString("Based on Qt ")
     .append(qVersion())
+#ifdef STATIC                                   
+    .append(" (static)" )
+#endif
 #ifdef Q_OS_WIN64
     .append(" x64")
 #endif
