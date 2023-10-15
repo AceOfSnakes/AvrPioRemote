@@ -18,6 +18,7 @@
 #include "avrpioremote.h"
 #include "ui_avrpioremote.h"
 #include <QDebug>
+#include <QNetworkProxy>
 #include <qtextcodec.h>
 #include "actionwithparameter.h"
 #include <QWidget>
@@ -99,6 +100,8 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     if (m_Settings.value("UseBlackTheme", true).toBool()) {
         SetTheme("theme/main-window.xml");
     }
+    QNetworkProxy proxy;
+    QNetworkProxy::setApplicationProxy(proxy);
 
     m_PowerButtonOffIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit_green.png", QSize(128, 128));
     m_PowerButtonOnIcon.addFile ( ":/new/prefix1/images/Crystal_Clear_action_exit.png", QSize(128, 128));
