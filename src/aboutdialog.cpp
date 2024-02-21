@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aboutdialog.h"
+#include "QDateTime"
 #include "ui_aboutdialog.h"
 
 AboutDialog::AboutDialog(QWidget *parent) :
@@ -98,7 +99,22 @@ AboutDialog::AboutDialog(QWidget *parent) :
 #endif
     compiler.append(QString().asprintf(" (_MSC_VER=%d)", (int)_MSC_VER));
 #endif
-
+    ui->label_2->setText(QString("License GPLv2 (c) 2013-").append(QDateTime::currentDateTime().toString("yyyy")));
+    QLocale::setDefault(QLocale::English);
+    QLocale myLoc;
+    QDateTime date = myLoc.toDateTime(QString(__DATE__).replace("  "," ").trimmed(),"MMM d yyyy");
+    QDate  first;
+    first.setDate(date.date().year(),date.date().month(),1);
+    int week = date.date().weekNumber() -
+            (first.weekNumber() > date.date().weekNumber() ? 0 : first.weekNumber());
+    ui->label_3->setText(QString("Version ").append(
+#ifdef __FORCED_APP_VER
+        QString(__FORCED_APP_VER)
+#else
+        date.toString("yy.MM")
+                              .append(week == 0 ? QString() : QString().asprintf(".%d", week))
+#endif
+        ));
     ui->labelCompiler->setText(compiler);
     ui->labelQT->setText(QString("Based on Qt ")
     .append(qVersion())
