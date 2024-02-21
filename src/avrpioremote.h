@@ -143,7 +143,6 @@ private:
     void changeEvent(QEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);
     void SetTheme(QString theme_name);
-
 private:
     void InputChanged(int no, QString name);
 
@@ -158,7 +157,7 @@ public slots:
     void ReceiverNetworkName (QString name);
     void onConnect();
     void onConnectBD();
-    void quit();
+    void exitNormally();
 private slots:
     void CommError(QString socketError);
     void minimize();

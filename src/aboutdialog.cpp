@@ -99,7 +99,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
 #endif
     compiler.append(QString().asprintf(" (_MSC_VER=%d)", (int)_MSC_VER));
 #endif
-    ui->label_2->setText(QString("License GPLv2 (c) 2013-").append(QDateTime::currentDateTime().toString("yyyy")));
+    ui->label_2->setText(QString("License GPL-3.0"));
     QLocale::setDefault(QLocale::English);
     QLocale myLoc;
     QDateTime date = myLoc.toDateTime(QString(__DATE__).replace("  "," ").trimmed(),"MMM d yyyy");

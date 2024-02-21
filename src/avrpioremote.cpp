@@ -61,6 +61,9 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     padding_top = 0;
     padding_bottom = 0;
 
+   //
+    //connect( QApplication::closeAllWindows(), SIGNAL(destroyed(QObject*)), this, SLOT(exitNormally()) );
+    qDebug()<<"aaaaa aaa aaa";
     QString lang = m_Settings.value("Language", "auto").toString();
     if (lang == "auto")
     {
@@ -282,7 +285,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
         connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
         QAction *quit_action = new QAction(QIcon(":/new/prefix1/images/close.png"), "Exit", m_tray_icon );
-        connect( quit_action, SIGNAL(triggered()), this, SLOT(quit()) );
+        connect( quit_action, SIGNAL(triggered()), this, SLOT(exitNormally()) );
 
         QAction *hide_action = new QAction(QIcon(":/new/prefix1/images/showHide.png"), "Show/Hide", m_tray_icon );
         connect( hide_action, SIGNAL(triggered()), this, SLOT(on_show_hide()) );
@@ -340,6 +343,7 @@ AVRPioRemote::~AVRPioRemote()
 
 void AVRPioRemote::closeEvent(QCloseEvent *event)
 {
+    qDebug()<< event;
     m_ReceiverInterface.Disconnect();
     // save the window position
     m_Settings.setValue("MainWindowGeometry", saveGeometry());
@@ -349,7 +353,8 @@ void AVRPioRemote::closeEvent(QCloseEvent *event)
 
 void AVRPioRemote::changeEvent(QEvent *e)
 {
-    //qDebug()<<e;
+
+    qDebug()<<e;
     QMainWindow::changeEvent(e);
     switch (e->type()) {
     case QEvent::WindowStateChange: {
@@ -409,7 +414,6 @@ void AVRPioRemote::SetTheme(QString theme_name) {
 
     //setWindowFlags(Qt::FramelessWindowHint);
     //QIcon pixmap("J:\\Projekte\\blue-bkgnd.svg");
-
     ThemeReader theme;
     if (!theme.readTheme(theme_name)) {
         return;
@@ -455,7 +459,7 @@ void AVRPioRemote::SetTheme(QString theme_name) {
                 if (exit_button_theme.style != "") {
                     exitButton->setStyleSheet(exit_button_theme.style);
                 }
-                connect(exitButton, SIGNAL(clicked()), this, SLOT(quit()));
+                connect(exitButton, SIGNAL(clicked()), this, SLOT(exitNormally()));
             }
             ThemeReader::ThemeElement minimize_button_theme = theme.getElement("minimize-button");
             if (minimize_button_theme.name != "") {
@@ -547,9 +551,12 @@ void AVRPioRemote::minimize() {
     }
 }
 
-void AVRPioRemote::quit()
+void AVRPioRemote::exitNormally()
 {
-    this->close();
+
+    qDebug() <<"exit";
+    emit qApp->exit(0);
+    exit(0);
 }
 
 void AVRPioRemote::StatusLineTimeout()
