@@ -1,6 +1,6 @@
 # AvrPioRemote. Based on Qt 5.15
 <p align="center">
-<img src="src/images/AVRPioRemote.png" width ="128" height="128"/>
+<img src="src/images/AVRPioRemote.png"/>
 </p>
 
 This is clone of https://sourceforge.net/projects/avrpioremote/
