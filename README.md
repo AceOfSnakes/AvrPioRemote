@@ -16,7 +16,7 @@ From now supported both versions of QT
  :-------------------------:|:-------------------------:
 ![QT5](./doc/images/Qt5.png) | ![QT6](./doc/images/Qt6.png)
  
- | | |
-:-------------------------:|:-------------------------:
-![Main screen](./doc/images/AVRPioRemote.png) | ![About](./doc/images/About.png) 
+ | |
+:-------------------------:
+![Main screen](./doc/images/AVRPioRemote.png) 
 
