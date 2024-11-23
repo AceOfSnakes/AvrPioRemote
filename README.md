@@ -1,4 +1,4 @@
-# AvrPioRemote. Based on Qt 5.15
+# AvrPioRemote. Based on Qt 5+
 <p align="center">
 <img src="src/images/AVRPioRemote.png"/>
 </p>
