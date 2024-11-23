@@ -18,7 +18,6 @@
 #include "netonkyodialog.h"
 #include "ui_netonkyodialog.h"
 #include <QDebug>
-#include <qtextcodec.h>
 #include <QDateTime>
 #include <QClipboard>
 #include <QDomDocument>
@@ -808,7 +807,12 @@ void NetOnkyoDialog::handleTime(QString str)
 {
     //"00:25:55/--:--:--"
     QString time;
-    QStringList times = str.split("/", QString::SkipEmptyParts);
+    QStringList times = str.split("/",
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+                                  QString::SkipEmptyParts);
+#else
+                                   Qt::SkipEmptyParts);
+#endif
     if (times.count() > 0) // current time
     {
         time =times[0];

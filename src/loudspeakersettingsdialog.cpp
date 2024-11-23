@@ -456,7 +456,11 @@ void LoudspeakerSettingsDialog::on_restbutt_clicked()
           setslider();
     }
     str = QString("mem%1-%2/LSCONFIG").arg(ui->selectmem->currentIndex()).arg(str1);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     mCurrentSpeakerSetting = m_Settings.value(str).toInt();
+#else
+    mCurrentSpeakerSetting = m_Settings.value(str).toString();
+#endif
     if (m_Comm.IsPioneer())
     {
         str = QString("%1SSF").arg(mCurrentSpeakerSetting);

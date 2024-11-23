@@ -19,7 +19,6 @@
 #include "ui_avrpioremote.h"
 #include <QDebug>
 #include <QNetworkProxy>
-#include <qtextcodec.h>
 #include "actionwithparameter.h"
 #include <QWidget>
 #include <QSizePolicy>

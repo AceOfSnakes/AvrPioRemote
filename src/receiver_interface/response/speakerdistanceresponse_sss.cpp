@@ -46,10 +46,16 @@ double SpeakerDistanceResponse_SSS::GetValue()
         QString inch = tmp.mid(2, 2);
         QString subInch = tmp.mid(4, 2);
         QString result = ft + "´." + inch + "´´";
-        if (subInch != "00")
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+        if (subInch != "00") {
             result += "-" + subInch[0] + "/" + subInch[0];
+        }
+#else
+        if (subInch != "00") {
+            result = result.append("-").append(subInch[0]).append("/").append(subInch[0]);
+        }
+#endif
         result += " " + getUnits();
-
         return 0;
     } else if (m_Units == METER) {
         return ((double)m_Distance) / 100.0;

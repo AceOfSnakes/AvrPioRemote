@@ -21,7 +21,6 @@
 #include <QDebug>
 #include <QSignalMapper>
 #include <QtConcurrent/QtConcurrent>
-#include <qtextcodec.h>
 #include <QDateTime>
 #include <QThread>
 #include <QTimer>
@@ -118,9 +117,18 @@ void BluRayDialog::ConnectPlayer()
     }
 }
 
-void BluRayDialog::UpdateDisplayInfo (QRegExp &rx) {
+void BluRayDialog::UpdateDisplayInfo (
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    QRegExp &rx
+#else
+    QRegularExpressionMatch &rx
+#endif
+
+    ) {
     QString time = QString("--:--:--");
     QString track = QString("---:---");
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     if(!rx.cap(2).isEmpty()) {
         time = rx.cap(3).append(":").append(rx.cap(4)).append(":").append(rx.cap(5));
         track.clear();
@@ -129,6 +137,17 @@ void BluRayDialog::UpdateDisplayInfo (QRegExp &rx) {
         }
         track.append(rx.cap(2));
     }
+#else
+    if(!rx.captured(2).isEmpty()) {
+        time = rx.captured(3).append(":").append(rx.captured(4)).append(":").append(rx.captured(5));
+        track.clear();
+        if(!rx.captured(1).isEmpty()) {
+            track.append(rx.captured(1)).append(":");
+        }
+        track.append(rx.captured(2));
+    }
+#endif
+
     ui->BdTrackLabel->setText(track);
     ui->BdTimeLabel->setText(time);
 }
@@ -137,7 +156,12 @@ void BluRayDialog::PlayerOffline(bool offline) {
     ui->BdPowerButton->setIcon((offline) ? m_PowerButtonOffIcon : m_PowerButtonOnIcon);
     if(offline) {
         this->setWindowTitle(tr("Blu-Ray player"));
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         QRegExp qre;
+#else
+        QRegularExpressionMatch qre;
+#endif
         UpdateDisplayInfo(qre);
     }
 

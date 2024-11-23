@@ -18,9 +18,13 @@
 #include "receiverinterface.h"
 
 #include "Defs.h"
-#include <QTextCodec>
+//#include <QTextCodec>
 #include <QStringList>
-#include <QRegExp>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+  #include <QRegExp>
+#else
+  #include <QRegularExpression>
+#endif
 #include <QMutexLocker>
 
 string trim(const string &t, const string &ws)
@@ -290,7 +294,13 @@ void ReceiverInterface::InterpretPioneerString(const QString& data)
     }
     else if (data.startsWith("RGD"))
     {
-        QStringList l = data.mid(3).split(QRegExp("[<>]"), QString::SkipEmptyParts);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+        QStringList l = data.mid(3).split(QRegExp("[<>]"),
+                                          QString::SkipEmptyParts);
+#else
+        QStringList l = data.mid(3).split(QRegularExpression("[<>]"),
+                                          Qt::SkipEmptyParts);
+#endif
         QString str1, str2;
         if (l.count() > 0)
             str1 = l[0];

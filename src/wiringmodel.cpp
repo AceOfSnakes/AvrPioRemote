@@ -95,7 +95,12 @@ QVariant WiringModel::data(const QModelIndex &index, int role) const
 
         if (col == 5) //change text alignment only for cell(1,1)
         {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
             return Qt::AlignCenter + Qt::AlignVCenter;
+#else
+            return Qt::AlignCenter;
+////////                   + Qt::AlignVCenter;
+#endif
         }
         break;
     case Qt::CheckStateRole:

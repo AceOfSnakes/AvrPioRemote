@@ -17,13 +17,24 @@
 */
 #include "actionwithparameter.h"
 
-ActionWithParameter::ActionWithParameter(QWidget *parent, const QString &Param) : QAction(parent)
+ActionWithParameter::ActionWithParameter(QWidget *parent, const QString &Param)
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    : QAction(parent)
+#else
+//    QAction(p)
+#endif
 {
     m_Param = Param;
     connect(this, SIGNAL(triggered()), this, SLOT(ActionTriggered()));
 }
 
-ActionWithParameter::ActionWithParameter(QWidget* parent, const QString& Name, const QString& Param) : QAction(Name, parent)
+ActionWithParameter::ActionWithParameter(QWidget* parent, const QString& Name, const QString& Param)
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    : QAction(Name, parent)
+#else
+//    QAction(Name, parent)
+#endif
+
 {
     m_Param = Param;
     connect(this, SIGNAL(triggered()), this, SLOT(ActionTriggered()));

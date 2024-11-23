@@ -277,7 +277,13 @@ void usbDialog::usbrecData(QString data)
                 uint64_t hour = 0;
                 uint64_t min = 0;
                 uint64_t sec = 0;
-                QStringList list = DisplayLine.split(":", QString::SkipEmptyParts);
+                QStringList list = DisplayLine.split(":",
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+                                  QString::SkipEmptyParts);
+#else
+                                   Qt::SkipEmptyParts);
+#endif
+
                 if (list.count() > 2)
                 {
                     hour = list[0].toInt();

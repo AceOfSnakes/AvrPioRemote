@@ -16,12 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "playerinterface.h"
-#include "Defs.h"
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QTextCodec>
+#endif
 #include <QThread>
 #include <QStringList>
 #include <QJsonDocument>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QRegExp>
+#else
+#include <QRegularExpression>
+#endif
 
 
 
@@ -40,7 +45,11 @@ PlayerInterface::PlayerInterface():m_error_count(0)
  }
 void PlayerInterface::reloadPlayerSettings(QVariantMap  settings) {
     m_PlayerSettings.clear();
-    m_PlayerSettings.unite(settings);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+        m_PlayerSettings.unite(settings);
+#else
+        m_PlayerSettings.swap(settings);
+#endif
     m_ping_commands.clear();
     m_ping_commands.append(m_PlayerSettings.value("pingCommands").toList());
     rxBD.setPattern(m_PlayerSettings.value("timeRegExp").toString());
@@ -147,7 +156,11 @@ bool PlayerInterface::SendCmd(const QString& cmd)
 void PlayerInterface::InterpretString(const QString& data)
 {
     qDebug()<<data;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     bool timeMatch = rxBD.exactMatch(data);
+#else
+    bool timeMatch = rxBD.match(data).hasMatch();
+#endif
     if (data.contains(m_PlayerSettings.value("pingResponseOk").toString())) {
         if(!m_PlayerSettings.value("initCmd").isNull()) {
             SendCmd(m_PlayerSettings.value("initCmd").toString());

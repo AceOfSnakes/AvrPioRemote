@@ -92,7 +92,12 @@ bool AudioStatusDataResponse_AST::parseString(QString str)
         // 9: j...j: Auto Phase Control Phase (Normal/Reverse)
         // 10: k...k: Upmix Mode(No/PL2/PL2X/PL2Z/DolbySurround/Neo6/NeoX/NeuralX/THXS2/ADYDSX)
 
-        QStringList parts = str.mid(3).split(',', QString::KeepEmptyParts);
+        QStringList parts = str.mid(3).split(',',
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+            QString::KeepEmptyParts);
+#else
+            Qt::KeepEmptyParts);
+#endif
         if (parts.length() >= 11)
         {
             codec = parts[1];
@@ -115,11 +120,24 @@ QString AudioStatusDataResponse_AST::fillPioneerChannelsString(QString onkyoChan
 {
     QString pioneerChannels;
     pioneerChannels.fill('0', 16);
-    QStringList tmpList = onkyoChannels.split(' ', QString::KeepEmptyParts);
+    QStringList tmpList = onkyoChannels.split(' ',
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+                                              QString::KeepEmptyParts);
+#else
+                                              Qt::KeepEmptyParts);
+#endif
+
     if (tmpList.length() == 2)
     {
         QString tmp = tmpList[0];
-        QStringList channels = tmp.split('.', QString::KeepEmptyParts);
+        QStringList channels = tmp.split('.',
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+                                         QString::KeepEmptyParts);
+#else
+                                         Qt::KeepEmptyParts);
+#endif
+
         if (channels.length() >= 2)
         {
             int n = channels[0].toInt();

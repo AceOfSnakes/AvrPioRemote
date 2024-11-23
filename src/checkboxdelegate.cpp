@@ -103,8 +103,11 @@ void CheckBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
 
 void CheckBoxDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     QStyleOptionViewItemV4 viewItemOption(option);
-
+#else
+    QStyleOptionViewItem viewItemOption(option);
+#endif
     //if (index.column() == 0) {
         const int textMargin = QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
         QRect newRect = QStyle::alignedRect(option.direction, Qt::AlignCenter,

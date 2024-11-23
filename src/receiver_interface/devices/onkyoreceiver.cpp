@@ -46,7 +46,11 @@ int OnkyoReceiver::write(QString str)
     {
         datagram.append(eISCP_ID_PLAYER);
     }
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     datagram.append(str);
+#else
+    datagram.append(str.toLatin1());
+#endif
     datagram.append('\r');
 
     socket->readAll(); // clear the incomming buffer, may cause problems

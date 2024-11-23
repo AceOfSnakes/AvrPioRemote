@@ -467,7 +467,11 @@ void SettingsDialog::on_pushButtonAuto_clicked()
     {
         QString ip = m_AutoSearchDialog->m_SelectedAddress;
         int port = m_AutoSearchDialog->m_SelectedPort;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
+#else
+        QStringList l = ip.split(QRegularExpression("[.]"), Qt::SkipEmptyParts);
+#endif
         if (l.size() == 4)
         {
             SetIpAddress(l[0], l[1], l[2], l[3], QString("%1").arg(port), m_AutoSearchDialog->m_SelectedPioneer);
@@ -496,7 +500,11 @@ void SettingsDialog::on_pushButtonAuto_BD_clicked()
     {
         QString ip = m_AutoSearchDialog->m_SelectedAddress;
         int port = m_AutoSearchDialog->m_SelectedPort;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         QStringList l = ip.split(QRegExp("[.]"), QString::SkipEmptyParts);
+#else
+        QStringList l = ip.split(QRegularExpression("[.]"), Qt::SkipEmptyParts);
+#endif
         if (l.size() == 4)
         {
             SetIpAddressBD(l[0], l[1], l[2], l[3], QString("%1").arg(port));

@@ -67,7 +67,14 @@ public slots:
     void EnableControls(bool enable);
     void onConnect();
     void PlayerOffline(bool);
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     void UpdateDisplayInfo (QRegExp &rx);
+#else
+    void UpdateDisplayInfo (QRegularExpressionMatch &rx);
+#endif
+
+
 private slots:
     void CheckOnline();
     void CheckOnlineInternal();

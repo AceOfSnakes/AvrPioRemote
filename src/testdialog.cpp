@@ -273,7 +273,11 @@ void TestDialog::on_SaveButton_clicked()
     QTextStream ts(&file);
     for (int i = 0; i < ui->listWidget->count(); i++)
     {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         ts << ui->listWidget->item(i)->text() << endl;
+#else
+        ts << ui->listWidget->item(i)->text();
+#endif
     }
 }
 
@@ -292,7 +296,14 @@ void TestDialog::on_FilterLineEdit_textChanged(const QString &arg1)
         m_FilterStrings.clear();
         return;
     }
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     m_FilterStrings = str.split(QRegExp("\\s+"));
+#else
+    m_FilterStrings = str.split(QRegularExpression("\\s+"));
+#endif
+
+
     if(ui->saveFilterCheckBox->isChecked()) {
         m_Settings.setValue(QString("Filter").append(device),arg1);
     } else {

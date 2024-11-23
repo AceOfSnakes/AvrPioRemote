@@ -44,8 +44,11 @@ private:
     ReceiverInterface&      m_Comm;
     Ui::ListeningModeDialog *ui;
     bool                    m_PositionSet;
-
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     class LMUserData: public QObjectUserData
+#else
+    class LMUserData: public QObjectData
+#endif
     {
     public:
         QString m_Data;

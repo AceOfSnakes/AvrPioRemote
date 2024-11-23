@@ -5,7 +5,12 @@
 #include <QHostAddress>
 #include <QThread>
 #include <QClipboard>
-#include <QRegExp>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    #include <QRegExp>
+#else
+    #include <QRegularExpression>
+#endif
+
 #include <QtNetwork>
 #include <QtXml>
 #include <QMenu>
@@ -245,7 +250,11 @@ void AutoSearchDialog::reconnect(QString & key, QString & ip, int port, Discover
     if( port == 23 && prefferedPort == 23 ) {
         return;
     }
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     if (key != NULL && (port == 23 || port != prefferedPort))
+#else
+    if (!key.isEmpty() && (port == 23 || port != prefferedPort))
+#endif
     {
         PioneerReceiver* pdevice = new PioneerReceiver();
         device = pdevice;
@@ -466,7 +475,14 @@ void AutoSearchDialog::ProcessPendingDatagrams()
             socket->readDatagram(datagram.data(), datagram.size(), &remoteAddr);
             QString data = QString(datagram);
             if (data.contains("200 OK", Qt::CaseInsensitive) && data.contains("rootdevice", Qt::CaseInsensitive)) {
-                QStringList ll = data.split(QRegExp("[\n\r]"), QString::SkipEmptyParts);
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+                QStringList ll = data.split(QRegExp("[\n\r]"),
+                                            QString::SkipEmptyParts);
+#else
+                QStringList ll = data.split(QRegularExpression("[\n\r]"),
+                                            Qt::SkipEmptyParts);
+#endif
                 QString location;
                 foreach (QString s, ll)
                 {
