@@ -14,7 +14,7 @@ From now supported both versions of QT
  Cooming soon
  | QT5 | QT 6 |
  :-------------------------:|:-------------------------:
-![QT5](./doc/images/QT5.png) | ![QT6](./doc/images/QT6.png)
+![QT5](./doc/images/Qt5.png) | ![QT6](./doc/images/Qt6.png)
  
  | | |
 :-------------------------:|:-------------------------:
