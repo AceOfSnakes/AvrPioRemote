@@ -20,7 +20,11 @@
 
 
 #include <QSettings>
-#include <QRegExp>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+  #include <QRegExp>
+#else
+  #include <QRegularExpression>
+#endif
 #include <QVariant>
 #include <QVariantMap>
 #include <QtNetwork/QTcpSocket>
@@ -102,12 +106,16 @@ public:
     };
 
 private:
-    QTcpSocket      m_Socket;
-    string          m_ReceivedString;
-    bool            m_Connected;
-    bool            crlf;
-    int             m_error_count;
+    QTcpSocket                 m_Socket;
+    string                     m_ReceivedString;
+    bool                       m_Connected;
+    bool                       crlf;
+    int                        m_error_count;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     QRegExp         rxBD;
+#else
+    QRegularExpression         rxBD;
+#endif
     void InterpretString(const QString& data);
 
 private slots:
@@ -130,7 +138,11 @@ signals:
     void Connected();
     void Disconnected();
     void DataReceived(QString);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     void UpdateDisplayInfo(QRegExp&);
+#else
+    void UpdateDisplayInfo(QRegularExpression&);
+#endif
 };
 
 #endif // PLAYERINTERFACE_H

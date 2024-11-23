@@ -267,7 +267,13 @@ bool VideoStatusDataResponse_VST::parseString(QString str)
         // 6: g…g: RGB/YCbCr
         // 7: h…h: Color Depth
         // 8: i...i: Picture Mode
-        QStringList parts = str.mid(3).split(',', QString::KeepEmptyParts);
+        QStringList parts = str.mid(3).split(',',
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+            QString::KeepEmptyParts);
+#else
+            Qt::KeepEmptyParts);
+#endif
         if (parts.length() > 8)
         {
             videoInput = parts[0];
