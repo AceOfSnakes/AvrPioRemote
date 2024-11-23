@@ -11,7 +11,7 @@ Update 2018: Now the new generation is supported too (like LX-701)
 
 From now supported both versions of QT
 
- Cooming soon
+ Coming soon
  | QT5 | QT 6 |
  :-------------------------:|:-------------------------:
 ![QT5](./doc/images/Qt5.png) | ![QT6](./doc/images/Qt6.png)
