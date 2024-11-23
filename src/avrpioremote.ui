@@ -46,7 +46,6 @@
       <font>
        <family>MS Shell Dlg 2</family>
        <pointsize>8</pointsize>
-       <weight>50</weight>
        <italic>false</italic>
        <bold>false</bold>
       </font>
@@ -79,7 +78,7 @@
       <bool>true</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -103,7 +102,7 @@
       <bool>true</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -127,7 +126,7 @@
       <string>INPUT NAME</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+      <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
      </property>
     </widget>
     <widget class="QLineEdit" name="AudioSampleRateLineEdit">
@@ -148,7 +147,7 @@
       <bool>true</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -166,7 +165,6 @@
      <property name="font">
       <font>
        <pointsize>12</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -174,7 +172,7 @@
       <bool>true</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -221,7 +219,7 @@
       </size>
      </property>
      <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonFollowStyle</enum>
+      <enum>Qt::ToolButtonStyle::ToolButtonFollowStyle</enum>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
@@ -284,10 +282,10 @@
        <bool>false</bool>
       </property>
       <property name="popupMode">
-       <enum>QToolButton::DelayedPopup</enum>
+       <enum>QToolButton::ToolButtonPopupMode::DelayedPopup</enum>
       </property>
       <property name="toolButtonStyle">
-       <enum>Qt::ToolButtonFollowStyle</enum>
+       <enum>Qt::ToolButtonStyle::ToolButtonFollowStyle</enum>
       </property>
       <property name="autoRaise">
        <bool>true</bool>
@@ -324,7 +322,6 @@
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -366,7 +363,7 @@
        <string>VOLUME</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="PqlsButton">
@@ -580,7 +577,6 @@
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -677,7 +673,6 @@
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
        </font>
       </property>
@@ -766,7 +761,6 @@
       <property name="font">
        <font>
         <pointsize>10</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
        </font>
       </property>
@@ -877,7 +871,7 @@
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
       <property name="readOnly">
        <bool>true</bool>
@@ -941,7 +935,7 @@
        <bool>true</bool>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
       <property name="readOnly">
        <bool>true</bool>

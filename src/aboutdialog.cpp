@@ -99,7 +99,6 @@ AboutDialog::AboutDialog(QWidget *parent) :
 #endif
     compiler.append(QString().asprintf(" (_MSC_VER=%d)", (int)_MSC_VER));
 #endif
-    ui->label_2->setText(QString("License GPL-3.0"));
     QLocale::setDefault(QLocale::English);
     QLocale myLoc;
     QDateTime date = myLoc.toDateTime(QString(__DATE__).replace("  "," ").trimmed(),"MMM d yyyy");
@@ -118,6 +117,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->labelCompiler->setText(compiler);
     ui->labelQT->setText(QString("Based on Qt ")
     .append(qVersion())
+
 #ifdef STATIC                                   
     .append(" (static)" )
 #endif
@@ -130,6 +130,8 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QImage img(":/new/prefix1/images/Built_with_Qt_RGB_logo.png");
     ui->labelQTLogo->setPixmap(QPixmap::fromImage(img));
     QObject::connect(ui->labelQTLogo, SIGNAL(customContextMenuRequested(QPoint)), qApp, SLOT(aboutQt()));
+
+    ui-> program->setText(qApp->applicationName());
 }
 
 AboutDialog::~AboutDialog()
