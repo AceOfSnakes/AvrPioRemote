@@ -185,7 +185,7 @@
            </font>
           </property>
           <property name="text">
-           <string>License GPLv2 (c) 2023</string>
+           <string>License GPL-3.0</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignmentFlag::AlignCenter</set>
