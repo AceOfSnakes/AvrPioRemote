@@ -48,8 +48,7 @@ ListeningModeDialog::ListeningModeDialog(QWidget *parent,QSettings &settings,Rec
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         ui->listmodi->setUserData(i, data);
 #else
-        // TODO QT6
-        //ui->listmodi->item(i)->setData(Qt::UserRole, data);
+        ui->listmodi->item(i)->setData(Qt::UserRole, LISTENING_MODE[i].key);
 #endif
         i++;
         if ((strcmp(LISTENING_MODE[i].key, "0050") == 0) && m_Settings.value("TunerCompatibilityMode").toBool())
@@ -125,17 +124,16 @@ void ListeningModeDialog::LMchanged(QString id, QString data)
             ui->listmodi->item(i)->setTextColor(QColor(0, 0, 0)); // black text
         }
 #else
-        // TODO QT6
-        // if (id == ((LMUserData*)ui->listmodi->item(i)->data(Qt::UserRole))->m_Data) // selected
-        // {
-        //     ui->listmodi->item(i)->setBackground(QColor(0, 0, 255)); // blue background
-        //     ui->listmodi->item(i)->setForeground(QColor(255, 255, 255)); // white text
-        // }
-        // else // normla
-        // {
-        //     ui->listmodi->item(i)->setBackground(QColor(255, 255, 255)); // white background
-        //     ui->listmodi->item(i)->setForeground(QColor(0, 0, 0)); // black text
-        // }
+        if (id == (ui->listmodi->item(i)->data(Qt::UserRole))) // selected
+        {
+            ui->listmodi->item(i)->setBackground(QColor(0, 0, 255)); // blue background
+            ui->listmodi->item(i)->setForeground(QColor(255, 255, 255)); // white text
+        }
+        else // normla
+        {
+            ui->listmodi->item(i)->setBackground(QColor(255, 255, 255)); // white background
+            ui->listmodi->item(i)->setForeground(QColor(0, 0, 0)); // black text
+        }
 #endif
     }
     if (data != "---")
