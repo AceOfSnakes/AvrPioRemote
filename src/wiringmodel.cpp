@@ -99,9 +99,6 @@ QVariant WiringModel::data(const QModelIndex &index, int role) const
             return Qt::AlignCenter + Qt::AlignVCenter;
 #else
             return Qt::AlignCenter;
-// TODO QT6
-////////                   + Qt::AlignVCenter;
-
 #endif
         }
         break;

@@ -21,7 +21,7 @@ ActionWithParameter::ActionWithParameter(QWidget *parent, const QString &Param)
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     : QAction(parent)
 #else
-// TODO QT6   :QAction(parent)
+    : QAction((QObject *)parent)
 #endif
 {
     m_Param = Param;
@@ -32,7 +32,7 @@ ActionWithParameter::ActionWithParameter(QWidget* parent, const QString& Name, c
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     : QAction(Name, parent)
 #else
-// TODO QT6   :QAction(Name, parent)
+    : QAction((QObject *)parent)
 #endif
 
 {
