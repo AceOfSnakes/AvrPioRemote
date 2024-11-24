@@ -45,6 +45,7 @@ ListeningModeDialog::ListeningModeDialog(QWidget *parent,QSettings &settings,Rec
         ui->listmodi->addItem(LISTENING_MODE[i].text);
         LMUserData* data = new LMUserData();
         data->m_Data = LISTENING_MODE[i].key;
+        qDebug()<<"Listening mode"<<LISTENING_MODE[i].key;
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         ui->listmodi->setUserData(i, data);
 #else

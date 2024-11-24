@@ -62,7 +62,6 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
    //
     //connect( QApplication::closeAllWindows(), SIGNAL(destroyed(QObject*)), this, SLOT(exitNormally()) );
-    qDebug()<<"aaaaa aaa aaa";
     QString lang = m_Settings.value("Language", "auto").toString();
     if (lang == "auto")
     {
@@ -253,8 +252,11 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     m_InputLSConfiguration = new GraphicLSWidget(this, true);
     m_InputLSConfiguration->makeSmall();
     m_InputLSConfiguration->move(11 + padding_left, 50 + padding_top);
+
     m_OutputLSConfiguration = new GraphicLSWidget(this, false);
+    m_OutputLSConfiguration->setForegroundRole(QPalette::HighlightedText);
     m_OutputLSConfiguration->makeSmall();
+
     m_OutputLSConfiguration->move(164 + padding_left, 50 + padding_top);
 
     // disable controls

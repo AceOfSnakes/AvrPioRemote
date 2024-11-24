@@ -59,30 +59,43 @@ BluRayDialog::BluRayDialog(QWidget *parent, QSettings &settings, PlayerInterface
     connect((&m_PlayerInterface), SIGNAL(PlayerOffline(bool)), this,  SLOT(PlayerOffline(bool)));
     //connect((&m_PlayerInterface), SIGNAL(PlayerType(QString)), this,  SLOT(PlayerType(QString)));
     connect((&m_PlayerInterface), SIGNAL(SettingsChanged()), this,  SLOT(ChangeSettings()));
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     connect((&m_PlayerInterface), SIGNAL(UpdateDisplayInfo(QRegExp &)), this,  SLOT(UpdateDisplayInfo(QRegExp &)));
+#else
+    //connect((&m_PlayerInterface), SIGNAL(UpdateDisplayInfo(QRegularExpressionMatch &)), this,  SLOT(UpdateDisplayInfo(QRegExp &)));
+#endif
     CheckOnline();
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(CheckOnlineInternal()));
     timer->start(1000);
     this->setWindowTitle(tr("Blu-Ray player"));
     ChangeSettings();
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     connect(signalMapper, SIGNAL(mapped(QString)),
             this, SLOT(SendCmd(QString)));
+#else
+    connect(signalMapper, SIGNAL(mappedString(const QString&)),
+            this, SLOT(SendCmd(const QString&)));
+#endif
 
 }
 
 void BluRayDialog::ChangeSettings() {
     //signalMapper->dumpObjectTree();
     QList<QPushButton *> allPButtons = this->findChildren<QPushButton *>();
-    //qDebug()<<signalMapper->dynamicPropertyNames();
+    qDebug()<<signalMapper->dynamicPropertyNames();
+
     foreach (QPushButton *button, allPButtons) {
         if(button->objectName().startsWith("Bd")||button->objectName().startsWith("Cursor")) {
             signalMapper->removeMappings(button);
-            disconnect(button, SIGNAL(clicked()),signalMapper,SLOT(map()));
+            disconnect(button, SIGNAL(clicked()), signalMapper, SLOT(map()));
+            qDebug()<<"connect" <<button->objectName();
             if(!m_PlayerInterface.m_PlayerSettings.value(button->objectName()).isNull()) {
                 signalMapper->setMapping(button,m_PlayerInterface.m_PlayerSettings.value(button->objectName()).toString());
                 connect(button, SIGNAL(clicked())
                         ,signalMapper,SLOT(map()));
+            } else {
+                qDebug()<<"not connect" <<button->objectName();
             }
         }
     }
@@ -230,7 +243,7 @@ void BluRayDialog::CommError(QString/* socketError*/)
 
 bool BluRayDialog::SendCmd(const QString& cmd)
 {
-    //qDebug()<<">>"+cmd;
+    qDebug()<<">>"+cmd;
     return m_PlayerInterface.SendCmd(cmd);
 }
 

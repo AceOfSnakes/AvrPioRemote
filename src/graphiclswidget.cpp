@@ -24,7 +24,7 @@ void GraphicLSWidget::makeSmall()
     m_BoxWidth = 8,
     m_BoxHeight = 6,
     m_IsBig = false;
-    setStyleSheet("border: 1px solid red");
+    setStyleSheet("border: 1px solid red; color: #777777");
     resize(6 + m_BoxWidth * 5, 6 + m_BoxHeight * 6);
 }
 
@@ -40,9 +40,9 @@ void GraphicLSWidget::makeSmall()
 
 void GraphicLSWidget::paintEvent(QPaintEvent * /* event */)
 {
+    QPainter painter(this);
     if (m_Input) {
         if (m_CurrentData.length() >= 16) {
-            QPainter painter(this);
             //painter.setRenderHint(QPainter::Antialiasing, true);
 
             drawBox(painter, 1, 1, m_CurrentData[0] != '0', "L");
@@ -70,7 +70,6 @@ void GraphicLSWidget::paintEvent(QPaintEvent * /* event */)
         }
     } else {
         if (m_CurrentData.length() >= 13) {
-            QPainter painter(this);
             //painter.setRenderHint(QPainter::Antialiasing, true);
 
             drawBox(painter, 1, 1, m_CurrentData[0] != '0', "L");
@@ -119,7 +118,7 @@ void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString 
         }
         else {
             painter.setBrush(Qt::NoBrush);
-            painter.setPen(palette().dark().color());
+            painter.setPen(palette().text().color());
             painter.drawRect(5 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
             painter.drawText(7 + x * m_BoxWidth, 5 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2, Qt::AlignCenter, str);
         }
@@ -134,7 +133,7 @@ void GraphicLSWidget::drawBox(QPainter& painter, int x, int y, bool on, QString 
         }
         else {
             painter.setBrush(Qt::NoBrush);
-            painter.setPen(palette().dark().color());
+            painter.setPen(palette().text().color());
             if (m_Input)
                 painter.drawRect(3 + x * m_BoxWidth, 3 + y * m_BoxHeight, m_BoxWidth - 2, m_BoxHeight - 2);
             else
