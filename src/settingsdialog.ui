@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>370</width>
-    <height>451</height>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -33,7 +33,7 @@
        <item>
         <widget class="QCheckBox" name="TunerVSX922CompatibilityModeCheckBox">
          <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
+          <enum>Qt::LayoutDirection::LeftToRight</enum>
          </property>
          <property name="text">
           <string>VSX 922 compatible mode</string>
@@ -92,7 +92,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>192</string>
@@ -110,10 +110,10 @@
                  <string>.</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -140,7 +140,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>168</string>
@@ -158,10 +158,10 @@
                  <string>.</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -188,7 +188,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>1</string>
@@ -206,10 +206,10 @@
                  <string>.</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -236,7 +236,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>1</string>
@@ -254,10 +254,10 @@
                  <string>:</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -287,7 +287,7 @@
                  <number>4</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>8102</string>
@@ -343,7 +343,7 @@
               <item>
                <spacer name="horizontalSpacer_3">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -364,7 +364,6 @@
                 <property name="font">
                  <font>
                   <pointsize>10</pointsize>
-                  <weight>50</weight>
                   <bold>false</bold>
                  </font>
                 </property>
@@ -389,7 +388,7 @@
        <item>
         <spacer name="verticalSpacer_5">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -441,7 +440,7 @@
          <item>
           <spacer name="horizontalSpacer_6">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -501,7 +500,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>192</string>
@@ -519,10 +518,10 @@
                  <string>.</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -549,7 +548,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>168</string>
@@ -567,10 +566,10 @@
                  <string>.</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -597,7 +596,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>1</string>
@@ -615,10 +614,10 @@
                  <string>.</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -645,7 +644,7 @@
                  <number>3</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>1</string>
@@ -663,10 +662,10 @@
                  <string>:</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::PlainText</enum>
+                 <enum>Qt::TextFormat::PlainText</enum>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -693,7 +692,7 @@
                  <number>5</number>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>8102</string>
@@ -726,7 +725,7 @@
               <item>
                <spacer name="horizontalSpacer_7">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -750,7 +749,6 @@
                 <property name="font">
                  <font>
                   <pointsize>10</pointsize>
-                  <weight>50</weight>
                   <bold>false</bold>
                  </font>
                 </property>
@@ -773,7 +771,7 @@
          <item>
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -788,7 +786,7 @@
        <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -805,43 +803,6 @@
        <string>Common</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>Language</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QRadioButton" name="LanguageAutoRadioButton">
-            <property name="text">
-             <string>Auto</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="LanguageEnglishRadioButton">
-            <property name="text">
-             <string>English</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="LanguageGermanRadioButton">
-            <property name="text">
-             <string>German</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="LanguageRussianRadioButton">
-            <property name="text">
-             <string>Русский</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item>
         <widget class="QCheckBox" name="ShowReceiverNameInTitleCheckBox">
          <property name="text">
@@ -866,7 +827,7 @@
        <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -966,7 +927,7 @@
           <item>
            <spacer name="verticalSpacer">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1010,7 +971,7 @@
        <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -1034,7 +995,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -1054,7 +1015,7 @@
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

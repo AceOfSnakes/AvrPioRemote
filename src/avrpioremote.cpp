@@ -62,23 +62,23 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
    //
     //connect( QApplication::closeAllWindows(), SIGNAL(destroyed(QObject*)), this, SLOT(exitNormally()) );
-    QString lang = m_Settings.value("Language", "auto").toString();
-    if (lang == "auto")
-    {
-        lang = QLocale::system().name();
-    }
-    if (lang.startsWith("de"))
-    {
-        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_de"));
-    }
-    else if (lang.startsWith("ru"))
-    {
-        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_ru"));
-    }
-    else
-    {
+    // QString lang = m_Settings.value("Language", "auto").toString();
+    // if (lang == "auto")
+    // {
+    //     lang = QLocale::system().name();
+    // }
+    // if (lang.startsWith("de"))
+    // {
+    //     m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_de"));
+    // }
+    // else if (lang.startsWith("ru"))
+    // {
+    //     m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_ru"));
+    // }
+    // else
+    // {
         m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
-    }
+//    }
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
     width = size().width();

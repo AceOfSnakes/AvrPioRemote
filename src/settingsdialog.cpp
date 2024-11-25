@@ -42,7 +42,8 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
 
     //this->setFixedSize(this->size());
     this->setModal(true);
-
+    QString lang = "en";
+/*
     QString lang = m_Settings.value("Language", "auto").toString();
     if (lang == "auto")
     {
@@ -60,6 +61,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     {
         ui->LanguageEnglishRadioButton->setChecked(true);
     }
+*/
     ui->ShowNetRadioCheckBox->setChecked(m_Settings.value("AutoShowNetRadio", true).toBool());
     ui->ShowTunerCheckBox->setChecked(m_Settings.value("AutoShowTuner", true).toBool());
     ui->ShowUSBCheckBox->setChecked(m_Settings.value("AutoShowUSB", true).toBool());
@@ -267,54 +269,54 @@ void SettingsDialog::on_VSX5xxCompatibilityModeCheckBox_stateChanged(int state)
 
 void SettingsDialog::on_LanguageAutoRadioButton_clicked(bool checked)
 {
-    if (checked)
-    {
-        m_Settings.setValue("Language", "auto");
-        SetLanguage();
-    }
+    // if (checked)
+    // {
+    //     m_Settings.setValue("Language", "auto");
+    //     SetLanguage();
+    // }
 }
 
 
 void SettingsDialog::on_LanguageEnglishRadioButton_clicked(bool checked)
 {
-    if (checked)
-    {
-        m_Settings.setValue("Language", "en");
-        SetLanguage();
-    }
+    // if (checked)
+    // {
+    //     m_Settings.setValue("Language", "en");
+    //     SetLanguage();
+    // }
 }
 
 
 void SettingsDialog::on_LanguageGermanRadioButton_clicked(bool checked)
 {
-    if (checked)
-    {
-        m_Settings.setValue("Language", "de");
-        SetLanguage();
-    }
+    // if (checked)
+    // {
+    //     m_Settings.setValue("Language", "de");
+    //     SetLanguage();
+    // }
 }
 
 
 void SettingsDialog::SetLanguage()
 {
-    QString lang = m_Settings.value("Language", "auto").toString();
-    if (lang == "auto")
-    {
-        lang = QLocale::system().name();
-    }
-    if (lang.startsWith("de"))
-    {
-        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_de"));
-    }
-    else if (lang.startsWith("ru"))
-    {
-        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_ru"));
-    }
-    else
-    {
-        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
-    }
-    QCoreApplication::installTranslator(&m_Translater);
+    // QString lang = m_Settings.value("Language", "auto").toString();
+    // if (lang == "auto")
+    // {
+    //     lang = QLocale::system().name();
+    // }
+    // if (lang.startsWith("de"))
+    // {
+    //     m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_de"));
+    // }
+    // else if (lang.startsWith("ru"))
+    // {
+    //     m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_ru"));
+    // }
+    // else
+    // {
+    //     m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
+    // }
+    // QCoreApplication::installTranslator(&m_Translater);
 
 }
 
