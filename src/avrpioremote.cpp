@@ -77,7 +77,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     // }
     // else
     // {
-        m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
+    m_Translater.load(QString::fromUtf8(":/new/prefix1/avrpioremote_en"));
 //    }
     QCoreApplication::installTranslator(&m_Translater);
     ui->setupUi(this);
