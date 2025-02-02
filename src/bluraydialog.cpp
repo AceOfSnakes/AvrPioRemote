@@ -20,7 +20,7 @@
 #include "ui_bluraydialog.h"
 #include <QDebug>
 #include <QSignalMapper>
-#include <QtConcurrent/QtConcurrent>
+//#include <QtConcurrent>
 #include <QDateTime>
 #include <QThread>
 #include <QTimer>

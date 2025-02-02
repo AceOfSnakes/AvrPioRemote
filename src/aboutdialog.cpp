@@ -106,7 +106,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     first.setDate(date.date().year(),date.date().month(),1);
     int week = date.date().weekNumber() -
             (first.weekNumber() > date.date().weekNumber() ? 0 : first.weekNumber());
-    ui->label_3->setText(QString("Version ").append(
+    ui->label_3->setText(QString().append(
 #ifdef __FORCED_APP_VER
         QString(__FORCED_APP_VER)
 #else
