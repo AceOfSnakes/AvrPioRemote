@@ -111,7 +111,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
         QString(__FORCED_APP_VER)
 #else
         date.toString("yy.MM")
-                              .append(week == 0 ? QString() : QString().asprintf(".%d", week))
+            .append(week == 0 ? QString() : QString().asprintf(".%d", week))
 #endif
         ));
     ui->labelCompiler->setText(compiler);

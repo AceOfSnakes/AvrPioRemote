@@ -440,10 +440,11 @@ void AVRPioRemote::SetTheme(QString theme_name) {
         QPixmap pixmap(theme.background_image);
         if(pixmap.height() > 0) {
             setWindowFlags(Qt::FramelessWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Window /*| Qt::WindowMinMaxButtonsHint*/);
 #ifdef Q_OS_LINUX
 //            if(QX11Info::isPlatformX11() ){
 //                if(QX11Info::isCompositingManagerRunning()) {
-//                    setAttribute(Qt::WA_TranslucentBackground);
+                    setAttribute(Qt::WA_TranslucentBackground);
 //                }
 //            }
 #else
