@@ -27,7 +27,7 @@
 #include "themereader.h"
 //#include <QtSvg>
 #ifdef Q_OS_LINUX
-#include <QtX11Extras/qx11info_x11.h>
+//#include <QtX11Extras/qx11info_x11.h>
 #endif
 
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
@@ -441,11 +441,11 @@ void AVRPioRemote::SetTheme(QString theme_name) {
         if(pixmap.height() > 0) {
             setWindowFlags(Qt::FramelessWindowHint);
 #ifdef Q_OS_LINUX
-            if(QX11Info::isPlatformX11() ){
-                if(QX11Info::isCompositingManagerRunning()) {
-                    setAttribute(Qt::WA_TranslucentBackground);
-                }
-            }
+//            if(QX11Info::isPlatformX11() ){
+//                if(QX11Info::isCompositingManagerRunning()) {
+//                    setAttribute(Qt::WA_TranslucentBackground);
+//                }
+//            }
 #else
             setAttribute(Qt::WA_TranslucentBackground);
 #endif

@@ -7,7 +7,10 @@
 QT       += core gui
 QT       += network xml
 QT       += opengl
-unix: QT += x11extras
+unix: 
+equals(QT_MAJOR_VERSION, 5) {
+  QT += x11extras
+}
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
