@@ -7,9 +7,10 @@
 QT       += core gui
 QT       += network xml
 QT       += opengl
-unix: 
+unix {
 equals(QT_MAJOR_VERSION, 5) {
   QT += x11extras
+}
 }
 
 
