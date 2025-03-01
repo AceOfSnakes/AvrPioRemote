@@ -137,7 +137,7 @@ signals:
     void CommError(QString error);
     void Connected();
     void Disconnected();
-    void DataReceived(QString);
+    void DataReceived(QString&);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     void UpdateDisplayInfo(QRegExp&);
 #else
