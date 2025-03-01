@@ -25,4 +25,4 @@ Qt5 artifacts for Windows before Win10
 ![QT5](./doc/images/Qt5.png) | ![QT6](./doc/images/Qt6.png)
 ![QT5](./doc/images/settings-qt5.png) | ![QT6](./doc/images/settings-qt6.png)
 
-[View more](doc/read,e.md)
+[View more](doc/readme.md)
