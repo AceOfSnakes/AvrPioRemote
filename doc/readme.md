@@ -9,3 +9,4 @@
  :-------------------------:|:-------------------------:
 ![QT5](/doc/images/Qt5.png) | ![QT6](/doc/images/Qt6.png)
 ![QT5](/doc/images/settings-qt5.png) | ![QT6](/doc/images/settings-qt6.png)
+![QT5](/doc/images/blueray-qt5.png) | ![QT6](/doc/images/blueray-qt6.png)
