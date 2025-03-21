@@ -298,8 +298,6 @@ RESOURCES += \
     src/avrpioremote.qrc
 
 TRANSLATIONS = src/avrpioremote_en.ts \
-               src/avrpioremote_de.ts \
-               src/avrpioremote_ru.ts \
 
 CONFIG += exceptions rtti
 
