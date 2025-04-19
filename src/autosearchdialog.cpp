@@ -260,7 +260,8 @@ void AutoSearchDialog::reconnect(QString & key, QString & ip, int port, Discover
         device = pdevice;
         connect((pdevice), SIGNAL(TcpConnected()), this, SLOT(TcpConnected()));
         connect((pdevice), SIGNAL(TcpDisconnected()), this, SLOT(TcpDisconnected()));
-        connect((pdevice), SIGNAL(DataAvailable()), this, SLOT(PioneerAnswer()));
+        //connect((pdevice), SIGNAL(DataReceived()), this, SLOT(PioneerAnswer()));
+        connect((pdevice), SIGNAL(DataReceived(const QString&)), this, SLOT(PioneerAnswer(const QString&)));
         connect((pdevice), SIGNAL(TcpError(QAbstractSocket::SocketError)), this,  SLOT(PioneerError(QAbstractSocket::SocketError)));
         if(port == 23) {
             device->Connect(ip, prefferedPort);

@@ -1,6 +1,6 @@
 # AvrPioRemote. Based on Qt 5+
 <p align="center">
-<img src="src/images/AVRPioRemote.png"/>
+<img src="src/images/AVRPioRemote.png" alt="Logo"/>
 </p>
 
 This is clone of https://sourceforge.net/projects/avrpioremote/
@@ -20,4 +20,19 @@ Qt5 artifacts for Windows before Win10 Win11
  | |
 :-------------------------:
 ![Main screen](./doc/images/AVRPioRemote.png) 
+=======
+Qt5 artifacts for Windows before Win10
 
+## Some screenshots
+
+| No Device | Device On | Device Off (pass through) |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+![QT5](doc/images/AVRPioRemote-no.png) | ![QT5](doc/images/AVRPioRemote.png) | ![QT6](doc/images/AVRPioRemote-off.png)
+
+ 
+ | QT5 | QT 6 (OS Dark theme) |
+ :-------------------------:|:-------------------------:
+![QT5](./doc/images/Qt5.png) | ![QT6](./doc/images/Qt6.png)
+
+
+[View more screenshots](doc/readme.md)

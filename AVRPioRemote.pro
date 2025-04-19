@@ -7,9 +7,10 @@
 QT       += core gui
 QT       += network xml
 QT       += opengl
-unix: 
+unix {
 equals(QT_MAJOR_VERSION, 5) {
   QT += x11extras
+}
 }
 
 
@@ -297,8 +298,6 @@ RESOURCES += \
     src/avrpioremote.qrc
 
 TRANSLATIONS = src/avrpioremote_en.ts \
-               src/avrpioremote_de.ts \
-               src/avrpioremote_ru.ts \
 
 CONFIG += exceptions rtti
 
