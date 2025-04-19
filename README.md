@@ -11,6 +11,16 @@ Update 2018: Now the new generation is supported too (like LX-701)
 
 From now supported both versions of QT
 
+Qt5 artifacts for Windows before Win10 Win11
+| | |
+  :-------------------------:|:-------------------------:
+![QT5](./doc/images/Qt5.png) | ![QT5](./doc/images/Qt5-ux.png) 
+![QT6](./doc/images/Qt6.png)
+ 
+ | |
+:-------------------------:
+![Main screen](./doc/images/AVRPioRemote.png) 
+=======
 Qt5 artifacts for Windows before Win10
 
 ## Some screenshots
