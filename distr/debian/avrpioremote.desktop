@@ -1,0 +1,18 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Categories=Application;
+Comment=
+Exec=/opt/AvrPioRemote/AVRPioRemote
+GenericName=AVRPioRemote
+Icon=/opt/AvrPioRemote/AVRPioRemote.png
+MimeType=
+Name=AVRPioRemote
+Path=/opt/AvrPioRemote
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
