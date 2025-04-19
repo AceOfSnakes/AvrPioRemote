@@ -15,7 +15,7 @@ Qt5 artifacts for Windows before Win10 Win11
 | | |
   :-------------------------:|:-------------------------:
 ![QT5](./doc/images/Qt5.png) | ![QT5](./doc/images/Qt5-ux.png) 
-![QT6](./doc/images/Qt6.png)
+![QT6](./doc/images/Qt6.png) | ![QT6](./doc/images/Qt6-ux.png) 
  
  | |
 :-------------------------:
