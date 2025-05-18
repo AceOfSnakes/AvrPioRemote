@@ -1,0 +1,18 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Categories=Utility;Network
+Comment=
+Exec=/opt/AvrPioRemote-Qt5/AVRPioRemote -platform xcb
+GenericName=AVRPioRemote Qt5
+Icon=/opt/AvrPioRemote-Qt5/AVRPioRemote.png
+MimeType=
+Name=AVRPioRemote Qt5
+Path=/opt/AvrPioRemote-Qt5
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

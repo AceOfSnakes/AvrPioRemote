@@ -1,0 +1,5 @@
+AVRPioRemote opt/AvrPioRemote-Qt5
+src/*.json  opt/AvrPioRemote-Qt5
+src/images/AVRPioRemote.png opt/AvrPioRemote-Qt5
+debian/*.desktop usr/share/applications
+src/theme/* opt/AvrPioRemote-Qt5/theme

@@ -1,0 +1,38 @@
+avrpioremote-qt5 (25.03) RELEASED; urgency=medium
+
+  * Restore player auto search
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sat, 01 Mar 2025 11:42:11 +0300
+
+avrpioremote-qt5 (25.01) RELEASED; urgency=medium
+
+  * Just for install on Windows W32/W64 Qt5/Qt6 on one workstation
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sat, 01 Jan 2025 11:42:11 +0300
+
+avrpioremote-qt5 (24.11) RELEASED; urgency=medium
+
+  * Add support for QT 6
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sat, 01 Nov 2024 11:42:11 +0300
+
+avrpioremote-qt5 (24.10) RELEASED; urgency=medium
+
+  * Make some UI changes
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sat, 02 Oct 2024 11:42:11 +0300
+
+avrpioremote-qt5 (24.02) RELEASED; urgency=medium
+
+  * Fix licence and copyright issues.
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sat, 02 Feb 2024 11:42:11 +0300
+
+avrpioremote-qt5 (23.11) RELEASED; urgency=medium
+
+  * First release of copied app from https://sourceforge.net/projects/avrpioremote
+    and new versioning YY.MM
+
+    For now distribute packages only for windows.
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sat, 02 Mar 2024 11:42:11 +0300
