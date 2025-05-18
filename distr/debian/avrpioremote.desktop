@@ -1,8 +1,8 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
-Categories=Application;
+Categories=Utility;Network
 Comment=
-Exec=/opt/AvrPioRemote/AVRPioRemote
+Exec=/opt/AvrPioRemote/AVRPioRemote -platform xcb
 GenericName=AVRPioRemote
 Icon=/opt/AvrPioRemote/AVRPioRemote.png
 MimeType=
