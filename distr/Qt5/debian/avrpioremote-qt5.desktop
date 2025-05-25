@@ -2,12 +2,12 @@
 [Desktop Entry]
 Categories=Application;
 Comment=
-Exec=/opt/AvrPioRemote/AVRPioRemote -platform xcb
-GenericName=AVRPioRemote
-Icon=/opt/AvrPioRemote/AVRPioRemote.png
+Exec=/opt/AvrPioRemote-Qt5/AVRPioRemote -platform xcb
+GenericName=AVRPioRemote Qt5
+Icon=/opt/AvrPioRemote-Qt5/AVRPioRemote.png
 MimeType=
-Name=AVRPioRemote
-Path=/opt/AvrPioRemote
+Name=AVRPioRemote Qt5
+Path=/opt/AvrPioRemote-Qt5
 StartupNotify=true
 Terminal=false
 TerminalOptions=
