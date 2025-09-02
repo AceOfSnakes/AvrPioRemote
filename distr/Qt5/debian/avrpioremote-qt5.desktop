@@ -1,6 +1,6 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
-ategories=Utility;Network
+Categories=Utility;Network
 Comment=
 Exec=/opt/AvrPioRemote-Qt5/AVRPioRemote -platform xcb
 GenericName=AVRPioRemote Qt5

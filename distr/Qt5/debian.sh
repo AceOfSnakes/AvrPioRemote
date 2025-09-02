@@ -7,5 +7,6 @@ cp -r ../../src/ $TARGET/src/
 cp  ../../* $TARGET/
 cd $TARGET
 #ln -s /usr/bin/qmake6 ./qmake
+echo "======================================================================== `pwd`"
 pwd
 dpkg-buildpackage -b -uc -us -d
