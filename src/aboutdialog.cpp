@@ -157,7 +157,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
             .append(" (static)" )
 #endif
     .append(QString(" based on Qt ").append(qVersion())
-#ifdef Q_OS_WIN64
+#if Q_PROCESSOR_WORDSIZE == 8
     .append(" x64")
 #endif
                     )));
