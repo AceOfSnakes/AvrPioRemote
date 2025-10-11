@@ -16,8 +16,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aboutdialog.h"
-#include "QDateTime"
+#include <QDateTime>
+#include <QSettings>
+#include <QOperatingSystemVersion>
 #include "ui_aboutdialog.h"
+
+#if defined(Q_OS_WIN)
+#include <qt_windows.h>
+#endif
+
+QString AboutDialog::prettyProductName() {
+#if QT_MAJOR_VERSION < 5
+#if defined(Q_OS_WIN)
+    QSettings m("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+                QSettings::Registry64Format);
+
+    QString displayVersion = m.value("DisplayVersion").toString();
+
+    OSVERSIONINFOEX osver;
+    //::GetVersionEx(osver);
+    osver.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+    if(!GetVersionEx((OSVERSIONINFO*)&osver)) {
+        return QSysInfo::prettyProductName();
+    }
+    const bool workstation = osver.wProductType == VER_NT_WORKSTATION;
+    QOperatingSystemVersion version = QOperatingSystemVersion::current();
+
+#define Q_WINVER(major, minor) (major << 8 | minor)
+    switch (Q_WINVER(version.majorVersion(), version.minorVersion())) {
+    case Q_WINVER(10, 0):
+        if (!displayVersion.isEmpty()) {
+            if(((workstation && version.microVersion() >= 21327) || (!workstation && version.microVersion() >= 17623)))
+                return QString(workstation ? "Windows 11" : "Windows Server 2022").append(" Version ").append(displayVersion);
+            else
+                return QString(workstation ? "Windows 10" : "Windows Server 2016").append(" Version ").append(displayVersion);
+        }
+    }
+#undef Q_WINVER
+
+#endif
+#endif
+    return QSysInfo::prettyProductName();
+}
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
@@ -110,20 +150,19 @@ AboutDialog::AboutDialog(QWidget *parent) :
 #ifdef __FORCED_APP_VER
         QString(__FORCED_APP_VER)
 #else
-        date.toString("yy.MM")
-            .append(week == 0 ? QString() : QString().asprintf(".%d", week))
+    date.toString("yy.MM")
+        .append(week == 0 ? QString() : QString().asprintf(".%d", week))
 #endif
-        ));
-    ui->labelCompiler->setText(compiler);
-    ui->labelQT->setText(QString("Based on Qt ")
-    .append(qVersion())
-
-#ifdef STATIC                                   
-    .append(" (static)" )
+#ifdef STATIC
+            .append(" (static)" )
 #endif
+    .append(QString(" based on Qt ").append(qVersion())
 #ifdef Q_OS_WIN64
     .append(" x64")
 #endif
+                    )));
+    ui->labelCompiler->setText(compiler);
+    ui->labelQT->setText(QString("OS: ").append(prettyProductName())
      );
     setWindowFlags(windowFlags() & (~Qt::WindowContextHelpButtonHint));
 
@@ -131,7 +170,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->labelQTLogo->setPixmap(QPixmap::fromImage(img));
     QObject::connect(ui->labelQTLogo, SIGNAL(customContextMenuRequested(QPoint)), qApp, SLOT(aboutQt()));
 
-    ui-> program->setText(qApp->applicationName());
+    ui->program->setText(qApp->applicationName());
 }
 
 AboutDialog::~AboutDialog()

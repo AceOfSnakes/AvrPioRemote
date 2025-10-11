@@ -39,6 +39,7 @@ private slots:
 
 private:
     Ui::AboutDialog *ui;
+    QString prettyProductName();
 };
 
 #endif // ABOUTDIALOG_H
