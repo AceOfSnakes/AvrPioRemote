@@ -90,9 +90,9 @@ AboutDialog::AboutDialog(QWidget *parent) :
      *    DEFINES += __VSVERSION=$$(VisualStudioVersion)
      * }
      */
-    compiler.append(QString().asprintf(" %d / MSVC++ %s", 2013 + (((int)__VSVERSION)-13) * 2
-                                       + (((int)__VSVERSION) > 16 ? 1 : 0)
+    compiler.append(QString().asprintf(" %d / MSVC++ %s", ((int)__VSVERSION) == 16? 2019: ((int)__VSVERSION) == 17? 2022: 2026
                                        , __VSCMD_VER));
+
 #elif _MSC_VER >= 1930
     compiler.append(" 2022 / MSVC++ 17.").append(QString().asprintf("%d",((_MSC_VER % 100) - 30)));
 #elif _MSC_VER >= 1929
