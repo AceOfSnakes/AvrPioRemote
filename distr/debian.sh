@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -ex
 
 PWDFROM=.
 
@@ -10,4 +10,4 @@ echo "==============================================================="
 echo $0 PWD: $(pwd)
 echo "==============================================================="
 
-dpkg-buildpackage -B -uc -us 
+dpkg-buildpackage -B -uc -us --hook-done='for f in ../*amd64.deb; do mv "$f" "${f%%_amd64.deb}_$(uname -m).deb"; done'

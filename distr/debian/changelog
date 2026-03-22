@@ -1,5 +1,10 @@
-avrpioremote (25.10) RELEASED; urgency=medium
+avrpioremote (26.03) RELEASED; urgency=medium
 
+  * Add rmp packaging
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sun, 01 Mar 2026 00:00:00 +0300
+
+avrpioremote (25.10) RELEASED; urgency=medium
   * Cosmetic changes in about window
 
  -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Wen, 01 Oct 2025 11:42:11 +0300
