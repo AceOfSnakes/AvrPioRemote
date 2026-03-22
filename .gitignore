@@ -2,3 +2,8 @@
 *.obj
 *.pro.user
 build/*
+rpm/*
+rpm
+rpm-qt5/*
+rpm-qt5
+*.list
