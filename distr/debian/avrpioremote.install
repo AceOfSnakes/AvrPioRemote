@@ -1,5 +1,5 @@
-AVRPioRemote opt/AvrPioRemote
-src/*.json  opt/AvrPioRemote
-src/images/AVRPioRemote.png opt/AvrPioRemote
+AVRPioRemote opt/avrpioremote
+src/*.json  opt/avrpioremote
+src/images/AVRPioRemote.png opt/avrpioremote
 debian/*.desktop usr/share/applications
-src/theme/* opt/AvrPioRemote/theme
+src/theme/* opt/avrpioremote/theme
