@@ -58,6 +58,6 @@ override_dh_install:
 	 -C $(CURDIR)/debian/avrpioremote-qt5 .
 
 override_dh_auto_clean:
-#	@echo ======================================================= override_dh_auto_clean 
-#	-rm -rf build-qt5 build-qt6
-#	-dh_auto_clean
+	@echo ======================================================= override_dh_auto_clean 
+	-rm -rf build-qt5 build-qt6
+	-dh_auto_clean
