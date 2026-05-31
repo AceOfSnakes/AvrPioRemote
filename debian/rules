@@ -1,0 +1,63 @@
+#!/usr/bin/make -f
+
+# See debhelper(7) (uncomment to enable).
+# Output every command that modifies files on the build system.
+#export DH_VERBOSE = 1
+
+
+# See FEATURE AREAS in dpkg-buildflags(1).
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# See ENVIRONMENT in dpkg-buildflags(1).
+# Package maintainers to append CFLAGS.
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# Package maintainers to append LDFLAGS.
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+%:
+	dh $@
+# --buildsystem qmake6
+
+# Create binary tarball for RPM build
+
+DEB_SOURCE := $(shell dpkg-parsechangelog --show-field Source)
+DEB_VERSION := $(shell dpkg-parsechangelog --show-field Version)
+DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+
+override_dh_auto_configure:
+	@echo ======================================================= override_dh_auto_configure
+	# 1. Dynamically generate the localized .desktop entries into the project root
+	sed 's/\$$SUFFIX/-qt5/g' debian/avrpioremote.desktop.in > avrpioremote-qt5.desktop
+	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > avrpioremote.desktop
+	# Configure Qt5 build in its own directory
+	mkdir -p build-qt5
+	cd build-qt5 && qmake QT_VERSION_MAJOR=5 ../*.pro
+	# Configure Qt6 build in its own directory
+	mkdir -p build-qt6
+	cd build-qt6 && qmake6 QT_VERSION_MAJOR=6 ../*.pro
+
+override_dh_auto_build:
+	@echo ======================================================= override_dh_auto_build
+	# Compile both directories using standard parallel make commands
+	$(MAKE) -C build-qt5
+	$(MAKE) -C build-qt6
+
+override_dh_auto_install:
+	@echo ======================================================= override_dh_auto_install
+	$(MAKE) -C build-qt5 install INSTALL_ROOT=$(CURDIR)/debian/avrpioremote-qt5
+	$(MAKE) -C build-qt6 install INSTALL_ROOT=$(CURDIR)/debian/avrpioremote
+
+override_dh_install:
+	@echo ======================================================= override_dh_auto_install:
+	dh_install
+	tar --numeric-owner --owner=0 --group=0  \
+	 -cJf ../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
+	 -C $(CURDIR)/debian/avrpioremote .
+	tar --numeric-owner --owner=0 --group=0  \
+	 -cJf ../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH)-qt5.txz \
+	 -C $(CURDIR)/debian/avrpioremote-qt5 .
+
+override_dh_auto_clean:
+#	@echo ======================================================= override_dh_auto_clean 
+#	-rm -rf build-qt5 build-qt6
+#	-dh_auto_clean

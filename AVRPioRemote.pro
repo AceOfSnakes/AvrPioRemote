@@ -8,17 +8,20 @@ QT       += core gui
 QT       += network xml
 
 unix {
-equals(QT_MAJOR_VERSION, 5) {
-  QT += x11extras
+  equals(QT_MAJOR_VERSION, 5) {
+    TARGET = avrpioremote-qt5
+    QT += x11extras
+  } else {
+    TARGET = avrpioremote
+  }
 }
+windows {
+  TARGET = AVRPioRemote
 }
-
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
 
-TARGET = AVRPioRemote
 TEMPLATE = app
 win32: RC_ICONS = src/AVRPioRemote.ico
 
