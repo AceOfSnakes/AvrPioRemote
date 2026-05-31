@@ -54,10 +54,10 @@ override_dh_install:
 	 -cJf ../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
 	 -C $(CURDIR)/debian/avrpioremote .
 	tar --numeric-owner --owner=0 --group=0  \
-	 -cJf ../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH)-qt5.txz \
+	 -cJf ../$(DEB_SOURCE)-qt5_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
 	 -C $(CURDIR)/debian/avrpioremote-qt5 .
 
 override_dh_auto_clean:
-	@echo ======================================================= override_dh_auto_clean 
-	-rm -rf build-qt5 build-qt6
-	-dh_auto_clean
+#	@echo ======================================================= override_dh_auto_clean 
+#	-rm -rf build-qt5 build-qt6
+#	-dh_auto_clean
