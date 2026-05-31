@@ -262,39 +262,6 @@ OTHER_FILES += \
     src/images/Gnome-folder-open.svg \
     src/images/Gnome-emblem-photos.svg \
     src/images/Gnome-audio-x-generic.svg \
-    src/android/AndroidManifest.xml \
-    src/android/res/layout/splash.xml \
-    src/android/res/values/libs.xml \
-    src/android/res/values/strings.xml \
-    src/android/res/values-de/strings.xml \
-    src/android/res/values-el/strings.xml \
-    src/android/res/values-es/strings.xml \
-    src/android/res/values-et/strings.xml \
-    src/android/res/values-fa/strings.xml \
-    src/android/res/values-fr/strings.xml \
-    src/android/res/values-id/strings.xml \
-    src/android/res/values-it/strings.xml \
-    src/android/res/values-ja/strings.xml \
-    src/android/res/values-ms/strings.xml \
-    src/android/res/values-nb/strings.xml \
-    src/android/res/values-nl/strings.xml \
-    src/android/res/values-pl/strings.xml \
-    src/android/res/values-pt-rBR/strings.xml \
-    src/android/res/values-ro/strings.xml \
-    src/android/res/values-rs/strings.xml \
-    src/android/res/values-ru/strings.xml \
-    src/android/res/values-zh-rCN/strings.xml \
-    src/android/res/values-zh-rTW/strings.xml \
-    src/android/version.xml \
-    src/android/res/drawable/icon.png \
-    src/android/res/drawable/logo.png \
-    src/android/res/drawable-hdpi/icon.png \
-    src/android/res/drawable-ldpi/icon.png \
-    src/android/res/drawable-mdpi/icon.png \
-    src/android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    src/android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    src/android/src/org/kde/necessitas/origo/QtActivity.java \
-    src/android/src/org/kde/necessitas/origo/QtApplication.java \
     src/AVRPioRemote.ico
 
 RESOURCES += \
