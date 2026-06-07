@@ -353,14 +353,18 @@ void AVRPioRemote::closeEvent(QCloseEvent *event)
     QMainWindow::closeEvent(event);
 }
 
-void AVRPioRemote::changeEvent(QEvent *e) {
+void AVRPioRemote::changeEvent(QEvent *event) {
 
-    QMainWindow::changeEvent(e);
-    switch (e->type()) {
+    QMainWindow::changeEvent(event);
+    switch (event->type()) {
     case QEvent::WindowStateChange: {
+        qDebug() << "QEvent::WindowStateChange" << event
+                 << "isMinimized()" << isMinimized()
+            << "m_tray_icon->isVisible()" << m_tray_icon->isVisible();
         if (isMinimized() && m_tray_icon->isVisible()) {
             this->hide();
-            e->accept();
+            this->setWindowFlags(this->windowFlags() | Qt::Tool);
+            event->accept();
             return;
         }
     }
@@ -371,6 +375,7 @@ void AVRPioRemote::changeEvent(QEvent *e) {
     default:
         break;
     }
+    QMainWindow::changeEvent(event);
 }
 
 bool AVRPioRemote::eventFilter(QObject *obj, QEvent *event)
@@ -503,50 +508,64 @@ void AVRPioRemote::on_show_hide( ) {
              << isVisible()
              << "min"
              << isMinimized();
-    if(isVisible())  {
+
         if(isMinimized()) {
             showNormal();
+                foreach(QDialog* x,this->findChildren<QDialog *>()) {
+                    //qDebug()<<x->objectName()<<x->isHidden()<<x->isVisible()<<x->isMinimized();
+                    if(x->isVisible() || x->isMinimized()) {
+                        x->showNormal();
+                        x->raise();
+                    }
+                }
+
             setFocus();
         }
         else {
             showMinimized();
+            foreach(QDialog* x,this->findChildren<QDialog *>()) {
+                //qDebug()<<x->objectName()<<x->isVisible()<<x->isActiveWindow()<<x->isMinimized();
+                if(x->isVisible()) {
+                    x->showMinimized();
+                    x->setVisible(false);
+                }
+            }
+
         }
         //hide();
 
-        foreach(QDialog* x,this->findChildren<QDialog *>()) {
-            //qDebug()<<x->objectName()<<x->isVisible()<<x->isActiveWindow()<<x->isMinimized();
-            if(x->isVisible()) {
-                x->showMinimized();
-                x->setVisible(false);
-            }
-        }
-    }
-    else {
-        //qDebug()<<"\n\nRestore\n";
-        showNormal();
-        raise();
-        setFocus();
-        foreach(QDialog* x,this->findChildren<QDialog *>()) {
-            //qDebug()<<x->objectName()<<x->isHidden()<<x->isVisible()<<x->isMinimized();
-            if(x->isVisible() || x->isMinimized()) {
-                x->showNormal();
-                x->raise();
-            }
-        }
+    // else {
+    //     //qDebug()<<"\n\nRestore\n";
+    //     showNormal();
+    //     raise();
+    //     setFocus();
+    //     foreach(QDialog* x,this->findChildren<QDialog *>()) {
+    //         //qDebug()<<x->objectName()<<x->isHidden()<<x->isVisible()<<x->isMinimized();
+    //         if(x->isVisible() || x->isMinimized()) {
+    //             x->showNormal();
+    //             x->raise();
+    //         }
+    //     }
 
-        qApp->setActiveWindow(this);
-    }
+    //     qApp->setActiveWindow(this);
+    // }
 }
 
-void AVRPioRemote::on_show_hide( QSystemTrayIcon::ActivationReason reason )
-{
-    if( reason )     {
-        if( reason != QSystemTrayIcon::Trigger ) {
-            return;
+void AVRPioRemote::on_show_hide(QSystemTrayIcon::ActivationReason reason){
+
+    // qDebug() << "AVRPioRemote::on_show_hide(QSystemTrayIcon::ActivationReason reason)"
+    //          << reason;
+
+    if (reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick) {
+        if (!isVisible()) {
+            this->setWindowFlags(this->windowFlags() & ~Qt::Tool);
+            showNormal();
+            activateWindow();
+        } else {
+            this->hide();
+            this->setWindowFlags(this->windowFlags() | Qt::Tool);
         }
     }
-
-    on_show_hide();
 
 }
 void AVRPioRemote::minimize() {
