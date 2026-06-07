@@ -563,6 +563,12 @@ void AVRPioRemote::onShowHide(QSystemTrayIcon::ActivationReason reason) {
         if (!isVisible()) {
             this->setWindowFlags(this->windowFlags() & ~Qt::Tool);
             showNormal();
+            foreach(QDialog* x,this->findChildren<QDialog *>()) {
+                if(x->isVisible() || x->isMinimized()) {
+                    x->showNormal();
+                    x->raise();
+                }
+            }
             activateWindow();
         } else {
             if(m_tray_icon->isVisible()) {
@@ -571,6 +577,13 @@ void AVRPioRemote::onShowHide(QSystemTrayIcon::ActivationReason reason) {
             } else {
                 showMinimized();
             }
+            foreach(QDialog* x,this->findChildren<QDialog *>()) {
+                if(x->isVisible() || x->isMinimized()) {
+                    x->showMinimized();
+                    x->setVisible(false);
+                }
+            }
+
         }
     }
 }
