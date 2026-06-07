@@ -283,13 +283,15 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
 
     if(m_tray_icon == NULL) {
         m_tray_icon = new QSystemTrayIcon(QIcon(":/new/prefix1/images/AVRPioRemote.png"));
+        connect(m_tray_icon, &QSystemTrayIcon::activated, this, &AVRPioRemote::onShowHide);
 
-        connect( m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_show_hide(QSystemTrayIcon::ActivationReason)) );
         QAction *quit_action = new QAction(QIcon(":/new/prefix1/images/close.png"), "Exit", m_tray_icon );
         connect( quit_action, SIGNAL(triggered()), this, SLOT(exitNormally()) );
 
         QAction *hide_action = new QAction(QIcon(":/new/prefix1/images/showHide.png"), "Show/Hide", m_tray_icon );
-        connect( hide_action, SIGNAL(triggered()), this, SLOT(on_show_hide()) );
+        connect(hide_action, &QAction::triggered, this, [this]() {
+            this->onShowHide(QSystemTrayIcon::Trigger);
+        });
 
         QMenu *tray_icon_menu = new QMenu;
         tray_icon_menu->addAction( hide_action );
@@ -358,9 +360,9 @@ void AVRPioRemote::changeEvent(QEvent *event) {
     QMainWindow::changeEvent(event);
     switch (event->type()) {
     case QEvent::WindowStateChange: {
-        qDebug() << "QEvent::WindowStateChange" << event
-                 << "isMinimized()" << isMinimized()
-            << "m_tray_icon->isVisible()" << m_tray_icon->isVisible();
+        // qDebug() << "QEvent::WindowStateChange" << event
+        //          << "isMinimized()" << isMinimized()
+        //     << "m_tray_icon->isVisible()" << m_tray_icon->isVisible();
         if (isMinimized() && m_tray_icon->isVisible()) {
             this->hide();
             this->setWindowFlags(this->windowFlags() | Qt::Tool);
@@ -503,6 +505,7 @@ void AVRPioRemote::SetTheme(QString theme_name) {
     //                    "}"
     //        );
 }
+/*
 void AVRPioRemote::on_show_hide( ) {
     qDebug() << "on_show_hide( ) vis"
              << isVisible()
@@ -550,11 +553,11 @@ void AVRPioRemote::on_show_hide( ) {
     //     qApp->setActiveWindow(this);
     // }
 }
+*/
+void AVRPioRemote::onShowHide(QSystemTrayIcon::ActivationReason reason) {
 
-void AVRPioRemote::on_show_hide(QSystemTrayIcon::ActivationReason reason){
-
-    // qDebug() << "AVRPioRemote::on_show_hide(QSystemTrayIcon::ActivationReason reason)"
-    //          << reason;
+     // qDebug() << "AVRPioRemote::on_show_hide(QSystemTrayIcon::ActivationReason reason)"
+     //          << reason;
 
     if (reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick) {
         if (!isVisible()) {
@@ -562,23 +565,21 @@ void AVRPioRemote::on_show_hide(QSystemTrayIcon::ActivationReason reason){
             showNormal();
             activateWindow();
         } else {
-            this->hide();
-            this->setWindowFlags(this->windowFlags() | Qt::Tool);
+            if(m_tray_icon->isVisible()) {
+                this->hide();
+                this->setWindowFlags(this->windowFlags() | Qt::Tool);
+            } else {
+                showMinimized();
+            }
         }
     }
-
 }
+
 void AVRPioRemote::minimize() {
-    if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
-        on_show_hide();
-    } else {
-        showMinimized();
-    }
+    onShowHide(QSystemTrayIcon::Trigger);
 }
 
-void AVRPioRemote::exitNormally()
-{
-
+void AVRPioRemote::exitNormally() {
     qDebug() <<"exit";
     emit qApp->exit(0);
     exit(0);

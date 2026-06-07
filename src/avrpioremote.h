@@ -169,8 +169,8 @@ private slots:
     void StatusLineTimeout();
     void RefreshTimeout();
     void on_pushButtonConnect_clicked();
-    void on_show_hide(QSystemTrayIcon::ActivationReason reason);
-    void on_show_hide();
+    void onShowHide(QSystemTrayIcon::ActivationReason reason);
+//    void on_show_hide();
 
     //void ConnectWorkerErrorString(QString);
     //void onConnectWorkerFinished();
