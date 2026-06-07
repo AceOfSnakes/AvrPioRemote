@@ -63,7 +63,6 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AboutDialog)
 {
-    this->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
     ui->setupUi(this);
     this->setFixedSize(this->size());
     QString compiler;
