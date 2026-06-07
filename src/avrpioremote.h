@@ -72,8 +72,7 @@ public:
     explicit AVRPioRemote(QWidget *parent = 0);
     ~AVRPioRemote();
     void ResponseReceived(ReceivedObjectBase *);
-
-
+    
 private:
     Ui::AVRPioRemote *ui;
     ReceiverInterface           m_ReceiverInterface;

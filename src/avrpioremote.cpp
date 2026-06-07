@@ -301,6 +301,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
         }
         connect(m_SettingsDialog,SIGNAL(minimizeToTrayChanged()), this, SLOT(on_MinimizeToTrayChanged()));
     }
+
     qApp->installEventFilter(this);
 }
 
@@ -352,25 +353,18 @@ void AVRPioRemote::closeEvent(QCloseEvent *event)
     QMainWindow::closeEvent(event);
 }
 
-void AVRPioRemote::changeEvent(QEvent *e)
-{
+void AVRPioRemote::changeEvent(QEvent *e) {
 
-    qDebug()<<e;
     QMainWindow::changeEvent(e);
     switch (e->type()) {
     case QEvent::WindowStateChange: {
-        QWindowStateChangeEvent* event =
-                static_cast< QWindowStateChangeEvent* >( e );
-        if(!isMinimized() && isVisible()) {
-            showNormal();
-            break;
-        }
-        //qDebug()<<event<<isMinimized()<<event->oldState();
-        if(((event->oldState() == Qt::WindowNoState || event->oldState() & Qt::WindowMaximized)&& isMinimized()) || ((event->oldState() &Qt::WindowMinimized ) && !isMinimized() )) {
-            on_show_hide();
+        if (isMinimized() && m_tray_icon->isVisible()) {
+            this->hide();
+            e->accept();
+            return;
         }
     }
-        break;
+    break;
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
@@ -505,15 +499,25 @@ void AVRPioRemote::SetTheme(QString theme_name) {
     //        );
 }
 void AVRPioRemote::on_show_hide( ) {
-
-    if( isVisible() )  {
-        hide();
+    qDebug() << "on_show_hide( ) vis"
+             << isVisible()
+             << "min"
+             << isMinimized();
+    if(isVisible())  {
+        if(isMinimized()) {
+            showNormal();
+            setFocus();
+        }
+        else {
+            showMinimized();
+        }
+        //hide();
 
         foreach(QDialog* x,this->findChildren<QDialog *>()) {
             //qDebug()<<x->objectName()<<x->isVisible()<<x->isActiveWindow()<<x->isMinimized();
             if(x->isVisible()) {
                 x->showMinimized();
-//                x->setVisible(false);
+                x->setVisible(false);
             }
         }
     }
