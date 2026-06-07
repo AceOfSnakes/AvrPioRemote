@@ -164,13 +164,11 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->labelCompiler->setText(compiler);
     ui->labelQT->setText(QString("OS: ").append(prettyProductName())
      );
-    setWindowFlags(windowFlags() & (~Qt::WindowContextHelpButtonHint));
+    setWindowFlags(windowFlags() & (~Qt::WindowContextHelpButtonHint) & (~Qt::BypassWindowManagerHint));
 
     QImage img(":/new/prefix1/images/Built_with_Qt_RGB_logo.png");
     ui->labelQTLogo->setPixmap(QPixmap::fromImage(img));
     QObject::connect(ui->labelQTLogo, SIGNAL(customContextMenuRequested(QPoint)), qApp, SLOT(aboutQt()));
-
-    ui->program->setText(qApp->applicationName());
 }
 
 AboutDialog::~AboutDialog()

@@ -513,7 +513,7 @@ void AVRPioRemote::on_show_hide( ) {
             //qDebug()<<x->objectName()<<x->isVisible()<<x->isActiveWindow()<<x->isMinimized();
             if(x->isVisible()) {
                 x->showMinimized();
-                x->setVisible(false);
+//                x->setVisible(false);
             }
         }
     }
@@ -549,7 +549,7 @@ void AVRPioRemote::minimize() {
     if(m_Settings.value("MinimizeToTrayCheckBox", false).toBool()) {
         on_show_hide();
     } else {
-        emit showMinimized();
+        showMinimized();
     }
 }
 

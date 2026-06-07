@@ -10,7 +10,7 @@ python3 generate_spec.py
 PACKAGE_NAME=$(dpkg-parsechangelog -S Source)
 PACKAGE_VERSION=$(dpkg-parsechangelog -S Version | cut -d'-' -f1)
 
-#export APP_VERSION_VALUE=PACKAGE_VERSION
+export APP_VERSION_VALUE=$PACKAGE_VERSION
 
 echo "Parsed Target: ${PACKAGE_NAME} (Version: ${PACKAGE_VERSION})"
 

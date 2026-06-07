@@ -2,4 +2,4 @@ build-qt6/avrpioremote opt/avrpioremote
 src/*.json  opt/avrpioremote
 src/images/AVRPioRemote.png opt/avrpioremote/
 src/theme/* opt/avrpioremote/theme
-avrpioremote.desktop usr/share/applications
+build-qt6/avrpioremote.desktop usr/share/applications

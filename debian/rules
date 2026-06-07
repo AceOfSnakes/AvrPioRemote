@@ -27,13 +27,15 @@ DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
 override_dh_auto_configure:
 	@echo ======================================================= override_dh_auto_configure
 	# 1. Dynamically generate the localized .desktop entries into the project root
-	sed 's/\$$SUFFIX/-qt5/g' debian/avrpioremote.desktop.in > avrpioremote-qt5.desktop
-	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > avrpioremote.desktop
-	# Configure Qt5 build in its own directory
 	mkdir -p build-qt5
-	cd build-qt5 && qmake QT_VERSION_MAJOR=5 ../*.pro
-	# Configure Qt6 build in its own directory
 	mkdir -p build-qt6
+	sed -e 's/\$$SUFFIX/-qt5/g' \
+	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
+	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
+	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
+	# Configure Qt5 build in its own directory
+	cd build-qt5 && qmake QT_VERSIONC_MAJOR=5 ../*.pro
+	# Configure Qt6 build in its own directory
 	cd build-qt6 && qmake6 QT_VERSION_MAJOR=6 ../*.pro
 
 override_dh_auto_build:

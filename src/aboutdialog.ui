@@ -202,7 +202,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Program</string>
+             <string>AVRPioRemote</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
