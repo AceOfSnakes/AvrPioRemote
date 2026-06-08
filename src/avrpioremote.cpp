@@ -505,55 +505,36 @@ void AVRPioRemote::SetTheme(QString theme_name) {
     //                    "}"
     //        );
 }
-/*
-void AVRPioRemote::on_show_hide( ) {
-    qDebug() << "on_show_hide( ) vis"
-             << isVisible()
-             << "min"
-             << isMinimized();
-
-        if(isMinimized()) {
-            showNormal();
-                foreach(QDialog* x,this->findChildren<QDialog *>()) {
-                    //qDebug()<<x->objectName()<<x->isHidden()<<x->isVisible()<<x->isMinimized();
-                    if(x->isVisible() || x->isMinimized()) {
-                        x->showNormal();
-                        x->raise();
-                    }
-                }
-
-            setFocus();
-        }
-        else {
-            showMinimized();
-            foreach(QDialog* x,this->findChildren<QDialog *>()) {
-                //qDebug()<<x->objectName()<<x->isVisible()<<x->isActiveWindow()<<x->isMinimized();
-                if(x->isVisible()) {
-                    x->showMinimized();
-                    x->setVisible(false);
-                }
-            }
-
-        }
-        //hide();
-
-    // else {
-    //     //qDebug()<<"\n\nRestore\n";
-    //     showNormal();
-    //     raise();
-    //     setFocus();
-    //     foreach(QDialog* x,this->findChildren<QDialog *>()) {
-    //         //qDebug()<<x->objectName()<<x->isHidden()<<x->isVisible()<<x->isMinimized();
-    //         if(x->isVisible() || x->isMinimized()) {
-    //             x->showNormal();
-    //             x->raise();
-    //         }
-    //     }
-
-    //     qApp->setActiveWindow(this);
-    // }
+void AVRPioRemote::wakeUp() {
+    if (m_tray_icon->isVisible()) {
+        m_tray_icon->showMessage(APPLICATION_NAME, QString(APPLICATION_NAME).append(" Waked Up"),
+                                 QIcon(QString(":/new/prefix1/images/").append(APPLICATION_NAME).append(".png")));
+    }
+    if (this->windowFlags() & Qt::Tool) {
+        this->setWindowFlags(this->windowFlags() & ~Qt::Tool);
+    }
+    QTimer::singleShot(20, this, [this]() {
+        showNormalWithChildren(); });
 }
-*/
+
+void AVRPioRemote::showNormalWithChildren() {
+    if (this->windowFlags() & Qt::Tool) {
+        this->setWindowFlags(this->windowFlags() & ~Qt::Tool);
+    }
+
+
+    showNormal();
+    foreach(QDialog* x,this->findChildren<QDialog *>()) {
+        if(x->isVisible() || x->isMinimized()) {
+            x->showNormal();
+            x->raise();
+        }
+    }
+    raise();
+    activateWindow();
+    setFocus();
+}
+
 void AVRPioRemote::onShowHide(QSystemTrayIcon::ActivationReason reason) {
 
      // qDebug() << "AVRPioRemote::on_show_hide(QSystemTrayIcon::ActivationReason reason)"
@@ -561,15 +542,7 @@ void AVRPioRemote::onShowHide(QSystemTrayIcon::ActivationReason reason) {
 
     if (reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick) {
         if (!isVisible()) {
-            this->setWindowFlags(this->windowFlags() & ~Qt::Tool);
-            showNormal();
-            foreach(QDialog* x,this->findChildren<QDialog *>()) {
-                if(x->isVisible() || x->isMinimized()) {
-                    x->showNormal();
-                    x->raise();
-                }
-            }
-            activateWindow();
+            showNormalWithChildren();
         } else {
             if(m_tray_icon->isVisible()) {
                 this->hide();

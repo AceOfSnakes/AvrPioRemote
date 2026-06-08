@@ -132,6 +132,7 @@ SOURCES += \
     src/netradiodialog.cpp \
     src/playerinterface.cpp \
     src/settingsdialog.cpp \
+    src/singleapplication.cpp \
     src/testdialog.cpp \
     src/themereader.cpp \
     src/tunerdialog.cpp \
@@ -218,6 +219,7 @@ HEADERS += \
     src/netradiodialog.h \
     src/playerinterface.h \
     src/settingsdialog.h \
+    src/singleapplication.h \
     src/testdialog.h \
     src/themereader.h \
     src/tunerdialog.h \

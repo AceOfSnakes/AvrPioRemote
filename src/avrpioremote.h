@@ -63,7 +63,7 @@ class AVRPioRemote;
 //    }
 //};
 
-
+#define APPLICATION_NAME "AVRPioRemote"
 class AVRPioRemote : public QMainWindow, public ResponseListener
 {
     Q_OBJECT
@@ -72,6 +72,8 @@ public:
     explicit AVRPioRemote(QWidget *parent = 0);
     ~AVRPioRemote();
     void ResponseReceived(ReceivedObjectBase *);
+    
+    void showNormalWithChildren();
     
 private:
     Ui::AVRPioRemote *ui;
@@ -157,6 +159,8 @@ public slots:
     void onConnect();
     void onConnectBD();
     void exitNormally();
+    void onShowHide(QSystemTrayIcon::ActivationReason reason);
+    void wakeUp();
 private slots:
     void CommError(QString socketError);
     void minimize();
@@ -169,7 +173,7 @@ private slots:
     void StatusLineTimeout();
     void RefreshTimeout();
     void on_pushButtonConnect_clicked();
-    void onShowHide(QSystemTrayIcon::ActivationReason reason);
+    //void onShowHide(QSystemTrayIcon::ActivationReason reason);
 //    void on_show_hide();
 
     //void ConnectWorkerErrorString(QString);

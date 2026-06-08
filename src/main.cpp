@@ -17,12 +17,31 @@
 */
 #include "avrpioremote.h"
 #include <QApplication>
-
+#include "singleapplication.h"
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+    // Prevent the tray icon app from closing when hidden                                                                   QApplication::setQuitOnLastWindowClosed(false);
+
+    // Provide a completely unique key for your application
+    SingleApplication singleApp(QString("com.github.AceOfSnakes.").append(APPLICATION_NAME));
+    if (!singleApp.checkInstance()) {
+        return 0; // Secondary copy exits instantly, giving focus back to Windows
+    }
+
     AVRPioRemote w;
     w.show();
 
-    return a.exec();
+    // Connect incoming wake-up signals from taskbar/new launches
+    QObject::connect(&singleApp, &SingleApplication::wakeUpRequested, &w, [&w]() {
+        w.wakeUp();
+    });
+
+    return app.exec();
+
+    /*QApplication a(argc, argv);
+    AVRPioRemote w;
+    w.show();
+
+    return a.exec();*/
 }
