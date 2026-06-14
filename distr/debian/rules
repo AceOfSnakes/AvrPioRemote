@@ -51,7 +51,12 @@ override_dh_auto_install:
 
 override_dh_install:
 	@echo ======================================================= override_dh_auto_install:
+	sed -e 's/\$$SUFFIX/-qt5/g' \
+	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
+	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
+	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
 	dh_install
+	dh_strip -pavrpioremote -pavrpioremote-qt5
 	tar --numeric-owner --owner=0 --group=0  \
 	 -cJf ../../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
 	 -C $(CURDIR)/debian/avrpioremote .
