@@ -97,7 +97,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     {
         restoreGeometry(m_Settings.value("MainWindowGeometry").toByteArray());
     }
-
+    qDebug() << qApp->applicationDirPath();
     if (m_Settings.value("UseBlackTheme", true).toBool()) {
         SetTheme("theme/main-window.xml");
     }
