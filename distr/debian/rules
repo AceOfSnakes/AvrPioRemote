@@ -34,9 +34,9 @@ override_dh_auto_configure:
 	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
 	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
 	# Configure Qt5 build in its own directory
-	cd build-qt5 && qmake QT_VERSIONC_MAJOR=5 ../*.pro
+	cd build-qt5 && qmake QT_VERSIONC_MAJOR=5 ../../*.pro
 	# Configure Qt6 build in its own directory
-	cd build-qt6 && qmake6 QT_VERSION_MAJOR=6 ../*.pro
+	cd build-qt6 && qmake6 QT_VERSION_MAJOR=6 ../../*.pro
 
 override_dh_auto_build:
 	@echo ======================================================= override_dh_auto_build
@@ -53,10 +53,10 @@ override_dh_install:
 	@echo ======================================================= override_dh_auto_install:
 	dh_install
 	tar --numeric-owner --owner=0 --group=0  \
-	 -cJf ../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
+	 -cJf ../../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
 	 -C $(CURDIR)/debian/avrpioremote .
 	tar --numeric-owner --owner=0 --group=0  \
-	 -cJf ../$(DEB_SOURCE)-qt5_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
+	 -cJf ../../$(DEB_SOURCE)-qt5_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
 	 -C $(CURDIR)/debian/avrpioremote-qt5 .
 
 override_dh_auto_clean:

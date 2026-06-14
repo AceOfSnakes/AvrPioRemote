@@ -1,5 +1,0 @@
-build-qt5/avrpioremote-qt5 opt/avrpioremote-qt5
-src/*.json  opt/avrpioremote-qt5
-src/images/AVRPioRemote.png opt/avrpioremote-qt5/
-src/theme/* opt/avrpioremote-qt5/theme
-build-qt5/avrpioremote-qt5.desktop usr/share/applications
