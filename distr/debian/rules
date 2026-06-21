@@ -50,7 +50,7 @@ override_dh_auto_install:
 	$(MAKE) -C build-qt6 install INSTALL_ROOT=$(CURDIR)/debian/avrpioremote
 
 override_dh_install:
-	@echo ======================================================= override_dh_auto_install:
+	@echo ======================================================= override_dh_auto_install
 	sed -e 's/\$$SUFFIX/-qt5/g' \
 	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
 	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
@@ -69,3 +69,8 @@ override_dh_auto_clean:
 	-rm -rf build-qt5 build-qt6
 	-rm -rf ../../$(DEB_SOURCE)*$(DEB_VERSION)*
 	-dh_auto_clean
+
+override_dh_gencontrol:
+	-@echo ======================================================= override_dh_gencontrol
+	-dh_gencontrol
+	-find debian/ -type f -name "control" -exec sed -i 's/t64//g' {} +
