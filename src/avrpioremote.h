@@ -74,7 +74,10 @@ public:
     void ResponseReceived(ReceivedObjectBase *);
     
     void showNormalWithChildren();
-    
+    static bool isSingleApp() {
+        QSettings sSettings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", APPLICATION_NAME);
+        return sSettings.value("SingleApplicationInstance", true).toBool();
+    }
 private:
     Ui::AVRPioRemote *ui;
     ReceiverInterface           m_ReceiverInterface;
@@ -83,38 +86,38 @@ private:
     QString                     m_IpAddress;
     bool                        m_IsPioneer;
     QSettings                   m_Settings;
-    NetRadioDialog*             m_NetRadioDialog;
-    NetOnkyoDialog*             m_NetOnkyoDialog;
-    BluRayDialog*               m_BluRayDialog;
-    LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog;
-    LoudspeakerSettingsOnkyoDialog*  m_LoudspeakerSettingsOnkyoDialog;
-    TunerDialog*                m_TunerDialog;
-    TestDialog*                 m_TestDialog;
-    TestDialog*                 m_PlayerTestDialog;
-    SettingsDialog*             m_SettingsDialog;
-    EQDialog*                   m_EQDialog;
-    ListeningModeDialog*        m_Listendiag;
-    usbDialog*                  m_usbDialog;
-    ZoneControlDialog*          m_ZoneControlDialog;
-    AVSettingsDialog*           m_AVSettingsDialog;
-    MCACCEQDialog*              m_MCACCEQDialog;
-    AutoSearchDialog*           m_AutoSearchDialog;
-    WiringDialog*               m_WiringDialog;
-    HdmiControlDialog*          m_HdmiControlDialog;
-    InfoDialog*                 m_InfoDialog;
-    GraphicLSWidget*            m_InputLSConfiguration;
-    GraphicLSWidget*            m_OutputLSConfiguration;
-    MCACCProgressDialog*        m_MCACCProgressDialog;
+    NetRadioDialog*             m_NetRadioDialog = nullptr;
+    NetOnkyoDialog*             m_NetOnkyoDialog = nullptr;
+    BluRayDialog*               m_BluRayDialog = nullptr;
+    LoudspeakerSettingsDialog*  m_LoudspeakerSettingsDialog = nullptr;
+    LoudspeakerSettingsOnkyoDialog*  m_LoudspeakerSettingsOnkyoDialog = nullptr;
+    TunerDialog*                m_TunerDialog = nullptr;
+    TestDialog*                 m_TestDialog = nullptr;
+    TestDialog*                 m_PlayerTestDialog = nullptr;
+    SettingsDialog*             m_SettingsDialog = nullptr;
+    EQDialog*                   m_EQDialog = nullptr;
+    ListeningModeDialog*        m_Listendiag = nullptr;
+    usbDialog*                  m_usbDialog = nullptr;
+    ZoneControlDialog*          m_ZoneControlDialog = nullptr;
+    AVSettingsDialog*           m_AVSettingsDialog = nullptr;
+    MCACCEQDialog*              m_MCACCEQDialog = nullptr;
+    AutoSearchDialog*           m_AutoSearchDialog = nullptr;
+    WiringDialog*               m_WiringDialog = nullptr;
+    HdmiControlDialog*          m_HdmiControlDialog = nullptr;
+    InfoDialog*                 m_InfoDialog = nullptr;
+    GraphicLSWidget*            m_InputLSConfiguration = nullptr;
+    GraphicLSWidget*            m_OutputLSConfiguration = nullptr;
+    MCACCProgressDialog*        m_MCACCProgressDialog = nullptr;
 
     //    QThread*        m_TCPThread;
     bool            m_ReceiverOnline;
     QTranslator     m_Translater;
     QTimer          m_StatusLineTimer;
     QTimer          m_RefreshTimer;
-    QPushButton*    m_SelectedInput;
-    QPushButton*    m_SelectedInputZ2;
-    QPushButton*    m_SelectedInputZ3;
-    QSystemTrayIcon* m_tray_icon;
+    QPushButton*    m_SelectedInput = nullptr;
+    QPushButton*    m_SelectedInputZ2 = nullptr;
+    QPushButton*    m_SelectedInputZ3 = nullptr;
+    QSystemTrayIcon* m_tray_icon = nullptr;
     bool            m_Zone2PowerOn;
     bool            m_Zone3PowerOn;
 

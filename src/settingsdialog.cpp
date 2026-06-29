@@ -81,6 +81,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, QSettings& settings, ReceiverInt
     ui->RestoreBlueRayWindowCheckBox->setChecked(m_Settings.value("SaveBlueRayWindowGeometry", false).toBool());
     ui->RestoreAVSettingsWindowCheckBox->setChecked(m_Settings.value("SaveAVSettingsWindowGeometry", false).toBool());
     ui->RestoreMCACCEQWindowCheckBox->setChecked(m_Settings.value("SaveMCACCEQWindowGeometry", false).toBool());
+    ui->SingleApplicationInstanceCheckBox->setChecked(m_Settings.value("SingleApplicationInstance", true).toBool());
     ui->MinimizeToTrayCheckBox->setChecked(m_Settings.value("MinimizeToTrayCheckBox", false).toBool());
 
     ui->ShowReceiverNameInTitleCheckBox->setChecked(m_Settings.value("ShowReceiverNameInTitle", true).toBool());
@@ -533,6 +534,12 @@ void SettingsDialog::on_pushButtonConnect_BD_clicked()
 void SettingsDialog::on_MinimizeToTrayCheckBox_clicked()
 {
     m_Settings.setValue("MinimizeToTrayCheckBox", ui->MinimizeToTrayCheckBox->isChecked());
+    emit minimizeToTrayChanged();
+}
+
+void SettingsDialog::on_SingleApplicationInstanceCheckBox_clicked()
+{
+    m_Settings.setValue("SingleApplicationInstance", ui->SingleApplicationInstanceCheckBox->isChecked());
     emit minimizeToTrayChanged();
 }
 

@@ -33,7 +33,7 @@
 AVRPioRemote::AVRPioRemote(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AVRPioRemote),
-    m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", "AVRPioRemote"),
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, "AVRPIO", APPLICATION_NAME),
     m_StatusLineTimer(this),
     m_ReceiverInterface(),
     m_PlayerInterface(),
@@ -318,7 +318,10 @@ void AVRPioRemote::on_MinimizeToTrayChanged() {
 
 AVRPioRemote::~AVRPioRemote()
 {
-    qApp->removeEventFilter(this);
+    if (qApp) {
+        qApp->removeEventFilter(this);
+    }
+
     delete m_NetRadioDialog;
     delete m_NetOnkyoDialog;
     delete m_BluRayDialog;

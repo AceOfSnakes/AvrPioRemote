@@ -94,6 +94,7 @@ private slots:
 //    void on_FilterBlueRay_clicked();
 
     void on_MinimizeToTrayCheckBox_clicked();
+    void on_SingleApplicationInstanceCheckBox_clicked();
 
     void on_pushBDSettingsLoadButton_clicked();
 
