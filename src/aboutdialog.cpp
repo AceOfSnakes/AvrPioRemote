@@ -156,6 +156,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
 #ifdef STATIC
             .append(" (static)" )
 #endif
+    .append(" / ").append(QSysInfo::currentCpuArchitecture())
     .append(QString(" based on Qt ").append(qVersion())
 #if Q_PROCESSOR_WORDSIZE == 8
     .append(" x64")
