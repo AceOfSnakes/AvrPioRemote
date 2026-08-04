@@ -22,7 +22,13 @@ int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv);
-
+    //Q_INIT_RESOURCE(avrpioremote);
+    app.setApplicationName(APPLICATION_NAME);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    app.setDesktopFileName("avrpioremote-qt5");
+#else
+    app.setDesktopFileName("avrpioremote");
+#endif
     SingleApplication singleApp(QString("com.github.AceOfSnakes.").append(APPLICATION_NAME));
     if(AVRPioRemote::isSingleApp()) {
         if (!singleApp.checkInstance()) {

@@ -31,12 +31,14 @@ override_dh_auto_configure:
 	mkdir -p build-qt6
 	sed -e 's/\$$SUFFIX/-qt5/g' \
 	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
+	    -e 's/\(StartupWMClass=AVRPioRemote\)$$/\1-Qt5/g' \
 	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
 	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
 	# Configure Qt5 build in its own directory
 	cd build-qt5 && qmake QT_VERSIONC_MAJOR=5 ../../*.pro
 	# Configure Qt6 build in its own directory
 	cd build-qt6 && qmake6 QT_VERSION_MAJOR=6 ../../*.pro
+	cp ../src/images/AVRPioRemote.png build-qt5/AVRPioRemote-Qt5.png
 
 override_dh_auto_build:
 	@echo ======================================================= override_dh_auto_build
@@ -53,6 +55,7 @@ override_dh_install:
 	@echo ======================================================= override_dh_auto_install
 	sed -e 's/\$$SUFFIX/-qt5/g' \
 	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
+	    -e 's/\(StartupWMClass=AVRPioRemote\)$$/\1-Qt5/g' \
 	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
 	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
 	dh_install

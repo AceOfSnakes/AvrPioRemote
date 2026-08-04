@@ -510,8 +510,28 @@ void AVRPioRemote::SetTheme(QString theme_name) {
 }
 void AVRPioRemote::wakeUp() {
     if (m_tray_icon->isVisible()) {
+        QString appTitleText = QString("%1").arg(qApp->applicationName());
+        this->setWindowTitle(appTitleText);
+
+        QIcon customIcon;
+    QString themeIconName;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+        themeIconName = QString(APPLICATION_NAME).append("-Qt5");
+#else
+         themeIconName = QString(APPLICATION_NAME);
+#endif
+        if (QIcon::hasThemeIcon(themeIconName)) {
+            customIcon = QIcon::fromTheme(themeIconName);
+        }
+        if (customIcon.isNull()) {
+            customIcon = QIcon(QString(":/new/prefix1/images/").append(APPLICATION_NAME).append(".png"));
+        }
+        if (customIcon.isNull()) {
+            customIcon = QIcon::fromTheme("dialog-information");
+        }
+            qDebug()<<customIcon;
         m_tray_icon->showMessage(APPLICATION_NAME, QString(APPLICATION_NAME).append(" Waked Up"),
-                                 QIcon(QString(":/new/prefix1/images/").append(APPLICATION_NAME).append(".png")));
+                                 customIcon);
     }
     if (this->windowFlags() & Qt::Tool) {
         this->setWindowFlags(this->windowFlags() & ~Qt::Tool);

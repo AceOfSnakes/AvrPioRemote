@@ -3,3 +3,6 @@ build-qt5/avrpioremote-qt5 opt/avrpioremote-qt5
 ../src/images/AVRPioRemote.png opt/avrpioremote-qt5/
 ../src/theme/* opt/avrpioremote-qt5/theme
 build-qt5/avrpioremote-qt5.desktop usr/share/applications
+build-qt5/AVRPioRemote-Qt5.png        usr/share/icons/hicolor/256x256/apps/
+build-qt5/AVRPioRemote-Qt5.png        usr/share/icons/hicolor/48x48/apps/
+build-qt5/AVRPioRemote-Qt5.png        usr/share/icons/hicolor/32x32/apps/
