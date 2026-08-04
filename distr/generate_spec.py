@@ -4,33 +4,38 @@ import re
 from datetime import datetime
 
 def get_metadata_from_debian():
-    # Sensible defaults
+    """
+    Extracts name, version, url, summary, and subpackage availability
+    dynamically from standard Debian build infrastructure configuration files.
+    """
+    # Safe universal fallbacks if files are missing
     name = "avrpioremote"
     version = "26.06"
-    url = "https://github.com"
-    summary = "AVR PIO Remote application" # Default fallback summary
+    url = ""
+    summary = "Network Remote application Suite"
     has_qt5_package = False
 
-    # Extract Name and Version from changelog
+    # 1. Parse Name and Version cleanly from debian/changelog
     if os.path.exists('debian/changelog'):
-        with open('debian/changelog', 'r') as f:
+        with open('debian/changelog', 'r', encoding='utf-8') as f:
             first_line = f.readline().strip()
             match = re.search(r'^(\S+)\s+\(([^)]+)\)', first_line)
             if match:
                 name = match.group(1)
+                # Strip out any debian revision suffix (e.g., "1.0.0-1" -> "1.0.0")
                 version = match.group(2).split('-')[0]
 
-    # Extract Homepage, Summary, and package targets from control file
+    # 2. Parse Homepage, Summary, and Package targets from debian/control
     if os.path.exists('debian/control'):
-        with open('debian/control', 'r') as f:
+        with open('debian/control', 'r', encoding='utf-8') as f:
             for line in f:
                 if line.strip().startswith('Description:'):
                     raw_summary = line.replace('Description:', '').strip()
                     if raw_summary:
                         summary = raw_summary
-                if line.strip().startswith('Homepage:'):
+                elif line.strip().startswith('Homepage:'):
                     url = line.replace('Homepage:', '').strip()
-                if line.strip().startswith('Package:'):
+                elif line.strip().startswith('Package:'):
                     pkg_name = line.replace('Package:', '').strip()
                     if 'qt5' in pkg_name:
                         has_qt5_package = True
@@ -38,9 +43,14 @@ def get_metadata_from_debian():
     return name, version, url, summary, has_qt5_package
 
 def convert_debian_changelog_to_rpm(changelog_path="debian/changelog"):
+    """
+    Parses a standard Debian syntax changelog file and transforms it into
+    a strictly-compliant, macro-friendly RPM %changelog section.
+    """
     if not os.path.exists(changelog_path):
-        return "%changelog\n* Sun May 31 2026 Ace Of Snakes <AceOfSnakesMain@gmail.com> - 26.06-1\n- Automated packaging split."
-    with open(changelog_path, 'r') as f:
+        return "%changelog\n* Sun May 31 2026 Maintainer <maintainer@example.com> - 1.0.0-1\n- Automated packaging template initialization."
+
+    with open(changelog_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
         
     header_re = re.compile(r'^(\S+)\s+\(([^)]+)\)\s+([^;]+);')
@@ -59,6 +69,7 @@ def convert_debian_changelog_to_rpm(changelog_path="debian/changelog"):
             current_entry['email'] = footer_match.group(2)
             deb_date_str = footer_match.group(3).strip()
             try:
+                # Strip out the weekday prefix and time zone layout fluff
                 clean_date = re.sub(r'^[A-Za-z]{3},\s+', '', deb_date_str)
                 clean_date = re.sub(r'\s+[\+\-]\d{4}$', '', clean_date)
                 dt = datetime.strptime(clean_date, "%d %b %Y %H:%M:%S")
@@ -86,9 +97,19 @@ def convert_debian_changelog_to_rpm(changelog_path="debian/changelog"):
     return rpm_changelog.strip()
 
 def generate_spec():
+    # 1. Fetch data dynamically
     name, version, url, summary, has_qt5_package = get_metadata_from_debian()
     pct = "%"
     
+    # 2. TRANSFORM ANY NAME TO A DYNAMIC CASE-INSENSITIVE RPM WILDCARD
+    # Strips typical package naming variants, then converts "netrc" to "[Nn][Ee][Tt][Rr][Cc]*.png"
+    clean_base_string = name.replace("-qt5", "").replace("-qt6", "")
+    icon_wildcard = "".join([f"[{c.upper()}{c.lower()}]" for c in clean_base_string]) + "*.png"
+    
+    # EXCLUSION MAPPING: Forces the base package to reject any file ending in a 5 right before the .png extension
+    qt6_icon_filter = icon_wildcard.replace(".png", "[!5].png")
+    
+    # Generate the string layout
     spec_content = f"""{pct}define _rpmfilename {pct}{pct}{{NAME}}_{pct}{pct}{{VERSION}}_{pct}{pct}{{ARCH}}.rpm
 {pct}define __spec_install_post {pct}{{nil}}
 {pct}define __brp_keep_la_files 1
@@ -111,7 +132,7 @@ Source0: {name}_{version}_x86_64.txz
 BuildRequires: tar
 
 {pct}description
-With this software you are able to control your Pioneer receiver from your PC.
+Application suite generated automatically from source tree configuration bindings.
 This package contains the binary compiled against the Qt6 framework.
 """
 
@@ -122,11 +143,11 @@ This package contains the binary compiled against the Qt6 framework.
 Summary: {summary} (Qt5)
 
 {pct}description -n {name}-qt5
-With this software you are able to control your Pioneer receiver from your PC.
+Application suite generated automatically from source tree configuration bindings.
 This package contains the binary compiled against the Qt5 framework.
 """
 
-    # --- SCRIPTLETS FOR CACHE RUNTIME UPDATES ---
+    # --- SCRIPTLETS FOR RUNTIME CACHE RELOADS ---
     spec_content += f"""
 # --- Scriptlets for Base Package ({name}) ---
 {pct}post
@@ -167,7 +188,7 @@ mkdir source-qt6 && tar -xf {pct}{{SOURCE0}} -C source-qt6
 
     spec_content += f"""
 {pct}build
-# Pre-compiled binaries require no compiler tasks
+# Pre-compiled production bundles require no local compilation tasks
 
 {pct}install
 cd {pct}{{_builddir}}/{name}-{version}
@@ -185,26 +206,42 @@ rm -rf {pct}{{buildroot}}/usr/share/doc
 # --- Manifest for Package 1: {name} (Qt6) ---
 {pct}files
 /opt/{name}/
-/usr/share/icons/hicolor/*/apps/AVRPioRemote.png
-/usr/share/applications/{name}.desktop
+{pct}{{_datadir}}/applications/{name}.desktop
+# GENERIC EXCLUSION WILDCARD: Matches your icon, but ignores any matching -Qt5 variants
+{pct}{{_datadir}}/icons/hicolor/*/*/{qt6_icon_filter}
 """
 
     if has_qt5_package:
+        # Appends '-Qt5' identifier explicitly before the filename extension matching pattern
+        qt5_icon_wildcard = icon_wildcard.replace(".png", "-Qt5.png")
+        
         spec_content += f"""
 # --- Manifest for Package 2: {name}-qt5 (Qt5) ---
 {pct}files -n {name}-qt5
 /opt/{name}-qt5/
-/usr/share/icons/hicolor/*/apps/AVRPioRemote-Qt5.png
-/usr/share/applications/{name}-qt5.desktop
+{pct}{{_datadir}}/applications/{name}-qt5.desktop
+# GENERIC INCLUSION WILDCARD: Matches only the explicit Qt5 variant icon file
+{pct}{{_datadir}}/icons/hicolor/*/*/{qt5_icon_wildcard}
 """
 
+    # 3. Inject parsed changelog blocks cleanly
     spec_content += "\n" + convert_debian_changelog_to_rpm() + "\n"
 
-    with open(f"{name}.spec", "w") as spec_file:
+    # 4. Flush file content directly to disk
+    output_filename = f"{name}.spec"
+    with open(output_filename, "w", encoding='utf-8') as spec_file:
         spec_file.write(spec_content)
 
-    print(f"Successfully generated spec template for {name} (Qt5 subpackage included: {has_qt5_package})")
+    print(f"Successfully generated 100% generic spec asset file: {output_filename}")
+    print(f" -> Tracked Base Icon Pattern: {qt6_icon_filter}")
+    
+    # SAFE BLOCK: Only attempts to read and print the Qt5 pattern if the subpackage exists
+    if has_qt5_package:
+        print(f" -> Tracked Qt5  Icon Pattern: {qt5_icon_wildcard}")
+        
+    print(f" -> Qt5 Subpackage Detected: {has_qt5_package}")
 
 if __name__ == "__main__":
     generate_spec()
+
 
