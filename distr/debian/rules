@@ -13,6 +13,38 @@
 #export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
 # Package maintainers to append LDFLAGS.
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+DEB_HOST_ARCH         ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_GNU_TYPE     ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_HOST_MULTIARCH    ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+GCC_VERSION = -14
+
+# Dynamically set the qmake command name and configuration profile
+ifeq ($(DEB_HOST_ARCH),arm64)
+    QMAKE_CMD  = aarch64-linux-gnu-qmake6
+    QMAKE_SPEC = linux-aarch64-gnu-g++
+    # Resolves to aarch64-linux-gnu-gcc-14
+    CC_EXEC    = /usr/local/gcc-16.2.0-arm64/bin/aarch64-linux-gnu-gcc-16.2
+    CXX_EXEC   = /usr/local/gcc-16.2.0-arm64/bin/aarch64-linux-gnu-g++-16.2
+    # Force the use of the system cross-assembler to fix the '-EL' error
+    AS_EXEC    = /usr/aarch64-linux-gnu/bin/as
+    AS_EXEC  := /usr/local/gcc-16.2.0-arm64/bin/as
+#    CC_EXEC    = $(DEB_HOST_GNU_TYPE)-gcc$(GCC_VERSION)
+#    CXX_EXEC   = $(DEB_HOST_GNU_TYPE)-g++$(GCC_VERSION)
+    export C_INCLUDE_PATH=/usr/include/$(DEB_HOST_MULTIARCH):/usr/include
+    export CPLUS_INCLUDE_PATH=/usr/include/$(DEB_HOST_MULTIARCH):/usr/include
+    export DEB_CXXFLAGS_MAINT_APPEND = -B/usr/local/gcc-16.2.0-arm64/bin/
+    export DEB_CFLAGS_MAINT_APPEND = -B/usr/local/gcc-16.2.0-arm64/bin/
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,-rpath-link,/usr/lib/$(DEB_HOST_MULTIARCH) -Wl,-rpath-link,/lib/$(DEB_HOST_MULTIARCH)
+    export DEB_LDFLAGS_MAINT_APPEND = -L/usr/lib/$(DEB_HOST_MULTIARCH) -L/lib/$(DEB_HOST_MULTIARCH) -Wl,-rpath-link,/usr/lib/$(DEB_HOST_MULTIARCH) -Wl,-rpath-link,/lib/$(DEB_HOST_MULTIARCH)
+else
+    QMAKE_CMD  = qmake6
+    QMAKE_SPEC = linux-g++
+    AS_EXEC    = as
+    CC_EXEC    = gcc
+    CXX_EXEC   = g++
+    unexport C_INCLUDE_PATH
+    unexport CPLUS_INCLUDE_PATH
+endif
 
 %:
 	dh $@
@@ -33,12 +65,42 @@ override_dh_auto_configure:
 	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
 	    -e 's/\(StartupWMClass=AVRPioRemote\)$$/\1-Qt5/g' \
 	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
+	pwd
+	cp ../src/images/AVRPioRemote.png build-qt5/AVRPioRemote-Qt5.png 
 	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
 	# Configure Qt5 build in its own directory
-	cd build-qt5 && qmake QT_VERSIONC_MAJOR=5 ../../*.pro
+	cd build-qt5 && \
+	QMAKE_MOC=/usr/lib/qt5/libexec/moc \
+	QMAKE_UIC=/usr/lib/qt5/libexec/uic \
+	QMAKE_RCC=/usr/lib/qt5/libexec/rcc \
+	$(QMAKE_CMD) -spec $(QMAKE_SPEC) \
+	QMAKE_CC=$(CC_EXEC) \
+	QMAKE_CXX=$(CXX_EXEC) \
+	QMAKE_LINK=$(CXX_EXEC) \
+	QMAKE_AS=$(AS_EXEC) \
+	QMAKE_LFLAGS+="$(DEB_LDFLAGS_MAINT_APPEND)" \
+	PKG_CONFIG="pkg-config" \
+	PKG_CONFIG_LIBDIR="/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/share/pkgconfig" \
+	QT_VERSION_MAJOR=5 \
+	../../*.pro
+#qt5 && qmake QT_VERSIONC_MAJOR=5 ../../*.pro
 	# Configure Qt6 build in its own directory
-	cd build-qt6 && qmake6 QT_VERSION_MAJOR=6 ../../*.pro
-	cp ../src/images/AVRPioRemote.png build-qt5/AVRPioRemote-Qt5.png
+	cd build-qt6 && \
+	QMAKE_MOC=/usr/lib/qt6/libexec/moc \
+	QMAKE_UIC=/usr/lib/qt6/libexec/uic \
+	QMAKE_RCC=/usr/lib/qt6/libexec/rcc \
+	$(QMAKE_CMD) -spec $(QMAKE_SPEC) \
+	QMAKE_CC=$(CC_EXEC) \
+	QMAKE_CXX=$(CXX_EXEC) \
+	QMAKE_LINK=$(CXX_EXEC) \
+	QMAKE_AS=$(AS_EXEC) \
+	QMAKE_LFLAGS+="$(DEB_LDFLAGS_MAINT_APPEND)" \
+	PKG_CONFIG="pkg-config" \
+	PKG_CONFIG_LIBDIR="/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/share/pkgconfig" \
+	QT_VERSION_MAJOR=6 \
+	../../*.pro
+#&& qmake6 QT_VERSION_MAJOR=6 ../../*.pro
+#	cp ../src/images/AVRPioRemote.png build-qt5/AVRPioRemote-Qt5.png
 
 override_dh_auto_build:
 	@echo ======================================================= override_dh_auto_build
@@ -61,16 +123,16 @@ override_dh_install:
 	dh_install
 	dh_strip -pavrpioremote -pavrpioremote-qt5
 	tar --numeric-owner --owner=0 --group=0  \
-	 -cJf ../../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
+	 -cJf ../../$(DEB_SOURCE)_$(DEB_VERSION)_$(DEB_HOST_ARCH).txz \
 	 -C $(CURDIR)/debian/avrpioremote .
 	tar --numeric-owner --owner=0 --group=0  \
-	 -cJf ../../$(DEB_SOURCE)-qt5_$(DEB_VERSION)_$(DEB_BUILD_ARCH).txz \
+	 -cJf ../../$(DEB_SOURCE)-qt5_$(DEB_VERSION)_$(DEB_HOST_ARCH).txz \
 	 -C $(CURDIR)/debian/avrpioremote-qt5 .
 
 override_dh_auto_clean:
 	@echo ======================================================= override_dh_auto_clean 
 	-rm -rf build-qt5 build-qt6
-	-rm -rf ../../$(DEB_SOURCE)*$(DEB_VERSION)*
+	-rm -rf ../../$(DEB_SOURCE)*$(DEB_VERSION)_$(DEB_HOST_ARCH)*
 	-dh_auto_clean
 
 override_dh_gencontrol:

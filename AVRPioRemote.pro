@@ -8,9 +8,9 @@ QT       += core gui
 QT       += network xml
 
 unix {
-  equals(QT_MAJOR_VERSION, 5) {
+  equals(QT_VERSION_MAJOR, 5) {
     TARGET = avrpioremote-qt5
-    QT += x11extras
+    #QT += x11extras
   } else {
     TARGET = avrpioremote
   }
