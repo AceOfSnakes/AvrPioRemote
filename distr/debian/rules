@@ -21,6 +21,7 @@ GCC_VERSION = -14
 # Dynamically set the qmake command name and configuration profile
 ifeq ($(DEB_HOST_ARCH),arm64)
     QMAKE_CMD  = aarch64-linux-gnu-qmake6
+    QMAKE_CMD5 = aarch64-linux-gnu-qmake
     QMAKE_SPEC = linux-aarch64-gnu-g++
     # Resolves to aarch64-linux-gnu-gcc-14
     CC_EXEC    = /usr/local/gcc-16.2.0-arm64/bin/aarch64-linux-gnu-gcc-16.2
@@ -38,6 +39,7 @@ ifeq ($(DEB_HOST_ARCH),arm64)
     export DEB_LDFLAGS_MAINT_APPEND = -L/usr/lib/$(DEB_HOST_MULTIARCH) -L/lib/$(DEB_HOST_MULTIARCH) -Wl,-rpath-link,/usr/lib/$(DEB_HOST_MULTIARCH) -Wl,-rpath-link,/lib/$(DEB_HOST_MULTIARCH)
 else
     QMAKE_CMD  = qmake6
+    QMAKE_CMD5  = qmake
     QMAKE_SPEC = linux-g++
     AS_EXEC    = as
     CC_EXEC    = gcc
@@ -73,7 +75,7 @@ override_dh_auto_configure:
 	QMAKE_MOC=/usr/lib/qt5/libexec/moc \
 	QMAKE_UIC=/usr/lib/qt5/libexec/uic \
 	QMAKE_RCC=/usr/lib/qt5/libexec/rcc \
-	$(QMAKE_CMD) -spec $(QMAKE_SPEC) \
+	$(QMAKE_CMD5) -spec $(QMAKE_SPEC) \
 	QMAKE_CC=$(CC_EXEC) \
 	QMAKE_CXX=$(CXX_EXEC) \
 	QMAKE_LINK=$(CXX_EXEC) \
