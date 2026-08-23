@@ -1,3 +1,9 @@
+avrpioremote (26.08) RELEASED; urgency=medium
+
+  * Experimental arm64 packaging for linux
+
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Mon, 01 Jun 2026 03:00:01 +0300
+
 avrpioremote (26.06) RELEASED; urgency=medium
 
   * Change packaging strategy
