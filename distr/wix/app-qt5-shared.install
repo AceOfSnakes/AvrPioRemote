@@ -1,0 +1,9 @@
+bin\Qt5Core.dll .
+bin\Qt5Gui.dll .
+bin\Qt5Network.dll .
+bin\Qt5Widgets.dll .
+bin\Qt5Xml.dll .
+plugins\platforms\qwindows.dll plugins\platforms\
+%WIN_APPS_DIR%%SOURCE%\src\*.json .
+%WIN_APPS_DIR%%SOURCE%\src\theme\ theme\
+

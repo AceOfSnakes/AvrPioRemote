@@ -1,0 +1,9 @@
+bin\Qt6Core.dll
+bin\Qt6Gui.dll
+bin\Qt6Network.dll
+bin\Qt6Widgets.dll 
+bin\Qt6Xml.dll
+plugins\platforms\qwindows.dll plugins\platforms\
+%WIN_APPS_DIR%%SOURCE%\src\*.json .\
+%WIN_APPS_DIR%%SOURCE%\src\theme\ \theme\
+
