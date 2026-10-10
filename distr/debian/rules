@@ -61,15 +61,18 @@ DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
 override_dh_auto_configure:
 	@echo ======================================================= override_dh_auto_configure
 	# 1. Dynamically generate the localized .desktop entries into the project root
+	$(eval PKG_NAME := $(shell dh_listpackages | head -n1))
 	mkdir -p build-qt5
 	mkdir -p build-qt6
 	sed -e 's/\$$SUFFIX/-qt5/g' \
 	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
 	    -e 's/\(StartupWMClass=AVRPioRemote\)$$/\1-Qt5/g' \
 	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
+	sed -i 's/^Name=\(.*\)/Name=\1 $(DEB_VERSION)/' build-qt5/avrpioremote-qt5.desktop
 	pwd
 	cp ../src/images/AVRPioRemote.png build-qt5/AVRPioRemote-Qt5.png 
 	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
+	sed -i 's/^Name=\(.*\)/Name=\1 $(DEB_VERSION)/' build-qt6/avrpioremote.desktop
 	# Configure Qt5 build in its own directory
 	cd build-qt5 && \
 	QMAKE_MOC=/usr/lib/qt5/libexec/moc \
@@ -121,7 +124,9 @@ override_dh_install:
 	    -e 's/\(Name=AVRPioRemote\)$$/\1 Qt5/g' \
 	    -e 's/\(StartupWMClass=AVRPioRemote\)$$/\1-Qt5/g' \
 	    debian/avrpioremote.desktop.in > build-qt5/avrpioremote-qt5.desktop
+	sed -i 's/^Name=\(.*\)/Name=\1 $(DEB_VERSION)/' build-qt5/avrpioremote-qt5.desktop
 	sed 's/\$$SUFFIX//g' debian/avrpioremote.desktop.in > build-qt6/avrpioremote.desktop
+	sed -i 's/^Name=\(.*\)/Name=\1 $(DEB_VERSION)/' build-qt6/avrpioremote.desktop
 	dh_install
 	dh_strip -pavrpioremote -pavrpioremote-qt5
 	tar --numeric-owner --owner=0 --group=0  \
