@@ -49,48 +49,4 @@ sudo dpkg-divert --remove --rename /opt/avrpioremote-qt5/avrpioremote-qt5
 
 ## 🪟 Windows (MSI / EXE Installers)
 
-Windows does not have `dpkg-divert`, and MSI installers frequently overwrite or replace Desktop/Start Menu shortcuts during upgrades. To solve this, we use a built-in kernel feature called **Image File Execution Options (IFEO)**. Whenever `avrpioremote-qt5.exe` is called, Windows intercepts it and routes execution through a persistent script.
-
-### Step-by-Step Implementation
-
-1. **Create the VBScript Wrapper:**
-   Using a VBScript ensures your application launches directly without flashing a brief, blank black command prompt window. Open **Notepad** and paste:
-   ```vbs
-   Set objShell = CreateObject("WScript.Shell")
-   Set objEnv = objShell.Environment("PROCESS")
-
-   ' 1. Set environment variables
-   objEnv("QT_ENABLE_HIGHDPI_SCALING") = "1"
-   objEnv("QT_SCALE_FACTOR") = "1.5"
-   objEnv("QT_AUTO_SCREEN_SCALE_FACTOR") = "0"
-
-   ' 2. Collect all command line arguments passed by the shortcut dynamically
-   strArgs = ""
-   For Each arg In WScript.Arguments
-       strArgs = strArgs & " """ & arg & """"
-   Next
-
-   ' 3. Run the target executable directly
-   objShell.Run """C:\Program Files\avrpioremote-qt5\avrpioremote-qt5.exe""" & strArgs, 1, False
-   ```
-   *Note: Ensure the absolute path in line 3 matches your exact `.exe` directory location.*
-
-2. **Save the script:**
-   Save this file inside the application directory as `qt5-scaling-wrapper.vbs`. Make sure to set "Save as type" to **All Files (*.*)** so Notepad does not append `.txt`.
-   * Target Path Example: `C:\Program Files\avrpioremote-qt5\qt5-scaling-wrapper.vbs`
-
-3. **Register the interceptor in the Registry:**
-   Open a new blank **Notepad** window and paste the following text to create a Registry modification file:
-   ```registry
-   Windows Registry Editor Version 5.00
-
-   [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\avrpioremote-qt5.exe]
-   "Debugger"="wscript.exe \"C:\\Program Files\\avrpioremote-qt5\\qt5-scaling-wrapper.vbs\""
-   ```
-
-4. **Apply the Registry configurations:**
-   Save this file to your Desktop as `override.reg` (selecting **All Files (*.*)**). Double-click `override.reg` and accept the administrator UAC prompts to merge the keys into your system configuration.
-
-### To Revert Changes Later
-If you want to stop the redirection, open the Windows Registry Editor (`regedit`) and delete the `avrpioremote-qt5.exe` key from the following folder:
-`HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\`
+TBD
