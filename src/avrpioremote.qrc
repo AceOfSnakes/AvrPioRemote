@@ -42,4 +42,18 @@
         <file>images/close.png</file>
         <file>images/showHide.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>theme/main-window/black-bkgnd.png</file>
+        <file>theme/main-window/blank.png</file>
+        <file>theme/main-window/blue-button-disabled51x23.png</file>
+        <file>theme/main-window/blue-button-normal51x23.png</file>
+        <file>theme/main-window/blue-button-selected51x23.png</file>
+        <file>theme/main-window/sys_exit_highlight.png</file>
+        <file>theme/main-window/sys_exit_normal.png</file>
+        <file>theme/main-window/sys_exit_pressed.png</file>
+        <file>theme/main-window/sys_minimize_highlight.png</file>
+        <file>theme/main-window/sys_minimize_normal.png</file>
+        <file>theme/main-window/sys_minimize_pressed.png</file>
+        <file>theme/main-window.xml</file>
+    </qresource>
 </RCC>

@@ -274,4 +274,16 @@ TRANSLATIONS = src/avrpioremote_en.ts \
 CONFIG += exceptions rtti
 
 DISTFILES += \
-    src/images/200px-Gnome-edit-redo.svg.png
+    src/images/200px-Gnome-edit-redo.svg.png \
+    src/theme/main-window.xml \
+    src/theme/main-window/black-bkgnd.png \
+    src/theme/main-window/blank.png \
+    src/theme/main-window/blue-button-disabled51x23.png \
+    src/theme/main-window/blue-button-normal51x23.png \
+    src/theme/main-window/blue-button-selected51x23.png \
+    src/theme/main-window/sys_exit_highlight.png \
+    src/theme/main-window/sys_exit_normal.png \
+    src/theme/main-window/sys_exit_pressed.png \
+    src/theme/main-window/sys_minimize_highlight.png \
+    src/theme/main-window/sys_minimize_normal.png \
+    src/theme/main-window/sys_minimize_pressed.png

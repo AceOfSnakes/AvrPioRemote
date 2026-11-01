@@ -99,7 +99,7 @@ AVRPioRemote::AVRPioRemote(QWidget *parent) :
     }
     qDebug() << qApp->applicationDirPath();
     if (m_Settings.value("UseBlackTheme", true).toBool()) {
-        SetTheme("theme/main-window.xml");
+        SetTheme(":/theme/main-window.xml");
     }
     QNetworkProxy proxy;
     QNetworkProxy::setApplicationProxy(proxy);
