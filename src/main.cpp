@@ -20,8 +20,25 @@
 #include "singleapplication.h"
 int main(int argc, char *argv[])
 {
+//    qputenv("QT_WIDGETS_HICONTRACT_STYLING", "0");
+    int customArgc;
+    char** customArgv = argv;
 
-    QApplication app(argc, argv);
+#ifdef Q_OS_WINDOWS
+//#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    customArgc = argc + 2;
+    customArgv = new char*[customArgc];
+    for (int i = 0; i < argc; ++i) {
+        customArgv[i] = argv[i];
+    }
+    customArgv[argc] = const_cast<char*>("-platform");
+    customArgv[argc + 1] = const_cast<char*>("windows:dpiawareness=0");
+//#endif
+#endif
+    QApplication app(customArgc, customArgv);
+
+
+
     //Q_INIT_RESOURCE(avrpioremote);
     app.setApplicationName(APPLICATION_NAME);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))

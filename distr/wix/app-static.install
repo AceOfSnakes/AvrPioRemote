@@ -1,2 +1,1 @@
 %WIN_APPS_DIR%%APPLICATION_NAME%\src\*.json .\
-%WIN_APPS_DIR%%APPLICATION_NAME%\src\theme\ \theme\

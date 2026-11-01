@@ -1,8 +1,9 @@
-avrpioremote (26.08) RELEASED; urgency=medium
+avrpioremote (26.11) UNRELEASED; urgency=medium
 
-  * Experimental arm64 packaging for linux
+  * Move theme to resource
+  * Fix qt5 display issue on 4k monitors with scaling
 
- -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sat, 01 Aug 2026 03:00:01 +0300
+ -- Ace Of Snakes <AceOfSnakesMain@gmail.com>  Sun, 01 Nov 2026 03:00:01 +0300
 
 avrpioremote (26.06) RELEASED; urgency=medium
 

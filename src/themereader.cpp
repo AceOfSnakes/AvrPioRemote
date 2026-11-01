@@ -12,7 +12,6 @@ ThemeReader::ThemeReader()
 
 bool ThemeReader::readTheme(QString theme)
 {
-    theme = QCoreApplication::applicationDirPath() + "/" + theme;
     QDomDocument doc;
     QFile file(theme);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -51,7 +50,7 @@ bool ThemeReader::readTheme(QString theme)
         padding_bottom = (!tmp.isNull()) ? tmp.nodeValue().toInt() : 0;
         // background image
         tmp = attributes.namedItem("background-image");
-        background_image = (!tmp.isNull()) ? tmp.nodeValue().replace("$DIR$", QCoreApplication::applicationDirPath()) : "";
+        background_image = (!tmp.isNull()) ? tmp.nodeValue().replace("$DIR$", ":"): "";
 
         break;
     }
@@ -128,7 +127,7 @@ bool ThemeReader::readTheme(QString theme)
 
         QDomElement style = element.firstChildElement("style");
         if (!style.isNull()) {
-            te.style = style.text().trimmed().replace("$DIR$", QCoreApplication::applicationDirPath());
+            te.style = style.text().trimmed().replace("$DIR$", ":");
         }
         themeElements.append(te);
     }
